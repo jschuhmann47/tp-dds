@@ -1,0 +1,11 @@
+# IDEA
+.idea/
+
+# Maven
+target/
+
+pom.xml
+
+# Logs
+*.log
+
