@@ -2,72 +2,83 @@ package domain.seguridad;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Contrasenias {
     int caracteresMinimos=8;
-    public boolean esContraseniaValida(String contrasenia) {
-        if (this.cumpleCondicionesDeContrasenia(contrasenia) && not(this.estaEnElTopPeoresContrasenias(contrasenia))) {
-            return true;
-        }
-        return false;
+    public boolean esContraseniaValida(String contrasenia) throws FileNotFoundException {
+        return this.cumpleEstandaresDeContrasenia(contrasenia) && !this.estaEnElTopPeoresContrasenias(contrasenia);
     }
 
-    private boolean cumpleCondicionesDeContrasenia(String contrasenia) {
-        return this.cantidadCaracteres(contrasenia)<caracteresMinimos && this.chequeoCaracteres(contrasenia);
-
+    private boolean cumpleEstandaresDeContrasenia(String contrasenia) {
+        return this.cantidadCaracteres(contrasenia)>=caracteresMinimos &&
+                this.contieneMinuscula(contrasenia) &&
+                this.contieneMayuscula(contrasenia) &&
+                this.contieneNumero(contrasenia);
     }
 
-
-    private static boolean chequeoCaracteres(String contrasenia) {
+    /*
+    private boolean chequeoCaracteres(String contrasenia) {
         char ch;
-        boolean capitalFlag = false;
-        boolean lowerCaseFlag = false;
-        boolean numberFlag = false;
+        boolean tieneMayuscula = false;
+        boolean tieneMinuscula = false;
+        boolean tieneNumero = false;
         for (int i = 0; i < contrasenia.length(); i++) {
             ch = contrasenia.charAt(i);
             if (Character.isDigit(ch)) {
-                numberFlag = true;
-            } else if (Character.isUpperCase(ch)) {
-                capitalFlag = true;
-            } else if (Character.isLowerCase(ch)) {
-                lowerCaseFlag = true;
+                tieneNumero = true;
             }
-            if (numberFlag && capitalFlag && lowerCaseFlag)
-                return true;
+            if (Character.isUpperCase(ch)) {
+                tieneMayuscula = true;
+            }
+            if (Character.isLowerCase(ch)) {
+                tieneMinuscula = true;
+            }
         }
-        return false;
+        return tieneNumero && tieneMayuscula && tieneMinuscula;
     }
+     */
 
-    private boolean estaEnElTopPeoresContrasenias(String contrasenia) {
-        //TODO
-        //leer del archivo y comparar c/u?
-        return true;
+    private boolean contieneMinuscula(String contrasenia){
+        Minuscula min=new Minuscula();
+        return min.chequear(contrasenia);
     }
+    private boolean contieneMayuscula(String contrasenia){
+        Mayuscula mayus=new Mayuscula();
+        return mayus.chequear(contrasenia);
+    }
+    private boolean contieneNumero(String contrasenia){
+        Numero num=new Numero();
+        return num.chequear(contrasenia);
+    }
+//para extraer la logica hicimos que cada clase sepa como resolver el chequeo. el static nos tira error, dps ver porque
+// seria mejor hacerlas static
 
-
-    public class ReadFile {
-        public static void main(String[] args) {
-            try {
-                File myObj = new File("peoresContrasenias.txt");
-                Scanner myReader = new Scanner(myObj);
-                while (myReader.hasNextLine()) {
-                    String data = myReader.nextLine();
-                    System.out.println(data);
+    public boolean estaEnElTopPeoresContrasenias(String contrasenia) throws FileNotFoundException {
+        try {
+            File archivo = new File("peoresContrasenias.txt");
+            Scanner scanner = new Scanner(archivo);
+            while (scanner.hasNextLine()) {
+                String data = scanner.nextLine();
+                if (Objects.equals(contrasenia, data)){
+                    scanner.close();
+                    return true;
                 }
-                myReader.close();
-            } catch (FileNotFoundException e) {
-                System.out.println("An error occurred.");
-                e.printStackTrace();
             }
+            scanner.close();
+            return false;
+        } catch (FileNotFoundException e) {
+            throw new FileNotFoundException(); //no me acuerdo si funcionaban asi
         }
     }
+
 
     public int cantidadCaracteres(String contrasenia){
         return contrasenia.length();
     }
 
-    public String crearContrasenia(){
+    public String crearContrasenia() throws FileNotFoundException {
         Scanner myObj = new Scanner(System.in);
         System.out.println("Introduzca una contrasenia: ");
         String input = myObj.nextLine();
@@ -78,20 +89,4 @@ public class Contrasenias {
         System.out.println("Su contrsenia fue aceptada.");
         return input;
     }
-
-    /*
-    *
-    *
-    * Siguiendo las recomendaciones del OWASP (Proyecto Abierto de Seguridad en Aplicaciones Web) que se ha constituido
-    *  en un estándar de facto para la seguridad, se pide:
-- No utilice credenciales por defecto en su software, particularmente en el caso de administradores.
-- Implemente controles contra contraseñas débiles. Cuando el usuario ingrese una nueva clave, la
-misma puede verificarse contra la lista del Top 10.000 de peores contraseñas.
-OWASP Top 10 - 2017
-
-
-- Alinear la política de longitud, complejidad y rotación de contraseñas con las recomendaciones
-de la Sección 5.1.1 para Secretos Memorizados de la Guía NIST3 800-634
-
-    * */
 }
