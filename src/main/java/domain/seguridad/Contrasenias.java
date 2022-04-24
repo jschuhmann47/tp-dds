@@ -41,19 +41,15 @@ public class Contrasenias {
      */
 
     private boolean contieneMinuscula(String contrasenia){
-        Minuscula min=new Minuscula();
-        return min.chequear(contrasenia);
+        return Minuscula.chequear(contrasenia);
     }
     private boolean contieneMayuscula(String contrasenia){
-        Mayuscula mayus=new Mayuscula();
-        return mayus.chequear(contrasenia);
+        return Mayuscula.chequear(contrasenia);
     }
     private boolean contieneNumero(String contrasenia){
-        Numero num=new Numero();
-        return num.chequear(contrasenia);
+        return Numero.chequear(contrasenia);
     }
-//para extraer la logica hicimos que cada clase sepa como resolver el chequeo. el static nos tira error, dps ver porque
-// seria mejor hacerlas static
+//para extraer la logica hicimos que cada clase sepa como resolver el chequeo.
 
     public boolean estaEnElTopPeoresContrasenias(String contrasenia) throws FileNotFoundException {
         try {
