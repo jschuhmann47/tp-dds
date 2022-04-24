@@ -7,6 +7,17 @@ import java.util.Scanner;
 
 public class Contrasenias {
     int caracteresMinimos=8;
+
+    public void setContrasenia(String contrasenia) { //para testear
+        this.contrasenia = contrasenia;
+    }
+
+    public String getContrasenia() { //para testear
+        return contrasenia;
+    }
+
+    private String contrasenia;
+
     public boolean esContraseniaValida(String contrasenia) throws FileNotFoundException {
         return this.cumpleEstandaresDeContrasenia(contrasenia) && !this.estaEnElTopPeoresContrasenias(contrasenia);
     }
@@ -41,14 +52,18 @@ public class Contrasenias {
      */
 
     private boolean contieneMinuscula(String contrasenia){
-        return Minuscula.chequear(contrasenia);
+        Minuscula min=new Minuscula();
+        return min.chequear(contrasenia);
     }
     private boolean contieneMayuscula(String contrasenia){
-        return Mayuscula.chequear(contrasenia);
+        Mayuscula mayus=new Mayuscula();
+        return mayus.chequear(contrasenia);
     }
     private boolean contieneNumero(String contrasenia){
-        return Numero.chequear(contrasenia);
+        Numero num=new Numero();
+        return num.chequear(contrasenia);
     }
+    //preferiblemente static esto
 //para extraer la logica hicimos que cada clase sepa como resolver el chequeo.
 
     public boolean estaEnElTopPeoresContrasenias(String contrasenia) throws FileNotFoundException {
@@ -74,7 +89,7 @@ public class Contrasenias {
         return contrasenia.length();
     }
 
-    public String crearContrasenia() throws FileNotFoundException {
+    public void crearContrasenia() throws FileNotFoundException {
         Scanner myObj = new Scanner(System.in);
         System.out.println("Introduzca una contrasenia: ");
         String input = myObj.nextLine();
@@ -83,6 +98,6 @@ public class Contrasenias {
             input = myObj.nextLine();
         }
         System.out.println("Su contrsenia fue aceptada.");
-        return input;
+        this.contrasenia=input;
     }
 }
