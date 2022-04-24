@@ -6,7 +6,8 @@ import java.util.Objects;
 import java.util.Scanner;
 
 public class Contrasenias {
-    int caracteresMinimos=8;
+    private int caracteresMinimos=8;
+    private String contrasenia;
 
     public void setContrasenia(String contrasenia) { //para testear
         this.contrasenia = contrasenia;
@@ -16,7 +17,6 @@ public class Contrasenias {
         return contrasenia;
     }
 
-    private String contrasenia;
 
     public boolean esContraseniaValida(String contrasenia) throws FileNotFoundException {
         return this.cumpleEstandaresDeContrasenia(contrasenia) && !this.estaEnElTopPeoresContrasenias(contrasenia);
@@ -66,7 +66,7 @@ public class Contrasenias {
     //preferiblemente static esto
 //para extraer la logica hicimos que cada clase sepa como resolver el chequeo.
 
-    public boolean estaEnElTopPeoresContrasenias(String contrasenia) throws FileNotFoundException {
+    private boolean estaEnElTopPeoresContrasenias(String contrasenia) throws FileNotFoundException {
         try {
             File archivo = new File("peoresContrasenias.txt");
             Scanner scanner = new Scanner(archivo);
@@ -85,7 +85,7 @@ public class Contrasenias {
     }
 
 
-    public int cantidadCaracteres(String contrasenia){
+    private int cantidadCaracteres(String contrasenia){
         return contrasenia.length();
     }
 
