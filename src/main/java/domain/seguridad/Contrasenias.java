@@ -68,7 +68,7 @@ public class Contrasenias {
 
     private boolean estaEnElTopPeoresContrasenias(String contrasenia) throws FileNotFoundException {
         try {
-            File archivo = new File("peoresContrasenias.txt");
+            File archivo = new File("src/main/java/domain/seguridad/peoresContrasenias.txt");
             Scanner scanner = new Scanner(archivo);
             while (scanner.hasNextLine()) {
                 String data = scanner.nextLine();
