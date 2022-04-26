@@ -2,24 +2,21 @@ package domain.seguridad;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
 
-public class Contrasenias {
-    private int caracteresMinimos=8;
-    private String contrasenia;
-
-    public void setContrasenia(String contrasenia) { //para testear
-        this.contrasenia = contrasenia;
-    }
-
-    public String getContrasenia() { //para testear
-        return contrasenia;
-    }
-
+public class ValidadorContrasenia {
+    private int caracteresMinimos=8; //separar
+    ArrayList<String> topPeoresContrasenias = new ArrayList<String>();
+    //Agregar lo de que se puede activar y desactivar los chequeos
+    //preguntar que se desactiva y que no
 
     public boolean esContraseniaValida(String contrasenia) throws FileNotFoundException {
-        return this.cumpleEstandaresDeContrasenia(contrasenia) && !this.estaEnElTopPeoresContrasenias(contrasenia);
+        if (this.cumpleEstandaresDeContrasenia(contrasenia)){
+            return !this.estaEnElTopPeoresContrasenias(contrasenia);
+        }
+        return false;
     }
 
     private boolean cumpleEstandaresDeContrasenia(String contrasenia) {
@@ -29,29 +26,7 @@ public class Contrasenias {
                 this.contieneNumero(contrasenia);
     }
 
-    /*
-    private boolean chequeoCaracteres(String contrasenia) {
-        char ch;
-        boolean tieneMayuscula = false;
-        boolean tieneMinuscula = false;
-        boolean tieneNumero = false;
-        for (int i = 0; i < contrasenia.length(); i++) {
-            ch = contrasenia.charAt(i);
-            if (Character.isDigit(ch)) {
-                tieneNumero = true;
-            }
-            if (Character.isUpperCase(ch)) {
-                tieneMayuscula = true;
-            }
-            if (Character.isLowerCase(ch)) {
-                tieneMinuscula = true;
-            }
-        }
-        return tieneNumero && tieneMayuscula && tieneMinuscula;
-    }
-     */
-
-    private boolean contieneMinuscula(String contrasenia){
+    private boolean contieneMinuscula(String contrasenia){ //mas modular esto
         Minuscula min=new Minuscula();
         return min.chequear(contrasenia);
     }
@@ -68,7 +43,7 @@ public class Contrasenias {
 
     private boolean estaEnElTopPeoresContrasenias(String contrasenia) throws FileNotFoundException {
         try {
-            File archivo = new File("src/main/java/domain/seguridad/peoresContrasenias.txt");
+            File archivo = new File("src/main/java/domain/seguridad/peoresContrasenias.txt"); //cargarlo a un array
             Scanner scanner = new Scanner(archivo);
             while (scanner.hasNextLine()) {
                 String data = scanner.nextLine();
@@ -84,20 +59,8 @@ public class Contrasenias {
         }
     }
 
-
     private int cantidadCaracteres(String contrasenia){
         return contrasenia.length();
     }
 
-    public void crearContrasenia() throws FileNotFoundException {
-        Scanner myObj = new Scanner(System.in);
-        System.out.println("Introduzca una contrasenia: ");
-        String input = myObj.nextLine();
-        while (!esContraseniaValida(input)){
-            System.out.println("Su contrasenia es muy insegura. Por favor ingrese otra: ");
-            input = myObj.nextLine();
-        }
-        System.out.println("Su contrsenia fue aceptada.");
-        this.contrasenia=input;
-    }
 }

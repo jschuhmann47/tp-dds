@@ -1,7 +1,7 @@
 package domain.seguridad;
 
 
-public abstract class Chequeos {
+public abstract class Chequeo {
     public boolean chequear(String contrasenia){
         char ch;
         boolean cumpleCondicion = false;
