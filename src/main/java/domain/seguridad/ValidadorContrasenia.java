@@ -1,14 +1,13 @@
 package domain.seguridad;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
 
 public class ValidadorContrasenia {
     private int caracteresMinimos=8; //separar
-    ArrayList<String> topPeoresContrasenias = new ArrayList<String>();
+    ArrayList<String> topPeoresContrasenias;
     //Agregar lo de que se puede activar y desactivar los chequeos
     //preguntar que se desactiva y que no
 
@@ -17,6 +16,18 @@ public class ValidadorContrasenia {
             return !this.estaEnElTopPeoresContrasenias(contrasenia);
         }
         return false;
+    }
+
+    public ValidadorContrasenia() throws IOException { //constructor
+        topPeoresContrasenias = new ArrayList<String>();
+        BufferedReader buffer = new BufferedReader(new FileReader("src/main/java/domain/" +
+                                                                    "seguridad/peoresContrasenias.txt"));
+        String lineaLeida = buffer.readLine();
+        while (lineaLeida != null){
+            topPeoresContrasenias.add(lineaLeida);
+            lineaLeida = buffer.readLine();
+        }
+        buffer.close();
     }
 
     private boolean cumpleEstandaresDeContrasenia(String contrasenia) {
@@ -42,21 +53,12 @@ public class ValidadorContrasenia {
 //para extraer la logica hicimos que cada clase sepa como resolver el chequeo.
 
     private boolean estaEnElTopPeoresContrasenias(String contrasenia) throws FileNotFoundException {
-        try {
-            File archivo = new File("src/main/java/domain/seguridad/peoresContrasenias.txt"); //cargarlo a un array
-            Scanner scanner = new Scanner(archivo);
-            while (scanner.hasNextLine()) {
-                String data = scanner.nextLine();
-                if (Objects.equals(contrasenia, data)){
-                    scanner.close();
-                    return true;
-                }
+        for (String leido : topPeoresContrasenias){
+            if (Objects.equals(leido,contrasenia)){
+                return true;
             }
-            scanner.close();
-            return false;
-        } catch (FileNotFoundException e) {
-            throw new FileNotFoundException(); //no me acuerdo si funcionaban asi
         }
+        return false;
     }
 
     private int cantidadCaracteres(String contrasenia){

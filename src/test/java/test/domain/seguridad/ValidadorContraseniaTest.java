@@ -6,9 +6,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class ValidadorContraseniaTest {
     ValidadorContrasenia contraseniaTest = new ValidadorContrasenia();
+
+    public ValidadorContraseniaTest() throws IOException {
+    }
 
     @Test
     @DisplayName("Una contraseña que es valida cumple con todos los estandares")
