@@ -1,7 +1,6 @@
-package domain.seguridad;
+package domain.seguridad.chequeos;
 
-
-public abstract class Chequeo {
+public abstract class Caracteres extends Chequeo{
     public boolean chequear(String contrasenia){
         char ch;
         boolean cumpleCondicion = false;
@@ -16,4 +15,3 @@ public abstract class Chequeo {
 
     public abstract boolean caracterEs(char ch);
 }
-
