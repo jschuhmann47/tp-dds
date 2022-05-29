@@ -5,6 +5,15 @@ public class Direccion {
     private String calle;
     private String localidad;
 
+    public Direccion(Integer altura, String calle, String localidad, String municipio, Provincia provincia) {
+        this.altura = altura;
+        this.calle = calle;
+        this.localidad = localidad;
+        this.municipio = municipio;
+        this.provincia = provincia;
+    }
+
+
     public String getMunicipio() {
         return municipio;
     }
@@ -23,25 +32,16 @@ public class Direccion {
         return altura;
     }
 
-    public void setAltura(Integer altura) {
-        this.altura = altura;
-    }
+
 
     public String getCalle() {
         return calle;
-    }
-
-    public void setCalle(String calle) {
-        this.calle = calle;
     }
 
     public String getLocalidad() {
         return localidad;
     }
 
-    public void setLocalidad(String localidad) {
-        this.localidad = localidad;
-    }
 
 }
 

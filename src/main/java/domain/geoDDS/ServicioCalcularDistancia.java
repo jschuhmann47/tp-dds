@@ -2,26 +2,28 @@ package domain.geoDDS;
 
 import domain.geoDDS.entidades.*;
 import domain.locaciones.Direccion;
-import domain.locaciones.Provincia;
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class ServicioCalcularDistancia {
-    private static ServicioCalcularDistancia instancia = null;
+    public static ServicioCalcularDistancia instancia = null;
     private static final String urlApi = "https://ddstpa.com.ar/api/";
     private Retrofit retrofit;
 
-    private ServicioCalcularDistancia() {
+    TokenInterceptor interceptorDeToken = new TokenInterceptor();
+
+    OkHttpClient client = new OkHttpClient.Builder()
+            .addInterceptor(interceptorDeToken).build();
+
+    public ServicioCalcularDistancia() {
         this.retrofit = new Retrofit.Builder()
+                .client(client)
                 .baseUrl(urlApi)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -41,45 +43,17 @@ public class ServicioCalcularDistancia {
     * */
     public Distancia distanciaEntre(Direccion direccionOrigen, Direccion direccionDestino) throws Exception {
         ServiceGeoDDS geoDdsService = this.retrofit.create(ServiceGeoDDS.class);
-        int idProvincia;
-        List<ProvinciaGeo> provincias = listadoDeProvincias();
-        Optional<ProvinciaGeo> hayProvincia;
-        hayProvincia=provincias.stream().filter(p-> Objects.equals(p.nombre, direccionOrigen.
-                    getProvinciaString())).findFirst();
-        if(hayProvincia.isPresent()){
-            idProvincia = hayProvincia.get().id;
-
-        }else{
-            throw new Exception("No hay provincia");
-        }
-        int idMunicipio;
-        List<Municipio> listaMunicipios=obtenerMunicipiosDeProvincia(idProvincia);
-        Optional<Municipio> hayMunicipio=listaMunicipios.stream().
-                filter(m->Objects.equals(m.nombre,direccionOrigen.getMunicipio())).findFirst();
-        if(hayMunicipio.isPresent()){
-            idMunicipio = hayMunicipio.get().id;
-        }else{
-            throw new Exception("No hay municipio");
-        }
-        int idLocalidadOrigen;
-        List<Localidad> localidades = obtenerLocalidadesDeMunicipio(idMunicipio);
-        Optional<Localidad> hayLocalidad=localidades.stream().
-                filter(l->Objects.equals(l.nombre,direccionOrigen.getMunicipio())).findFirst();
-        if(hayLocalidad.isPresent()){
-            idLocalidadOrigen = hayLocalidad.get().id;
-        }
-        else{
-            throw new Exception("No hay localidad");
-        }
-
-        int localidadDestino = 2; //TODO
-        Call<Distancia> requestDistancia = geoDdsService.distancia(idLocalidadOrigen,direccionOrigen.getCalle(),
-                direccionOrigen.getAltura(),localidadDestino,direccionDestino.getCalle(),direccionDestino.getAltura());
+        Call<Distancia> requestDistancia = geoDdsService.distancia(this.obtenerIdLocalidad(direccionOrigen),direccionOrigen.getCalle(),
+                direccionOrigen.getAltura(),this.obtenerIdLocalidad(direccionDestino),direccionDestino.getCalle(),direccionDestino.getAltura());
         Response<Distancia> responseDistancia = requestDistancia.execute();
         return responseDistancia.body();
     }
 
-
+    private int obtenerIdLocalidad(Direccion direccion) throws Exception {
+        int idProvincia = Calculador.calcularProvinciaId(direccion);
+        int idMunicipio = Calculador.calcularMunicipioId(direccion,idProvincia);
+        return Calculador.calcularLocalidadId(direccion, idMunicipio);
+    }
 
 
     public List<ProvinciaGeo> listadoDeProvincias() throws IOException {
@@ -112,7 +86,7 @@ public class ServicioCalcularDistancia {
 
     public List<Municipio> obtenerMunicipiosDeProvincia(int idProvincia) throws IOException {
         ServiceGeoDDS geoDdsService = this.retrofit.create(ServiceGeoDDS.class);
-        Call<List<Municipio>> requestListadoMunicipios = geoDdsService.municipios(2);
+        Call<List<Municipio>> requestListadoMunicipios = geoDdsService.municipios(2,idProvincia);
         Response<List<Municipio>> responseListadoMunicipios = requestListadoMunicipios.execute();
         return responseListadoMunicipios.body();
     }
