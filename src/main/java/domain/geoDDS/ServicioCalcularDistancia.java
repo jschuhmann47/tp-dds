@@ -1,5 +1,8 @@
 package domain.geoDDS;
 
+import domain.geoDDS.adapters.GeoDDSAdapter;
+import domain.geoDDS.adapters.ServiceGeoDDS;
+import domain.geoDDS.adapters.TokenInterceptor;
 import domain.geoDDS.entidades.*;
 import domain.locaciones.Direccion;
 import okhttp3.OkHttpClient;
@@ -15,6 +18,7 @@ public class ServicioCalcularDistancia {
     public static ServicioCalcularDistancia instancia = null;
     private static final String urlApi = "https://ddstpa.com.ar/api/";
     private Retrofit retrofit;
+    GeoDDSAdapter adapter;
 
     TokenInterceptor interceptorDeToken = new TokenInterceptor();
 
@@ -42,11 +46,12 @@ public class ServicioCalcularDistancia {
     *
     * */
     public Distancia distanciaEntre(Direccion direccionOrigen, Direccion direccionDestino) throws Exception {
-        ServiceGeoDDS geoDdsService = this.retrofit.create(ServiceGeoDDS.class);
+        /*ServiceGeoDDS geoDdsService = this.retrofit.create(ServiceGeoDDS.class);
         Call<Distancia> requestDistancia = geoDdsService.distancia(this.obtenerIdLocalidad(direccionOrigen),direccionOrigen.getCalle(),
                 direccionOrigen.getAltura(),this.obtenerIdLocalidad(direccionDestino),direccionDestino.getCalle(),direccionDestino.getAltura());
         Response<Distancia> responseDistancia = requestDistancia.execute();
-        return responseDistancia.body();
+        return responseDistancia.body();*/
+        return adapter.distanciaEntre(direccionOrigen,direccionDestino);
     }
 
     private int obtenerIdLocalidad(Direccion direccion) throws Exception {

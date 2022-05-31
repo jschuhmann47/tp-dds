@@ -1,4 +1,4 @@
-package domain.geoDDS;
+package domain.geoDDS.adapters;
 
 import domain.geoDDS.entidades.Distancia;
 import domain.geoDDS.entidades.Localidad;
