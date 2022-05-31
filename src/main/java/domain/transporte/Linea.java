@@ -1,4 +1,4 @@
-package domain;
+package domain.transporte;
 
 import java.util.List;
 
