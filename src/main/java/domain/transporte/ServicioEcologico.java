@@ -1,4 +1,4 @@
-package domain;
+package domain.transporte;
 
 public class ServicioEcologico implements MedioTransporte{
 
