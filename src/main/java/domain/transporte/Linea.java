@@ -1,7 +1,7 @@
 package domain.transporte;
 
 import java.util.List;
-//FALTA EL IMPORT DE DIRECCION
+import domain.locaciones.Direccion;
 
 public class Linea {
 
