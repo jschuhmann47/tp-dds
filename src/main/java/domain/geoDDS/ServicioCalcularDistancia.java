@@ -1,36 +1,23 @@
 package domain.geoDDS;
 
-import domain.geoDDS.adapters.GeoDDSAdapter;
-import domain.geoDDS.adapters.ServiceGeoDDS;
-import domain.geoDDS.adapters.TokenInterceptor;
+import domain.geoDDS.adapters.ServicioGeoDDSAdapter;
 import domain.geoDDS.entidades.*;
 import domain.locaciones.Direccion;
-import okhttp3.OkHttpClient;
-import retrofit2.Call;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.io.IOException;
 import java.util.List;
 
 public class ServicioCalcularDistancia {
-    public static ServicioCalcularDistancia instancia = null;
-    private static final String urlApi = "https://ddstpa.com.ar/api/";
-    private Retrofit retrofit;
-    GeoDDSAdapter adapter;
+    static ServicioCalcularDistancia instancia = null;
+    //private Retrofit retrofit;
+    ServicioGeoDDSAdapter adapter;
 
-    TokenInterceptor interceptorDeToken = new TokenInterceptor();
+    public void setAdapter(ServicioGeoDDSAdapter adapter) {
+        this.adapter = adapter;
+    }
 
-    OkHttpClient client = new OkHttpClient.Builder()
-            .addInterceptor(interceptorDeToken).build();
-
-    public ServicioCalcularDistancia() {
-        this.retrofit = new Retrofit.Builder()
-                .client(client)
-                .baseUrl(urlApi)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+    public ServicioGeoDDSAdapter getAdapter() {
+        return adapter;
     }
 
     public static ServicioCalcularDistancia getInstance(){
@@ -40,60 +27,39 @@ public class ServicioCalcularDistancia {
         return instancia;
     }
 
-    /*
-    * valor="36.56"
-    * unidad="KM"
-    *
-    * */
     public Distancia distanciaEntre(Direccion direccionOrigen, Direccion direccionDestino) throws Exception {
-        /*ServiceGeoDDS geoDdsService = this.retrofit.create(ServiceGeoDDS.class);
-        Call<Distancia> requestDistancia = geoDdsService.distancia(this.obtenerIdLocalidad(direccionOrigen),direccionOrigen.getCalle(),
-                direccionOrigen.getAltura(),this.obtenerIdLocalidad(direccionDestino),direccionDestino.getCalle(),direccionDestino.getAltura());
-        Response<Distancia> responseDistancia = requestDistancia.execute();
-        return responseDistancia.body();*/
         return adapter.distanciaEntre(direccionOrigen,direccionDestino);
     }
 
-    private int obtenerIdLocalidad(Direccion direccion) throws Exception {
+    public static int obtenerIdLocalidad(Direccion direccion) throws Exception {
         int idProvincia = Calculador.calcularProvinciaId(direccion);
         int idMunicipio = Calculador.calcularMunicipioId(direccion,idProvincia);
         return Calculador.calcularLocalidadId(direccion, idMunicipio);
     }
 
-
     public List<ProvinciaGeo> listadoDeProvincias() throws IOException {
-        ServiceGeoDDS geoDdsService = this.retrofit.create(ServiceGeoDDS.class);
-        Call<List<ProvinciaGeo>> requestListadoProvincias = geoDdsService.provincias(1,9);
-        Response<List<ProvinciaGeo>> responseListadoProvincias = requestListadoProvincias.execute();
-        return responseListadoProvincias.body();
+
+        return adapter.listadoDeProvincias();
     }
 
     public List<Localidad> obtenerLocalidadesDeMunicipio(int municipioId) throws IOException {
-        ServiceGeoDDS geoDdsService = this.retrofit.create(ServiceGeoDDS.class);
-        Call<List<Localidad>> requestLocalidades= geoDdsService.localidades(1,municipioId);
-        Response<List<Localidad>> responseLocalidades = requestLocalidades.execute();
-        return responseLocalidades.body();
+
+        return adapter.obtenerLocalidadesDeMunicipio(municipioId);
     }
 
     public List<Localidad> listadoDeLocalidades() throws IOException {
-        ServiceGeoDDS geoDdsService = this.retrofit.create(ServiceGeoDDS.class);
-        Call<List<Localidad>> requestListadoLocalidades = geoDdsService.localidades(1);
-        Response<List<Localidad>> responseListadoLocalidades = requestListadoLocalidades.execute();
-        return responseListadoLocalidades.body();
+
+        return adapter.listadoDeLocalidades();
     }
 
     public List<Municipio> listadoDeMunicipios() throws IOException {
-        ServiceGeoDDS geoDdsService = this.retrofit.create(ServiceGeoDDS.class);
-        Call<List<Municipio>> requestListadoMunicipios = geoDdsService.municipios(2);
-        Response<List<Municipio>> responseListadoMunicipios = requestListadoMunicipios.execute();
-        return responseListadoMunicipios.body();
+
+        return adapter.listadoDeMunicipios();
     }
 
     public List<Municipio> obtenerMunicipiosDeProvincia(int idProvincia) throws IOException {
-        ServiceGeoDDS geoDdsService = this.retrofit.create(ServiceGeoDDS.class);
-        Call<List<Municipio>> requestListadoMunicipios = geoDdsService.municipios(2,idProvincia);
-        Response<List<Municipio>> responseListadoMunicipios = requestListadoMunicipios.execute();
-        return responseListadoMunicipios.body();
+
+        return adapter.obtenerMunicipiosDeProvincia(idProvincia);
     }
 
 
