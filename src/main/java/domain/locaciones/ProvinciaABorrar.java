@@ -1,6 +1,6 @@
 package domain.locaciones;
 
-public enum Provincia {
+public enum ProvinciaABorrar {
     BUENOS_AIRES,
     ENTRE_RIOS,
     CATAMARCA,

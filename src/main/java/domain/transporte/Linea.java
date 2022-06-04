@@ -1,5 +1,7 @@
 package domain.transporte;
 
+import domain.locaciones.Direccion;
+
 import java.util.List;
 //FALTA EL IMPORT DE DIRECCION
 

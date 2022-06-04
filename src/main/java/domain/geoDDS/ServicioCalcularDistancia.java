@@ -31,14 +31,21 @@ public class ServicioCalcularDistancia {
         return adapter.distanciaEntre(direccionOrigen,direccionDestino);
     }
 
-    public static int obtenerIdLocalidad(Direccion direccion) throws Exception {
-        int idProvincia = Calculador.calcularProvinciaId(direccion);
-        int idMunicipio = Calculador.calcularMunicipioId(direccion,idProvincia);
+    public int obtenerLocalidadId(Direccion direccion) throws IOException {
+        int idProvincia = this.obtenerProvinciaId(direccion);
+        int idMunicipio = this.obtenerMunicipioId(direccion,idProvincia);
         return Calculador.calcularLocalidadId(direccion, idMunicipio);
     }
 
-    public List<ProvinciaGeo> listadoDeProvincias() throws IOException {
+    public int obtenerProvinciaId(Direccion direccion) throws IOException {
+        return Calculador.calcularProvinciaId(direccion);
+    }
 
+    public int obtenerMunicipioId(Direccion direccion, int idProvincia) throws IOException {
+        return Calculador.calcularMunicipioId(direccion,idProvincia);
+    }
+
+    public List<Provincia> listadoDeProvincias() throws IOException {
         return adapter.listadoDeProvincias();
     }
 

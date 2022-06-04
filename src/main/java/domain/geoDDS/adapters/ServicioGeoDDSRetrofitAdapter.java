@@ -33,18 +33,18 @@ public class ServicioGeoDDSRetrofitAdapter implements ServicioGeoDDSAdapter {
     public Distancia distanciaEntre(Direccion direccionOrigen, Direccion direccionDestino) throws Exception {
         ServiceGeoDDS geoDdsService = this.retrofit.create(ServiceGeoDDS.class);
         Call<Distancia> requestDistancia = geoDdsService.distancia
-                (ServicioCalcularDistancia.obtenerIdLocalidad(direccionOrigen),direccionOrigen.getCalle(), direccionOrigen.getAltura(),
-                ServicioCalcularDistancia.obtenerIdLocalidad(direccionDestino),direccionDestino.getCalle(),direccionDestino.getAltura());
+                (ServicioCalcularDistancia.getInstance().obtenerLocalidadId(direccionOrigen),direccionOrigen.getCalle(), direccionOrigen.getAltura(),
+                ServicioCalcularDistancia.getInstance().obtenerLocalidadId(direccionDestino),direccionDestino.getCalle(),direccionDestino.getAltura());
         Response<Distancia> responseDistancia = requestDistancia.execute();
         return responseDistancia.body();
     }
 
 
 
-    public List<ProvinciaGeo> listadoDeProvincias() throws IOException {
+    public List<Provincia> listadoDeProvincias() throws IOException {
         ServiceGeoDDS geoDdsService = this.retrofit.create(ServiceGeoDDS.class);
-        Call<List<ProvinciaGeo>> requestListadoProvincias = geoDdsService.provincias(1,9);
-        Response<List<ProvinciaGeo>> responseListadoProvincias = requestListadoProvincias.execute();
+        Call<List<Provincia>> requestListadoProvincias = geoDdsService.provincias(1,9);
+        Response<List<Provincia>> responseListadoProvincias = requestListadoProvincias.execute();
         return responseListadoProvincias.body();
     }
 

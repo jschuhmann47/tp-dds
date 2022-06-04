@@ -1,9 +1,12 @@
 package domain.locaciones;
 
+import domain.geoDDS.entidades.Provincia;
+
 public class Direccion {
     private Integer altura;
     private String calle;
     private String localidad;
+    Provincia provincia;
 
     public Direccion(Integer altura, String calle, String localidad, String municipio, Provincia provincia) {
         this.altura = altura;
@@ -19,11 +22,11 @@ public class Direccion {
     }
 
     private String municipio;
-    Provincia provincia;
+
 
 
     public String getProvinciaString() {
-        return provincia.toString().replace("_"," ");
+        return provincia.nombre;
     }
 
 
