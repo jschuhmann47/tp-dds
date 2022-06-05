@@ -1,9 +1,12 @@
 package domain.transporte;
 
+import domain.geoDDS.Direccion;
+import domain.geoDDS.entidades.Distancia;
+
 public interface MedioTransporte {
 
-    public void detalle();
+    String detalle();
 
-    public void calcularDistancia();
+    Distancia calcularDistancia(Direccion origen, Direccion destino);
 
 }

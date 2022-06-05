@@ -1,9 +1,11 @@
-package domain.transporte;
+package domain.transporte.publico;
 
-import domain.locaciones.Direccion;
+import domain.geoDDS.ServicioCalcularDistancia;
+import domain.geoDDS.entidades.Distancia;
+import domain.geoDDS.Direccion;
 
+import java.io.IOException;
 import java.util.List;
-import domain.locaciones.Direccion;
 
 public class Linea {
 
@@ -15,8 +17,8 @@ public class Linea {
         this.paradas = paradas;
     }
 
-    public int calcularDistanciaEntreParadas(Direccion actual, Direccion proxima) {
-        return 0; //TODO falta calculo de distancia entre paradas
+    public Distancia calcularDistanciaEntreParadas(Direccion actual, Direccion proxima) throws IOException {
+        return ServicioCalcularDistancia.getInstance().distanciaEntre(actual, proxima);
     }
 
 

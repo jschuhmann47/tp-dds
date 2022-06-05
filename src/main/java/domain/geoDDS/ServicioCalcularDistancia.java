@@ -2,7 +2,6 @@ package domain.geoDDS;
 
 import domain.geoDDS.adapters.ServicioGeoDDSAdapter;
 import domain.geoDDS.entidades.*;
-import domain.locaciones.Direccion;
 
 import java.io.IOException;
 import java.util.List;
@@ -27,7 +26,7 @@ public class ServicioCalcularDistancia {
         return instancia;
     }
 
-    public Distancia distanciaEntre(Direccion direccionOrigen, Direccion direccionDestino) throws Exception {
+    public Distancia distanciaEntre(Direccion direccionOrigen, Direccion direccionDestino) throws IOException {
         return adapter.distanciaEntre(direccionOrigen,direccionDestino);
     }
 

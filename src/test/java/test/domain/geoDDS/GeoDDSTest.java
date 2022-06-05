@@ -3,7 +3,7 @@ package test.domain.geoDDS;
 import domain.geoDDS.ServicioCalcularDistancia;
 import domain.geoDDS.adapters.ServicioGeoDDSAdapter;
 import domain.geoDDS.entidades.*;
-import domain.locaciones.Direccion;
+import domain.geoDDS.Direccion;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

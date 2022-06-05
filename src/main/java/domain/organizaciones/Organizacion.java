@@ -1,15 +1,18 @@
 package domain.organizaciones;
 
-import domain.locaciones.Direccion;
-import java.util.ArrayList;
+import domain.geoDDS.Direccion;
+import java.util.List;
 
 public class Organizacion{
     private String clasificacionOrg;
-    private ArrayList<Trabajador> miembros;
+    private List<Trabajador> miembros;
     private String razonSocial;
-    private ArrayList<Sector> sectores;
+    private List<Sector> sectores;
     private TipoOrganizacion tipoOrganizacion;
     private Direccion ubicacion;
 
 
+    public void cargarDatos(){
+        //TODO lo del excel
+    }
 }

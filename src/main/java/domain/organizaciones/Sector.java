@@ -1,8 +1,8 @@
 package domain.organizaciones;
-import java.util.ArrayList;
+import java.util.List;
 
 class Sector {
     public Organizacion organizacion;
     private String nombreSector;
-    public ArrayList<Trabajador> trabajadores;
+    public List<Trabajador> trabajadores;
 }

@@ -1,7 +1,7 @@
 package domain.geoDDS.entidades;
 
 import domain.geoDDS.ServicioCalcularDistancia;
-import domain.locaciones.Direccion;
+import domain.geoDDS.Direccion;
 
 import java.io.IOException;
 import java.util.List;

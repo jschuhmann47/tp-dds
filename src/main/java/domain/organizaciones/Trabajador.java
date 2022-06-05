@@ -1,14 +1,16 @@
 package domain.organizaciones;
 
-import java.util.ArrayList;
+import domain.trayectos.Trayecto;
+import java.util.List;
+
 
 public class Trabajador {
     private String apellido;
     private String nombre;
     private TipoDoc tipoDoc;
     private Integer nroDoc;
-    //private ArrayList<Trayecto> listaTrayectos;
-    private ArrayList<Sector> sectores;
+    private List<Trayecto> listaTrayectos;
+    private List<Sector> sectores;
 
 
 }

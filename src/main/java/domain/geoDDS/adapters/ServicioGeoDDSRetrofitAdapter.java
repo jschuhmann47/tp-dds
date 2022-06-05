@@ -2,7 +2,7 @@ package domain.geoDDS.adapters;
 
 import domain.geoDDS.ServicioCalcularDistancia;
 import domain.geoDDS.entidades.*;
-import domain.locaciones.Direccion;
+import domain.geoDDS.Direccion;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -30,7 +30,7 @@ public class ServicioGeoDDSRetrofitAdapter implements ServicioGeoDDSAdapter {
     }
 
 
-    public Distancia distanciaEntre(Direccion direccionOrigen, Direccion direccionDestino) throws Exception {
+    public Distancia distanciaEntre(Direccion direccionOrigen, Direccion direccionDestino) throws IOException {
         ServiceGeoDDS geoDdsService = this.retrofit.create(ServiceGeoDDS.class);
         Call<Distancia> requestDistancia = geoDdsService.distancia
                 (ServicioCalcularDistancia.getInstance().obtenerLocalidadId(direccionOrigen),direccionOrigen.getCalle(), direccionOrigen.getAltura(),
