@@ -17,9 +17,9 @@ public class ServicioGeoDDSRetrofitAdapter implements ServicioGeoDDSAdapter {
     private static final String urlApi = "https://ddstpa.com.ar/api/";
     private Retrofit retrofit;
 
-    TokenInterceptor interceptorDeToken = new TokenInterceptor();
+    private TokenInterceptor interceptorDeToken = new TokenInterceptor();
 
-    OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptorDeToken).build();
+    private OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptorDeToken).build();
 
     public ServicioGeoDDSRetrofitAdapter() {
         this.retrofit = new Retrofit.Builder()

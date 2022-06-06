@@ -11,7 +11,9 @@ import java.util.Objects;
 public class ValidadorContrasenia {
     private static int caracteresMinimos=8; //separar
     private static ArrayList<String> topPeoresContrasenias;
-    private List<Chequeo> listaDeChequeos = new ArrayList<Chequeo>();
+
+
+    private static List<Chequeo> listaDeChequeos = new ArrayList<Chequeo>();
 
     public static ArrayList<String> getTopPeoresContrasenias() {
         return topPeoresContrasenias;
@@ -26,7 +28,7 @@ public class ValidadorContrasenia {
 
 
 
-    public boolean esContraseniaValida(String contrasenia){
+    public static boolean esContraseniaValida(String contrasenia){
         for (Chequeo check : listaDeChequeos) {
             if(check.estaActivo()){
                 if(!check.chequear(contrasenia)){
