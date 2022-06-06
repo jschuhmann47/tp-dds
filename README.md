@@ -21,3 +21,5 @@
 - [ ] Sexta entrega: Arquitectura Web
 - [ ] Séptima entrega: Despliegue
 
+- [CRONOGRAMA](https://docs.google.com/spreadsheets/d/1L0pr_xyxJ1f-j9WMxi5TxyBcRvkTiJHSIjF7C8MWRcc/edit?usp=sharing)
+- [Drive público de la Cátedra](https://drive.google.com/drive/folders/1WZ9qkqUu2CYvQYDblxPhF-d2MBNEPAyG)
