@@ -10,7 +10,7 @@ public class Trabajador {
     private TipoDoc tipoDoc;
     private Integer nroDoc;
     private List<Trayecto> listaTrayectos;
-    private List<Sector> sectores;
+    public List<Sector> sectores;
 
 
 }

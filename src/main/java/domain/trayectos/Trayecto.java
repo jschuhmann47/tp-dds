@@ -10,6 +10,11 @@ import java.util.stream.Collectors;
 public class Trayecto {
     private Direccion puntoDeSalida;
     private Direccion puntoDeLlegada;
+
+    public List<Tramo> getTramos() {
+        return tramos;
+    }
+
     private List<Tramo> tramos;
 
     public void cargarTramos(Tramo ... tramos){

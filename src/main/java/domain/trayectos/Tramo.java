@@ -5,11 +5,11 @@ import domain.geoDDS.entidades.Distancia;
 import domain.transporte.MedioTransporte;
 
 public class Tramo {
-    MedioTransporte medioTransporte;
-    Direccion puntoInicio;
-    Direccion puntoFinal;
+    public MedioTransporte medioTransporte;
+    public Direccion puntoInicio;
+    public Direccion puntoFinal;
 
-    Distancia distanciaARecorrer(Direccion puntoInicio, Direccion puntoFinal) throws Exception {
+    public Distancia distanciaARecorrer(Direccion puntoInicio, Direccion puntoFinal) throws Exception {
         return medioTransporte.calcularDistancia(puntoInicio,puntoFinal);
     }
 }
