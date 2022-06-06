@@ -18,8 +18,14 @@ public class Trayecto {
 
     public Distancia distanciaTrayecto(){
 
-        Double valor = tramos.stream().map(tramo -> tramo.distanciaARecorrer(tramo.puntoInicio,tramo.puntoFinal).convertirValor())
+        double valor = tramos.stream().map(tramo -> {
+                    try {
+                        return tramo.distanciaARecorrer(tramo.puntoInicio,tramo.puntoFinal).convertirValor();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                })
                         .mapToDouble(i->i).sum(); //TODO
-        return new Distancia(valor.toString(),"KM");
+        return new Distancia(Double.toString(valor),"KM");
     }
 }

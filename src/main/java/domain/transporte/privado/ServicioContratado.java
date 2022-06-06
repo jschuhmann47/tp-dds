@@ -8,10 +8,10 @@ import java.io.IOException;
 
 public class ServicioContratado implements MedioTransporte {
     private TransportePrivado transportePrivado;
-    private String nombre; //clase servicio?
+    private String nombre;
 
     public String detalle() {
-        return null;
+        return "Nombre del servicio contratado: " + nombre;
     }
 
     public Distancia calcularDistancia(Direccion origen, Direccion destino) throws IOException {

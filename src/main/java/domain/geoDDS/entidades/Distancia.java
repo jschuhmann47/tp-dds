@@ -14,5 +14,5 @@ public class Distancia {
 
     public Double convertirValor(){
         return Double.parseDouble(this.valor);
-    }
+    } //necesario o puedo poner double valor?
 }

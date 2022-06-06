@@ -7,16 +7,18 @@ import domain.transporte.MedioTransporte;
 public class TransportePublico implements MedioTransporte {
 
     private Linea linea;
+    private TipoTransportePublico tipo;
 
     public TransportePublico(Linea linea) {
         this.linea = linea;
     }
 
     public String detalle() {
-        return null;
-    } //TODO
+        return  "Tipo: " + tipo.toString() + " - " + "Parada incial: " + linea.detallePrimerParada()
+                + " - " + "Parada final: " + linea.detalleUltimaParada() +  "Linea: " + linea.getNombreDeLinea();
+    }
 
-    public Distancia calcularDistancia(Direccion origen, Direccion destino) {
+    public Distancia calcularDistancia(Direccion origen, Direccion destino) throws Exception {
         return linea.calcularDistanciaEntreParadas(origen, destino);
     }
 

@@ -1,9 +1,12 @@
 package domain.transporte.privado;
 
 import domain.geoDDS.Direccion;
+import domain.geoDDS.ServicioCalcularDistancia;
 import domain.geoDDS.entidades.Distancia;
 import domain.transporte.MedioTransporte;
 import domain.transporte.TipoCombustible;
+
+import java.io.IOException;
 
 public class TransportePrivado implements MedioTransporte {
     TipoVehiculo tipo;
@@ -12,12 +15,11 @@ public class TransportePrivado implements MedioTransporte {
 
     public String detalle() {
 
-        return null;
+        return "Tipo de vehiculo:" + tipo.toString()+" - "+ "Tipo de combustible: " + tipoCombustible.toString();
     }
 
 
-    public Distancia calcularDistancia(Direccion origen, Direccion destino) {
-
-        return null;
+    public Distancia calcularDistancia(Direccion origen, Direccion destino) throws IOException {
+        return ServicioCalcularDistancia.getInstance().distanciaEntre(origen, destino);
     }
 }

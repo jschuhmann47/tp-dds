@@ -72,8 +72,13 @@ public class Linea {
         this.paradas.addAll(Arrays.asList(paradas));
     }
 
+    public String detallePrimerParada() {
+        return paradas.get(0).getCalle() + " " + paradas.get(0).getAltura();
+    }
 
-
+    public String detalleUltimaParada() {
+        return paradas.get(paradas.size()-1).getCalle() + " " + paradas.get(paradas.size()-1).getAltura();
+    }
 
 
 //    public Parada encontrarParada(Direccion actual) throws Exception {

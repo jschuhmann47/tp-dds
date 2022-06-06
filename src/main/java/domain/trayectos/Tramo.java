@@ -9,7 +9,7 @@ public class Tramo {
     Direccion puntoInicio;
     Direccion puntoFinal;
 
-    Distancia distanciaARecorrer(Direccion puntoInicio, Direccion puntoFinal){
+    Distancia distanciaARecorrer(Direccion puntoInicio, Direccion puntoFinal) throws Exception {
         return medioTransporte.calcularDistancia(puntoInicio,puntoFinal);
     }
 }

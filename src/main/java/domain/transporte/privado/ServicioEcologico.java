@@ -10,7 +10,7 @@ import java.io.IOException;
 public class ServicioEcologico implements MedioTransporte {
 
     public String detalle() {
-        return null;
+        return "";
     }
 
 
