@@ -5,6 +5,7 @@ import domain.geoDDS.entidades.Distancia;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Trayecto {
     private Direccion puntoDeSalida;
@@ -16,6 +17,9 @@ public class Trayecto {
     }
 
     public Distancia distanciaTrayecto(){
-        tramos.stream().map(tramo -> tramo.distanciaARecorrer(tramo.puntoInicio,tramo.puntoFinal).convertirValor()); //TODO
+
+        Double valor = tramos.stream().map(tramo -> tramo.distanciaARecorrer(tramo.puntoInicio,tramo.puntoFinal).convertirValor())
+                        .mapToDouble(i->i).sum(); //TODO
+        return new Distancia(valor.toString(),"KM");
     }
 }

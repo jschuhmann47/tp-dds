@@ -1,52 +1,63 @@
 package domain.transporte.publico;
 
-import domain.geoDDS.ServicioCalcularDistancia;
-import domain.geoDDS.entidades.Distancia;
 import domain.geoDDS.Direccion;
+import domain.geoDDS.entidades.Distancia;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class Linea {
 
     private String nombreDeLinea;
-    private List<Direccion> paradas;
 
-    private HashMap<List<String>, List<String>> distanciasParadas;
+    private List<Direccion> paradas=new ArrayList<>();
+    private HashMap<Direccion,Double> distanciaParadasAnteriores;
+    private HashMap<Direccion,Double> distanciaParadasSiguientes;
+    private HashMap<Direccion,Direccion> paradasSiguientes;
+    private HashMap<Direccion,Direccion> paradasAnteriores;
 
-    public Linea(String nombreDeLinea, List<Direccion> paradas) throws IOException {
+
+    public Linea(String nombreDeLinea, Direccion ... variasParadas) throws IOException {
         this.nombreDeLinea = nombreDeLinea;
-        this.paradas = paradas;
-//        distanciasParadas = new HashMap<String, List<String>>();
-//        BufferedReader buffer = new BufferedReader(new FileReader("src/main/java/domain/" +
-//                "transporte/publico/distancias.txt"));
-//        String lineaLeida = buffer.readLine();
-//        while (lineaLeida != null){
-//            String[] leido = lineaLeida.split(":"); //s[1] should be the key, s[0] is what should go into the list
-//            List<String> l = h.get(s[1]); //see if you already have a list for current key
-//            if(l == null) { //if not create one and put it in the map
-//                l = new ArrayList<String>();
-//                h.put(s[1], l);
-//            }
-//            l.add(s[0]); //add s[0] into the list for current key
-//            lineaLeida = buffer.readLine();
-//        }
-//        buffer.close();
+        paradas.addAll(Arrays.asList(variasParadas));
 
     }
 
-    public Distancia calcularDistanciaEntreParadas(Direccion actual, Direccion proxima) {
 
-
-
-
-        return null; //TODO donde ponemos los datos "hardcodeados"
+    public Distancia calcularDistanciaEntreParadas(Direccion anterior, Direccion proxima) throws Exception {
+        double distanciaTotal = 0;
+        Direccion direccionActual = anterior;
+        while(direccionActual != proxima){
+            distanciaTotal += this.distanciaALaSiguiente(direccionActual);
+            direccionActual = this.paradaSiguiente(direccionActual);
+        }
+        return new Distancia(String.valueOf(distanciaTotal),"KM");
+    }
+    private Double distanciaALaSiguiente(Direccion direccion) throws Exception {
+        if(distanciaParadasSiguientes.get(direccion)==null){
+            throw new Exception("No hay siguiente parada");
+        }
+        else{
+            return distanciaParadasSiguientes.get(direccion);
+        }
     }
 
+    private Double distanciaALaAnterior(Direccion direccion) throws Exception {
+        if(distanciaParadasAnteriores.get(direccion)==null){
+            throw new Exception("No hay anterior parada");
+        }
+        else{
+            return distanciaParadasAnteriores.get(direccion);
+        }
+    }
+
+    private Direccion paradaSiguiente(Direccion direccion){
+        return paradasSiguientes.get(direccion);
+    }
+
+    private Direccion paradaAnterior(Direccion direccion){
+        return paradasAnteriores.get(direccion);
+    }
 
     public String getNombreDeLinea() {
         return nombreDeLinea;
@@ -57,7 +68,33 @@ public class Linea {
     public List<Direccion> getParadas() {
         return paradas;
     }
-    public void setParadas(List<Direccion> paradas) {
-        this.paradas = paradas;
+    public void setParadas(Direccion ... paradas) {
+        this.paradas.addAll(Arrays.asList(paradas));
     }
+
+
+
+
+
+//    public Parada encontrarParada(Direccion actual) throws Exception {
+//        Optional<Parada> posibleParada = distanciasParadas.stream().filter(t->t.direccion==actual).findFirst();
+//        if(posibleParada.isPresent()){
+//            return posibleParada.get();
+//        }
+//        else {
+//            throw new Exception();
+//        }
+//    }
+
+    //    public Distancia calcularDistanciaEntreParadas(Direccion anterior, Direccion proxima) throws Exception {
+//        double distanciaTotal = 0;
+//        int indiceActual = distanciasParadas.indexOf(encontrarParada(anterior));
+//        int indiceProxima = distanciasParadas.indexOf(encontrarParada(proxima));
+//        for (; indiceActual != distanciasParadas.size() && indiceActual!=indiceProxima;indiceActual++) {
+//            distanciaTotal += distanciasParadas.get(indiceActual).distanciaALaSiguiente;
+//        }
+//        //List<Double> distancias = distanciasParadas.stream().mapToDouble(t->t.distanciaALaSiguiente).collect();
+//        return new Distancia(String.valueOf(distanciaTotal),"KM");
+//    }
+
 }

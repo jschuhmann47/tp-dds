@@ -17,8 +17,8 @@ public class TransportePublico implements MedioTransporte {
     } //TODO
 
     public Distancia calcularDistancia(Direccion origen, Direccion destino) {
-        return null;
-    } //TODO
+        return linea.calcularDistanciaEntreParadas(origen, destino);
+    }
 
 
     public Linea getLinea() {
