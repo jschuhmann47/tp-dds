@@ -2,6 +2,8 @@
 # TRABAJO PRACTICO ANUAL - DDS MARTES MAÑANA 2022
 ## GRUPO 3 
 
+[**Enunciado**](https://drive.google.com/file/d/1kabpFOAiHu6EjXc2LZPrmE_8eA2ayqVl/view)
+
 |**Nombre** |  | 
 |:-------------------:|---|
 | Juan Pablo Aveni | | |
@@ -11,7 +13,6 @@
 | Paul Vasquez Tecco  |  | | 
 
 
-
 - [x] Primera entrega: Modelado en Objetos Parte I
 - [ ] Segunda entrega: Modelado en Objetos parte II e Integración
 - [ ] Tercera entrega: Modelado en Objetos parte III
@@ -19,3 +20,4 @@
 - [ ] Quinta entrega: Persistencia
 - [ ] Sexta entrega: Arquitectura Web
 - [ ] Séptima entrega: Despliegue
+
