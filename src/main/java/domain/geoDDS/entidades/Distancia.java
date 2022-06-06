@@ -11,4 +11,8 @@ public class Distancia {
         this.valor = valor;
         this.unidad = unidad;
     }
+
+    public Double convertirValor(){
+        return Double.parseDouble(this.valor);
+    }
 }

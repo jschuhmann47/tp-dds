@@ -6,8 +6,8 @@ public class Direccion {
     private Integer altura;
     private String calle;
     private String localidad;
-    private Provincia provincia;
     private String municipio;
+    private Provincia provincia;
 
     public Direccion(Integer altura, String calle, String localidad, String municipio, Provincia provincia) {
         this.altura = altura;

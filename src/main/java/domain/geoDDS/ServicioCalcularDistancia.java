@@ -8,7 +8,6 @@ import java.util.List;
 
 public class ServicioCalcularDistancia {
     static ServicioCalcularDistancia instancia = null;
-    //private Retrofit retrofit;
     ServicioGeoDDSAdapter adapter;
 
     public void setAdapter(ServicioGeoDDSAdapter adapter) {
