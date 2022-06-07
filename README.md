@@ -12,6 +12,7 @@
 | Geronimo Sorzzoni |  | | 
 | Paul Vasquez Tecco  |  | | 
 
+[DIAGRAMA DE DATOS](https://raw.githubusercontent.com/dds-utn/2022-ma-ma-mama-grupo-03/entrega-02/documentacion/Main.png?token=GHSAT0AAAAAABVJ3PW5VK7GSBUSAGSJGLHUYU7KPWQ)
 
 - [x] Primera entrega: Modelado en Objetos Parte I
 - [ ] Segunda entrega: Modelado en Objetos parte II e Integración
