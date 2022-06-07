@@ -12,5 +12,12 @@ public class Trabajador {
     private List<Trayecto> listaTrayectos;
     public List<Sector> sectores;
 
+    public void solicitarVinculacion(Organizacion organizacion,Sector sector){
+        organizacion.solicitudDeVinculacion(this, sector);
+    }
+
+    public void aceptarSolicitud(Sector sector){
+    sectores.add(sector);
+    };
 
 }
