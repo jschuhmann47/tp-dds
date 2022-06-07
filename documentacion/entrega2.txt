@@ -19,3 +19,5 @@ Lo hicimos asi porque no nos parecia adecuado que la clase TransportePrivado sea
 
 - En la API creamos una clase Calculador para tratar de forma polimorfica a los calculos de ID de las provincias, municipios y localidades, y que no quede en
 ServicioCalcularDistancia ya que sino seria poco cohesiva
+
+-
