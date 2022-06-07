@@ -19,3 +19,6 @@ nos devuelva el dato que necesitamos. No fueron inicializados ya que actualmente
 - Usamos una clase auxiliar CompartirTrayecto que verifica si puede compartir una persona el tramo con las personas que ya se cargaron al dicho tramo.
 Lo hicimos asi porque no nos parecia adecuado que la clase TransportePrivado sea la que evalue eso.
 
+- Creamos una clase que nos permita importar la informacion del excel , tambien usamos la libreria de apache poi, que nos ayudo a leer el archivo.
+
+- Creamos una metodo para leer cada columna del archivo, los metodos de lectura cargan toda columna en una lista que contiene cada fila. 
