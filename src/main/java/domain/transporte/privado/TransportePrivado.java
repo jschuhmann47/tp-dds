@@ -14,7 +14,7 @@ import java.util.List;
 public class TransportePrivado implements MedioTransporte {
     TipoVehiculo tipo;
     TipoCombustible tipoCombustible;
-    CompartirTramo compartirTramo = new CompartirTramo();
+
 
     public List<Trabajador> getPersonasABordo() {
         return personasABordo;
@@ -41,7 +41,7 @@ public class TransportePrivado implements MedioTransporte {
     }
 
     public void trabajadorPuedeCompartirVehiculo(Trabajador trabajador){
-        if(compartirTramo.validarTrabajador(trabajador,this.getPersonasABordo())){
+        if(CompartirTramo.validarTrabajador(trabajador,this.getPersonasABordo())){
             personasABordo.add(trabajador);
         }
     }

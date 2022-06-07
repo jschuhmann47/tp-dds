@@ -25,7 +25,6 @@ public class Organizacion {
     }
 
 
-
     public void cargarDatos(String archivo) throws IOException {
         adapter.leerArchivoDA(archivo);
     }
@@ -36,7 +35,7 @@ public class Organizacion {
 
     public void solicitudDeVinculacion(Trabajador trabajador, Sector sector){
         miembros.add(trabajador);
-        trabajador.aceptarSolicitud(sector);
+        trabajador.solicitudAceptada(sector);
         sector.agregarTrabajador(trabajador);
     }
 

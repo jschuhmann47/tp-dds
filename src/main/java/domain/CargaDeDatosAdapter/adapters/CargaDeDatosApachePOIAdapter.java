@@ -27,7 +27,7 @@ public class CargaDeDatosApachePOIAdapter implements CargaDeDatosAdapter{
 
     List<FormularioDA> formulariosDa = new ArrayList<>();
 
-    String file;
+    public String file;
 
     //La idea es leer fila por fila , ya que no se puede leer por columnas
 
@@ -60,8 +60,12 @@ public class CargaDeDatosApachePOIAdapter implements CargaDeDatosAdapter{
         for (int i = 0; i < hojaALeer.getLastRowNum() + 1; i++) {
             // Empiezo a contar desde la segunda  fila
             row = hojaALeer.getRow(i + 2);
+            if (row == null){
+                break;
+            }
             // SOlo voy a retornar todos los elementos de la primera columna a partir de la segunda fila
             cell = row.getCell(0);
+
             // Copio el valor del la celda a al atributo
             FormularioDA form = new FormularioDA();
             form.actividad=cell.toString();
@@ -81,6 +85,9 @@ public class CargaDeDatosApachePOIAdapter implements CargaDeDatosAdapter{
 
         for (int i = 0; i < hojaALeer.getLastRowNum() + 1; i++) {
             row = hojaALeer.getRow(i+2);
+            if (row == null){
+                break;
+            }
             cell = row.getCell(2);
             TipoDeConsumo tCon = new TipoDeConsumo();
             tCon.tipoDeConsumo = cell.toString();
@@ -96,6 +103,9 @@ public class CargaDeDatosApachePOIAdapter implements CargaDeDatosAdapter{
         HSSFRow row;
         for (int i = 0; i < hojaALeer.getLastRowNum() + 1; i++) {
             row = hojaALeer.getRow(i+2);
+            if (row == null){
+                break;
+            }
             cell = row.getCell(4);
             this.formulariosDa.get(i).tipoDeConsumo.unidad= cell.toString();
             //System.out.println("Unidad: " + this.formulariosDa.get(i).tipoDeConsumo.unidad );
@@ -110,6 +120,9 @@ public class CargaDeDatosApachePOIAdapter implements CargaDeDatosAdapter{
 
         for (int i = 0; i < hojaALeer.getLastRowNum() + 1; i++) {
             row = hojaALeer.getRow(i+2);
+            if (row == null){
+                break;
+            }
             cell = row.getCell(5);
             Consumo con = new Consumo();
             con.valor = parseDouble(cell.toString());
@@ -125,6 +138,9 @@ public class CargaDeDatosApachePOIAdapter implements CargaDeDatosAdapter{
 
         for (int i = 0; i < hojaALeer.getLastRowNum() + 1; i++) {
             row = hojaALeer.getRow(i+2);
+            if (row == null){
+                break;
+            }
             cell = row.getCell(6);
             this.formulariosDa.get(i).consumo.periocidad = cell.toString();
             //System.out.println("Consumo - Periodicidad: " + cell.toString());
@@ -139,6 +155,9 @@ public class CargaDeDatosApachePOIAdapter implements CargaDeDatosAdapter{
 
         for (int i = 0; i < hojaALeer.getLastRowNum() + 1; i++) {
             row = hojaALeer.getRow(i+2);
+            if (row == null){
+                break;
+            }
             cell = row.getCell(6);
             this.formulariosDa.get(i).periodoDeImputacion = cell.toString();
             //System.out.println("Periodo de Imputacion: " + cell.toString());

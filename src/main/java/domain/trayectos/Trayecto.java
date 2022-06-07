@@ -28,8 +28,8 @@ public class Trayecto {
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
-                })
-                        .mapToDouble(i->i).sum(); //TODO
+                    })
+                    .mapToDouble(i->i).sum(); //TODO
         return new Distancia(Double.toString(valor),"KM");
     }
 }

@@ -1,0 +1,21 @@
+Justificaciones
+
+- Para la API usamos el patron adapter en caso de que debamos utilizar otra biblioteca para obtener la informacion de la misma.
+
+- A su vez, utilizamos la mimsa logica en la carga de archivos Excel, ya que en caso de que la biblioteca elegida no sea la ideal o se rompa,
+la podamos cambiar mas facilmente
+
+- Para los chequeos de contraseñas implementamos una lista de chequeos, para poder agregar y sacar facilmente los mismos, y poder llamarlos de
+forma polimorfica
+
+- Para los trayectos compartidos, pusimos una lista de pasajeros en TransportePrivado, ya que cada tramo es el que tiene el medio de transporte.
+Para los servicios contratados, al tener la misma logica en general, hicimos que tenga como atributo un transporte privado
+
+- Para no agregarle a las paradas la informacion de a cuanta distancia esta de la siguiente y de la anterior, usamos HashMap para que dada una direccion,
+nos devuelva el dato que necesitamos. No fueron inicializados ya que actualmente desconocemos de donde y como va a obtener esa informacion
+
+- Usamos una clase auxiliar CompartirTrayecto que verifica si puede compartir una persona el tramo con las personas que ya se cargaron al dicho tramo.
+Lo hicimos asi porque no nos parecia adecuado que la clase TransportePrivado sea la que evalue eso.
+
+- En la API creamos una clase Calculador para tratar de forma polimorfica a los calculos de ID de las provincias, municipios y localidades, y que no quede en
+ServicioCalcularDistancia ya que sino seria poco cohesiva

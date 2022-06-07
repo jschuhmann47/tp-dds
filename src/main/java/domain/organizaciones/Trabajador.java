@@ -16,8 +16,8 @@ public class Trabajador {
         organizacion.solicitudDeVinculacion(this, sector);
     }
 
-    public void aceptarSolicitud(Sector sector){
-    sectores.add(sector);
+    public void solicitudAceptada(Sector sector){
+        sectores.add(sector);
     };
 
 }
