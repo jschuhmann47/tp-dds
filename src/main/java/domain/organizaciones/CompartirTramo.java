@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CompartirTrayecto {
+public class CompartirTramo {
 
     public boolean validarTrabajador(Trabajador trabajador, List<Trabajador> personasABordo){
 
@@ -31,6 +31,12 @@ public class CompartirTrayecto {
         return trabajador.sectores.stream().map(s->s.organizacion).collect(Collectors.toList());
     }
 
-
+    /*
+    * pepe: A y B
+    * jose: A
+    * fulanito: A
+    *
+    * carlos: B
+    * */
 
 }

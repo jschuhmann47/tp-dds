@@ -3,7 +3,7 @@ package domain.transporte.privado;
 import domain.geoDDS.Direccion;
 import domain.geoDDS.ServicioCalcularDistancia;
 import domain.geoDDS.entidades.Distancia;
-import domain.organizaciones.CompartirTrayecto;
+import domain.organizaciones.CompartirTramo;
 import domain.organizaciones.Trabajador;
 import domain.transporte.MedioTransporte;
 import domain.transporte.TipoCombustible;
@@ -14,7 +14,7 @@ import java.util.List;
 public class TransportePrivado implements MedioTransporte {
     TipoVehiculo tipo;
     TipoCombustible tipoCombustible;
-    CompartirTrayecto compartirTrayecto = new CompartirTrayecto();
+    CompartirTramo compartirTramo = new CompartirTramo();
 
     public List<Trabajador> getPersonasABordo() {
         return personasABordo;
@@ -41,7 +41,7 @@ public class TransportePrivado implements MedioTransporte {
     }
 
     public void trabajadorPuedeCompartirVehiculo(Trabajador trabajador){
-        if(compartirTrayecto.validarTrabajador(trabajador,this.getPersonasABordo())){
+        if(compartirTramo.validarTrabajador(trabajador,this.getPersonasABordo())){
             personasABordo.add(trabajador);
         }
     }

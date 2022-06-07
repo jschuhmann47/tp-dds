@@ -15,7 +15,7 @@ public class Trayecto {
     }
 
     private List<Tramo> tramos;
-    //a
+
     public void cargarTramos(Tramo ... tramos){
         this.tramos.addAll(Arrays.asList(tramos));
     }

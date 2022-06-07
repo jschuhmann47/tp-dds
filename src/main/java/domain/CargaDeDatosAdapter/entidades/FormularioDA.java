@@ -1,11 +1,11 @@
-package domain.ModuloImportar;
+package domain.CargaDeDatosAdapter.entidades;
 
 public class FormularioDA {
 
     public String actividad;
     public TipoDeConsumo tipoDeConsumo;
     public Consumo consumo;
-    public String periodoDeImputacion;
+    public String periodoDeImputacion; //LocalDate
 
     public  FormularioDA(String actividad, TipoDeConsumo tipoDeConsumo,
                          Consumo consumo, String periodoDeImputacioon)
@@ -16,4 +16,7 @@ public class FormularioDA {
         this.periodoDeImputacion = periodoDeImputacioon;
     }
 
+    public FormularioDA() {
+
+    }
 }
