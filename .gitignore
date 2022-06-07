@@ -3,6 +3,7 @@
 
 # Maven
 target/
+out/
 
 pom.xml
 
@@ -13,3 +14,4 @@ pom.xml
 
 # Token
 *.properties
+
