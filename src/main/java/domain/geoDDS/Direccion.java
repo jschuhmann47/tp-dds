@@ -1,15 +1,17 @@
 package domain.geoDDS;
 
+import domain.geoDDS.entidades.Localidad;
+import domain.geoDDS.entidades.Municipio;
 import domain.geoDDS.entidades.Provincia;
 
 public class Direccion {
     private Integer altura;
     private String calle;
-    private String localidad;
-    private String municipio;
+    private Localidad localidad;
+    private Municipio municipio;
     private Provincia provincia;
 
-    public Direccion(Integer altura, String calle, String localidad, String municipio, Provincia provincia) {
+    public Direccion(Integer altura, String calle, Localidad localidad, Municipio municipio, Provincia provincia) {
         this.altura = altura;
         this.calle = calle;
         this.localidad = localidad;
@@ -18,7 +20,7 @@ public class Direccion {
     }
 
 
-    public String getMunicipio() {
+    public Municipio getMunicipio() {
         return municipio;
     }
 
@@ -37,7 +39,7 @@ public class Direccion {
         return calle;
     }
 
-    public String getLocalidad() {
+    public Localidad getLocalidad() {
         return localidad;
     }
 

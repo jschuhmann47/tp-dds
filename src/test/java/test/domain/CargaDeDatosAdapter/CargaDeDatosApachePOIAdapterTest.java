@@ -1,27 +1,22 @@
-package test.domain.ModuloImportar;
+package test.domain.CargaDeDatosAdapter;
 
 import domain.CargaDeDatosAdapter.adapters.CargaDeDatosApachePOIAdapter;
-import domain.CargaDeDatosAdapter.entidades.FormularioDA;
-import domain.CargaDeDatosAdapter.entidades.TipoDeConsumo;
+import domain.CargaDeDatosAdapter.entidades.ActividadDA;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CargaDeDatosApachePOIAdapterTest {
     CargaDeDatosApachePOIAdapter adapterTest = new CargaDeDatosApachePOIAdapter("src/main/java/domain/CargaDeDatosAdapter/actividad.xls");
-    List<FormularioDA> formulariosDa=new ArrayList<>();
+    List<ActividadDA> formulariosDa=new ArrayList<>();
     HSSFSheet hojaLeida;
 
     @BeforeEach
@@ -40,7 +35,7 @@ public class CargaDeDatosApachePOIAdapterTest {
         row = hojaLeida.getRow(2);
         cell = row.getCell(0);
 
-        FormularioDA form = new FormularioDA();
+        ActividadDA form = new ActividadDA();
         form.actividad=cell.toString();
         this.formulariosDa.add(form);
         //System.out.println(cell.toString());

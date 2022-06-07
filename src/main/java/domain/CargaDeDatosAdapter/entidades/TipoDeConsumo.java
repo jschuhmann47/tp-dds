@@ -1,16 +1,9 @@
 package domain.CargaDeDatosAdapter.entidades;
 
-public class TipoDeConsumo {
-    public String tipoDeConsumo;
-    public String unidad;
-
-
-    public TipoDeConsumo(String tipoDeConsumo, String unidad) {
-        this.tipoDeConsumo = tipoDeConsumo;
-        this.unidad = unidad;
-    }
-
-    public TipoDeConsumo() {
-
-    }
+public enum TipoDeConsumo {
+    DIESEL,
+    GAS_NATURAL,
+    GNC,
+    NAFTA,
+    PRODUCTO_TRANSPORTADO
 }

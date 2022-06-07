@@ -29,7 +29,7 @@ public class ServicioCalcularDistancia {
         return adapter.distanciaEntre(direccionOrigen,direccionDestino);
     }
 
-    public int obtenerLocalidadId(Direccion direccion) throws IOException {
+    public int obtenerLocalidadId(Direccion direccion) throws IOException { //nukear
         int idProvincia = this.obtenerProvinciaId(direccion);
         int idMunicipio = this.obtenerMunicipioId(direccion,idProvincia);
         return Calculador.calcularLocalidadId(direccion, idMunicipio);

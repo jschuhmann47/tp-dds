@@ -1,7 +1,7 @@
 package domain.CargaDeDatosAdapter.adapters;
 
 import domain.CargaDeDatosAdapter.entidades.Consumo;
-import domain.CargaDeDatosAdapter.entidades.FormularioDA;
+import domain.CargaDeDatosAdapter.entidades.ActividadDA;
 import domain.CargaDeDatosAdapter.entidades.TipoDeConsumo;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -25,7 +25,7 @@ public class CargaDeDatosApachePOIAdapter implements CargaDeDatosAdapter{
         this.file=path;
     }
 
-    List<FormularioDA> formulariosDa = new ArrayList<>();
+    List<ActividadDA> formulariosDa = new ArrayList<>();
 
     public String file;
 
@@ -67,7 +67,7 @@ public class CargaDeDatosApachePOIAdapter implements CargaDeDatosAdapter{
             cell = row.getCell(0);
 
             // Copio el valor del la celda a al atributo
-            FormularioDA form = new FormularioDA();
+            ActividadDA form = new ActividadDA();
             form.actividad=cell.toString();
             this.formulariosDa.add(form);
             System.out.println(cell.toString());

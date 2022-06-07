@@ -39,4 +39,6 @@ public class CompartirTramo {
     * carlos: B
     * */
 
+    //tomar las del primero e ir sacando las que no comparten
+
 }

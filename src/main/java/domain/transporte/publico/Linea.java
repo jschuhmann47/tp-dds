@@ -10,12 +10,7 @@ public class Linea {
 
     private String nombreDeLinea;
 
-    private List<Direccion> paradas=new ArrayList<>();
-    private HashMap<Direccion,Double> distanciaParadasAnteriores;
-    private HashMap<Direccion,Double> distanciaParadasSiguientes;
-    private HashMap<Direccion,Direccion> paradasSiguientes;
-    private HashMap<Direccion,Direccion> paradasAnteriores;
-
+    private List<Parada> paradas=new ArrayList<>();
 
     public Linea(String nombreDeLinea, Direccion ... variasParadas) throws IOException {
         this.nombreDeLinea = nombreDeLinea;
