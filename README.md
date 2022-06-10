@@ -2,7 +2,7 @@
 # TRABAJO PRACTICO ANUAL - DDS MARTES MAÑANA 2022
 ## GRUPO 3 
 
-[**Enunciado**](https://drive.google.com/file/d/1kabpFOAiHu6EjXc2LZPrmE_8eA2ayqVl/view) [CRONOGRAMA](https://docs.google.com/spreadsheets/d/1L0pr_xyxJ1f-j9WMxi5TxyBcRvkTiJHSIjF7C8MWRcc/edit?usp=sharing)  [Drive público de la Cátedra](https://drive.google.com/drive/folders/1WZ9qkqUu2CYvQYDblxPhF-d2MBNEPAyG)
+[**Enunciado**](https://drive.google.com/file/d/1kabpFOAiHu6EjXc2LZPrmE_8eA2ayqVl/view) / [Cronograma](https://docs.google.com/spreadsheets/d/1L0pr_xyxJ1f-j9WMxi5TxyBcRvkTiJHSIjF7C8MWRcc/edit?usp=sharing) / [Drive público de la Cátedra](https://drive.google.com/drive/folders/1WZ9qkqUu2CYvQYDblxPhF-d2MBNEPAyG)
 
 |**Nombre** |  | 
 |:-------------------:|---|
