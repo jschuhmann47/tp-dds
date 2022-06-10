@@ -1,6 +1,7 @@
 package test.domain.CargaDeDatosAdapter;
 
 import domain.CargaDeDatosAdapter.adapters.CargaDeDatosApachePOIAdapter;
+import domain.CargaDeDatosAdapter.entidades.Actividad;
 import domain.CargaDeDatosAdapter.entidades.ActividadDA;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -16,7 +17,7 @@ import java.util.List;
 
 public class CargaDeDatosApachePOIAdapterTest {
     CargaDeDatosApachePOIAdapter adapterTest = new CargaDeDatosApachePOIAdapter("src/main/java/domain/CargaDeDatosAdapter/actividad.xls");
-    List<ActividadDA> formulariosDa=new ArrayList<>();
+    List<ActividadDA> actividadDa =new ArrayList<>();
     HSSFSheet hojaLeida;
 
     @BeforeEach
@@ -36,12 +37,17 @@ public class CargaDeDatosApachePOIAdapterTest {
         cell = row.getCell(0);
 
         ActividadDA form = new ActividadDA();
-        form.actividad=cell.toString();
-        this.formulariosDa.add(form);
-        //System.out.println(cell.toString());
+
+        if (cell.toString() == "Combustión fija"){
+            form.actividad = Actividad.COMBUSTION_FIJA;
+            this.actividadDa.add(form);
+        }
+
+
+        System.out.println(cell.toString());
 
         //-----------------------------Prueba -----------------------
-        Assertions.assertEquals("Combustión Fija",formulariosDa.get(0).actividad);
+        Assertions.assertEquals("COMBUSTION_FIJA", actividadDa.get(0).actividad);
 
     }
 

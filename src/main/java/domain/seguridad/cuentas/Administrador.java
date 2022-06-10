@@ -1,5 +1,3 @@
 package domain.seguridad.cuentas;
 
-public class Administrador extends Cuenta{
-
-}
+public class Administrador extends Cuenta{}

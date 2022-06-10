@@ -1,6 +1,6 @@
 package domain.CargaDeDatosAdapter.adapters;
 
-import domain.CargaDeDatosAdapter.entidades.Consumo;
+import domain.CargaDeDatosAdapter.entidades.Periodicidad;
 import domain.CargaDeDatosAdapter.entidades.ActividadDA;
 import domain.CargaDeDatosAdapter.entidades.TipoDeConsumo;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -124,7 +124,7 @@ public class CargaDeDatosApachePOIAdapter implements CargaDeDatosAdapter{
                 break;
             }
             cell = row.getCell(5);
-            Consumo con = new Consumo();
+            Periodicidad con = new Periodicidad();
             con.valor = parseDouble(cell.toString());
             this.formulariosDa.get(i).consumo = con;
             //System.out.println("Consumo - Valor: " +  this.formulariosDa.get(i).consumo.valor);
