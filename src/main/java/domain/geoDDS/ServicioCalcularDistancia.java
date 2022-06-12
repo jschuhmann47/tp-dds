@@ -1,10 +1,9 @@
 package domain.geoDDS;
 
 import domain.geoDDS.adapters.ServicioGeoDDSAdapter;
-import domain.geoDDS.entidades.*;
+import domain.geoDDS.entidades.Distancia;
 
 import java.io.IOException;
-import java.util.List;
 
 public class ServicioCalcularDistancia {
     static ServicioCalcularDistancia instancia = null;
@@ -29,43 +28,16 @@ public class ServicioCalcularDistancia {
         return adapter.distanciaEntre(direccionOrigen,direccionDestino);
     }
 
-    public int obtenerLocalidadId(Direccion direccion) throws IOException { //nukear
-        int idProvincia = this.obtenerProvinciaId(direccion);
-        int idMunicipio = this.obtenerMunicipioId(direccion,idProvincia);
-        return Calculador.calcularLocalidadId(direccion, idMunicipio);
+    public int obtenerLocalidadId(Direccion direccion) {
+        return direccion.getLocalidad().getId();
     }
 
-    public int obtenerProvinciaId(Direccion direccion) throws IOException {
-        return Calculador.calcularProvinciaId(direccion);
+    public int obtenerProvinciaId(Direccion direccion) {
+        return direccion.getProvincia().getId();
     }
 
-    public int obtenerMunicipioId(Direccion direccion, int idProvincia) throws IOException {
-        return Calculador.calcularMunicipioId(direccion,idProvincia);
+    public int obtenerMunicipioId(Direccion direccion) {
+        return direccion.getMunicipio().getId();
     }
-
-    public List<Provincia> listadoDeProvincias() throws IOException {
-        return adapter.listadoDeProvincias();
-    }
-
-    public List<Localidad> obtenerLocalidadesDeMunicipio(int municipioId) throws IOException {
-
-        return adapter.obtenerLocalidadesDeMunicipio(municipioId);
-    }
-
-    public List<Localidad> listadoDeLocalidades() throws IOException {
-
-        return adapter.listadoDeLocalidades();
-    }
-
-    public List<Municipio> listadoDeMunicipios() throws IOException {
-
-        return adapter.listadoDeMunicipios();
-    }
-
-    public List<Municipio> obtenerMunicipiosDeProvincia(int idProvincia) throws IOException {
-
-        return adapter.obtenerMunicipiosDeProvincia(idProvincia);
-    }
-
 
 }

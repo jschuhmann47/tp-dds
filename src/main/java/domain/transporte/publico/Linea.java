@@ -12,89 +12,53 @@ public class Linea {
 
     private List<Parada> paradas=new ArrayList<>();
 
-    public Linea(String nombreDeLinea, Direccion ... variasParadas) throws IOException {
+    public Linea(String nombreDeLinea, Parada ... variasParadas) throws IOException {
         this.nombreDeLinea = nombreDeLinea;
         paradas.addAll(Arrays.asList(variasParadas));
 
     }
 
 
-    public Distancia calcularDistanciaEntreParadas(Direccion anterior, Direccion proxima) throws Exception {
-        double distanciaTotal = 0;
-        Direccion direccionActual = anterior;
-        while(direccionActual != proxima){
-            distanciaTotal += this.distanciaALaSiguiente(direccionActual);
-            direccionActual = this.paradaSiguiente(direccionActual);
+    public Distancia calcularDistanciaEntreParadas(Parada anterior, Parada proxima) throws Exception {
+
+        Distancia distanciaTotal = new Distancia((double) 0,"KM");
+        Parada p = anterior;
+        while (p != proxima && p != null){
+            distanciaTotal.valor += p.distanciaSiguiente.valor;
+            p = p.paradaSiguiente;
         }
-        return new Distancia(String.valueOf(distanciaTotal),"KM");
-    }
-    private Double distanciaALaSiguiente(Direccion direccion) throws Exception {
-        if(distanciaParadasSiguientes.get(direccion)==null){
-            throw new Exception("No hay siguiente parada");
+        if (p==null){
+            throw new Exception("La parada proxima no existe o no esta despues de la ingresada");
         }
         else{
-            return distanciaParadasSiguientes.get(direccion);
+            return distanciaTotal;
         }
     }
 
-    private Double distanciaALaAnterior(Direccion direccion) throws Exception {
-        if(distanciaParadasAnteriores.get(direccion)==null){
-            throw new Exception("No hay anterior parada");
-        }
-        else{
-            return distanciaParadasAnteriores.get(direccion);
-        }
-    }
-
-    private Direccion paradaSiguiente(Direccion direccion){
-        return paradasSiguientes.get(direccion);
-    }
-
-    private Direccion paradaAnterior(Direccion direccion){
-        return paradasAnteriores.get(direccion);
-    }
 
     public String getNombreDeLinea() {
         return nombreDeLinea;
     }
+
     public void setNombreDeLinea(String nombreDeLinea) {
         this.nombreDeLinea = nombreDeLinea;
     }
-    public List<Direccion> getParadas() {
+
+    public List<Parada> getParadas() {
         return paradas;
     }
-    public void setParadas(Direccion ... paradas) {
+
+    public void setParadas(Parada ... paradas) {
         this.paradas.addAll(Arrays.asList(paradas));
     }
 
     public String detallePrimerParada() {
-        return paradas.get(0).getCalle() + " " + paradas.get(0).getAltura();
+        return paradas.get(0).direccion.getCalle() + " " + paradas.get(0).direccion.getAltura();
     }
 
     public String detalleUltimaParada() {
-        return paradas.get(paradas.size()-1).getCalle() + " " + paradas.get(paradas.size()-1).getAltura();
+        return paradas.get(paradas.size()-1).direccion.getCalle() + " " + paradas.get(paradas.size()-1).direccion.getAltura();
     }
 
-
-//    public Parada encontrarParada(Direccion actual) throws Exception {
-//        Optional<Parada> posibleParada = distanciasParadas.stream().filter(t->t.direccion==actual).findFirst();
-//        if(posibleParada.isPresent()){
-//            return posibleParada.get();
-//        }
-//        else {
-//            throw new Exception();
-//        }
-//    }
-
-    //    public Distancia calcularDistanciaEntreParadas(Direccion anterior, Direccion proxima) throws Exception {
-//        double distanciaTotal = 0;
-//        int indiceActual = distanciasParadas.indexOf(encontrarParada(anterior));
-//        int indiceProxima = distanciasParadas.indexOf(encontrarParada(proxima));
-//        for (; indiceActual != distanciasParadas.size() && indiceActual!=indiceProxima;indiceActual++) {
-//            distanciaTotal += distanciasParadas.get(indiceActual).distanciaALaSiguiente;
-//        }
-//        //List<Double> distancias = distanciasParadas.stream().mapToDouble(t->t.distanciaALaSiguiente).collect();
-//        return new Distancia(String.valueOf(distanciaTotal),"KM");
-//    }
 
 }

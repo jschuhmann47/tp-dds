@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class CargaDeDatosApachePOIAdapterTest {
     CargaDeDatosApachePOIAdapter adapterTest = new CargaDeDatosApachePOIAdapter("src/main/java/domain/CargaDeDatosAdapter/actividad.xls");
@@ -38,7 +39,7 @@ public class CargaDeDatosApachePOIAdapterTest {
 
         ActividadDA form = new ActividadDA();
 
-        if (cell.toString() == "Combustión fija"){
+        if (Objects.equals(cell.toString(), "Combustión fija")){
             form.actividad = Actividad.COMBUSTION_FIJA;
             this.actividadDa.add(form);
         }

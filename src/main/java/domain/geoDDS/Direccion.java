@@ -25,8 +25,8 @@ public class Direccion {
     }
 
 
-    public String getProvinciaString() {
-        return provincia.nombre;
+    public Provincia getProvincia() {
+        return provincia;
     }
 
 
