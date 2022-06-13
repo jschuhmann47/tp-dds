@@ -45,10 +45,10 @@ public class GeoDDSTest {
     @Test
     @DisplayName("Se obtiene la distancia entre dos direcciones")
     public void obtenerDistancia() throws Exception {
-        Distancia distanciaMock = new Distancia("50.147","KM");
+        Distancia distanciaMock = new Distancia(50.147,"KM");
         when(this.adapterMock.distanciaEntre(direccionPrueba1,direccionPrueba2)).thenReturn(distanciaMock);
         Distancia distancia = servicioDistanciaTest.distanciaEntre(direccionPrueba1,direccionPrueba2);
-        Assertions.assertEquals("50.147",distancia.valor);
+        Assertions.assertEquals(50.147,distancia.valor);
         Assertions.assertEquals("KM", distancia.unidad);
     }
 }

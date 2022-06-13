@@ -1,12 +1,14 @@
 package domain.CargaDeDatosAdapter.adapters;
 
+import domain.CargaDeDatosAdapter.entidades.ActividadDA;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 
 import java.io.IOException;
+import java.util.List;
 
 public interface CargaDeDatosAdapter {
 
-    void leerArchivoDA(String file) throws IOException;
+    List<ActividadDA> leerArchivoDA(String file) throws IOException;
 
     HSSFSheet obtenerHoja(String file) throws IOException;
 

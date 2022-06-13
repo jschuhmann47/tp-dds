@@ -16,6 +16,11 @@ public class Organizacion {
     private Direccion ubicacion;
     private CargaDeDatos actividades;
 
+    public Organizacion(List<Trabajador> miembros, List<Sector> sectores) {
+        this.miembros = miembros;
+        this.sectores = sectores;
+    }
+
 
     public void cargarDatos(String archivo) throws IOException {
         actividades.cargarDatos(archivo);
@@ -43,4 +48,6 @@ public class Organizacion {
         this.ubicacion = ubicacion;
 
     }
+
+
 }

@@ -24,12 +24,12 @@ public class Trayecto {
 
         double valor = tramos.stream().map(tramo -> {
                     try {
-                        return tramo.distanciaARecorrer(tramo.puntoInicio,tramo.puntoFinal).convertirValor();
+                        return tramo.distanciaARecorrer(tramo.puntoInicio,tramo.puntoFinal).valor;
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
                     })
                     .mapToDouble(i->i).sum(); //TODO
-        return new Distancia(Double.toString(valor),"KM");
+        return new Distancia(valor,"KM");
     }
 }

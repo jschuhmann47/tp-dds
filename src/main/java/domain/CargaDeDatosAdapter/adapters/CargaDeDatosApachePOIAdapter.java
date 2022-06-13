@@ -1,5 +1,6 @@
 package domain.CargaDeDatosAdapter.adapters;
 
+import domain.CargaDeDatosAdapter.entidades.Actividad;
 import domain.CargaDeDatosAdapter.entidades.Periodicidad;
 import domain.CargaDeDatosAdapter.entidades.ActividadDA;
 import domain.CargaDeDatosAdapter.entidades.TipoDeConsumo;
@@ -31,7 +32,7 @@ public class CargaDeDatosApachePOIAdapter implements CargaDeDatosAdapter{
 
     //La idea es leer fila por fila , ya que no se puede leer por columnas
 
-    public  void  leerArchivoDA(String file) throws IOException {
+    public List<ActividadDA> leerArchivoDA(String file) throws IOException {
 
         HSSFSheet hojaALeer = obtenerHoja(file);
 
@@ -41,6 +42,8 @@ public class CargaDeDatosApachePOIAdapter implements CargaDeDatosAdapter{
         LeerConsumoValor(hojaALeer);
         LeerConsumoPeriodicidad(hojaALeer);
         LeerPeriodoDeImputacion(hojaALeer);
+
+        return formulariosDa;
     }
 
     public HSSFSheet obtenerHoja(String file) throws IOException {
@@ -67,9 +70,10 @@ public class CargaDeDatosApachePOIAdapter implements CargaDeDatosAdapter{
             cell = row.getCell(0);
 
             // Copio el valor del la celda a al atributo
-            ActividadDA form = new ActividadDA();
-            form.actividad=cell.toString();
-            this.formulariosDa.add(form);
+            ActividadDA act = new ActividadDA();
+            Actividad a = Actividad.COMBUSTION_FIJA;
+            //act.actividad=cell.toString(); //todo pasarlo a enum
+            this.formulariosDa.add(act);
             System.out.println(cell.toString());
 
             //-----------------------------Prueba -----------------------
@@ -89,9 +93,9 @@ public class CargaDeDatosApachePOIAdapter implements CargaDeDatosAdapter{
                 break;
             }
             cell = row.getCell(2);
-            TipoDeConsumo tCon = new TipoDeConsumo();
-            tCon.tipoDeConsumo = cell.toString();
-            this.formulariosDa.get(i).tipoDeConsumo = tCon;
+            //TipoDeConsumo tCon = new TipoDeConsumo();
+            //tCon.tipoDeConsumo = cell.toString();
+            //this.formulariosDa.get(i).tipoDeConsumo = tCon; todo
             //System.out.println("TipoDeConsumo: " + this.formulariosDa.get(i).tipoDeConsumo.tipoDeConsumo);
         }
 
@@ -107,7 +111,7 @@ public class CargaDeDatosApachePOIAdapter implements CargaDeDatosAdapter{
                 break;
             }
             cell = row.getCell(4);
-            this.formulariosDa.get(i).tipoDeConsumo.unidad= cell.toString();
+            //this.formulariosDa.get(i).tipoDeConsumo.unidad= cell.toString(); todo
             //System.out.println("Unidad: " + this.formulariosDa.get(i).tipoDeConsumo.unidad );
         }
 
@@ -124,9 +128,9 @@ public class CargaDeDatosApachePOIAdapter implements CargaDeDatosAdapter{
                 break;
             }
             cell = row.getCell(5);
-            Periodicidad con = new Periodicidad();
-            con.valor = parseDouble(cell.toString());
-            this.formulariosDa.get(i).consumo = con;
+//            Periodicidad con = new Periodicidad();
+//            con.valor = parseDouble(cell.toString());
+//            this.formulariosDa.get(i).consumo = con; todo
             //System.out.println("Consumo - Valor: " +  this.formulariosDa.get(i).consumo.valor);
         }
     }
@@ -142,7 +146,7 @@ public class CargaDeDatosApachePOIAdapter implements CargaDeDatosAdapter{
                 break;
             }
             cell = row.getCell(6);
-            this.formulariosDa.get(i).consumo.periocidad = cell.toString();
+            //this.formulariosDa.get(i).consumo.periocidad = cell.toString(); todo
             //System.out.println("Consumo - Periodicidad: " + cell.toString());
         }
 
@@ -159,7 +163,7 @@ public class CargaDeDatosApachePOIAdapter implements CargaDeDatosAdapter{
                 break;
             }
             cell = row.getCell(6);
-            this.formulariosDa.get(i).periodoDeImputacion = cell.toString();
+            //this.formulariosDa.get(i).periodoDeImputacion = cell.toString(); todo
             //System.out.println("Periodo de Imputacion: " + cell.toString());
         }
 

@@ -9,6 +9,9 @@ public class Sector {
     private String nombreSector;
     public List<Trabajador> trabajadores;
 
+    public Sector() {
+    }
+
     public void agregarTrabajador(Trabajador trabajador){
         trabajadores.add(trabajador);
     }
