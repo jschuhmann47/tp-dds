@@ -9,6 +9,12 @@ public class Tramo {
     public Direccion puntoInicio;
     public Direccion puntoFinal;
 
+    public Tramo(MedioTransporte medioTransporte, Direccion puntoInicio, Direccion puntoFinal) {
+        this.medioTransporte = medioTransporte;
+        this.puntoInicio = puntoInicio;
+        this.puntoFinal = puntoFinal;
+    }
+
     public Distancia distanciaARecorrer(Direccion puntoInicio, Direccion puntoFinal) throws Exception {
         return medioTransporte.calcularDistancia(puntoInicio,puntoFinal);
     }

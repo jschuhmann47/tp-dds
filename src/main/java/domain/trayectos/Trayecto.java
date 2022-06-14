@@ -10,6 +10,12 @@ public class Trayecto {
     private Direccion puntoDeSalida;
     private Direccion puntoDeLlegada;
 
+    public Trayecto(Direccion puntoDeSalida, Direccion puntoDeLlegada, List<Tramo> tramos) {
+        this.puntoDeSalida = puntoDeSalida;
+        this.puntoDeLlegada = puntoDeLlegada;
+        this.tramos = tramos;
+    }
+
     public List<Tramo> getTramos() {
         return tramos;
     }

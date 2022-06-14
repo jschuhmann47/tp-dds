@@ -19,9 +19,9 @@ public class Linea {
     }
 
 
-    public Distancia calcularDistanciaEntreParadas(Parada anterior, Parada proxima) throws Exception {
+    public Distancia calcularDistanciaEntreParadas(Parada anterior, Parada proxima) throws Exception { //ver como calcular para atras
 
-        Distancia distanciaTotal = new Distancia((double) 0,"KM");
+        Distancia distanciaTotal = new Distancia(0.0,"KM");
         Parada p = anterior;
         while (p != proxima && p != null){
             distanciaTotal.valor += p.distanciaSiguiente.valor;
@@ -32,6 +32,15 @@ public class Linea {
         }
         else{
             return distanciaTotal;
+        }
+    }
+
+    private Parada buscarParadaDadaDireccion(Direccion direccion) throws Exception {
+        Optional<Parada> posibleParada = this.paradas.stream().filter(p -> p.direccion == direccion).findFirst();
+        if(posibleParada.isPresent()){
+            return posibleParada.get();
+        }else{
+            throw new Exception("No existe parada en esa direccion");
         }
     }
 
@@ -61,4 +70,9 @@ public class Linea {
     }
 
 
+    public Distancia calcularDistancia(Direccion origen, Direccion destino) throws Exception {
+        Parada paradaInicio = this.buscarParadaDadaDireccion(origen);
+        Parada paradaFinal = this.buscarParadaDadaDireccion(destino);
+        return this.calcularDistanciaEntreParadas(paradaInicio,paradaFinal);
+    }
 }

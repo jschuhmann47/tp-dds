@@ -20,10 +20,9 @@ public class TransportePublico implements MedioTransporte {
 
 
     public Distancia calcularDistancia(Direccion origen,Direccion destino) throws Exception { //todo cambiar en el uml
-        //return linea.calcularDistanciaEntreParadas(origen, destino);
-        return new Distancia(2.0,"KM");
-    }
+        return linea.calcularDistancia(origen, destino);
 
+    }
 
     public Linea getLinea() {
         return linea;

@@ -18,6 +18,11 @@ public class TransportePrivado implements MedioTransporte {
 
     TramoCompartido compartirTramo = new TramoCompartido();
 
+    public TransportePrivado(TipoVehiculo tipo, TipoCombustible tipoCombustible) {
+        this.tipo = tipo;
+        this.tipoCombustible = tipoCombustible;
+    }
+
 
     public String detalle() {
 
