@@ -46,6 +46,11 @@ public class CalculoHC {
 
     }
 
+    public HuellaCarbono calcularHCDeListaDeActividadesEnAnio(List<ActividadDA> actividadesDA,Integer anio) throws Exception {
+        List<HuellaCarbono> listaHC = actividadesDA.stream().filter(a-> Objects.equals(a.anio, anio)).map(this::calcularHCDeActividad).collect(Collectors.toList());
+        return sumarListaHC(listaHC);
+    }
+
     private HuellaCarbono sumarListaHC(List<HuellaCarbono> listaHC){
         //todo
         //ver el tema de las unidades
