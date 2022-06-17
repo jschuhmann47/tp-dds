@@ -49,7 +49,7 @@ public class ValidadorContrasenia {
             lineaLeida = buffer.readLine();
         }
         buffer.close();
-        inicializarChequeos();
+        this.inicializarChequeos();
     }
 
     private void inicializarChequeos() {

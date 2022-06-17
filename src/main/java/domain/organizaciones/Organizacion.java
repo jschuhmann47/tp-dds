@@ -2,6 +2,7 @@ package domain.organizaciones;
 
 import domain.CargaDeDatosAdapter.CargaDeDatos;
 import domain.CargaDeDatosAdapter.adapters.CargaDeDatosAdapter;
+import domain.calculoHC.HuellaCarbono;
 import domain.geoDDS.Direccion;
 
 import java.io.IOException;
@@ -47,6 +48,10 @@ public class Organizacion {
         this.tipoOrganizacion= tipoOrganizacion;
         this.ubicacion = ubicacion;
 
+    }
+
+    public HuellaCarbono calcularHCOrganizacion(){
+        HuellaCarbono actividadesHC =
     }
 
 
