@@ -14,7 +14,9 @@ import java.util.Properties;
 import java.util.stream.Collectors;
 
 public class CalculoHC {
-    HashMap<TipoDeConsumo, Double> factoresEmision = new HashMap<>();
+
+
+    static HashMap<TipoDeConsumo, Double> factoresEmision = new HashMap<>();
 
     public CalculoHC(){
         Properties FEconfigs = new Properties();
@@ -32,28 +34,33 @@ public class CalculoHC {
 
     }
 
-    public HuellaCarbono calcularHCDeActividad(ActividadDA actividadDA){
-        //todo unidad
-        return null;
+    public static HashMap<TipoDeConsumo, Double> getFactoresEmision() {
+        return factoresEmision;
     }
 
-    public HuellaCarbono calcularHCDeListaDeActividadesEnMes(List<ActividadDA> actividadesDA,Integer mes) throws Exception {
+    public static Double calcularHCDeActividad(ActividadDA actividadDA){
+        return actividadDA.valor * getFactoresEmision().get(actividadDA.tipoDeConsumo);
+    }
+
+    public static Double calcularHCDeListaDeActividadesEnMes(List<ActividadDA> actividadesDA, Integer mes, Integer anio) throws Exception {
         if(actividadesDA.stream().anyMatch(a->a.mes==null)){
             throw new Exception("No se puede calcular las HC ya que al menos una actividad es anual");
         }
-        List<HuellaCarbono> listaHC = actividadesDA.stream().filter(a-> Objects.equals(a.mes, mes)).map(this::calcularHCDeActividad).collect(Collectors.toList());
+        List<Double> listaHC = actividadesDA.stream()
+                .filter(a-> Objects.equals(a.mes, mes) && Objects.equals(a.anio, anio))
+                .map(CalculoHC::calcularHCDeActividad)
+                .collect(Collectors.toList());
+
         return sumarListaHC(listaHC);
 
     }
 
-    public HuellaCarbono calcularHCDeListaDeActividadesEnAnio(List<ActividadDA> actividadesDA,Integer anio) throws Exception {
-        List<HuellaCarbono> listaHC = actividadesDA.stream().filter(a-> Objects.equals(a.anio, anio)).map(this::calcularHCDeActividad).collect(Collectors.toList());
+    public static Double calcularHCDeListaDeActividadesEnAnio(List<ActividadDA> actividadesDA,Integer anio) throws Exception {
+        List<Double> listaHC = actividadesDA.stream().filter(a-> Objects.equals(a.anio, anio)).map(CalculoHC::calcularHCDeActividad).collect(Collectors.toList());
         return sumarListaHC(listaHC);
     }
 
-    private HuellaCarbono sumarListaHC(List<HuellaCarbono> listaHC){
-        //todo
-        //ver el tema de las unidades
-        return null;
+    private static Double sumarListaHC(List<Double> listaHC){
+        return listaHC.stream().mapToDouble(t->t).sum();
     }
 }

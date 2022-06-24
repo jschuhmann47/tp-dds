@@ -18,4 +18,8 @@ public class Tramo {
     public Distancia distanciaARecorrer(Direccion puntoInicio, Direccion puntoFinal) throws Exception {
         return medioTransporte.calcularDistancia(puntoInicio,puntoFinal);
     }
+
+    public Double calcularHC(){
+        return medioTransporte.calcularHC();
+    }
 }

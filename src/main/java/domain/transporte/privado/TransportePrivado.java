@@ -34,6 +34,11 @@ public class TransportePrivado implements MedioTransporte {
         return ServicioCalcularDistancia.getInstance().distanciaEntre(origen, destino);
     }
 
+
+    public Double calcularHC() {
+        return null;
+    }
+
     public void trabajadorPuedeCompartirVehiculo(Trabajador trabajador) throws Exception {
         compartirTramo.validarTrabajador(trabajador);
     }

@@ -2,6 +2,8 @@ package domain.organizaciones;
 
 import domain.CargaDeDatosAdapter.CargaDeDatos;
 import domain.CargaDeDatosAdapter.adapters.CargaDeDatosAdapter;
+import domain.CargaDeDatosAdapter.entidades.ActividadDA;
+import domain.calculoHC.CalculoHC;
 import domain.calculoHC.HuellaCarbono;
 import domain.geoDDS.Direccion;
 
@@ -50,8 +52,17 @@ public class Organizacion {
 
     }
 
-    public HuellaCarbono calcularHCOrganizacion(){
-        HuellaCarbono actividadesHC =
+    public Double calcularHCEnAnio(Integer anio) throws Exception {
+        return CalculoHC.calcularHCDeListaDeActividadesEnAnio(this.actividades.getListaDeActividades(),anio) + this.calcularHCEmpleados();
+    }
+
+    public Double calcularHCEnMes(Integer mes, Integer anio) throws Exception {
+        return CalculoHC.calcularHCDeListaDeActividadesEnMes(this.actividades.getListaDeActividades(),mes,anio) + this.calcularHCEmpleados();
+    }
+
+    public Double calcularHCEmpleados(){
+        //TODO
+        return null;
     }
 
 

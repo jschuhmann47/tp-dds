@@ -17,4 +17,9 @@ public class ServicioContratado implements MedioTransporte {
     public Distancia calcularDistancia(Direccion origen, Direccion destino) throws IOException {
         return transportePrivado.calcularDistancia(origen,destino);
     }
+
+
+    public Double calcularHC() {
+        return transportePrivado.calcularHC();
+    }
 }

@@ -38,4 +38,8 @@ public class Trayecto {
                     .mapToDouble(i->i).sum(); //TODO
         return new Distancia(valor,"KM");
     }
+
+    public Double calcularHC(){
+        return tramos.stream().mapToDouble(Tramo::calcularHC).sum();
+    }
 }

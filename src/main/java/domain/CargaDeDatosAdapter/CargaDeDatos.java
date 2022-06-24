@@ -10,10 +10,16 @@ import java.util.List;
 
 public class CargaDeDatos {
     Organizacion organizacion;
+
+
+
     List<ActividadDA> listaDeActividades=new ArrayList<>();
     CargaDeDatosAdapter adapter;
 
     public void cargarDatos(String path) throws IOException {
         listaDeActividades.addAll(adapter.leerArchivoDA(path));
+    }
+    public List<ActividadDA> getListaDeActividades() {
+        return listaDeActividades;
     }
 }
