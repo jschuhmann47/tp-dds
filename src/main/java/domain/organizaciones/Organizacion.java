@@ -18,6 +18,7 @@ public class Organizacion {
     private TipoOrganizacion tipoOrganizacion;
     private Direccion ubicacion;
     private CargaDeDatos actividades;
+    private List<Contacto> contactos;
 
     public Organizacion(List<Trabajador> miembros, List<Sector> sectores) {
         this.miembros = miembros;
@@ -64,6 +65,15 @@ public class Organizacion {
         //TODO
         return null;
     }
-
+    
+    public void llamar(String link) {
+        this.contactos.forEach(contacto -> {
+            try {
+                contacto.notificar(link);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
 
 }
