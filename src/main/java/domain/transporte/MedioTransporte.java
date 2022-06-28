@@ -10,7 +10,5 @@ public interface MedioTransporte {
     String detalle();
 
     Distancia calcularDistancia(Direccion origen, Direccion destino) throws Exception;
-
-    Double calcularHC();
-
+    Double getConsumoPorKM();
 }

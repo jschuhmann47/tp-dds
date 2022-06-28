@@ -18,7 +18,7 @@ public class ServicioEcologico implements MedioTransporte {
         return ServicioCalcularDistancia.getInstance().distanciaEntre(origen, destino);
     }
 
-    public Double calcularHC() {
-        return 0.0; //ta bien 0 ?
+    public Double getConsumoPorKM() {
+        return 0.0;
     }
 }

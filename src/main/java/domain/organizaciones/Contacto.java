@@ -1,3 +1,5 @@
+package domain.organizaciones;
+
 import okhttp3.*;
 
 import javax.mail.*;

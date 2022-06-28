@@ -54,18 +54,33 @@ public class Organizacion {
     }
 
     public Double calcularHCEnAnio(Integer anio) throws Exception {
-        return CalculoHC.calcularHCDeListaDeActividadesEnAnio(this.actividades.getListaDeActividades(),anio) + this.calcularHCEmpleados();
+        return CalculoHC.calcularHCDeListaDeActividadesEnAnio(this.actividades.getListaDeActividades(),anio) + this.calcularHCEmpleadosEnAnio(anio);
     }
 
     public Double calcularHCEnMes(Integer mes, Integer anio) throws Exception {
-        return CalculoHC.calcularHCDeListaDeActividadesEnMes(this.actividades.getListaDeActividades(),mes,anio) + this.calcularHCEmpleados();
+        return CalculoHC.calcularHCDeListaDeActividadesEnMes(this.actividades.getListaDeActividades(),mes,anio) + this.calcularHCEmpleadosEnMes(mes,anio);
     }
 
-    public Double calcularHCEmpleados(){
-        //TODO
-        return null;
+    public Double calcularHCEmpleadosEnAnio(Integer anio) throws Exception{
+        return this.miembros.stream().mapToDouble(m-> {
+            try {
+                return m.calcularHCAnual(anio);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }).sum();
     }
-    
+
+    public Double calcularHCEmpleadosEnMes(Integer mes,Integer anio) throws Exception{
+        return this.miembros.stream().mapToDouble(m-> {
+            try {
+                return m.calcularHCMensual(mes,anio);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }).sum();
+    }
+
     public void llamar(String link) {
         this.contactos.forEach(contacto -> {
             try {

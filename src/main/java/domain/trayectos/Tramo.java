@@ -8,6 +8,8 @@ public class Tramo {
     public MedioTransporte medioTransporte;
     public Direccion puntoInicio;
     public Direccion puntoFinal;
+    public Distancia distanciaTramo = null;
+    //actividadDA ?
 
     public Tramo(MedioTransporte medioTransporte, Direccion puntoInicio, Direccion puntoFinal) {
         this.medioTransporte = medioTransporte;
@@ -16,10 +18,28 @@ public class Tramo {
     }
 
     public Distancia distanciaARecorrer(Direccion puntoInicio, Direccion puntoFinal) throws Exception {
-        return medioTransporte.calcularDistancia(puntoInicio,puntoFinal);
+        this.distanciaTramo = medioTransporte.calcularDistancia(puntoInicio,puntoFinal);
+        return this.distanciaTramo;
     }
 
-    public Double calcularHC(){
-        return medioTransporte.calcularHC();
+    public Double calcularHC() throws Exception {
+        return medioTransporte.getConsumoPorKM() * this.getDistancia();
+    }
+
+    private Double getDistancia() throws Exception {
+        if(distanciaTramo == null){
+            throw new Exception("La distancia no fue calculada.");
+        }
+        else return this.distanciaTramo.valor;
+    }
+
+    public Integer getAnio() {
+        //TODO
+        return null;
+    }
+
+    public Integer getMes() {
+        //TODO
+        return null;
     }
 }

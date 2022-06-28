@@ -2,13 +2,14 @@ package domain.transporte.publico;
 
 import domain.geoDDS.Direccion;
 import domain.geoDDS.entidades.Distancia;
+import domain.transporte.CalcularHCTransporte;
 import domain.transporte.MedioTransporte;
 import domain.transporte.TipoCombustible;
 
 public class TransportePublico implements MedioTransporte {
 
     private Linea linea;
-    private TipoTransportePublico tipo;
+    private TipoTransportePublico tipo; //unificar con la de tipoVehiculo
     private TipoCombustible tipoCombustible;
 
     public TransportePublico(Linea linea) {
@@ -29,6 +30,11 @@ public class TransportePublico implements MedioTransporte {
 
     public Double calcularHC() {
         return null;
+    }
+
+
+    public Double getConsumoPorKM() {
+        return CalcularHCTransporte.getConsumosPorKm().get(this.tipo); //fix TODO
     }
 
     public Linea getLinea() {

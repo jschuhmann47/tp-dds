@@ -36,10 +36,24 @@ public class Trabajador {
         listaTrayectos.addAll(Arrays.asList(trayectos));
     }
 
-    public Double calcularHC(){
-        return this.listaTrayectos.stream().mapToDouble(t-> t.calcularHC()).sum();
+    public Double calcularHCAnual(Integer anio) throws Exception{
+        return this.listaTrayectos.stream().mapToDouble(t-> {
+            try {
+                return t.calcularHCAnual(anio);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }).sum();
     }
 
 
-
+    public Double calcularHCMensual(Integer mes, Integer anio) throws Exception{
+        return this.listaTrayectos.stream().mapToDouble(t-> {
+            try {
+                return t.calcularHCMensual(mes,anio);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }).sum();
+    }
 }

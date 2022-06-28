@@ -5,6 +5,7 @@ import domain.geoDDS.ServicioCalcularDistancia;
 import domain.geoDDS.entidades.Distancia;
 import domain.organizaciones.TramoCompartido;
 import domain.organizaciones.Trabajador;
+import domain.transporte.CalcularHCTransporte;
 import domain.transporte.MedioTransporte;
 import domain.transporte.TipoCombustible;
 
@@ -34,9 +35,8 @@ public class TransportePrivado implements MedioTransporte {
         return ServicioCalcularDistancia.getInstance().distanciaEntre(origen, destino);
     }
 
-
-    public Double calcularHC() {
-        return null;
+    public Double getConsumoPorKM(){
+        return CalcularHCTransporte.getConsumosPorKm().get(this.tipo);
     }
 
     public void trabajadorPuedeCompartirVehiculo(Trabajador trabajador) throws Exception {

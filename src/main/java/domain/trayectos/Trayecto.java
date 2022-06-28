@@ -5,6 +5,7 @@ import domain.geoDDS.entidades.Distancia;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class Trayecto {
     private Direccion puntoDeSalida;
@@ -39,7 +40,29 @@ public class Trayecto {
         return new Distancia(valor,"KM");
     }
 
-    public Double calcularHC(){
-        return tramos.stream().mapToDouble(Tramo::calcularHC).sum();
+    public Double calcularHCAnual(Integer anio) throws Exception {
+        return this.tramos.stream()
+                .filter(t-> Objects.equals(t.getAnio(), anio))
+                .mapToDouble(t-> {
+                    try {
+                        return t.calcularHC();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+                .sum();
+    }
+
+    public Double calcularHCMensual(Integer mes, Integer anio) throws Exception{
+        return this.tramos.stream()
+                .filter(t-> Objects.equals(t.getAnio(), anio) && Objects.equals(t.getMes(), mes))
+                .mapToDouble(t-> {
+                    try {
+                        return t.calcularHC();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+                .sum();
     }
 }

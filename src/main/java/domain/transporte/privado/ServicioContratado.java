@@ -18,8 +18,8 @@ public class ServicioContratado implements MedioTransporte {
         return transportePrivado.calcularDistancia(origen,destino);
     }
 
-
-    public Double calcularHC() {
-        return transportePrivado.calcularHC();
+    public Double getConsumoPorKM() {
+        return transportePrivado.getConsumoPorKM();
     }
+
 }

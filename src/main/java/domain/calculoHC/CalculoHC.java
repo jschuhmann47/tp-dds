@@ -18,10 +18,10 @@ public class CalculoHC {
 
     static HashMap<TipoDeConsumo, Double> factoresEmision = new HashMap<>();
 
-    public CalculoHC(){
+    public CalculoHC(String nombreArchivo){
         Properties FEconfigs = new Properties();
         try{
-            InputStream input = Files.newInputStream(new File("factorEmision.properties").toPath());
+            InputStream input = Files.newInputStream(new File(nombreArchivo).toPath());
             FEconfigs.load(input);
         } catch(IOException e){
             e.printStackTrace();
