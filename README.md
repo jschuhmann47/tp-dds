@@ -7,7 +7,7 @@
 |**Nombre** |  | 
 |:-------------------:|---|
 | Juan Pablo Aveni | | |
-| Martin Ibarra | | | 
+| ~~Martin Ibarra~~ | | | 
 | Juan Ignacio Schuhmann |  | | 
 | Geronimo Sorzzoni |  | | 
 | Paul Vasquez Tecco  |  | | 
