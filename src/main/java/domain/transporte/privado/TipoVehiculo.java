@@ -4,5 +4,8 @@ public enum TipoVehiculo {
     AUTO,
     MOTO,
     CAMIONETA,
-    MICRO
+    MICRO,
+    COLECTIVO,
+    SUBTE,
+    TREN
 }

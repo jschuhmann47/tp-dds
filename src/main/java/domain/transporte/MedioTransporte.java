@@ -11,4 +11,6 @@ public interface MedioTransporte {
 
     Distancia calcularDistancia(Direccion origen, Direccion destino) throws Exception;
     Double getConsumoPorKM();
+
+    Double calcularHC(Distancia distancia);
 }

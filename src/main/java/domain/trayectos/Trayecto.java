@@ -12,11 +12,20 @@ public class Trayecto {
     private Direccion puntoDeLlegada;
     public Frecuencia frecuencia;
 
+
+
+    Distancia distanciaTrayecto;
+
     public Trayecto(Direccion puntoDeSalida, Direccion puntoDeLlegada, List<Tramo> tramos,Frecuencia frecuencia) {
         this.puntoDeSalida = puntoDeSalida;
         this.puntoDeLlegada = puntoDeLlegada;
         this.tramos = tramos;
         this.frecuencia = frecuencia;
+        distanciaTrayecto = this.distanciaTrayecto();
+    }
+
+    public Distancia getDistanciaTrayecto() {
+        return distanciaTrayecto;
     }
 
     public List<Tramo> getTramos() {
@@ -29,11 +38,11 @@ public class Trayecto {
         this.tramos.addAll(Arrays.asList(tramos));
     }
 
-    public Distancia distanciaTrayecto(){
+    public Distancia distanciaTrayecto(){ //private? y el de tramo tmb
 
         double valor = tramos.stream().map(tramo -> {
                     try {
-                        return tramo.distanciaARecorrer(tramo.puntoInicio,tramo.puntoFinal).valor;
+                        return tramo.getDistancia().valor;
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
@@ -47,12 +56,12 @@ public class Trayecto {
                 .filter(t-> Objects.equals(t.getAnio(), anio))
                 .mapToDouble(t-> {
                     try {
-                        return t.getConsumoPorKM()*this.distanciaTrayecto().valor*this.frecuencia.vecesPorMes(); //TODO pregunta
+                        return t.calcularHC()*this.frecuencia.vecesPorMes()*12; //TODO pregunta
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
                 })
-                .sum();
+                .sum()*this.frecuencia.vecesPorMes();
     }
 
     public Double calcularHCMensual(Integer mes, Integer anio) {
@@ -60,11 +69,11 @@ public class Trayecto {
                 .filter(t-> Objects.equals(t.getAnio(), anio) && Objects.equals(t.getMes(), mes))
                 .mapToDouble(t-> {
                     try {
-                        return t.getConsumoPorKM()*this.distanciaTrayecto().valor*this.frecuencia.vecesPorMes();
+                        return t.calcularHC()*this.frecuencia.vecesPorMes();
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
                 })
-                .sum();
+                .sum()*this.frecuencia.vecesPorMes();
     }
 }

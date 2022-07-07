@@ -5,11 +5,12 @@ import domain.geoDDS.entidades.Distancia;
 import domain.transporte.CalcularHCTransporte;
 import domain.transporte.MedioTransporte;
 import domain.transporte.TipoCombustible;
+import domain.transporte.privado.TipoVehiculo;
 
 public class TransportePublico implements MedioTransporte {
 
     private Linea linea;
-    private TipoTransportePublico tipo; //unificar con la de tipoVehiculo
+    private TipoVehiculo tipo; //unificar con la de tipoVehiculo
     private TipoCombustible tipoCombustible;
 
     public TransportePublico(Linea linea) {
@@ -28,13 +29,12 @@ public class TransportePublico implements MedioTransporte {
     }
 
 
-    public Double calcularHC() {
-        return null;
+    public Double getConsumoPorKM() {
+        return CalcularHCTransporte.getConsumosPorKm().get(this.tipo);
     }
 
-
-    public Double getConsumoPorKM() {
-        return CalcularHCTransporte.getConsumosPorKm().get(this.tipo); //fix TODO
+    public Double calcularHC(Distancia distancia) {
+        return this.getConsumoPorKM() * distancia.valor / this.cantidadPersonasColectivo(); //deberia?
     }
 
     public Linea getLinea() {

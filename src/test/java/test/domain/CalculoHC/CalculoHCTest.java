@@ -71,7 +71,7 @@ public class CalculoHCTest {
 
     Trayecto trayectoTest;
 
-    public CalculoHCTest() throws IOException {
+    public CalculoHCTest() throws Exception {
     }
 
 

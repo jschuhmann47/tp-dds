@@ -40,4 +40,8 @@ public class TramoCompartido {
         this.orgPosibles.addAll(organizacionesDeUnaPersona(trabajador));
     }
 
+    public int cantidadDeTrabajadores(){
+        return personasABordo.size();
+    }
+
 }

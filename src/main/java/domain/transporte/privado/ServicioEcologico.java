@@ -21,4 +21,8 @@ public class ServicioEcologico implements MedioTransporte {
     public Double getConsumoPorKM() {
         return 0.0;
     }
+
+    public Double calcularHC(Distancia distancia) {
+        return 0.0;
+    }
 }

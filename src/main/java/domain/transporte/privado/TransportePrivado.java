@@ -10,14 +10,12 @@ import domain.transporte.MedioTransporte;
 import domain.transporte.TipoCombustible;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class TransportePrivado implements MedioTransporte {
     TipoVehiculo tipo;
     TipoCombustible tipoCombustible;
 
-    TramoCompartido compartirTramo = new TramoCompartido();
+    TramoCompartido tramoCompartido = new TramoCompartido();
 
     public TransportePrivado(TipoVehiculo tipo, TipoCombustible tipoCombustible) {
         this.tipo = tipo;
@@ -26,7 +24,6 @@ public class TransportePrivado implements MedioTransporte {
 
 
     public String detalle() {
-
         return "Tipo de vehiculo:" + tipo.toString() + " - " + "Tipo de combustible: " + tipoCombustible.toString();
     }
 
@@ -39,8 +36,12 @@ public class TransportePrivado implements MedioTransporte {
         return CalcularHCTransporte.getConsumosPorKm().get(this.tipo);
     }
 
-    public void trabajadorPuedeCompartirVehiculo(Trabajador trabajador) throws Exception {
-        compartirTramo.validarTrabajador(trabajador);
+    public Double calcularHC(Distancia distancia) {
+        return this.getConsumoPorKM() * distancia.valor / tramoCompartido.cantidadDeTrabajadores();
+    }
+
+    public void agregarTrabajadorATramoCompartido(Trabajador trabajador) throws Exception {
+        tramoCompartido.validarTrabajador(trabajador);
     }
 
 }
