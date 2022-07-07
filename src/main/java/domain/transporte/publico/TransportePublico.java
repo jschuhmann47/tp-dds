@@ -34,7 +34,7 @@ public class TransportePublico implements MedioTransporte {
     }
 
     public Double calcularHC(Distancia distancia) {
-        return this.getConsumoPorKM() * distancia.valor / this.cantidadPersonasColectivo(); //deberia?
+        return this.getConsumoPorKM() * distancia.valor;
     }
 
     public Linea getLinea() {
