@@ -8,6 +8,8 @@ import domain.transporte.privado.TransportePrivado;
 import domain.transporte.publico.Linea;
 import domain.transporte.publico.Parada;
 import domain.transporte.publico.TransportePublico;
+import domain.trayectos.Frecuencia;
+import domain.trayectos.FrecuenciaDeUso;
 import domain.trayectos.Tramo;
 import domain.trayectos.Trayecto;
 import org.apache.poi.ss.formula.functions.T;
@@ -57,8 +59,8 @@ public class TrayectoTest {
         List<Tramo> tramosTest = new ArrayList<>();
         tramosTest.add(tramoAuto);
         tramosTest.add(tramoColectivo);
-
-        trayectoTest = new Trayecto(direccion1,direccion3,tramosTest);
+        Frecuencia frecuencia = new Frecuencia(FrecuenciaDeUso.MENSUAL,5);
+        trayectoTest = new Trayecto(direccion1,direccion3,tramosTest,frecuencia);
     }
 
     @Test

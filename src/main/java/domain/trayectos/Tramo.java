@@ -9,6 +9,7 @@ public class Tramo {
     public Direccion puntoInicio;
     public Direccion puntoFinal;
     public Distancia distanciaTramo = null;
+
     //actividadDA ?
 
     public Tramo(MedioTransporte medioTransporte, Direccion puntoInicio, Direccion puntoFinal) {
@@ -22,8 +23,8 @@ public class Tramo {
         return this.distanciaTramo;
     }
 
-    public Double calcularHC() throws Exception {
-        return medioTransporte.getConsumoPorKM() * this.getDistancia();
+    public Double getConsumoPorKM(){
+        return medioTransporte.getConsumoPorKM();
     }
 
     private Double getDistancia() throws Exception {
