@@ -14,6 +14,7 @@ public class Trayecto {
 
 
 
+
     Distancia distanciaTrayecto;
 
     public Trayecto(Direccion puntoDeSalida, Direccion puntoDeLlegada, List<Tramo> tramos,Frecuencia frecuencia) {
@@ -51,12 +52,11 @@ public class Trayecto {
         return new Distancia(valor,"KM");
     }
 
-    public Double calcularHCAnual(Integer anio) {
+    public Double calcularHCAnual() {
         return this.tramos.stream()
-                .filter(t-> Objects.equals(t.getAnio(), anio))
                 .mapToDouble(t-> {
                     try {
-                        return t.calcularHC()*this.frecuencia.vecesPorMes()*12; //TODO pregunta
+                        return t.calcularHC()*this.frecuencia.vecesPorMes()*12;
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
@@ -64,9 +64,8 @@ public class Trayecto {
                 .sum()*this.frecuencia.vecesPorMes();
     }
 
-    public Double calcularHCMensual(Integer mes, Integer anio) {
+    public Double calcularHCMensual() {
         return this.tramos.stream()
-                .filter(t-> Objects.equals(t.getAnio(), anio) && Objects.equals(t.getMes(), mes))
                 .mapToDouble(t-> {
                     try {
                         return t.calcularHC()*this.frecuencia.vecesPorMes();
@@ -76,4 +75,6 @@ public class Trayecto {
                 })
                 .sum()*this.frecuencia.vecesPorMes();
     }
+
+
 }

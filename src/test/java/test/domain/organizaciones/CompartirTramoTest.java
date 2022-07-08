@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,26 +69,32 @@ public class CompartirTramoTest {
         marketing.organizacion = organizacionA;
         rrhh.organizacion = organizacionB;
 
-        tramoCompartido.validarTrabajador(juan); //juan va a estar subido
+        tramoCompartido.agregarTrabajadorATramoCompartido(juan); //juan va a estar subido
 
     }
 
     @Test
     @DisplayName("Pueden compartir tramo dos personas de la misma empresa")
     public void comparten() throws Exception {
-        tramoCompartido.validarTrabajador(pepe);
+        tramoCompartido.agregarTrabajadorATramoCompartido(pepe);
     }
 
     @Test
     @DisplayName("Pueden compartir tramo dos personas que comparten una empresa")
     public void comparten2() throws Exception {
-        tramoCompartido.validarTrabajador(luis);
+        tramoCompartido.agregarTrabajadorATramoCompartido(luis);
     }
 
     @Test
     @DisplayName("No puede compartir tramo una persona que no comparte empresa con las personas ya cargadas en el tramo")
     public void noComparten() throws Exception {
-        tramoCompartido.validarTrabajador(carlos);
+        Assertions.assertThrows(Exception.class, new Executable() {
+            @Override
+            public void execute() throws Throwable {
+                tramoCompartido.agregarTrabajadorATramoCompartido(carlos);
+            }
+        });
+
     }
 
 

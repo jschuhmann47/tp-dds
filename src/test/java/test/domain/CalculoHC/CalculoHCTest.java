@@ -1,18 +1,25 @@
 package test.domain.CalculoHC;
 
+import domain.CargaDeDatosAdapter.CargaDeDatos;
+import domain.CargaDeDatosAdapter.entidades.*;
 import domain.calculoHC.CalculoHC;
 import domain.geoDDS.Direccion;
+import domain.geoDDS.ServicioCalcularDistancia;
+import domain.geoDDS.adapters.ServicioGeoDDSAdapter;
 import domain.geoDDS.entidades.*;
 import domain.organizaciones.Organizacion;
 import domain.organizaciones.Sector;
 import domain.organizaciones.Trabajador;
 import domain.organizaciones.TramoCompartido;
+import domain.transporte.CalcularHCTransporte;
 import domain.transporte.TipoCombustible;
 import domain.transporte.privado.TipoVehiculo;
 import domain.transporte.privado.TransportePrivado;
 import domain.transporte.publico.Linea;
 import domain.transporte.publico.Parada;
 import domain.transporte.publico.TransportePublico;
+import domain.trayectos.Frecuencia;
+import domain.trayectos.FrecuenciaDeUso;
 import domain.trayectos.Tramo;
 import domain.trayectos.Trayecto;
 import org.junit.jupiter.api.Assertions;
@@ -20,11 +27,17 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 public class CalculoHCTest {
+
+    ServicioCalcularDistancia servicioDistanciaTest;
+    ServicioGeoDDSAdapter adapterMock;
+
 
     TramoCompartido tramoCompartido = new TramoCompartido();
     Trabajador juan = new Trabajador();
@@ -57,19 +70,18 @@ public class CalculoHCTest {
     Distancia distancia1 = new Distancia(10.0,"KM");
     Distancia distancia2 = new Distancia(12.0,"KM");
 
-    Parada paradaTest1 = new Parada(distancia1,distancia2,direccion1);
-    Parada paradaTest2 = new Parada(distancia2,distancia1,direccion2);
+    Parada paradaTest1 = new Parada(distancia1,distancia2,direccion2);
+    Parada paradaTest2 = new Parada(distancia2,distancia1,direccion3);
+
 
     TransportePrivado auto = new TransportePrivado(TipoVehiculo.AUTO, TipoCombustible.NAFTA);
     Linea linea7 = new Linea("Linea 7", paradaTest1,paradaTest2);
-    TransportePublico colectivoTest = new TransportePublico(linea7);
+    TransportePublico colectivoTest = new TransportePublico(linea7,TipoVehiculo.COLECTIVO,TipoCombustible.NAFTA);
 
-    List<Tramo> tramosTest;
 
-    Tramo tramoAuto = new Tramo(auto,direccion1,direccion2);
-    Tramo tramoColectivo = new Tramo(colectivoTest,direccion2,direccion3);
 
-    Trayecto trayectoTest;
+
+
 
     public CalculoHCTest() throws Exception {
     }
@@ -77,6 +89,28 @@ public class CalculoHCTest {
 
     @BeforeEach
     public void init() throws Exception {
+        CalculoHC.cargarFactoresDeEmision("src/main/java/domain/calculoHC/factorEmision.properties");
+        CalcularHCTransporte.cargarConsumosPorKm("src/main/java/domain/transporte/litrosConsumidosPorKm.properties");
+
+        this.adapterMock = mock(ServicioGeoDDSAdapter.class);
+        this.servicioDistanciaTest = ServicioCalcularDistancia.getInstance();
+        this.servicioDistanciaTest.setAdapter(this.adapterMock);
+
+        when(this.adapterMock.distanciaEntre(direccion1,direccion2)).thenReturn(distancia1);
+        Tramo tramoAuto = new Tramo(auto,direccion1,direccion2);
+
+        when(this.adapterMock.distanciaEntre(direccion2,direccion3)).thenReturn(distancia2);
+        Tramo tramoColectivo = new Tramo(colectivoTest,direccion2,direccion3);
+
+        List<Tramo> listaTramos = new ArrayList<>();
+        listaTramos.add(tramoAuto);
+        listaTramos.add(tramoColectivo);
+
+        Frecuencia frecuencia = new Frecuencia(FrecuenciaDeUso.SEMANAL,2);
+
+        paradaTest1.setParadaSiguiente(paradaTest2);
+        paradaTest2.setParadaSiguiente(null);
+
         sectoresA.add(marketing);
         sectoresB.add(rrhh);
 
@@ -113,30 +147,42 @@ public class CalculoHCTest {
         marketing.organizacion = organizacionA;
         rrhh.organizacion = organizacionB;
 
-        tramoCompartido.validarTrabajador(juan); //juan va a estar subido
+
+
+        auto.agregarTrabajadorATramoCompartido(juan);
+
+        Trayecto trayectoTest = new Trayecto(direccion1,direccion3,listaTramos,frecuencia);
+
 
         trayectoTest.cargarTramos(tramoAuto,tramoColectivo);
 
-        juan.agregarTrayectos(trayectoTest);
+        juan.agregarTrayectos(trayectoTest, trayectoTest);
+
+        ActividadDA gas = new ActividadDA(Actividad.COMBUSTION_FIJA,TipoDeConsumo.DIESEL,Unidad.M3,
+                            Periodicidad.MENSUAL,1.0,1,2021);
+        CargaDeDatos datos = new CargaDeDatos();
+        datos.agregarActividades(gas);
+        datos.setOrganizacion(organizacionA);
+        organizacionA.setActividades(datos);
     }
 
 
     @Test
     @DisplayName("Se calcula la HC de una organizacion en un año")
     public void orgAnual() throws Exception {
-        Assertions.assertEquals(100.0,organizacionA.calcularHCEnAnio(2021)); //ver cuanto da esto
+        Assertions.assertEquals(2150400.8,organizacionA.calcularHCEnAnio(2021)); //ver cuanto da esto
     }
 
     @Test
     @DisplayName("Se calcula la HC de una organizacion en un mes")
     public void orgMensual() throws Exception {
-        Assertions.assertEquals(100.0,organizacionA.calcularHCEnMes(7,2021)); //ver cuanto da esto
+        Assertions.assertEquals(179200.0,organizacionA.calcularHCEnMes(7,2021)); //ver cuanto da esto
     }
 
     @Test
     @DisplayName("Se calcula la HC de un empleado")
-    public void empl(){
-        //Assertions.assertEquals(100.0, juan.calcularHC()); //no da 100, hay que sacar la cuenta
+    public void empl() throws Exception {
+        Assertions.assertEquals(2150400.0, juan.calcularHCAnual()); //no da 100, hay que sacar la cuenta
 
     }
 }

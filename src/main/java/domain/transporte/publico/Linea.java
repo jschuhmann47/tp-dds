@@ -19,20 +19,28 @@ public class Linea {
     }
 
 
-    public Distancia calcularDistanciaEntreParadas(Parada anterior, Parada proxima) throws Exception { //ver como calcular para atras
+    public Distancia calcularDistanciaEntreParadas(Parada unaParada, Parada otraParada) throws Exception {
+        int indiceParadaUno = paradas.indexOf(unaParada);
+        int indiceParadaDos = paradas.indexOf(otraParada);
+        if(indiceParadaUno == -1 || indiceParadaDos == -1){
+            throw new Exception("Una de las paradas ingresadas no se encontro");
+        }
+        if(indiceParadaUno<indiceParadaDos){
+            return distanciaEntreParadaAnteriorYSiguiente(unaParada,otraParada);
+        }else{
+            return distanciaEntreParadaAnteriorYSiguiente(otraParada,unaParada);
+        }
 
+    }
+
+    private Distancia distanciaEntreParadaAnteriorYSiguiente(Parada anterior, Parada siguiente){
         Distancia distanciaTotal = new Distancia(0.0,"KM");
         Parada p = anterior;
-        while (p != proxima && p != null){
+        while (p != siguiente && p != null){
             distanciaTotal.valor += p.distanciaSiguiente.valor;
             p = p.paradaSiguiente;
         }
-        if (p==null){
-            throw new Exception("La parada proxima no existe o no esta despues de la ingresada");
-        }
-        else{
-            return distanciaTotal;
-        }
+        return distanciaTotal;
     }
 
     private Parada buscarParadaDadaDireccion(Direccion direccion) throws Exception {

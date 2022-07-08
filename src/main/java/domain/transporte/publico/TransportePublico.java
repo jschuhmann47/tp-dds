@@ -10,11 +10,13 @@ import domain.transporte.privado.TipoVehiculo;
 public class TransportePublico implements MedioTransporte {
 
     private Linea linea;
-    private TipoVehiculo tipo; //unificar con la de tipoVehiculo
+    private TipoVehiculo tipo;
     private TipoCombustible tipoCombustible;
 
-    public TransportePublico(Linea linea) {
+    public TransportePublico(Linea linea, TipoVehiculo tipo, TipoCombustible tipoCombustible) {
         this.linea = linea;
+        this.tipo = tipo;
+        this.tipoCombustible = tipoCombustible;
     }
 
     public String detalle() {

@@ -10,10 +10,10 @@ public class TramoCompartido {
     private List<Organizacion> orgPosibles = new ArrayList<>();
     private List<Trabajador> personasABordo = new ArrayList<>();
 
-    public void validarTrabajador(Trabajador trabajador) throws Exception {
+    public void agregarTrabajadorATramoCompartido(Trabajador trabajador) throws Exception {
 
         if(this.personasABordo.isEmpty()){
-            this.agregarPersonaATramo(trabajador);
+            this.agregarABordo(trabajador);
         }
         else{
             perteneceAAlgunaOrg(trabajador, this.orgPosibles);
@@ -22,7 +22,7 @@ public class TramoCompartido {
 
     void perteneceAAlgunaOrg(Trabajador trabajador,List<Organizacion> organizaciones) throws Exception {
         if (!Collections.disjoint(organizacionesDeUnaPersona(trabajador),organizaciones)){
-            this.agregarPersonaATramo(trabajador);
+            this.agregarABordo(trabajador);
 
         }else{
             throw new Exception("El trabajador ingresado no puede compartir este tramo con las personas ya cargadas al mismo");
@@ -35,7 +35,7 @@ public class TramoCompartido {
         return trabajador.sectores.stream().map(s->s.organizacion).collect(Collectors.toList());
     }
 
-    private void agregarPersonaATramo(Trabajador trabajador){
+    private void agregarABordo(Trabajador trabajador){
         this.personasABordo.add(trabajador);
         this.orgPosibles.addAll(organizacionesDeUnaPersona(trabajador));
     }

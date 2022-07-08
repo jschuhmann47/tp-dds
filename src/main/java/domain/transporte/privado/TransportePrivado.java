@@ -41,7 +41,7 @@ public class TransportePrivado implements MedioTransporte {
     }
 
     public void agregarTrabajadorATramoCompartido(Trabajador trabajador) throws Exception {
-        tramoCompartido.validarTrabajador(trabajador);
+        tramoCompartido.agregarTrabajadorATramoCompartido(trabajador);
     }
 
 }

@@ -2,6 +2,8 @@ package test.domain.transporte;
 
 import domain.geoDDS.Direccion;
 import domain.geoDDS.entidades.*;
+import domain.transporte.TipoCombustible;
+import domain.transporte.privado.TipoVehiculo;
 import domain.transporte.publico.Linea;
 import domain.transporte.publico.Parada;
 import domain.transporte.publico.TransportePublico;
@@ -34,7 +36,7 @@ public class DistanciaParadasTest {
 
 
     Linea linea7 = new Linea("Linea 7", paradaTest1,paradaTest2);
-    TransportePublico colectivoTest = new TransportePublico(linea7);
+    TransportePublico colectivoTest = new TransportePublico(linea7, TipoVehiculo.COLECTIVO, TipoCombustible.NAFTA);
 
     public DistanciaParadasTest() throws IOException {
     }

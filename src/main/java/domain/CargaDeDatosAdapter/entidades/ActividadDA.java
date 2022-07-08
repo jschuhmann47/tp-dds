@@ -15,4 +15,14 @@ public class ActividadDA {
     public ActividadDA() {
 
     }
+
+    public ActividadDA(Actividad actividad, TipoDeConsumo tipoDeConsumo, Unidad unidad, Periodicidad periodicidad, Double valor, Integer mes, Integer anio) {
+        this.actividad = actividad;
+        this.tipoDeConsumo = tipoDeConsumo;
+        this.unidad = unidad;
+        this.periodicidad = periodicidad;
+        this.valor = valor;
+        this.mes = mes;
+        this.anio = anio;
+    }
 }

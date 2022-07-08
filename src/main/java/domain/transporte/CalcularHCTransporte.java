@@ -16,7 +16,8 @@ public class CalcularHCTransporte {
 
     public static HashMap<TipoVehiculo,Double> consumosPorKm;
 
-    public CalcularHCTransporte(String nombreArchivo){
+
+    public static void cargarConsumosPorKm(String nombreArchivo){
         consumosPorKm = new HashMap<>();
         Properties FEconfigs = new Properties();
         try{

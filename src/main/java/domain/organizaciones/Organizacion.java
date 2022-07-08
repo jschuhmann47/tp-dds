@@ -1,11 +1,9 @@
 package domain.organizaciones;
 
 import domain.CargaDeDatosAdapter.CargaDeDatos;
-import domain.CargaDeDatosAdapter.adapters.CargaDeDatosAdapter;
-import domain.CargaDeDatosAdapter.entidades.ActividadDA;
 import domain.calculoHC.CalculoHC;
-import domain.calculoHC.HuellaCarbono;
 import domain.geoDDS.Direccion;
+import lombok.Setter;
 
 import java.io.IOException;
 import java.util.List;
@@ -17,7 +15,10 @@ public class Organizacion {
     private List<Sector> sectores;
     private TipoOrganizacion tipoOrganizacion;
     private Direccion ubicacion;
+
+    @Setter
     private CargaDeDatos actividades;
+
     private List<Contacto> contactos;
 
     public Organizacion(List<Trabajador> miembros, List<Sector> sectores) {
@@ -64,7 +65,7 @@ public class Organizacion {
     public Double calcularHCEmpleadosEnAnio(Integer anio) throws Exception{
         return this.miembros.stream().mapToDouble(m-> {
             try {
-                return m.calcularHCAnual(anio);
+                return m.calcularHCAnual();
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -74,7 +75,7 @@ public class Organizacion {
     public Double calcularHCEmpleadosEnMes(Integer mes,Integer anio) throws Exception{
         return this.miembros.stream().mapToDouble(m-> {
             try {
-                return m.calcularHCMensual(mes,anio);
+                return m.calcularHCMensual();
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

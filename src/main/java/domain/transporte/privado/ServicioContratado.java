@@ -10,6 +10,11 @@ public class ServicioContratado implements MedioTransporte {
     private TransportePrivado transportePrivado;
     private String nombre;
 
+    public ServicioContratado(TransportePrivado transportePrivado, String nombre) {
+        this.transportePrivado = transportePrivado;
+        this.nombre = nombre;
+    }
+
     public String detalle() {
         return "Nombre del servicio contratado: " + nombre;
     }

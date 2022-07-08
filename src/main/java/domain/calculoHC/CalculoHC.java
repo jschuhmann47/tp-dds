@@ -2,6 +2,8 @@ package domain.calculoHC;
 
 import domain.CargaDeDatosAdapter.entidades.ActividadDA;
 import domain.CargaDeDatosAdapter.entidades.TipoDeConsumo;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,10 +17,11 @@ import java.util.stream.Collectors;
 
 public class CalculoHC {
 
-
+    @Getter
+    @Setter
     static HashMap<TipoDeConsumo, Double> factoresEmision = new HashMap<>();
 
-    public CalculoHC(String nombreArchivo){
+    public static void cargarFactoresDeEmision(String nombreArchivo){
         Properties FEconfigs = new Properties();
         try{
             InputStream input = Files.newInputStream(new File(nombreArchivo).toPath());
@@ -31,12 +34,8 @@ public class CalculoHC {
             TipoDeConsumo tc = TipoDeConsumo.valueOf(key);
             factoresEmision.put(tc, value);
         }
-
     }
 
-    public static HashMap<TipoDeConsumo, Double> getFactoresEmision() {
-        return factoresEmision;
-    }
 
     public static Double calcularHCDeActividad(ActividadDA actividadDA){
         return actividadDA.valor * getFactoresEmision().get(actividadDA.tipoDeConsumo);
@@ -55,7 +54,7 @@ public class CalculoHC {
 
     }
 
-    public static Double calcularHCDeListaDeActividadesEnAnio(List<ActividadDA> actividadesDA,Integer anio) throws Exception {
+    public static Double calcularHCDeListaDeActividadesEnAnio(List<ActividadDA> actividadesDA, Integer anio) throws Exception {
         List<Double> listaHC = actividadesDA.stream().filter(a-> Objects.equals(a.anio, anio)).map(CalculoHC::calcularHCDeActividad).collect(Collectors.toList());
         return sumarListaHC(listaHC);
     }

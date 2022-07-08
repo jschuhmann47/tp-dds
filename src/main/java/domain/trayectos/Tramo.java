@@ -10,7 +10,6 @@ public class Tramo {
     public Direccion puntoFinal;
     public Distancia distanciaTramo;
 
-    //actividadDA ?
 
     public Tramo(MedioTransporte medioTransporte, Direccion puntoInicio, Direccion puntoFinal) throws Exception {
         this.medioTransporte = medioTransporte;
@@ -24,23 +23,10 @@ public class Tramo {
         return this.distanciaTramo;
     }
 
-//    public Double getConsumoPorKM(){
-//        return medioTransporte.getConsumoPorKM();
-//    }
-
-    public Distancia getDistancia() throws Exception {
+    public Distancia getDistancia() {
         return this.distanciaTramo;
     }
 
-    public Integer getAnio() {
-        //TODO
-        return null;
-    }
-
-    public Integer getMes() {
-        //TODO
-        return null;
-    }
 
     public Double calcularHC() {
         return medioTransporte.calcularHC(this.distanciaTramo);

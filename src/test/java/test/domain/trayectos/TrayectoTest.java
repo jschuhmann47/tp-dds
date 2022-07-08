@@ -41,7 +41,7 @@ public class TrayectoTest {
 
     TransportePrivado auto = new TransportePrivado(TipoVehiculo.AUTO, TipoCombustible.NAFTA);
     Linea linea7 = new Linea("Linea 7", paradaTest1,paradaTest2);
-    TransportePublico colectivoTest = new TransportePublico(linea7);
+    TransportePublico colectivoTest = new TransportePublico(linea7,TipoVehiculo.COLECTIVO,TipoCombustible.NAFTA);
 
     List<Tramo> tramosTest;
 
@@ -51,7 +51,7 @@ public class TrayectoTest {
     Trayecto trayectoTest;
 
 
-    public TrayectoTest() throws IOException {
+    public TrayectoTest() throws Exception {
     }
 
     @BeforeEach
