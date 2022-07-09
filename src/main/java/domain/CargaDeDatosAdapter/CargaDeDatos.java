@@ -23,7 +23,7 @@ public class CargaDeDatos {
     CargaDeDatosAdapter adapter;
 
     public void cargarDatos(String path) throws IOException {
-        listaDeActividades.addAll(adapter.leerArchivoDA(path));
+        listaDeActividades.addAll(adapter.leerArchivoDA());
     }
     public List<ActividadDA> getListaDeActividades() {
         return listaDeActividades;

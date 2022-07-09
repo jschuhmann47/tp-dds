@@ -1,10 +1,6 @@
 package test.domain.CargaDeDatosAdapter;
 
 import domain.CargaDeDatosAdapter.adapters.CargaDeDatosApachePOIAdapter;
-import domain.CargaDeDatosAdapter.entidades.Actividad;
-import domain.CargaDeDatosAdapter.entidades.ActividadDA;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,43 +8,44 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 public class CargaDeDatosApachePOIAdapterTest {
     CargaDeDatosApachePOIAdapter adapterTest = new CargaDeDatosApachePOIAdapter("src/main/java/domain/CargaDeDatosAdapter/actividad.xls");
-    List<ActividadDA> actividadDa =new ArrayList<>();
     HSSFSheet hojaLeida;
+
+
 
     @BeforeEach
     public void init() throws IOException {
-        hojaLeida = adapterTest.obtenerHoja(adapterTest.file);
+        hojaLeida = adapterTest.obtenerHoja(0);
     }
 
 
     @Test
-    @DisplayName("Excel: se lee una celda")
-    public void excel() throws IOException {
+    @DisplayName("Excel: se lee una fila")
+    public void excel() {
 
-        HSSFCell cell;
-        HSSFRow row;
+        CargaDeDatosApachePOIAdapter.LineaLeida linea = adapterTest.leerFila(hojaLeida,1);
+        Assertions.assertEquals("COMBUSTION_FIJA",linea.actividad);
+        Assertions.assertEquals("GAS_NATURAL",linea.tipoDeConsumo);
+        Assertions.assertEquals("M3",linea.unidad);
+        Assertions.assertEquals(34.0,linea.valor);
+        Assertions.assertEquals("MENSUAL",linea.periodicidad);
+        Assertions.assertEquals("04/2022",linea.periodoImputacion);
 
-        row = hojaLeida.getRow(2);
-        cell = row.getCell(0);
+    }
 
-        ActividadDA form = new ActividadDA();
+    @Test
+    @DisplayName("Excel: se lee una fila de campo compuesto") //la de categoria
+    public void excelCompuesto() {
 
-        if (Objects.equals(cell.toString(), "Combustión fija")){
-            form.actividad = Actividad.COMBUSTION_FIJA;
-            this.actividadDa.add(form);
-        }
-
-
-        System.out.println(cell.toString());
-
-        //-----------------------------Prueba -----------------------
-        Assertions.assertEquals("COMBUSTION_FIJA", actividadDa.get(0).actividad);
+        CargaDeDatosApachePOIAdapter.LineaLeida linea = adapterTest.leerFila(hojaLeida,5);
+        Assertions.assertEquals("LOGISTICA_PRODUCTOS_RESIDUOS",linea.actividad);
+        Assertions.assertEquals("CATEGORIA",linea.tipoDeConsumo);
+        Assertions.assertEquals("-",linea.unidad);
+        Assertions.assertEquals("MATERIA_PRIMA",linea.valorString);
+        Assertions.assertEquals("MENSUAL",linea.periodicidad);
+        Assertions.assertEquals("05/2021",linea.periodoImputacion);
 
     }
 

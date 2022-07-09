@@ -1,13 +1,10 @@
 package domain.CargaDeDatosAdapter.adapters;
 
-import domain.CargaDeDatosAdapter.entidades.Actividad;
-import domain.CargaDeDatosAdapter.entidades.Periodicidad;
-import domain.CargaDeDatosAdapter.entidades.ActividadDA;
-import domain.CargaDeDatosAdapter.entidades.TipoDeConsumo;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
+import domain.CargaDeDatosAdapter.entidades.*;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,12 +12,15 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.lang.Double.parseDouble;
+import java.util.Objects;
 
 
 public class CargaDeDatosApachePOIAdapter implements CargaDeDatosAdapter{
 
+    public class LineaLeida{
+        public String actividad,tipoDeConsumo,periodicidad,valorString,periodoImputacion,unidad;
+        public double valor;
+    }
 
     public CargaDeDatosApachePOIAdapter(String path){
         this.file=path;
@@ -28,144 +28,81 @@ public class CargaDeDatosApachePOIAdapter implements CargaDeDatosAdapter{
 
     List<ActividadDA> formulariosDa = new ArrayList<>();
 
-    public String file;
+    private final String file;
 
-    //La idea es leer fila por fila , ya que no se puede leer por columnas
 
-    public List<ActividadDA> leerArchivoDA(String file) throws IOException {
+    public List<ActividadDA> leerArchivoDA() throws IOException {
 
-        HSSFSheet hojaALeer = obtenerHoja(file);
+        HSSFSheet hojaALeer = obtenerHoja(0);
 
-        LeerActividad(hojaALeer);
-        LeerTipoDeConsumo(hojaALeer);
-        LeerTipoDeConsumoUnidad(hojaALeer);
-        LeerConsumoValor(hojaALeer);
-        LeerConsumoPeriodicidad(hojaALeer);
-        LeerPeriodoDeImputacion(hojaALeer);
+        int rowStart = Math.min(1, hojaALeer.getFirstRowNum());
+        int rowEnd = Math.max(30, hojaALeer.getLastRowNum());
+        for (int rowNum = rowStart; rowNum < rowEnd; rowNum++) {
+            LineaLeida linea = leerFila(hojaALeer,rowNum);
+            if(Objects.equals(linea.tipoDeConsumo, "CATEGORIA")){
+                LineaLeida medio = leerFila(hojaALeer,rowNum+1);
+                LineaLeida distancia = leerFila(hojaALeer,rowNum+2);
+                LineaLeida peso = leerFila(hojaALeer,rowNum+3);
+                //TODO la cuenta del valor compuesto este
+                rowNum+=3;
+            }
+
+            String[] fecha = linea.periodoImputacion.split("/");
+            Integer mes = null,anio;
+            if(fecha.length==1){
+                anio = Integer.valueOf(fecha[0]);
+            }else{
+                mes = Integer.valueOf(fecha[0]);
+                anio = Integer.valueOf(fecha[1]);
+            }
+
+            ActividadDA actividadDA = new ActividadDA(
+                    Actividad.valueOf(linea.actividad),
+                    TipoDeConsumo.valueOf(linea.tipoDeConsumo),
+                    Unidad.valueOf(linea.unidad),Periodicidad.valueOf(linea.periodicidad),
+                    linea.valor,
+                    mes,
+                    anio);
+            formulariosDa.add(actividadDA);
+
+        }
 
         return formulariosDa;
     }
 
-    public HSSFSheet obtenerHoja(String file) throws IOException {
+    public HSSFSheet obtenerHoja(int nroHoja) throws IOException {
         InputStream myFile = Files.newInputStream(new File(file).toPath());
-        //Creo una nueva instalacia de un archivo excel
         HSSFWorkbook wb = new HSSFWorkbook(myFile);
-        //Defino que voy a leer la primera pagina
-        // Creo una celda y un objeto fila
-        return wb.getSheetAt(0);
+        return wb.getSheetAt(nroHoja);
     }
 
-    public void LeerActividad(HSSFSheet hojaALeer){
-        HSSFCell cell;
-        HSSFRow row;
+    public LineaLeida leerFila(HSSFSheet hoja, int rowNum){
 
-        //getLastRowNum() me reotorna el indice de la ultima fila
-        for (int i = 0; i < hojaALeer.getLastRowNum() + 1; i++) {
-            // Empiezo a contar desde la segunda  fila
-            row = hojaALeer.getRow(i + 2);
-            if (row == null){
-                break;
-            }
-            // SOlo voy a retornar todos los elementos de la primera columna a partir de la segunda fila
-            cell = row.getCell(0);
-
-            // Copio el valor del la celda a al atributo
-            ActividadDA act = new ActividadDA();
-            Actividad a = Actividad.COMBUSTION_FIJA;
-            //act.actividad=cell.toString(); //todo pasarlo a enum
-            this.formulariosDa.add(act);
-            System.out.println(cell.toString());
-
-            //-----------------------------Prueba -----------------------
-            //System.out.println("Actividad: " + this.formulariosDa.get(i).actividad);
+        LineaLeida lineaLeida = new LineaLeida();
+        Row r = hoja.getRow(rowNum);
+        if (r == null) {
+            return null;
         }
 
-    }
-
-    public void LeerTipoDeConsumo(HSSFSheet hojaALeer)  {
-
-        HSSFCell cell;
-        HSSFRow row;
-
-        for (int i = 0; i < hojaALeer.getLastRowNum() + 1; i++) {
-            row = hojaALeer.getRow(i+2);
-            if (row == null){
-                break;
-            }
-            cell = row.getCell(2);
-            //TipoDeConsumo tCon = new TipoDeConsumo();
-            //tCon.tipoDeConsumo = cell.toString();
-            //this.formulariosDa.get(i).tipoDeConsumo = tCon; todo
-            //System.out.println("TipoDeConsumo: " + this.formulariosDa.get(i).tipoDeConsumo.tipoDeConsumo);
+        Cell c = r.getCell(0, Row.MissingCellPolicy.RETURN_BLANK_AS_NULL);
+        lineaLeida.actividad = c.getStringCellValue();
+        c = r.getCell(1, Row.MissingCellPolicy.RETURN_BLANK_AS_NULL);
+        lineaLeida.tipoDeConsumo = c.getStringCellValue();
+        c = r.getCell(2, Row.MissingCellPolicy.RETURN_BLANK_AS_NULL);
+        lineaLeida.unidad = c.getStringCellValue();
+        c = r.getCell(3, Row.MissingCellPolicy.RETURN_BLANK_AS_NULL);
+        if(Objects.equals(lineaLeida.tipoDeConsumo, "CATEGORIA") ||
+            Objects.equals(lineaLeida.tipoDeConsumo, "MEDIO_TRANSPORTE")){
+            lineaLeida.valorString = c.getStringCellValue(); //si hay un numero tira una excepcion
+        }else{
+            lineaLeida.valor = c.getNumericCellValue();
         }
+        c = r.getCell(4, Row.MissingCellPolicy.RETURN_BLANK_AS_NULL);
+        lineaLeida.periodicidad = c.getStringCellValue();
+        c = r.getCell(5, Row.MissingCellPolicy.RETURN_BLANK_AS_NULL);
+        lineaLeida.periodoImputacion = c.getStringCellValue();
 
+        return lineaLeida;
     }
 
-    public void LeerTipoDeConsumoUnidad(HSSFSheet hojaALeer)  {
-
-        HSSFCell cell;
-        HSSFRow row;
-        for (int i = 0; i < hojaALeer.getLastRowNum() + 1; i++) {
-            row = hojaALeer.getRow(i+2);
-            if (row == null){
-                break;
-            }
-            cell = row.getCell(4);
-            //this.formulariosDa.get(i).tipoDeConsumo.unidad= cell.toString(); todo
-            //System.out.println("Unidad: " + this.formulariosDa.get(i).tipoDeConsumo.unidad );
-        }
-
-    }
-
-    public void LeerConsumoValor(HSSFSheet hojaALeer) {
-
-        HSSFCell cell;
-        HSSFRow row;
-
-        for (int i = 0; i < hojaALeer.getLastRowNum() + 1; i++) {
-            row = hojaALeer.getRow(i+2);
-            if (row == null){
-                break;
-            }
-            cell = row.getCell(5);
-//            Periodicidad con = new Periodicidad();
-//            con.valor = parseDouble(cell.toString());
-//            this.formulariosDa.get(i).consumo = con; todo
-            //System.out.println("Consumo - Valor: " +  this.formulariosDa.get(i).consumo.valor);
-        }
-    }
-
-    public void LeerConsumoPeriodicidad(HSSFSheet hojaALeer)  {
-
-        HSSFCell cell;
-        HSSFRow row;
-
-        for (int i = 0; i < hojaALeer.getLastRowNum() + 1; i++) {
-            row = hojaALeer.getRow(i+2);
-            if (row == null){
-                break;
-            }
-            cell = row.getCell(6);
-            //this.formulariosDa.get(i).consumo.periocidad = cell.toString(); todo
-            //System.out.println("Consumo - Periodicidad: " + cell.toString());
-        }
-
-    }
-
-    public void LeerPeriodoDeImputacion(HSSFSheet hojaALeer)  {
-
-        HSSFCell cell;
-        HSSFRow row;
-
-        for (int i = 0; i < hojaALeer.getLastRowNum() + 1; i++) {
-            row = hojaALeer.getRow(i+2);
-            if (row == null){
-                break;
-            }
-            cell = row.getCell(6);
-            //this.formulariosDa.get(i).periodoDeImputacion = cell.toString(); todo
-            //System.out.println("Periodo de Imputacion: " + cell.toString());
-        }
-
-    }
 }
