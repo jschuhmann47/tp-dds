@@ -1,7 +1,7 @@
 package domain.calculoHC;
 
-import domain.CargaDeDatosAdapter.entidades.ActividadDA;
-import domain.CargaDeDatosAdapter.entidades.TipoDeConsumo;
+import domain.CargaDeDatos.entidades.ActividadDA;
+import domain.CargaDeDatos.entidades.TipoDeConsumo;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -34,6 +34,10 @@ public class CalculoHC {
             TipoDeConsumo tc = TipoDeConsumo.valueOf(key);
             factoresEmision.put(tc, value);
         }
+    }
+
+    public static Double getFactorEmision(TipoDeConsumo tc){
+        return factoresEmision.get(tc);
     }
 
 

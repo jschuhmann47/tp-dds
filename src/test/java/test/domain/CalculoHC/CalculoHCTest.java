@@ -1,7 +1,7 @@
 package test.domain.CalculoHC;
 
-import domain.CargaDeDatosAdapter.CargaDeDatos;
-import domain.CargaDeDatosAdapter.entidades.*;
+import domain.CargaDeDatos.CargaDeDatos;
+import domain.CargaDeDatos.entidades.*;
 import domain.calculoHC.CalculoHC;
 import domain.geoDDS.Direccion;
 import domain.geoDDS.ServicioCalcularDistancia;

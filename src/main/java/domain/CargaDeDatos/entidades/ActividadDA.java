@@ -1,4 +1,4 @@
-package domain.CargaDeDatosAdapter.entidades;
+package domain.CargaDeDatos.entidades;
 
 public class ActividadDA {
 

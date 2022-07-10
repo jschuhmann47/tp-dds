@@ -1,7 +1,7 @@
-package domain.CargaDeDatosAdapter;
+package domain.CargaDeDatos;
 
-import domain.CargaDeDatosAdapter.adapters.CargaDeDatosAdapter;
-import domain.CargaDeDatosAdapter.entidades.ActividadDA;
+import domain.CargaDeDatos.adapters.CargaDeDatosAdapter;
+import domain.CargaDeDatos.entidades.ActividadDA;
 import domain.organizaciones.Organizacion;
 import lombok.Setter;
 
@@ -23,7 +23,7 @@ public class CargaDeDatos {
     CargaDeDatosAdapter adapter;
 
     public void cargarDatos(String path) throws IOException {
-        listaDeActividades.addAll(adapter.leerArchivoDA());
+        listaDeActividades.addAll(adapter.leerArchivo());
     }
     public List<ActividadDA> getListaDeActividades() {
         return listaDeActividades;

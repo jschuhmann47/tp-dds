@@ -1,6 +1,6 @@
 package domain.organizaciones;
 
-import domain.CargaDeDatosAdapter.CargaDeDatos;
+import domain.CargaDeDatos.CargaDeDatos;
 import domain.calculoHC.CalculoHC;
 import domain.geoDDS.Direccion;
 import lombok.Setter;
