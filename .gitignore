@@ -13,5 +13,7 @@ pom.xml
 
 # Token
 src/main/java/domain/geoDDS/adapters/token.properties
+src/main/java/domain/organizaciones/contacto/token.properties
+src/main/java/domain/organizaciones/contacto/smtp.properties
 
 *.xls#

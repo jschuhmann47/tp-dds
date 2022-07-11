@@ -3,6 +3,8 @@ package domain.organizaciones;
 import domain.CargaDeDatos.CargaDeDatos;
 import domain.calculoHC.CalculoHC;
 import domain.geoDDS.Direccion;
+import domain.organizaciones.contacto.Contacto;
+import lombok.Getter;
 import lombok.Setter;
 
 import java.io.IOException;
@@ -20,6 +22,8 @@ public class Organizacion {
     @Setter
     private CargaDeDatos actividades;
 
+    @Setter
+    @Getter
     private List<Contacto> contactos;
 
     public Organizacion(List<Trabajador> miembros, List<Sector> sectores) {
