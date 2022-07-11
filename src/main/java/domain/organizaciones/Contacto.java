@@ -3,7 +3,6 @@ package domain.organizaciones;
 import okhttp3.*;
 
 import javax.mail.*;
-import javax.mail.Address;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
@@ -13,7 +12,7 @@ public class Contacto {
 
     private String whatsapp; //ULTRAMSG
 
-    private Address email;
+    private String email;
 
     public void notificar(String link) throws IOException {
         sendMAIL(link);
@@ -54,7 +53,7 @@ public class Contacto {
 
         try {
             message.setFrom(new InternetAddress(remitente));
-            message.addRecipient(Message.RecipientType.TO, this.email);   //Se podrían añadir varios de la misma manera
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(this.email));   //Se podrían añadir varios de la misma manera
             message.setSubject("Guia de recomendaciones");
             message.setText(link);
             Transport transport = session.getTransport("smtp");
