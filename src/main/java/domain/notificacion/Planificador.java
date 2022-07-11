@@ -14,7 +14,7 @@ import static org.quartz.TriggerBuilder.newTrigger;
 
 public class QuartzScheduler {
 
-    public static void main(String[] args) throws SchedulerException {
+    public void iniciarCron() throws SchedulerException {
         Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
 
         scheduler.start();
