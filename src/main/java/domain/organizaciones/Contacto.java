@@ -13,6 +13,11 @@ public class Contacto {
     private String whatsapp; //ULTRAMSG
 
     private String email;
+    
+    public Contacto(String wpp, String mail) {
+        this.whatsapp = wpp;
+        this.email = mail;
+    }
 
     public void notificar(String link) throws IOException {
         sendMAIL(link);
