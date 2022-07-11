@@ -1,4 +1,4 @@
-package test.domain.CargaDeDatosAdapter;
+package test.domain.CargaDeDatos;
 
 import domain.CargaDeDatos.adapters.CargaDeDatosApachePOIAdapter;
 import domain.CargaDeDatos.entidades.*;

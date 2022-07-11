@@ -6,6 +6,7 @@ import domain.geoDDS.Direccion;
 import lombok.Setter;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Organizacion {
@@ -80,6 +81,44 @@ public class Organizacion {
                 throw new RuntimeException(e);
             }
         }).sum();
+    }
+
+    public Double huellaCarbonoEnSectorMensual(Sector sector){
+        return sector.trabajadores.stream().mapToDouble(t-> {
+            try {
+                return t.calcularHCMensual();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }).sum();
+    }
+
+    public Double huellaCarbonoEnSectorAnual(Sector sector){
+        return sector.trabajadores.stream().mapToDouble(t-> {
+            try {
+                return t.calcularHCAnual();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }).sum();
+    }
+
+    public List<String> huellaCarbonoPorCadaSectorMensual(){
+        List<String> detalles = new ArrayList<>();
+        sectores.forEach(s->{
+            String detalle = "Sector: " + s.nombreSector + " - " + "Huella de carbono: " + this.huellaCarbonoEnSectorMensual(s);
+            detalles.add(detalle);
+        });
+        return detalles;
+    }
+
+    public List<String> huellaCarbonoPorCadaSectorAnual(){
+        List<String> detalles = new ArrayList<>();
+        sectores.forEach(s->{
+            String detalle = "Sector: " + s.nombreSector + " - " + "Huella de carbono: " + this.huellaCarbonoEnSectorAnual(s);
+            detalles.add(detalle);
+        });
+        return detalles;
     }
 
     public void llamar(String link) {

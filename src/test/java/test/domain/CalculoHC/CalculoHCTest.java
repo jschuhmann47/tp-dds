@@ -112,7 +112,9 @@ public class CalculoHCTest {
         paradaTest2.setParadaSiguiente(null);
 
         sectoresA.add(marketing);
+        marketing.nombreSector = "Marketing";
         sectoresB.add(rrhh);
+        rrhh.nombreSector = "RR.HH";
 
         juan.sectores= new ArrayList<>();
         juan.sectores.add(marketing); //trabaja empresa A
@@ -170,19 +172,26 @@ public class CalculoHCTest {
     @Test
     @DisplayName("Se calcula la HC de una organizacion en un año")
     public void orgAnual() throws Exception {
-        Assertions.assertEquals(2150400.8,organizacionA.calcularHCEnAnio(2021)); //ver cuanto da esto
+        Assertions.assertEquals(2150400.8,organizacionA.calcularHCEnAnio(2021));
     }
 
     @Test
     @DisplayName("Se calcula la HC de una organizacion en un mes")
     public void orgMensual() throws Exception {
-        Assertions.assertEquals(179200.0,organizacionA.calcularHCEnMes(7,2021)); //ver cuanto da esto
+        Assertions.assertEquals(179200.0,organizacionA.calcularHCEnMes(7,2021));
     }
 
     @Test
     @DisplayName("Se calcula la HC de un empleado")
     public void empl() throws Exception {
-        Assertions.assertEquals(2150400.0, juan.calcularHCAnual()); //no da 100, hay que sacar la cuenta
+        Assertions.assertEquals(2150400.0, juan.calcularHCAnual());
 
+    }
+
+    @Test
+    @DisplayName("Se obtiene una coleccion con los detalles de cada sector")
+    public void sectores(){
+        List<String> detalles = organizacionA.huellaCarbonoPorCadaSectorMensual();
+        Assertions.assertEquals("Sector: Marketing - Huella de carbono: 179200.0",detalles.get(0));
     }
 }

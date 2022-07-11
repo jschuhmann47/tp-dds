@@ -13,3 +13,5 @@ pom.xml
 
 # Token
 src/main/java/domain/geoDDS/adapters/token.properties
+
+*.xls#
