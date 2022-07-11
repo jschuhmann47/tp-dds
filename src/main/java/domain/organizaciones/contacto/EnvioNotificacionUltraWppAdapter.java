@@ -29,7 +29,7 @@ public class EnvioNotificacionUltraWppAdapter implements EnvioNotificacionWhatsa
 
         String numero = "token=" + this.token + "&to=+54" + nroTelefono + "&body=" + contenido + "&priority=1&referenceId=";
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
-        RequestBody cuerpo = RequestBody.create(mediaType, numero);
+        RequestBody cuerpo = RequestBody.create(numero,mediaType);
         Request request = new Request.Builder()
                 .url(apiUrl)
                 .post(cuerpo)

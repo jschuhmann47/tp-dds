@@ -1,11 +1,14 @@
 package domain.organizaciones.contacto;
 
+import lombok.Getter;
+
 import java.io.IOException;
 
 public class Contacto {
 
-
+    @Getter
     private String nroTelefono; //ULTRAMSG
+    @Getter
     private String email;
 
     public EnvioNotificacionWhatsappAdapter whatsappAdapter;

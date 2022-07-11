@@ -1,5 +1,6 @@
 package domain.organizaciones;
 
+import com.sun.org.apache.xpath.internal.operations.Or;
 import domain.CargaDeDatos.CargaDeDatos;
 import domain.calculoHC.CalculoHC;
 import domain.geoDDS.Direccion;
@@ -29,6 +30,10 @@ public class Organizacion {
     public Organizacion(List<Trabajador> miembros, List<Sector> sectores) {
         this.miembros = miembros;
         this.sectores = sectores;
+    }
+
+    public Organizacion(){
+
     }
 
 
