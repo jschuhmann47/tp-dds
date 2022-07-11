@@ -31,7 +31,7 @@ public class ContactoTest {
 //        EnvioNotificacionUltraWppAdapter whatsappAdapter =
 //                new EnvioNotificacionUltraWppAdapter("src/main/java/domain/organizaciones/contacto/token.properties",
 //            "https://api.ultramsg.com/instance10585/messages/chat");
-        contacto = new Contacto("12345678", "test@gmail.com",
+        contacto = new Contacto("1124551580", "test",
                 whatsappAdapter, mailAdapter);
         List<Contacto> contactos = new ArrayList<>();
         contactos.add(contacto);
