@@ -21,9 +21,9 @@ public class Contacto {
         this.mailAdapter = mailAdapter;
     }
 
-    public void notificar(String link) throws IOException {
-        sendMAIL(link);
-        sendWPP(link);
+    public void notificar(String contenido) throws IOException {
+        sendMAIL(contenido);
+        sendWPP(contenido);
     }
 
     private void sendWPP(String contenido) throws IOException {

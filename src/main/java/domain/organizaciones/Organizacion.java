@@ -1,6 +1,5 @@
 package domain.organizaciones;
 
-import com.sun.org.apache.xpath.internal.operations.Or;
 import domain.CargaDeDatos.CargaDeDatos;
 import domain.calculoHC.CalculoHC;
 import domain.geoDDS.Direccion;
@@ -18,6 +17,8 @@ public class Organizacion {
     private String razonSocial;
     private List<Sector> sectores;
     private TipoOrganizacion tipoOrganizacion;
+
+    @Getter
     private Direccion ubicacion;
 
     @Setter
@@ -130,10 +131,10 @@ public class Organizacion {
         return detalles;
     }
 
-    public void llamar(String link) {
+    public void notificarAContactos(String contenido) {
         this.contactos.forEach(contacto -> {
             try {
-                contacto.notificar(link);
+                contacto.notificar(contenido);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

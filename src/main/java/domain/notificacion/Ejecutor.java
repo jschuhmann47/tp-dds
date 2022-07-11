@@ -1,29 +1,42 @@
 package domain.notificacion;
 
-import domain.organizaciones.contacto.*;
+import domain.organizaciones.contacto.Contacto;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
 import java.io.IOException;
+import java.util.List;
 
 public class Ejecutor implements Job {
+    private List<Contacto> listaDeContactos;
+    private String contenido;
 
-
-    EnvioNotificacionUltraWppAdapter  wsp = new EnvioNotificacionUltraWppAdapter();
-    EnvioNotificacionJavaxMailAdapter email = new EnvioNotificacionJavaxMailAdapter();
-
-    public Ejecutor() {
+    public Ejecutor(List<Contacto> listaDeContactos, String contenido) {
+        this.listaDeContactos = listaDeContactos;
+        this.contenido = contenido;
     }
 
 
-    public void execute(JobExecutionContext context){
-//            throws JobExecutionException
-//    {
-//        Contacto notificador = new Contacto("1124551580","pavasquez");
-//        try {
-//            notificador.notificar("https://github.com/dds-utn/2022-ma-ma-mama-grupo-03");
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
+    public void execute(JobExecutionContext jec) throws JobExecutionException{
+
+        listaDeContactos.forEach(c-> {
+            try {
+                c.notificar(contenido);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+            //contacto.notificar("https://github.com/dds-utn/2022-ma-ma-mama-grupo-03");
+
     }
+
+
+}
+
+
+
+
+
+
+

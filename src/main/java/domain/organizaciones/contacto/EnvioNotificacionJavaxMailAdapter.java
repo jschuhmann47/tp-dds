@@ -60,7 +60,7 @@ public class EnvioNotificacionJavaxMailAdapter implements EnvioNotificacionMailA
         props.put("mail.smtp.clave", informacionDeSmtp.get("SMTP_PASSWORD"));    //La clave de la cuenta
         props.put("mail.smtp.auth", informacionDeSmtp.get("SMTP_AUTH"));    //Usar autenticación mediante usuario y clave
         props.put("mail.smtp.starttls.enable", informacionDeSmtp.get("SMTP_STARTTLS_ENABLE")); //Para conectar de manera segura al servidor SMTP
-        props.put("mail.smtp.port", informacionDeSmtp.get("SMTP_HOST")); //El puerto SMTP seguro de Google
+        props.put("mail.smtp.port", informacionDeSmtp.get("SMTP_PORT")); //El puerto SMTP seguro de Google
     }
 
     public void enviarMensaje(Session session,MimeMessage message) throws MessagingException {

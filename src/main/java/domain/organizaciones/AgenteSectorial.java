@@ -1,5 +1,6 @@
 package domain.organizaciones;
 
+
 import domain.geoDDS.entidades.Municipio;
 
 
@@ -8,25 +9,39 @@ import java.util.List;
 
 public class AgenteSectorial {
 
-    //private Municipio municipio;
+    private Municipio municipio;
+    List<Organizacion> organizaciones;
+
+    public AgenteSectorial(Municipio municipio, List<Organizacion> organizaciones){
+        this.municipio = municipio;
+        this.organizaciones = organizaciones;
+    }
 
     public Double calcularHCEnMes(Integer mes, Integer anio) {
-
-        List<String> organizaciones = new ArrayList<>(); //habria que instanciar una lista global ??
         
         return organizaciones.stream()
-                .filter(org -> org.ubicacion.getMunicipio().getId() == this.municipio.getId())
-                .mapToDouble(org -> org.calcularHCEnMes(mes, anio))
+                .filter(org -> org.getUbicacion().getMunicipio().getId() == this.municipio.getId())
+                .mapToDouble(org -> {
+                    try {
+                        return org.calcularHCEnMes(mes, anio);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                })
                 .sum();
     }
 
     public Double calcularHCEnAnio(Integer anio) {
 
-        List<String> organizaciones = new ArrayList<>(); //habria que instanciar una lista global ??
-
         return organizaciones.stream()
-                .filter(org -> org.ubicacion.getMunicipio().getId() == this.municipio.getId())
-                .mapToDouble(org -> org.calcularHCEnMes(anio))
+                .filter(org -> org.getUbicacion().getMunicipio().getId() == this.municipio.getId())
+                .mapToDouble(org -> {
+                    try {
+                        return org.calcularHCEnAnio(anio);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                })
                 .sum();
     }
 }

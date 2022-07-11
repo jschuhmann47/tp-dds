@@ -12,7 +12,13 @@ import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
 import static org.quartz.TriggerBuilder.newTrigger;
 
 
-public class QuartzScheduler {
+public class Planificador {
+    Integer horas;
+
+    public Planificador(Integer horas) {
+        this.horas = horas;
+    }
+
 
     public void iniciarCron() throws SchedulerException {
         Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
@@ -25,11 +31,11 @@ public class QuartzScheduler {
 
        SimpleTrigger trigger = newTrigger().withIdentity("myTrigger","group1")
                 .startNow()
-                .withSchedule(simpleSchedule().withIntervalInMinutes(5).repeatForever())//withIntervalInMilliseconds(5).repeatForever())
+                .withSchedule(simpleSchedule().withIntervalInHours(horas).repeatForever())//withIntervalInMilliseconds(5).repeatForever())
                 .build();
 
         scheduler.scheduleJob(job,trigger);
 
 
     }
-    }
+}

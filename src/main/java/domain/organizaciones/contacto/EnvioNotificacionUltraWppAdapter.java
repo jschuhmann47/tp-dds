@@ -36,6 +36,10 @@ public class EnvioNotificacionUltraWppAdapter implements EnvioNotificacionWhatsa
                 .addHeader("content-type", "application/x-www-form-urlencoded")
                 .build();
 
-        Response response = cliente.newCall(request).execute();
+        String response = this.ejecutarRequest(cliente,request);
+    }
+
+    public String ejecutarRequest(OkHttpClient cliente, Request request) throws IOException {
+        return cliente.newCall(request).execute().body().string();
     }
 }
