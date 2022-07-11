@@ -1,8 +1,6 @@
 package domain.notificacion;
 
-import domain.organizaciones.contacto.Contacto;
-import domain.organizaciones.contacto.EnvioNotificacionMailAdapter;
-import domain.organizaciones.contacto.EnvioNotificacionWhatsappAdapter;
+import domain.organizaciones.contacto.*;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -11,8 +9,13 @@ import java.io.IOException;
 
 public class Ejecutor implements Job {
 
+
+    EnvioNotificacionUltraWppAdapter  wsp = new EnvioNotificacionUltraWppAdapter();
+    EnvioNotificacionJavaxMailAdapter email = new EnvioNotificacionJavaxMailAdapter();
+
     public Ejecutor() {
     }
+
 
     public void execute(JobExecutionContext context){
 //            throws JobExecutionException
@@ -24,5 +27,3 @@ public class Ejecutor implements Job {
 //            throw new RuntimeException(e);
 //        }
     }
-
-}
