@@ -15,7 +15,7 @@
 
 - [x] Primera entrega: Modelado en Objetos Parte I
 - [x] Segunda entrega: Modelado en Objetos parte II e Integración
-- [ ] Tercera entrega: Modelado en Objetos parte III
+- [x] Tercera entrega: Modelado en Objetos parte III
 - [ ] Cuarta entrega: Diseño y Maquetado Web
 - [ ] Quinta entrega: Persistencia
 - [ ] Sexta entrega: Arquitectura Web
