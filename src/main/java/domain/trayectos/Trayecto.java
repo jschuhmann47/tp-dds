@@ -61,7 +61,7 @@ public class Trayecto {
                         throw new RuntimeException(e);
                     }
                 })
-                .sum()*this.frecuencia.vecesPorMes();
+                .sum();
     }
 
     public Double calcularHCMensual() {
@@ -73,7 +73,7 @@ public class Trayecto {
                         throw new RuntimeException(e);
                     }
                 })
-                .sum()*this.frecuencia.vecesPorMes();
+                .sum();
     }
 
 

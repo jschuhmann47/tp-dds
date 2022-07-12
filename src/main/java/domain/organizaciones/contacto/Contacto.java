@@ -22,8 +22,8 @@ public class Contacto {
     }
 
     public void notificar(String contenido) throws IOException {
-        sendMAIL(contenido);
-        sendWPP(contenido);
+        this.sendMAIL(contenido);
+        this.sendWPP(contenido);
     }
 
     private void sendWPP(String contenido) throws IOException {

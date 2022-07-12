@@ -32,12 +32,4 @@ public class ServicioCalcularDistancia {
         return direccion.getLocalidad().getId();
     }
 
-    public int obtenerProvinciaId(Direccion direccion) {
-        return direccion.getProvincia().getId();
-    }
-
-    public int obtenerMunicipioId(Direccion direccion) {
-        return direccion.getMunicipio().getId();
-    }
-
 }

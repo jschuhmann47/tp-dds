@@ -1,20 +1,20 @@
 package domain.trayectos;
 
 public class Frecuencia {
-    public Frecuencia(FrecuenciaDeUso frecuenciaDeUso, Integer diasQueHaceElTrayecto) {
+    public Frecuencia(FrecuenciaDeUso frecuenciaDeUso, Integer cantDiasQueHaceElTrayecto) {
         this.frecuenciaDeUso = frecuenciaDeUso;
-        this.diasQueHaceElTrayecto = diasQueHaceElTrayecto;
+        this.cantDiasQueHaceElTrayecto = cantDiasQueHaceElTrayecto;
     }
 
     FrecuenciaDeUso frecuenciaDeUso;
-    Integer diasQueHaceElTrayecto;
+    Integer cantDiasQueHaceElTrayecto;
 
     Integer vecesPorMes(){
         if(this.frecuenciaDeUso==FrecuenciaDeUso.SEMANAL){
-            return diasQueHaceElTrayecto*4;
+            return cantDiasQueHaceElTrayecto *4;
         }
         if(this.frecuenciaDeUso==FrecuenciaDeUso.MENSUAL){
-            return diasQueHaceElTrayecto;
+            return cantDiasQueHaceElTrayecto;
         }
         return null;
     }
