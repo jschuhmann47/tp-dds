@@ -1,6 +1,7 @@
 package domain.calculoHC;
 
 import domain.CargaDeDatos.entidades.ActividadDA;
+import domain.CargaDeDatos.entidades.Periodo;
 import domain.CargaDeDatos.entidades.TipoDeConsumo;
 import lombok.Getter;
 import lombok.Setter;
@@ -45,23 +46,16 @@ public class CalculoHC {
         return actividadDA.valor * getFactoresEmision().get(actividadDA.tipoDeConsumo);
     }
 
-    public static Double calcularHCDeListaDeActividadesEnMes(List<ActividadDA> actividadesDA, Integer mes, Integer anio) throws Exception {
-        if(actividadesDA.stream().anyMatch(a->a.mes==null)){
-            throw new Exception("No se puede calcular las HC ya que al menos una actividad es anual");
+    public static Double calcularHCDeListaDeActividades(List<ActividadDA> actividadesDA, Periodo periodo) {
+
+        List<ActividadDA> listaHC = actividadesDA.stream()
+                .filter(a-> Objects.equals(a.periodo.getAnio(), periodo.getAnio())).collect(Collectors.toList());
+        if(periodo.getMes()!=null){
+            listaHC=listaHC.stream().filter(a->Objects.equals(a.periodo.getMes(), periodo.getMes())).collect(Collectors.toList());
         }
-        List<Double> listaHC = actividadesDA.stream()
-                .filter(a-> Objects.equals(a.mes, mes) && Objects.equals(a.anio, anio))
-                .map(CalculoHC::calcularHCDeActividad)
-                .collect(Collectors.toList());
-
-        return sumarListaHC(listaHC);
-
+        return sumarListaHC(listaHC.stream().map(CalculoHC::calcularHCDeActividad).collect(Collectors.toList()));
     }
 
-    public static Double calcularHCDeListaDeActividadesEnAnio(List<ActividadDA> actividadesDA, Integer anio) throws Exception {
-        List<Double> listaHC = actividadesDA.stream().filter(a-> Objects.equals(a.anio, anio)).map(CalculoHC::calcularHCDeActividad).collect(Collectors.toList());
-        return sumarListaHC(listaHC);
-    }
 
     private static Double sumarListaHC(List<Double> listaHC){
         return listaHC.stream().mapToDouble(t->t).sum();

@@ -1,5 +1,6 @@
 package domain.organizaciones;
 
+import domain.CargaDeDatos.entidades.Periodo;
 import domain.trayectos.Trayecto;
 
 import java.util.ArrayList;
@@ -36,24 +37,16 @@ public class Trabajador {
         listaTrayectos.addAll(Arrays.asList(trayectos));
     }
 
-    public Double calcularHCAnual() throws Exception{
+    public Double calcularHC(Periodo periodo) throws Exception{
         return this.listaTrayectos.stream().mapToDouble(t-> {
             try {
-                return t.calcularHCAnual();
+                return t.calcularHC(periodo);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }).sum();
     }
-    public Double calcularHCMensual() throws Exception{
-        return this.listaTrayectos.stream().mapToDouble(t-> {
-            try {
-                return t.calcularHCMensual();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }).sum();
-    }
+
 
 
 }

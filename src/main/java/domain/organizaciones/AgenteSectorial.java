@@ -1,6 +1,7 @@
 package domain.organizaciones;
 
 
+import domain.CargaDeDatos.entidades.Periodo;
 import domain.geoDDS.entidades.Municipio;
 
 
@@ -17,27 +18,13 @@ public class AgenteSectorial {
         this.organizaciones = organizaciones;
     }
 
-    public Double calcularHCEnMes(Integer mes, Integer anio) {
-        
-        return organizaciones.stream()
-                .filter(org -> org.getUbicacion().getMunicipio().getId() == this.municipio.getId())
-                .mapToDouble(org -> {
-                    try {
-                        return org.calcularHCEnMes(mes, anio);
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                })
-                .sum();
-    }
-
-    public Double calcularHCEnAnio(Integer anio) {
+    public Double calcularHCEnAnio(Periodo periodo) {
 
         return organizaciones.stream()
                 .filter(org -> org.getUbicacion().getMunicipio().getId() == this.municipio.getId())
                 .mapToDouble(org -> {
                     try {
-                        return org.calcularHCEnAnio(anio);
+                        return org.calcularHC(periodo);
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }

@@ -1,5 +1,6 @@
 package domain.trayectos;
 
+import domain.CargaDeDatos.entidades.Periodo;
 import domain.geoDDS.Direccion;
 import domain.geoDDS.entidades.Distancia;
 
@@ -52,23 +53,11 @@ public class Trayecto {
         return new Distancia(valor,"KM");
     }
 
-    public Double calcularHCAnual() {
+    public Double calcularHC(Periodo periodo) {
         return this.tramos.stream()
                 .mapToDouble(t-> {
                     try {
-                        return t.calcularHC()*this.frecuencia.vecesPorMes()*12;
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                })
-                .sum();
-    }
-
-    public Double calcularHCMensual() {
-        return this.tramos.stream()
-                .mapToDouble(t-> {
-                    try {
-                        return t.calcularHC()*this.frecuencia.vecesPorMes();
+                        return t.calcularHC()*this.frecuencia.vecesPorMes(periodo);
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }

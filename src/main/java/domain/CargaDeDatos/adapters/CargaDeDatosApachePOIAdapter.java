@@ -73,10 +73,11 @@ public class CargaDeDatosApachePOIAdapter implements CargaDeDatosAdapter{
         return new ActividadDA(
                 Actividad.valueOf(linea.actividad),
                 TipoDeConsumo.valueOf(linea.tipoDeConsumo),
-                Unidad.valueOf(linea.unidad),Periodicidad.valueOf(linea.periodicidad),
-                linea.valor,
-                obtenerMes(linea.periodoImputacion),
-                obtenerAnio(linea.periodoImputacion));
+                Unidad.valueOf(linea.unidad),
+                new Periodo(obtenerMes(linea.periodoImputacion),obtenerAnio(linea.periodoImputacion)),
+                Periodicidad.valueOf(linea.periodicidad),
+                linea.valor
+                );
     }
 
     public LineaLeida leerEntrada(HSSFSheet hojaALeer, int rowNum){

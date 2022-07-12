@@ -1,6 +1,7 @@
 package domain.organizaciones;
 
 import domain.CargaDeDatos.CargaDeDatos;
+import domain.CargaDeDatos.entidades.Periodo;
 import domain.calculoHC.CalculoHC;
 import domain.geoDDS.Direccion;
 import domain.organizaciones.contacto.Contacto;
@@ -65,67 +66,34 @@ public class Organizacion {
 
     }
 
-    public Double calcularHCEnAnio(Integer anio) throws Exception {
-        return CalculoHC.calcularHCDeListaDeActividadesEnAnio(this.actividades.getListaDeActividades(),anio) + this.calcularHCEmpleadosEnAnio(anio);
+    public Double calcularHC(Periodo periodo) throws Exception {
+        return CalculoHC.calcularHCDeListaDeActividades(this.actividades.getListaDeActividades(),periodo) + this.calcularHCEmpleados(periodo);
     }
 
-    public Double calcularHCEnMes(Integer mes, Integer anio) throws Exception {
-        return CalculoHC.calcularHCDeListaDeActividadesEnMes(this.actividades.getListaDeActividades(),mes,anio) + this.calcularHCEmpleadosEnMes(mes,anio);
-    }
-
-    public Double calcularHCEmpleadosEnAnio(Integer anio) throws Exception{
+    public Double calcularHCEmpleados(Periodo periodo) throws Exception{
         return this.miembros.stream().mapToDouble(m-> {
             try {
-                return m.calcularHCAnual();
+                return m.calcularHC(periodo);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }).sum();
     }
 
-    public Double calcularHCEmpleadosEnMes(Integer mes,Integer anio) throws Exception{
-        return this.miembros.stream().mapToDouble(m-> {
-            try {
-                return m.calcularHCMensual();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }).sum();
-    }
-
-    public Double huellaCarbonoEnSectorMensual(Sector sector){
+    public Double huellaCarbonoEnSector(Sector sector, Periodo periodo){
         return sector.trabajadores.stream().mapToDouble(t-> {
             try {
-                return t.calcularHCMensual();
+                return t.calcularHC(periodo);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }).sum();
     }
 
-    public Double huellaCarbonoEnSectorAnual(Sector sector){
-        return sector.trabajadores.stream().mapToDouble(t-> {
-            try {
-                return t.calcularHCAnual();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }).sum();
-    }
-
-    public List<String> huellaCarbonoPorCadaSectorMensual(){
+    public List<String> huellaCarbonoPorCadaSector(Periodo periodo){
         List<String> detalles = new ArrayList<>();
         sectores.forEach(s->{
-            String detalle = "Sector: " + s.nombreSector + " - " + "Huella de carbono: " + this.huellaCarbonoEnSectorMensual(s);
-            detalles.add(detalle);
-        });
-        return detalles;
-    }
-
-    public List<String> huellaCarbonoPorCadaSectorAnual(){
-        List<String> detalles = new ArrayList<>();
-        sectores.forEach(s->{
-            String detalle = "Sector: " + s.nombreSector + " - " + "Huella de carbono: " + this.huellaCarbonoEnSectorAnual(s);
+            String detalle = "Sector: " + s.nombreSector + " - " + "Huella de carbono: " + this.huellaCarbonoEnSector(s,periodo);
             detalles.add(detalle);
         });
         return detalles;
@@ -133,11 +101,7 @@ public class Organizacion {
 
     public void notificarAContactos(String contenido) {
         this.contactos.forEach(contacto -> {
-            try {
-                contacto.notificar(contenido);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            contacto.notificar(contenido);
         });
     }
 

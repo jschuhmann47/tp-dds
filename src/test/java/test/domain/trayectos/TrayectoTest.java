@@ -1,5 +1,6 @@
 package test.domain.trayectos;
 
+import domain.CargaDeDatos.entidades.Periodicidad;
 import domain.geoDDS.Direccion;
 import domain.geoDDS.entidades.*;
 import domain.transporte.TipoCombustible;
@@ -9,15 +10,12 @@ import domain.transporte.publico.Linea;
 import domain.transporte.publico.Parada;
 import domain.transporte.publico.TransportePublico;
 import domain.trayectos.Frecuencia;
-import domain.trayectos.FrecuenciaDeUso;
 import domain.trayectos.Tramo;
 import domain.trayectos.Trayecto;
-import org.apache.poi.ss.formula.functions.T;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +57,7 @@ public class TrayectoTest {
         List<Tramo> tramosTest = new ArrayList<>();
         tramosTest.add(tramoAuto);
         tramosTest.add(tramoColectivo);
-        Frecuencia frecuencia = new Frecuencia(FrecuenciaDeUso.MENSUAL,5);
+        Frecuencia frecuencia = new Frecuencia(Periodicidad.MENSUAL,5);
         trayectoTest = new Trayecto(direccion1,direccion3,tramosTest,frecuencia);
     }
 

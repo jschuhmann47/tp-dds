@@ -19,7 +19,6 @@ import domain.transporte.publico.Linea;
 import domain.transporte.publico.Parada;
 import domain.transporte.publico.TransportePublico;
 import domain.trayectos.Frecuencia;
-import domain.trayectos.FrecuenciaDeUso;
 import domain.trayectos.Tramo;
 import domain.trayectos.Trayecto;
 import org.junit.jupiter.api.Assertions;
@@ -106,7 +105,7 @@ public class CalculoHCTest {
         listaTramos.add(tramoAuto);
         listaTramos.add(tramoColectivo);
 
-        Frecuencia frecuencia = new Frecuencia(FrecuenciaDeUso.SEMANAL,2);
+        Frecuencia frecuencia = new Frecuencia(Periodicidad.MENSUAL,8);
 
         paradaTest1.setParadaSiguiente(paradaTest2);
         paradaTest2.setParadaSiguiente(null);
@@ -159,9 +158,9 @@ public class CalculoHCTest {
         trayectoTest.cargarTramos(tramoAuto,tramoColectivo);
 
         juan.agregarTrayectos(trayectoTest, trayectoTest);
-
+        Periodo periodo = new Periodo(1,2021);
         ActividadDA gas = new ActividadDA(Actividad.COMBUSTION_FIJA,TipoDeConsumo.DIESEL,Unidad.M3,
-                            Periodicidad.MENSUAL,1.0,1,2021);
+                                periodo,Periodicidad.MENSUAL,1.0);
         CargaDeDatos datos = new CargaDeDatos();
         datos.agregarActividades(gas);
         datos.setOrganizacion(organizacionA);
@@ -172,26 +171,30 @@ public class CalculoHCTest {
     @Test
     @DisplayName("Se calcula la HC de una organizacion en un año")
     public void orgAnual() throws Exception {
-        Assertions.assertEquals(268800.8,organizacionA.calcularHCEnAnio(2021));
+        Periodo periodo = new Periodo(null,2021);
+        Assertions.assertEquals(268800.8,organizacionA.calcularHC(periodo));
     }
 
     @Test
     @DisplayName("Se calcula la HC de una organizacion en un mes")
     public void orgMensual() throws Exception {
-        Assertions.assertEquals(22400.0,organizacionA.calcularHCEnMes(7,2021));
+        Periodo periodo = new Periodo(7,2021);
+        Assertions.assertEquals(22400.0,organizacionA.calcularHC(periodo));
     }
 
     @Test
     @DisplayName("Se calcula la HC de un empleado")
     public void empl() throws Exception {
-        Assertions.assertEquals(268800.0, juan.calcularHCAnual());
+        Periodo periodo = new Periodo(null,2021);
+        Assertions.assertEquals(268800.0, juan.calcularHC(periodo));
 
     }
 
     @Test
     @DisplayName("Se obtiene una coleccion con los detalles de cada sector")
     public void sectores(){
-        List<String> detalles = organizacionA.huellaCarbonoPorCadaSectorMensual();
+        Periodo periodo = new Periodo(7,2021);
+        List<String> detalles = organizacionA.huellaCarbonoPorCadaSector(periodo);
         Assertions.assertEquals("Sector: Marketing - Huella de carbono: 22400.0",detalles.get(0));
     }
 }

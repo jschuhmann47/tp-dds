@@ -21,11 +21,7 @@ public class Ejecutor implements Job {
     public void execute(JobExecutionContext jec) throws JobExecutionException{
 
         listaDeContactos.forEach(c-> {
-            try {
-                c.notificar(contenido);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            c.notificar(contenido);
         });
             //contacto.notificar("https://github.com/dds-utn/2022-ma-ma-mama-grupo-03");
 

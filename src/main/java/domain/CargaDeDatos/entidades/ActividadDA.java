@@ -5,10 +5,10 @@ public class ActividadDA {
     public Actividad actividad;
     public TipoDeConsumo tipoDeConsumo;
     public Unidad unidad;
+    public Periodo periodo;
     public Periodicidad periodicidad;
     public Double valor;
-    public Integer mes; //si es anual va null
-    public Integer anio;
+
 
 
 
@@ -16,13 +16,13 @@ public class ActividadDA {
 
     }
 
-    public ActividadDA(Actividad actividad, TipoDeConsumo tipoDeConsumo, Unidad unidad, Periodicidad periodicidad, Double valor, Integer mes, Integer anio) {
+
+    public ActividadDA(Actividad actividad, TipoDeConsumo tipoDeConsumo, Unidad unidad, Periodo periodo, Periodicidad periodicidad, Double valor) {
         this.actividad = actividad;
         this.tipoDeConsumo = tipoDeConsumo;
         this.unidad = unidad;
+        this.periodo = periodo;
         this.periodicidad = periodicidad;
         this.valor = valor;
-        this.mes = mes;
-        this.anio = anio;
     }
 }

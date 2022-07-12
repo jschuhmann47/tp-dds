@@ -3,36 +3,34 @@ package domain.organizaciones.contacto;
 import lombok.Getter;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Contacto {
 
     @Getter
-    private String nroTelefono; //ULTRAMSG
+    private String nroTelefono;
     @Getter
     private String email;
 
-    public EnvioNotificacionWhatsappAdapter whatsappAdapter;
-    public EnvioNotificacionMailAdapter mailAdapter;
+    public List<AccionNotificar> accionesNotificar;
     
-    public Contacto(String nroTelefono, String mail, EnvioNotificacionWhatsappAdapter whatsappAdapter, EnvioNotificacionMailAdapter mailAdapter) {
+    public Contacto(String nroTelefono, String mail,AccionNotificar ... acciones) {
         this.nroTelefono = nroTelefono;
         this.email = mail;
-        this.whatsappAdapter = whatsappAdapter;
-        this.mailAdapter = mailAdapter;
+        accionesNotificar = new ArrayList<>();
+        accionesNotificar.addAll(Arrays.asList(acciones));
     }
 
-    public void notificar(String contenido) throws IOException {
-        this.sendMAIL(contenido);
-        this.sendWPP(contenido);
+    public void notificar(String contenido){
+        accionesNotificar.forEach(t-> {
+            try {
+                t.notificar(contenido,this.getNroTelefono(),this.getEmail());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
-
-    private void sendWPP(String contenido) throws IOException {
-        whatsappAdapter.notificar(contenido,this.nroTelefono);
-    }
-
-    private void sendMAIL(String contenido) {
-        mailAdapter.notificar(contenido,this.email);
-    }
-
 
 }

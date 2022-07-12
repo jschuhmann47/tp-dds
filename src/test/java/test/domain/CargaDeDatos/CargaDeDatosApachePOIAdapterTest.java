@@ -22,10 +22,16 @@ public class CargaDeDatosApachePOIAdapterTest {
     public void init() throws IOException {
         CalculoHC.cargarFactoresDeEmision("src/main/java/domain/calculoHC/factorEmision.properties");
         adapterTest = new CargaDeDatosApachePOIAdapter("src/main/java/domain/CargaDeDatos/actividad.xls");
+        Periodo periodoTest = new Periodo(4,2022);
+        Periodo periodoTestCompuesto = new Periodo(5,2021);
         actividadTest =
-                new ActividadDA(Actividad.COMBUSTION_FIJA, TipoDeConsumo.GAS_NATURAL, Unidad.M3, Periodicidad.MENSUAL,34.0,4,2022);
+                //new ActividadDA(Actividad.COMBUSTION_FIJA, TipoDeConsumo.GAS_NATURAL, Unidad.M3, Periodicidad.MENSUAL,34.0,4,2022);
+                new ActividadDA(Actividad.COMBUSTION_FIJA,TipoDeConsumo.GAS_NATURAL,Unidad.M3,
+                        periodoTest,Periodicidad.MENSUAL,34.0);
         actividadTestCompuesta =
-                new ActividadDA(Actividad.LOGISTICA_PRODUCTOS_RESIDUOS, TipoDeConsumo.PRODUCTO_TRANSPORTADO, Unidad.U, Periodicidad.MENSUAL,2.0,5,2021); //no va esa unidad
+                //new ActividadDA(Actividad.LOGISTICA_PRODUCTOS_RESIDUOS, TipoDeConsumo.PRODUCTO_TRANSPORTADO, Unidad.U, Periodicidad.MENSUAL,2.0,5,2021);
+                new ActividadDA(Actividad.LOGISTICA_PRODUCTOS_RESIDUOS,TipoDeConsumo.PRODUCTO_TRANSPORTADO,Unidad.U,
+                        periodoTestCompuesto,Periodicidad.MENSUAL,2.0);
         hojaLeida = adapterTest.obtenerHoja(0);
     }
 
@@ -76,8 +82,8 @@ public class CargaDeDatosApachePOIAdapterTest {
         CargaDeDatosApachePOIAdapter.LineaLeida linea = adapterTest.leerEntrada(hojaLeida,1);
         ActividadDA actividadLeida = adapterTest.crearActividad(linea);
         Assertions.assertEquals(actividadTest.actividad,actividadLeida.actividad);
-        Assertions.assertEquals(actividadTest.anio,actividadLeida.anio);
-        Assertions.assertEquals(actividadTest.mes,actividadLeida.mes);
+        Assertions.assertEquals(actividadTest.periodo.getAnio(),actividadLeida.periodo.getAnio());
+        Assertions.assertEquals(actividadTest.periodo.getMes(),actividadLeida.periodo.getMes());
         Assertions.assertEquals(actividadTest.valor,actividadLeida.valor);
         Assertions.assertEquals(actividadTest.tipoDeConsumo,actividadLeida.tipoDeConsumo);
         Assertions.assertEquals(actividadTest.periodicidad,actividadLeida.periodicidad);
@@ -91,8 +97,8 @@ public class CargaDeDatosApachePOIAdapterTest {
         CargaDeDatosApachePOIAdapter.LineaLeida linea = adapterTest.leerEntrada(hojaLeida,5);
         ActividadDA actividadLeida = adapterTest.crearActividad(linea);
         Assertions.assertEquals(actividadTestCompuesta.actividad,actividadLeida.actividad);
-        Assertions.assertEquals(actividadTestCompuesta.anio,actividadLeida.anio);
-        Assertions.assertEquals(actividadTestCompuesta.mes,actividadLeida.mes);
+        Assertions.assertEquals(actividadTestCompuesta.periodo.getAnio(),actividadLeida.periodo.getAnio());
+        Assertions.assertEquals(actividadTestCompuesta.periodo.getMes(),actividadLeida.periodo.getMes());
         Assertions.assertEquals(actividadTestCompuesta.valor,actividadLeida.valor);
         Assertions.assertEquals(actividadTestCompuesta.tipoDeConsumo,actividadLeida.tipoDeConsumo);
         Assertions.assertEquals(actividadTestCompuesta.periodicidad,actividadLeida.periodicidad);

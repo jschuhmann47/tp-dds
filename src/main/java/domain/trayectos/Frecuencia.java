@@ -1,21 +1,21 @@
 package domain.trayectos;
 
+import domain.CargaDeDatos.entidades.Periodicidad;
+import domain.CargaDeDatos.entidades.Periodo;
+
 public class Frecuencia {
-    public Frecuencia(FrecuenciaDeUso frecuenciaDeUso, Integer cantDiasQueHaceElTrayecto) {
+    public Frecuencia(Periodicidad frecuenciaDeUso, Integer vecesQueRealizaTrayectoPorMes) {
         this.frecuenciaDeUso = frecuenciaDeUso;
-        this.cantDiasQueHaceElTrayecto = cantDiasQueHaceElTrayecto;
+        this.vecesQueRealizaTrayectoPorMes = vecesQueRealizaTrayectoPorMes;
     }
 
-    FrecuenciaDeUso frecuenciaDeUso;
-    Integer cantDiasQueHaceElTrayecto;
+    Periodicidad frecuenciaDeUso;
+    Integer vecesQueRealizaTrayectoPorMes;
 
-    Integer vecesPorMes(){
-        if(this.frecuenciaDeUso==FrecuenciaDeUso.SEMANAL){
-            return cantDiasQueHaceElTrayecto *4;
+    Integer vecesPorMes(Periodo periodo){
+        if(periodo.getMes()==null){
+            return vecesQueRealizaTrayectoPorMes*12;
         }
-        if(this.frecuenciaDeUso==FrecuenciaDeUso.MENSUAL){
-            return cantDiasQueHaceElTrayecto;
-        }
-        return null;
+        return vecesQueRealizaTrayectoPorMes;
     }
 }
