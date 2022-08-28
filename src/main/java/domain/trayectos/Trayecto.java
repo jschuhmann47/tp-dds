@@ -21,7 +21,7 @@ public class Trayecto {
     @Transient
     private Direccion puntoDeLlegada;
     @Transient
-    public Frecuencia frecuencia;
+    public Frecuencia frecuencia; //traerlo aca
 
     @Transient
     private List<Tramo> tramos;

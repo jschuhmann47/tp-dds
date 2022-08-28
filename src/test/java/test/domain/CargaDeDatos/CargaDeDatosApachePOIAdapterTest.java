@@ -14,7 +14,7 @@ import java.io.IOException;
 public class CargaDeDatosApachePOIAdapterTest {
     CargaDeDatosApachePOIAdapter adapterTest;
     HSSFSheet hojaLeida;
-    ActividadDA actividadTest, actividadTestCompuesta;
+    Actividad actividadTest, actividadTestCompuesta;
 
 
 
@@ -26,11 +26,11 @@ public class CargaDeDatosApachePOIAdapterTest {
         Periodo periodoTestCompuesto = new Periodo(5,2021);
         actividadTest =
                 //new ActividadDA(Actividad.COMBUSTION_FIJA, TipoDeConsumo.GAS_NATURAL, Unidad.M3, Periodicidad.MENSUAL,34.0,4,2022);
-                new ActividadDA(Actividad.COMBUSTION_FIJA,TipoDeConsumo.GAS_NATURAL,Unidad.M3,
+                new Actividad(TipoActividad.COMBUSTION_FIJA,TipoDeConsumo.GAS_NATURAL,Unidad.M3,
                         periodoTest,Periodicidad.MENSUAL,34.0);
         actividadTestCompuesta =
                 //new ActividadDA(Actividad.LOGISTICA_PRODUCTOS_RESIDUOS, TipoDeConsumo.PRODUCTO_TRANSPORTADO, Unidad.U, Periodicidad.MENSUAL,2.0,5,2021);
-                new ActividadDA(Actividad.LOGISTICA_PRODUCTOS_RESIDUOS,TipoDeConsumo.PRODUCTO_TRANSPORTADO,Unidad.U,
+                new Actividad(TipoActividad.LOGISTICA_PRODUCTOS_RESIDUOS,TipoDeConsumo.PRODUCTO_TRANSPORTADO,Unidad.U,
                         periodoTestCompuesto,Periodicidad.MENSUAL,2.0);
         hojaLeida = adapterTest.obtenerHoja(0);
     }
@@ -80,8 +80,8 @@ public class CargaDeDatosApachePOIAdapterTest {
     public void actividad() {
 
         CargaDeDatosApachePOIAdapter.LineaLeida linea = adapterTest.leerEntrada(hojaLeida,1);
-        ActividadDA actividadLeida = adapterTest.crearActividad(linea);
-        Assertions.assertEquals(actividadTest.actividad,actividadLeida.actividad);
+        Actividad actividadLeida = adapterTest.crearActividad(linea);
+        Assertions.assertEquals(actividadTest.tipoActividad,actividadLeida.tipoActividad);
         Assertions.assertEquals(actividadTest.periodo.getAnio(),actividadLeida.periodo.getAnio());
         Assertions.assertEquals(actividadTest.periodo.getMes(),actividadLeida.periodo.getMes());
         Assertions.assertEquals(actividadTest.valor,actividadLeida.valor);
@@ -95,8 +95,8 @@ public class CargaDeDatosApachePOIAdapterTest {
     public void actividadCompuesta() {
 
         CargaDeDatosApachePOIAdapter.LineaLeida linea = adapterTest.leerEntrada(hojaLeida,5);
-        ActividadDA actividadLeida = adapterTest.crearActividad(linea);
-        Assertions.assertEquals(actividadTestCompuesta.actividad,actividadLeida.actividad);
+        Actividad actividadLeida = adapterTest.crearActividad(linea);
+        Assertions.assertEquals(actividadTestCompuesta.tipoActividad,actividadLeida.tipoActividad);
         Assertions.assertEquals(actividadTestCompuesta.periodo.getAnio(),actividadLeida.periodo.getAnio());
         Assertions.assertEquals(actividadTestCompuesta.periodo.getMes(),actividadLeida.periodo.getMes());
         Assertions.assertEquals(actividadTestCompuesta.valor,actividadLeida.valor);

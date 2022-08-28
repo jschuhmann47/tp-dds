@@ -27,12 +27,12 @@ public class CargaDeDatosApachePOIAdapter implements CargaDeDatosAdapter{
         this.file=path;
     }
 
-    List<ActividadDA> formulariosDa = new ArrayList<>();
+    List<Actividad> formulariosDa = new ArrayList<>();
 
     private final String file;
 
 
-    public List<ActividadDA> leerArchivo() throws IOException {
+    public List<Actividad> leerArchivo() throws IOException {
 
         HSSFSheet hojaALeer = obtenerHoja(0);
 
@@ -69,9 +69,9 @@ public class CargaDeDatosApachePOIAdapter implements CargaDeDatosAdapter{
         }
     }
 
-    public ActividadDA crearActividad(LineaLeida linea){
-        return new ActividadDA(
-                Actividad.valueOf(linea.actividad),
+    public Actividad crearActividad(LineaLeida linea){
+        return new Actividad(
+                TipoActividad.valueOf(linea.actividad),
                 TipoDeConsumo.valueOf(linea.tipoDeConsumo),
                 Unidad.valueOf(linea.unidad),
                 new Periodo(obtenerMes(linea.periodoImputacion),obtenerAnio(linea.periodoImputacion)),

@@ -1,6 +1,6 @@
 package domain.calculoHC;
 
-import domain.CargaDeDatos.entidades.ActividadDA;
+import domain.CargaDeDatos.entidades.Actividad;
 import domain.CargaDeDatos.entidades.Periodo;
 import domain.CargaDeDatos.entidades.TipoDeConsumo;
 import lombok.Getter;
@@ -42,13 +42,13 @@ public class CalculoHC {
     }
 
 
-    public static Double calcularHCDeActividad(ActividadDA actividadDA){
-        return actividadDA.valor * getFactoresEmision().get(actividadDA.tipoDeConsumo);
+    public static Double calcularHCDeActividad(Actividad actividad){
+        return actividad.valor * getFactoresEmision().get(actividad.tipoDeConsumo);
     }
 
-    public static Double calcularHCDeListaDeActividades(List<ActividadDA> actividadesDA, Periodo periodo) {
+    public static Double calcularHCDeListaDeActividades(List<Actividad> actividadesDA, Periodo periodo) {
 
-        List<ActividadDA> listaHC = actividadesDA.stream()
+        List<Actividad> listaHC = actividadesDA.stream()
                 .filter(a-> Objects.equals(a.periodo.getAnio(), periodo.getAnio())).collect(Collectors.toList());
         if(periodo.getMes()!=null){
             listaHC=listaHC.stream().filter(a->Objects.equals(a.periodo.getMes(), periodo.getMes())).collect(Collectors.toList());

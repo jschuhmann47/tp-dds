@@ -159,7 +159,7 @@ public class CalculoHCTest {
 
         juan.agregarTrayectos(trayectoTest, trayectoTest);
         Periodo periodo = new Periodo(1,2021);
-        ActividadDA gas = new ActividadDA(Actividad.COMBUSTION_FIJA,TipoDeConsumo.DIESEL,Unidad.M3,
+        Actividad gas = new Actividad(TipoActividad.COMBUSTION_FIJA,TipoDeConsumo.DIESEL,Unidad.M3,
                                 periodo,Periodicidad.MENSUAL,1.0);
         CargaDeDatos datos = new CargaDeDatos();
         datos.agregarActividades(gas);

@@ -3,14 +3,29 @@ package domain.transporte.publico;
 import domain.geoDDS.Direccion;
 import domain.geoDDS.entidades.Distancia;
 
+import javax.persistence.*;
 import java.io.IOException;
 import java.util.*;
 
+@Entity
+@Table(name = "linea")
 public class Linea {
+    @Id
+    @GeneratedValue
+    private int id;
 
+    @Column(name = "nombre_linea")
     private String nombreDeLinea;
 
+    @Transient
     private List<Parada> paradas=new ArrayList<>();
+
+    public int getId() {
+        return id;
+    }
+
+    public Linea() {
+    }
 
     public Linea(String nombreDeLinea, Parada ... variasParadas) throws IOException {
         this.nombreDeLinea = nombreDeLinea;

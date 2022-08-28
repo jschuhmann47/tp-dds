@@ -30,7 +30,7 @@ public class Organizacion {
     @Column(name = "razon_social")
     private String razonSocial;
 
-    @Transient
+    @OneToMany(mappedBy = "organizacion")
     private List<Sector> sectores;
 
     @Column(name = "tipo_organizacion")
