@@ -4,21 +4,35 @@ import domain.CargaDeDatos.entidades.Periodo;
 import domain.geoDDS.Direccion;
 import domain.geoDDS.entidades.Distancia;
 
+import javax.persistence.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+@Entity
+@Table(name = "trayecto")
 public class Trayecto {
+    @Id
+    @GeneratedValue
+    private int id;
+
+    @Transient
     private Direccion puntoDeSalida;
+    @Transient
     private Direccion puntoDeLlegada;
+    @Transient
     public Frecuencia frecuencia;
 
+    @Transient
+    private List<Tramo> tramos;
 
-
-
+    @Transient
     Distancia distanciaTrayecto;
 
-    public Trayecto(Direccion puntoDeSalida, Direccion puntoDeLlegada, List<Tramo> tramos,Frecuencia frecuencia) {
+    public Trayecto() {
+    }
+
+    public Trayecto(Direccion puntoDeSalida, Direccion puntoDeLlegada, List<Tramo> tramos, Frecuencia frecuencia) {
         this.puntoDeSalida = puntoDeSalida;
         this.puntoDeLlegada = puntoDeLlegada;
         this.tramos = tramos;
@@ -34,7 +48,7 @@ public class Trayecto {
         return tramos;
     }
 
-    private List<Tramo> tramos;
+
 
     public void cargarTramos(Tramo ... tramos){
         this.tramos.addAll(Arrays.asList(tramos));

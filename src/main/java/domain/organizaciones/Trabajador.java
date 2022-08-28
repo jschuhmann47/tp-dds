@@ -28,7 +28,7 @@ public class Trabajador {
     private List<Trayecto> listaTrayectos = new ArrayList<>();
 
     @Transient
-    public List<Sector> sectores;
+    public List<Sector> sectores; //cambiar en el uml si queda asi
 
     public int getId() {
         return id;

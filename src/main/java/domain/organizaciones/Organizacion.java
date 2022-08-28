@@ -25,7 +25,7 @@ public class Organizacion {
     private ClasificacionOrganizacion clasificacionOrg;
 
     @Transient
-    private List<Trabajador> miembros;
+    private List<Trabajador> miembros; //estan en sector, los volaria
 
     @Column(name = "razon_social")
     private String razonSocial;
@@ -38,7 +38,7 @@ public class Organizacion {
 
     @Getter
     @Transient
-    private Direccion ubicacion;//TODO
+    private Direccion ubicacion; //TODO
 
     @Setter
     @Transient
