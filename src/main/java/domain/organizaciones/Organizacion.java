@@ -8,25 +8,46 @@ import domain.organizaciones.contacto.Contacto;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "organizacion")
 public class Organizacion {
+    @Id
+    @GeneratedValue
+    private int id;
+
+    //crear una entidad?
+    @Transient
     private ClasificacionOrganizacion clasificacionOrg;
+
+    @Transient
     private List<Trabajador> miembros;
+
+    @Column(name = "razon_social")
     private String razonSocial;
+
+    @Transient
     private List<Sector> sectores;
+
+    @Column(name = "tipo_organizacion")
     private TipoOrganizacion tipoOrganizacion;
 
     @Getter
-    private Direccion ubicacion;
+    @Transient
+    private Direccion ubicacion;//TODO
 
     @Setter
+    @Transient
     private CargaDeDatos actividades;
 
     @Setter
     @Getter
+    @OneToMany
+    @JoinColumn(name = "organizacion_id",referencedColumnName = "id")
     private List<Contacto> contactos;
 
     public Organizacion(List<Trabajador> miembros, List<Sector> sectores) {

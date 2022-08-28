@@ -3,19 +3,36 @@ package domain.organizaciones;
 import domain.CargaDeDatos.entidades.Periodo;
 import domain.trayectos.Trayecto;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
+@Entity
+@Table(name = "trabajador")
 public class Trabajador {
+    @Id
+    @GeneratedValue
+    private int id;
+
+    @Column(name = "apellido")
     private String apellido;
+    @Column(name = "nombre")
     private String nombre;
+    @Column(name = "tipo_doc")
     private TipoDoc tipoDoc;
+    @Column(name = "nro_doc")
     private Integer nroDoc;
 
+    @Transient
     private List<Trayecto> listaTrayectos = new ArrayList<>();
+
+    @Transient
     public List<Sector> sectores;
+
+    public int getId() {
+        return id;
+    }
 
     public void solicitarVinculacion(Organizacion organizacion,Sector sector){
         organizacion.solicitudDeVinculacion(this, sector);
