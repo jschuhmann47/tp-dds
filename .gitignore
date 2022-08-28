@@ -17,3 +17,5 @@ src/main/java/domain/organizaciones/contacto/token.properties
 src/main/java/domain/organizaciones/contacto/smtp.properties
 
 *.xls#
+
+src/main/resources/META-INF/persistence.xml
