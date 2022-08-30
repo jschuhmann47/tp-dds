@@ -9,7 +9,7 @@ public class Direccion {
     private String calle;
     private Localidad localidad;
     private Municipio municipio;
-    private Provincia provincia;
+    private Provincia provincia; //revisar
 
     public Direccion(Integer altura, String calle, Localidad localidad, Municipio municipio, Provincia provincia) {
         this.altura = altura;
