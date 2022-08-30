@@ -29,7 +29,7 @@ public class ServicioCalcularDistancia {
     }
 
     public int obtenerLocalidadId(Direccion direccion) {
-        return direccion.getLocalidad().getId();
+        return direccion.getLocalidad().getIdLocalidad();
     }
 
 }

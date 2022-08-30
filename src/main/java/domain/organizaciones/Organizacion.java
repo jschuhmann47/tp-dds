@@ -20,9 +20,10 @@ public class Organizacion {
     @GeneratedValue
     private int id;
 
-    //crear una entidad?
-    @Transient
-    private ClasificacionOrganizacion clasificacionOrg;
+    @ElementCollection
+    @CollectionTable(name = "organizacion_clasificacion",joinColumns = @JoinColumn(name = "organizacion_id"))
+    @Column(name = "clasificacion")
+    private List<String> clasificacionOrg;
 
     @Transient
     private List<Trabajador> miembros; //estan en sector, los volaria
@@ -37,12 +38,12 @@ public class Organizacion {
     private TipoOrganizacion tipoOrganizacion;
 
     @Getter
-    @Transient
+    @Embedded
     private Direccion ubicacion; //TODO
 
     @Setter
     @Transient
-    private CargaDeDatos actividades;
+    private CargaDeDatos actividades; //TODO borrar la clase?
 
     @Setter
     @Getter
@@ -74,7 +75,7 @@ public class Organizacion {
         sector.agregarTrabajador(trabajador);
     }
 
-    public Organizacion(ClasificacionOrganizacion clasificacionOrg, List<Trabajador> miembros,
+    public Organizacion(List<String> clasificacionOrg, List<Trabajador> miembros,
                         String razonSocial, List<Sector> sectores, TipoOrganizacion tipoOrganizacion,
                         Direccion ubicacion){
 

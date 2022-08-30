@@ -21,7 +21,8 @@ public class CargaDeDatosApachePOIAdapterTest {
     @BeforeEach
     public void init() throws IOException {
         CalculoHC.cargarFactoresDeEmision("src/main/java/domain/calculoHC/factorEmision.properties");
-        adapterTest = new CargaDeDatosApachePOIAdapter("src/main/java/domain/CargaDeDatos/actividad.xls");
+        adapterTest = new CargaDeDatosApachePOIAdapter();
+        adapterTest.setFile("src/main/java/domain/CargaDeDatos/actividad.xls");
         Periodo periodoTest = new Periodo(4,2022);
         Periodo periodoTestCompuesto = new Periodo(5,2021);
         actividadTest =

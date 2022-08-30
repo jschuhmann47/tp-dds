@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface CargaDeDatosAdapter {
 
-    List<Actividad> leerArchivo() throws IOException;
+    List<Actividad> leerArchivo(String path) throws IOException;
 
 }

@@ -1,7 +1,7 @@
 package domain.geoDDS.entidades;
 
 public class Localidad {
-    public int id;
+    public int idLocalidad;
     public String nombre;
     public int codPostal;
     public Municipio municipio;
@@ -9,14 +9,18 @@ public class Localidad {
     public Localidad() {
     }
 
-    public Localidad(int id, String nombre, int codPostal, Municipio municipio) {
-        this.id = id;
+    public Localidad(int idLocalidad, String nombre, int codPostal, Municipio municipio) {
+        this.idLocalidad = idLocalidad;
         this.nombre = nombre;
         this.codPostal = codPostal;
         this.municipio = municipio;
     }
 
-    public int getId() {
-        return this.id;
+    public int getIdLocalidad() {
+        return this.idLocalidad;
+    }
+
+    public Municipio getMunicipio() {
+        return this.municipio;
     }
 }

@@ -24,11 +24,14 @@ public class Trabajador {
     @Column(name = "nro_doc")
     private Integer nroDoc;
 
-    @Transient
+    @OneToMany
+    @JoinColumn(name = "trayecto_id",referencedColumnName = "id")
     private List<Trayecto> listaTrayectos = new ArrayList<>();
 
-    @Transient
-    public List<Sector> sectores; //many to many
+    @ManyToMany
+    @JoinTable(name = "trabajador_sector",joinColumns = @JoinColumn(name = "trabajador_id",referencedColumnName = "id"),
+    inverseJoinColumns = @JoinColumn(name = "sector_id",referencedColumnName = "id"))
+    public List<Sector> sectores; //revisar que no esta la FK TODO
 
     public int getId() {
         return id;
