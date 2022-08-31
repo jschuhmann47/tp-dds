@@ -17,7 +17,7 @@ public class ServicioCalcularDistancia {
         return adapter;
     }
 
-    public static ServicioCalcularDistancia getInstance(){
+    public static ServicioCalcularDistancia getInstance(){ //borrar esto todo
         if (instancia==null){
             instancia=new ServicioCalcularDistancia();
         }

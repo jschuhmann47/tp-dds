@@ -25,13 +25,13 @@ public class Trabajador {
     private Integer nroDoc;
 
     @OneToMany
-    @JoinColumn(name = "trayecto_id",referencedColumnName = "id")
+    @JoinColumn(name = "trabajador_id",referencedColumnName = "id")
     private List<Trayecto> listaTrayectos = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(name = "trabajador_sector",joinColumns = @JoinColumn(name = "trabajador_id",referencedColumnName = "id"),
     inverseJoinColumns = @JoinColumn(name = "sector_id",referencedColumnName = "id"))
-    public List<Sector> sectores; //revisar que no esta la FK TODO
+    public List<Sector> sectores;
 
     public int getId() {
         return id;

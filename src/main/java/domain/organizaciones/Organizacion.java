@@ -44,6 +44,7 @@ public class Organizacion {
 
 
     @Getter
+    @Setter
     private List<Actividad> listaDeActividades;
 
     @Setter

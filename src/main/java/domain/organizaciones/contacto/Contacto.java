@@ -26,13 +26,18 @@ public class Contacto {
     @Column(name = "email")
     private String email;
 
-    @Transient //TODO
-    public List<AccionNotificar> accionesNotificar;
+    @Transient //se persiste con el enum
+    public List<MedioNotificacion> accionesNotificar;
+
+    @OneToMany
+    @Enumerated(value = EnumType.STRING)
+    @JoinColumn(name = "contacto_id",referencedColumnName = "id")
+    private List<EMedioNotificacion> mediosDeNotificacion;
 
     public Contacto() {
     }
 
-    public Contacto(String nroTelefono, String mail, AccionNotificar ... acciones) {
+    public Contacto(String nroTelefono, String mail, MedioNotificacion... acciones) {
         this.nroTelefono = nroTelefono;
         this.email = mail;
         accionesNotificar = new ArrayList<>();

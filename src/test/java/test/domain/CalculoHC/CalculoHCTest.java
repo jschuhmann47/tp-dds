@@ -159,12 +159,11 @@ public class CalculoHCTest {
 
         juan.agregarTrayectos(trayectoTest, trayectoTest);
         Periodo periodo = new Periodo(1,2021);
+        List<Actividad> actividades = new ArrayList<>();
         Actividad gas = new Actividad(TipoActividad.COMBUSTION_FIJA,TipoDeConsumo.DIESEL,Unidad.M3,
                                 periodo,Periodicidad.MENSUAL,1.0);
-        CargaDeDatos datos = new CargaDeDatos();
-        datos.agregarActividades(gas);
-        datos.setOrganizacion(organizacionA);
-        organizacionA.setActividades(datos);
+        actividades.add(gas);
+        organizacionA.setListaDeActividades(actividades);
     }
 
 

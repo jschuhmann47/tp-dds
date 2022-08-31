@@ -15,11 +15,12 @@ public class TransportePrivado implements MedioTransporte {
     TipoVehiculo tipo;
     TipoCombustible tipoCombustible;
 
-    TramoCompartido tramoCompartido = new TramoCompartido();
+    TramoCompartido tramoCompartido;
 
     public TransportePrivado(TipoVehiculo tipo, TipoCombustible tipoCombustible) {
         this.tipo = tipo;
         this.tipoCombustible = tipoCombustible;
+        this.tramoCompartido = new TramoCompartido();
     }
 
 
