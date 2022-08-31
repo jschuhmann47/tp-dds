@@ -11,23 +11,11 @@ import java.util.Arrays;
 import java.util.List;
 //suprimir?
 public class CargaDeDatos {
-    @Setter
-    Organizacion organizacion;
 
+    static CargaDeDatosAdapter adapter;
 
-    public void agregarActividades(Actividad... actividades) { //para test
-        this.listaDeActividades.addAll(Arrays.asList(actividades));
+    public static void cargarDatos(List<Actividad> actividades, String path) throws IOException {
+        actividades.addAll(adapter.leerArchivo(path));
     }
-
-    List<Actividad> listaDeActividades=new ArrayList<>();
-    CargaDeDatosAdapter adapter;
-
-    public void cargarDatos(String path) throws IOException {
-        listaDeActividades.addAll(adapter.leerArchivo(path));
-    }
-    public List<Actividad> getListaDeActividades() {
-        return listaDeActividades;
-    }
-
 
 }

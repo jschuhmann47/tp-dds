@@ -1,6 +1,7 @@
 package domain.organizaciones;
 
 import domain.CargaDeDatos.CargaDeDatos;
+import domain.CargaDeDatos.entidades.Actividad;
 import domain.CargaDeDatos.entidades.Periodo;
 import domain.calculoHC.CalculoHC;
 import domain.geoDDS.Direccion;
@@ -25,13 +26,13 @@ public class Organizacion {
     @Column(name = "clasificacion")
     private List<String> clasificacionOrg;
 
-    @Transient
-    private List<Trabajador> miembros; //estan en sector, los volaria
+
 
     @Column(name = "razon_social")
     private String razonSocial;
 
     @OneToMany(mappedBy = "organizacion")
+    @Getter
     private List<Sector> sectores;
 
     @Column(name = "tipo_organizacion")
@@ -41,9 +42,9 @@ public class Organizacion {
     @Embedded
     private Direccion ubicacion; //TODO
 
-    @Setter
-    @Transient
-    private CargaDeDatos actividades; //TODO borrar la clase?
+
+    @Getter
+    private List<Actividad> listaDeActividades;
 
     @Setter
     @Getter
@@ -52,17 +53,16 @@ public class Organizacion {
     private List<Contacto> contactos;
 
     public Organizacion(List<Trabajador> miembros, List<Sector> sectores) {
-        this.miembros = miembros;
         this.sectores = sectores;
     }
 
     public Organizacion(){
-
+        this.listaDeActividades=new ArrayList<>();
     }
 
 
     public void cargarDatos(String archivo) throws IOException {
-        actividades.cargarDatos(archivo);
+        CargaDeDatos.cargarDatos(this.getListaDeActividades(),archivo);
     }
 
     public void agregarNuevoSector(Sector sector){
@@ -70,7 +70,6 @@ public class Organizacion {
     }
 
     public void solicitudDeVinculacion(Trabajador trabajador, Sector sector){
-        miembros.add(trabajador);
         trabajador.solicitudAceptada(sector);
         sector.agregarTrabajador(trabajador);
     }
@@ -80,26 +79,21 @@ public class Organizacion {
                         Direccion ubicacion){
 
         this.clasificacionOrg = clasificacionOrg;
-        this.miembros = miembros;
+
         this.razonSocial = razonSocial;
         this.sectores = sectores;
         this.tipoOrganizacion= tipoOrganizacion;
         this.ubicacion = ubicacion;
+        this.listaDeActividades=new ArrayList<>();
 
     }
 
     public Double calcularHC(Periodo periodo) throws Exception {
-        return CalculoHC.calcularHCDeListaDeActividades(this.actividades.getListaDeActividades(),periodo) + this.calcularHCEmpleados(periodo);
+        return CalculoHC.calcularHCDeListaDeActividades(this.getListaDeActividades(),periodo) + this.calcularHCEmpleados(periodo);
     }
 
-    public Double calcularHCEmpleados(Periodo periodo) throws Exception{
-        return this.miembros.stream().mapToDouble(m-> {
-            try {
-                return m.calcularHC(periodo);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }).sum();
+    public Double calcularHCEmpleados(Periodo periodo) { //TODO cambiar en el uml
+        return this.getSectores().stream().mapToDouble(s->s.calcularHCSector(periodo)).sum();
     }
 
     public Double huellaCarbonoEnSector(Sector sector, Periodo periodo){

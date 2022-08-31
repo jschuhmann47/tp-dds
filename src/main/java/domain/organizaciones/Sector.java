@@ -1,5 +1,7 @@
 package domain.organizaciones;
 
+import domain.CargaDeDatos.entidades.Periodo;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -42,5 +44,14 @@ public class Sector {
         organizacion.agregarNuevoSector(this);
     }
 
+    public Double calcularHCSector(Periodo periodo) {
+        return this.trabajadores.stream().mapToDouble(t-> {
+            try {
+                return t.calcularHC(periodo);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }).sum();
+    }
 }
 

@@ -9,19 +9,19 @@ public class Actividad {
     @GeneratedValue
     private int id;
 
-    @Column(name = "tipo_actividad")
+    @Enumerated(value = EnumType.STRING)
     public TipoActividad tipoActividad;
 
-    @Column(name = "tipo_consumo")
+    @Enumerated(value = EnumType.STRING)
     public TipoDeConsumo tipoDeConsumo;
 
-    @Column(name = "unidad")
+    @Enumerated(value = EnumType.STRING)
     public Unidad unidad;
 
-    @Transient
+    @Embedded
     public Periodo periodo; //ponerlo aca
 
-    @Column(name = "periodicidad")
+    @Enumerated(value = EnumType.STRING)
     public Periodicidad periodicidad;
 
     @Column(name = "valor")
