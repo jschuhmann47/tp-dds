@@ -8,6 +8,9 @@ import javax.persistence.Embeddable;
 
 @Embeddable
 public class Frecuencia {
+    public Frecuencia() {
+    }
+
     public Frecuencia(Periodicidad frecuenciaDeUso, Integer vecesQueRealizaTrayectoPorMes) {
         this.frecuenciaDeUso = frecuenciaDeUso;
         this.vecesQueRealizaTrayectoPorMes = vecesQueRealizaTrayectoPorMes;

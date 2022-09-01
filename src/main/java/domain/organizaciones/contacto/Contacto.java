@@ -29,9 +29,9 @@ public class Contacto {
     @Transient //se persiste con el enum
     public List<MedioNotificacion> accionesNotificar;
 
-    @OneToMany
+    @ElementCollection
+    @CollectionTable(name = "medios_notificacion",joinColumns = @JoinColumn(name = "contacto_id",referencedColumnName = "id"))
     @Enumerated(value = EnumType.STRING)
-    @JoinColumn(name = "contacto_id",referencedColumnName = "id")
     private List<EMedioNotificacion> mediosDeNotificacion;
 
     public Contacto() {

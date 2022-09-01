@@ -16,18 +16,26 @@ public class Trayecto {
     @GeneratedValue
     private int id;
 
-    @Transient
-    private Direccion puntoDeSalida;
-    @Transient
-    private Direccion puntoDeLlegada;
     @Embedded
-    public Frecuencia frecuencia; //traerlo aca
-
+    @AttributeOverrides({@AttributeOverride(name="altura",column = @Column(name = "altura_salida")),
+            @AttributeOverride(name = "calle",column = @Column(name = "calle_salida")),
+            @AttributeOverride(name = "localidad_id",column = @Column(name = "localidad_salida_id"))})
+    private Direccion puntoDeSalida;
+//    @Embedded
+//    @AttributeOverrides({@AttributeOverride(name="altura",column = @Column(name = "altura_destino")),
+//            @AttributeOverride(name = "calle",column = @Column(name = "calle_destino")),
+//            @AttributeOverride(name = "localidad_id",column = @Column(name = "localidad_destino_id"))})
     @Transient
+    private Direccion puntoDeLlegada; //diferenciar las direcciones?
+    @Embedded
+    public Frecuencia frecuencia;
+
+    @OneToMany
+    @JoinColumn(name = "trayecto_id",referencedColumnName = "id")
     private List<Tramo> tramos;
 
-    @Transient
-    Distancia distanciaTrayecto;
+    @Embedded
+    private Distancia distanciaTrayecto;
 
     public Trayecto() {
     }
