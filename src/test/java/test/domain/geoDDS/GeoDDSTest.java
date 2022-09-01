@@ -17,15 +17,14 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class GeoDDSTest {
-    ServicioCalcularDistancia servicioDistanciaTest;
+
     ServicioGeoDDSAdapter adapterMock;
 
 
     @BeforeEach
     public void init() {
         this.adapterMock = mock(ServicioGeoDDSAdapter.class);
-        this.servicioDistanciaTest = ServicioCalcularDistancia.getInstance();
-        this.servicioDistanciaTest.setAdapter(this.adapterMock);
+        ServicioCalcularDistancia.setAdapter(adapterMock);
     }
 
     private Pais argentina = new Pais(9,"ARGENTINA");
@@ -47,7 +46,7 @@ public class GeoDDSTest {
     public void obtenerDistancia() throws Exception {
         Distancia distanciaMock = new Distancia(50.147,"KM");
         when(this.adapterMock.distanciaEntre(direccionPrueba1,direccionPrueba2)).thenReturn(distanciaMock);
-        Distancia distancia = servicioDistanciaTest.distanciaEntre(direccionPrueba1,direccionPrueba2);
+        Distancia distancia = ServicioCalcularDistancia.distanciaEntre(direccionPrueba1,direccionPrueba2);
         Assertions.assertEquals(50.147,distancia.valor);
         Assertions.assertEquals("KM", distancia.unidad);
     }

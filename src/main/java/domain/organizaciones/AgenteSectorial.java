@@ -16,7 +16,7 @@ public class AgenteSectorial {
     @Transient
     private Municipio municipio;
 
-    @Transient //hacer que en Municipio este el agente?
+    @Transient
     List<Organizacion> organizaciones;
 
     public AgenteSectorial() {

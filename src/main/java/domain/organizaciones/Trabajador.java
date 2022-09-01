@@ -19,7 +19,7 @@ public class Trabajador {
     private String apellido;
     @Column(name = "nombre")
     private String nombre;
-    @Column(name = "tipo_doc")
+    @Enumerated(value = EnumType.STRING)
     private TipoDoc tipoDoc;
     @Column(name = "nro_doc")
     private Integer nroDoc;

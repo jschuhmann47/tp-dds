@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class Localidad {
 
     @Id
-    public int idLocalidad;
+    public int id;
 
     @Column(name = "nombre")
     public String nombre;
@@ -22,14 +22,14 @@ public class Localidad {
     }
 
     public Localidad(int idLocalidad, String nombre, int codPostal, Municipio municipio) {
-        this.idLocalidad = idLocalidad;
+        this.id = idLocalidad;
         this.nombre = nombre;
         this.codPostal = codPostal;
         this.municipio = municipio;
     }
 
-    public int getIdLocalidad() {
-        return this.idLocalidad;
+    public int getId() {
+        return this.id;
     }
 
     public Municipio getMunicipio() {

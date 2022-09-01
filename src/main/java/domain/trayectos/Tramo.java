@@ -14,12 +14,12 @@ public class Tramo {
     private int id;
 
     @Transient
-    public MedioTransporte medioTransporte; //interfaz
-    @Transient
+    public MedioTransporte medioTransporte; //todo interfaz
+    @Transient //todo
     public Direccion puntoInicio;
     @Transient
     public Direccion puntoFinal;
-    @Transient
+    @Embedded
     public Distancia distanciaTramo;
 
 

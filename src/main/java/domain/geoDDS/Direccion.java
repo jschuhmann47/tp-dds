@@ -4,9 +4,7 @@ import domain.geoDDS.entidades.Localidad;
 import domain.geoDDS.entidades.Municipio;
 import domain.geoDDS.entidades.Provincia;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 @Embeddable
 public class Direccion {
@@ -14,11 +12,10 @@ public class Direccion {
     private Integer altura;
     @Column(name = "calle")
     private String calle;
-    @Transient
-    private Localidad localidad; //TODO
+    @ManyToOne
+    @JoinColumn(name = "localidad_id",referencedColumnName = "id")
+    private Localidad localidad;
 
-//    private Municipio municipio;
-//    private Provincia provincia; //revisar
 
     public Direccion() {
     }
@@ -27,8 +24,6 @@ public class Direccion {
         this.altura = altura;
         this.calle = calle;
         this.localidad = localidad;
-//        this.municipio = municipio;
-//        this.provincia = provincia;
     }
 
 

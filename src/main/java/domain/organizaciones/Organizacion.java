@@ -35,16 +35,18 @@ public class Organizacion {
     @Getter
     private List<Sector> sectores;
 
-    @Column(name = "tipo_organizacion")
+    @Enumerated(value = EnumType.STRING)
     private TipoOrganizacion tipoOrganizacion;
 
     @Getter
     @Embedded
-    private Direccion ubicacion; //TODO
+    private Direccion ubicacion;
 
 
     @Getter
     @Setter
+    @OneToMany
+    @JoinColumn(name = "actividad_id",referencedColumnName = "id")
     private List<Actividad> listaDeActividades;
 
     @Setter

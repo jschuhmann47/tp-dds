@@ -20,7 +20,7 @@ public class Trayecto {
     private Direccion puntoDeSalida;
     @Transient
     private Direccion puntoDeLlegada;
-    @Transient
+    @Embedded
     public Frecuencia frecuencia; //traerlo aca
 
     @Transient

@@ -32,8 +32,8 @@ public class ServicioGeoDDSRetrofitAdapter implements ServicioGeoDDSAdapter {
     public Distancia distanciaEntre(Direccion direccionOrigen, Direccion direccionDestino) throws IOException {
         ServiceGeoDDS geoDdsService = this.retrofit.create(ServiceGeoDDS.class);
         Call<Distancia> requestDistancia = geoDdsService.distancia
-                (ServicioCalcularDistancia.getInstance().obtenerLocalidadId(direccionOrigen),direccionOrigen.getCalle(), direccionOrigen.getAltura(),
-                ServicioCalcularDistancia.getInstance().obtenerLocalidadId(direccionDestino),direccionDestino.getCalle(),direccionDestino.getAltura());
+                (ServicioCalcularDistancia.obtenerLocalidadId(direccionOrigen),direccionOrigen.getCalle(), direccionOrigen.getAltura(),
+                ServicioCalcularDistancia.obtenerLocalidadId(direccionDestino),direccionDestino.getCalle(),direccionDestino.getAltura());
         Response<Distancia> responseDistancia = requestDistancia.execute();
         return responseDistancia.body();
     }

@@ -92,8 +92,7 @@ public class CalculoHCTest {
         CalcularHCTransporte.cargarConsumosPorKm("src/main/java/domain/transporte/litrosConsumidosPorKm.properties");
 
         this.adapterMock = mock(ServicioGeoDDSAdapter.class);
-        this.servicioDistanciaTest = ServicioCalcularDistancia.getInstance();
-        this.servicioDistanciaTest.setAdapter(this.adapterMock);
+        ServicioCalcularDistancia.setAdapter(this.adapterMock);
 
         when(this.adapterMock.distanciaEntre(direccion1,direccion2)).thenReturn(distancia1);
         Tramo tramoAuto = new Tramo(auto,direccion1,direccion2);
