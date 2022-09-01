@@ -2,6 +2,7 @@ package domain.CargaDeDatos.adapters;
 
 import domain.CargaDeDatos.entidades.*;
 import domain.calculoHC.CalculoHC;
+import lombok.Setter;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -23,16 +24,18 @@ public class CargaDeDatosApachePOIAdapter implements CargaDeDatosAdapter{
         public double valor;
     }
 
-    public CargaDeDatosApachePOIAdapter(String path){
+
+
+    List<Actividad> formulariosDa = new ArrayList<>();
+
+    @Setter
+    private String file;
+
+
+
+
+    public List<Actividad> leerArchivo(String path) throws IOException {
         this.file=path;
-    }
-
-    List<ActividadDA> formulariosDa = new ArrayList<>();
-
-    private final String file;
-
-
-    public List<ActividadDA> leerArchivo() throws IOException {
 
         HSSFSheet hojaALeer = obtenerHoja(0);
 
@@ -69,9 +72,9 @@ public class CargaDeDatosApachePOIAdapter implements CargaDeDatosAdapter{
         }
     }
 
-    public ActividadDA crearActividad(LineaLeida linea){
-        return new ActividadDA(
-                Actividad.valueOf(linea.actividad),
+    public Actividad crearActividad(LineaLeida linea){
+        return new Actividad(
+                TipoActividad.valueOf(linea.actividad),
                 TipoDeConsumo.valueOf(linea.tipoDeConsumo),
                 Unidad.valueOf(linea.unidad),
                 new Periodo(obtenerMes(linea.periodoImputacion),obtenerAnio(linea.periodoImputacion)),

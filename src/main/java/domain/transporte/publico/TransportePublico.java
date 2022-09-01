@@ -7,6 +7,9 @@ import domain.transporte.MedioTransporte;
 import domain.transporte.TipoCombustible;
 import domain.transporte.privado.TipoVehiculo;
 
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+
 public class TransportePublico implements MedioTransporte {
 
     private Linea linea;

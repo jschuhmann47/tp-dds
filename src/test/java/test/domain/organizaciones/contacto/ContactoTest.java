@@ -2,10 +2,8 @@ package test.domain.organizaciones.contacto;
 
 import domain.organizaciones.Organizacion;
 import domain.organizaciones.contacto.*;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
+import domain.organizaciones.contacto.adapters.EnvioNotificacionJavaxMailAdapter;
+import domain.organizaciones.contacto.adapters.EnvioNotificacionUltraWppAdapter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -18,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class ContactoTest {
 

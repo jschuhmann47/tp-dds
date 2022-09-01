@@ -1,4 +1,4 @@
-package domain.organizaciones.contacto;
+package domain.organizaciones.contacto.adapters;
 
 import okhttp3.*;
 

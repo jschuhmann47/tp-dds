@@ -1,7 +1,7 @@
 package domain.CargaDeDatos;
 
 import domain.CargaDeDatos.adapters.CargaDeDatosAdapter;
-import domain.CargaDeDatos.entidades.ActividadDA;
+import domain.CargaDeDatos.entidades.Actividad;
 import domain.organizaciones.Organizacion;
 import lombok.Setter;
 
@@ -11,23 +11,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CargaDeDatos {
-    @Setter
-    Organizacion organizacion;
 
+    static CargaDeDatosAdapter adapter;
 
-    public void agregarActividades(ActividadDA ... actividades) { //para test
-        this.listaDeActividades.addAll(Arrays.asList(actividades));
+    public static void cargarDatos(List<Actividad> actividades, String path) throws IOException {
+        actividades.addAll(adapter.leerArchivo(path));
     }
-
-    List<ActividadDA> listaDeActividades=new ArrayList<>();
-    CargaDeDatosAdapter adapter;
-
-    public void cargarDatos(String path) throws IOException {
-        listaDeActividades.addAll(adapter.leerArchivo());
-    }
-    public List<ActividadDA> getListaDeActividades() {
-        return listaDeActividades;
-    }
-
 
 }

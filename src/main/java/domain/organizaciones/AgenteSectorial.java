@@ -4,14 +4,23 @@ package domain.organizaciones;
 import domain.CargaDeDatos.entidades.Periodo;
 import domain.geoDDS.entidades.Municipio;
 
-
-import java.util.ArrayList;
+import javax.persistence.*;
 import java.util.List;
-
+@Entity
+@Table(name = "agente_sectorial")
 public class AgenteSectorial {
+    @Id
+    @GeneratedValue
+    private int id;
 
+    @Transient
     private Municipio municipio;
+
+    @Transient
     List<Organizacion> organizaciones;
+
+    public AgenteSectorial() {
+    }
 
     public AgenteSectorial(Municipio municipio, List<Organizacion> organizaciones){
         this.municipio = municipio;

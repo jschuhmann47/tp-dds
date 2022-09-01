@@ -15,11 +15,12 @@ public class TransportePrivado implements MedioTransporte {
     TipoVehiculo tipo;
     TipoCombustible tipoCombustible;
 
-    TramoCompartido tramoCompartido = new TramoCompartido();
+    TramoCompartido tramoCompartido;
 
     public TransportePrivado(TipoVehiculo tipo, TipoCombustible tipoCombustible) {
         this.tipo = tipo;
         this.tipoCombustible = tipoCombustible;
+        this.tramoCompartido = new TramoCompartido();
     }
 
 
@@ -29,7 +30,7 @@ public class TransportePrivado implements MedioTransporte {
 
 
     public Distancia calcularDistancia(Direccion origen, Direccion destino) throws IOException {
-        return ServicioCalcularDistancia.getInstance().distanciaEntre(origen, destino);
+        return ServicioCalcularDistancia.distanciaEntre(origen, destino);
     }
 
     public Double getConsumoPorKM(){

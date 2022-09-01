@@ -92,8 +92,7 @@ public class CalculoHCTest {
         CalcularHCTransporte.cargarConsumosPorKm("src/main/java/domain/transporte/litrosConsumidosPorKm.properties");
 
         this.adapterMock = mock(ServicioGeoDDSAdapter.class);
-        this.servicioDistanciaTest = ServicioCalcularDistancia.getInstance();
-        this.servicioDistanciaTest.setAdapter(this.adapterMock);
+        ServicioCalcularDistancia.setAdapter(this.adapterMock);
 
         when(this.adapterMock.distanciaEntre(direccion1,direccion2)).thenReturn(distancia1);
         Tramo tramoAuto = new Tramo(auto,direccion1,direccion2);
@@ -159,12 +158,11 @@ public class CalculoHCTest {
 
         juan.agregarTrayectos(trayectoTest, trayectoTest);
         Periodo periodo = new Periodo(1,2021);
-        ActividadDA gas = new ActividadDA(Actividad.COMBUSTION_FIJA,TipoDeConsumo.DIESEL,Unidad.M3,
+        List<Actividad> actividades = new ArrayList<>();
+        Actividad gas = new Actividad(TipoActividad.COMBUSTION_FIJA,TipoDeConsumo.DIESEL,Unidad.M3,
                                 periodo,Periodicidad.MENSUAL,1.0);
-        CargaDeDatos datos = new CargaDeDatos();
-        datos.agregarActividades(gas);
-        datos.setOrganizacion(organizacionA);
-        organizacionA.setActividades(datos);
+        actividades.add(gas);
+        organizacionA.setListaDeActividades(actividades);
     }
 
 

@@ -4,12 +4,27 @@ import domain.geoDDS.Direccion;
 import domain.geoDDS.entidades.Distancia;
 import domain.transporte.MedioTransporte;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "tramo")
 public class Tramo {
-    public MedioTransporte medioTransporte;
+    @Id
+    @GeneratedValue
+    private int id;
+
+    @Transient
+    public MedioTransporte medioTransporte; //todo interfaz
+    @Transient //todo
     public Direccion puntoInicio;
+    @Transient
     public Direccion puntoFinal;
+    @Embedded
     public Distancia distanciaTramo;
 
+
+    public Tramo() {
+    }
 
     public Tramo(MedioTransporte medioTransporte, Direccion puntoInicio, Direccion puntoFinal) throws Exception {
         this.medioTransporte = medioTransporte;
