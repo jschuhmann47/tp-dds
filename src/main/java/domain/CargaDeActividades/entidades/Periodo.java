@@ -1,4 +1,4 @@
-package domain.CargaDeDatos.entidades;
+package domain.CargaDeActividades.entidades;
 
 import lombok.Getter;
 import lombok.Setter;

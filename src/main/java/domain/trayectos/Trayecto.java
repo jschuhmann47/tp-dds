@@ -1,13 +1,12 @@
 package domain.trayectos;
 
-import domain.CargaDeDatos.entidades.Periodo;
+import domain.CargaDeActividades.entidades.Periodo;
 import domain.geoDDS.Direccion;
 import domain.geoDDS.entidades.Distancia;
 
 import javax.persistence.*;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name = "trayecto")
@@ -16,18 +15,16 @@ public class Trayecto {
     @GeneratedValue
     private int id;
 
-//    @Embedded
-//    @AttributeOverrides({@AttributeOverride(name="altura",column = @Column(name = "altura_salida")),
-//            @AttributeOverride(name = "calle",column = @Column(name = "calle_salida")),
-//            @AttributeOverride(name = "localidad",column = @Column(name = "localidad_salida_id"))})
-    @Transient
+    @Embedded
+    @AssociationOverride(name = "localidad",joinColumns = @JoinColumn(name = "localidad_inicio_id"))
+    @AttributeOverrides({@AttributeOverride(name="altura",column = @Column(name = "altura_inicio")),
+                        @AttributeOverride(name = "calle",column = @Column(name = "calle_inicio"))})
     private Direccion puntoDeSalida;
-//    @Embedded
-//    @AttributeOverrides({@AttributeOverride(name="altura",column = @Column(name = "altura_destino")),
-//            @AttributeOverride(name = "calle",column = @Column(name = "calle_destino")),
-//            @AttributeOverride(name = "localidad",column = @Column(name = "localidad_destino_id"))})
-    @Transient
-    private Direccion puntoDeLlegada; //TODO la localidad no se overridea
+    @Embedded
+    @AssociationOverride(name = "localidad",joinColumns = @JoinColumn(name = "localidad_fin_id"))
+    @AttributeOverrides({@AttributeOverride(name="altura",column = @Column(name = "altura_fin")),
+                        @AttributeOverride(name = "calle",column = @Column(name = "calle_fin"))})
+    private Direccion puntoDeLlegada;
     @Embedded
     public Frecuencia frecuencia;
 

@@ -1,8 +1,8 @@
 package domain.organizaciones;
 
-import domain.CargaDeDatos.CargaDeDatos;
-import domain.CargaDeDatos.entidades.Actividad;
-import domain.CargaDeDatos.entidades.Periodo;
+import domain.CargaDeActividades.CargaDeActividades;
+import domain.CargaDeActividades.entidades.Actividad;
+import domain.CargaDeActividades.entidades.Periodo;
 import domain.calculoHC.CalculoHC;
 import domain.geoDDS.Direccion;
 import domain.organizaciones.contacto.Contacto;
@@ -21,9 +21,6 @@ public class Organizacion {
     @GeneratedValue
     private int id;
 
-    @Column(name = "nombre")
-    @Getter
-    private String nombre;
 
     @ElementCollection
     @CollectionTable(name = "organizacion_clasificacion",joinColumns = @JoinColumn(name = "organizacion_id"))
@@ -33,6 +30,7 @@ public class Organizacion {
 
 
     @Column(name = "razon_social")
+    @Getter
     private String razonSocial;
 
     @OneToMany(mappedBy = "organizacion")
@@ -69,7 +67,7 @@ public class Organizacion {
 
 
     public void cargarDatos(String archivo) throws IOException {
-        CargaDeDatos.cargarDatos(this.getListaDeActividades(),archivo);
+        CargaDeActividades.cargarActividades(this.getListaDeActividades(),archivo);
         this.getListaDeActividades().forEach(CalculoHC::calcularHCDeActividad);
     }
 
@@ -82,10 +80,10 @@ public class Organizacion {
         sector.agregarTrabajador(trabajador);
     }
 
-    public Organizacion(String nombre,List<String> clasificacionOrg, List<Trabajador> miembros,
+    public Organizacion(List<String> clasificacionOrg, List<Trabajador> miembros,
                         String razonSocial, List<Sector> sectores, TipoOrganizacion tipoOrganizacion,
                         Direccion ubicacion){
-        this.nombre = nombre;
+
         this.clasificacionOrg = clasificacionOrg;
 
         this.razonSocial = razonSocial;

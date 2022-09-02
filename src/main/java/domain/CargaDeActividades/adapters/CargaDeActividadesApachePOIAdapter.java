@@ -1,6 +1,6 @@
-package domain.CargaDeDatos.adapters;
+package domain.CargaDeActividades.adapters;
 
-import domain.CargaDeDatos.entidades.*;
+import domain.CargaDeActividades.entidades.*;
 import domain.calculoHC.CalculoHC;
 import lombok.Setter;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Objects;
 
 
-public class CargaDeDatosApachePOIAdapter implements CargaDeDatosAdapter{
+public class CargaDeActividadesApachePOIAdapter implements CargaDeActividadesAdapter {
 
     public class LineaLeida{
         public String actividad,tipoDeConsumo,periodicidad,valorString,periodoImputacion,unidad;

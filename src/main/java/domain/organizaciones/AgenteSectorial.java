@@ -1,7 +1,7 @@
 package domain.organizaciones;
 
 
-import domain.CargaDeDatos.entidades.Periodo;
+import domain.CargaDeActividades.entidades.Periodo;
 import domain.geoDDS.entidades.Municipio;
 
 import javax.persistence.*;

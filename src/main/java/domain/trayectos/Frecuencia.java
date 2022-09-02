@@ -1,7 +1,7 @@
 package domain.trayectos;
 
-import domain.CargaDeDatos.entidades.Periodicidad;
-import domain.CargaDeDatos.entidades.Periodo;
+import domain.CargaDeActividades.entidades.Periodicidad;
+import domain.CargaDeActividades.entidades.Periodo;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;

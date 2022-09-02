@@ -1,6 +1,6 @@
 package test.domain.CalculoHC;
 
-import domain.CargaDeDatos.entidades.*;
+import domain.CargaDeActividades.entidades.*;
 import domain.calculoHC.CalculoHC;
 import domain.geoDDS.Direccion;
 import domain.geoDDS.ServicioCalcularDistancia;
@@ -84,8 +84,8 @@ public class CalculoHCTest {
 
     @BeforeEach
     public void init() throws Exception {
-        CalculoHC.cargarFactoresDeEmision("src/main/java/domain/calculoHC/factorEmision.properties");
-        CalcularHCTransporte.cargarConsumosPorKm("src/main/java/domain/transporte/litrosConsumidosPorKm.properties");
+        CalculoHC.cargarFactoresDeEmision("src/test/java/test/domain/CalculoHC/factorEmision.properties");
+        CalcularHCTransporte.cargarConsumosPorKm("src/test/java/test/domain/CalculoHC/litrosConsumidosPorKm.properties");
 
         this.adapterMock = mock(ServicioGeoDDSAdapter.class);
         ServicioCalcularDistancia.setAdapter(this.adapterMock);

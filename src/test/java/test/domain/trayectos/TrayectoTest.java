@@ -1,6 +1,6 @@
 package test.domain.trayectos;
 
-import domain.CargaDeDatos.entidades.Periodicidad;
+import domain.CargaDeActividades.entidades.Periodicidad;
 import domain.geoDDS.Direccion;
 import domain.geoDDS.ServicioCalcularDistancia;
 import domain.geoDDS.adapters.ServicioGeoDDSAdapter;

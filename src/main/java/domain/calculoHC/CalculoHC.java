@@ -1,8 +1,8 @@
 package domain.calculoHC;
 
-import domain.CargaDeDatos.entidades.Actividad;
-import domain.CargaDeDatos.entidades.Periodo;
-import domain.CargaDeDatos.entidades.TipoDeConsumo;
+import domain.CargaDeActividades.entidades.Actividad;
+import domain.CargaDeActividades.entidades.Periodo;
+import domain.CargaDeActividades.entidades.TipoDeConsumo;
 import lombok.Getter;
 import lombok.Setter;
 

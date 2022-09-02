@@ -1,6 +1,6 @@
 package domain.organizaciones;
 
-import domain.CargaDeDatos.entidades.Periodo;
+import domain.CargaDeActividades.entidades.Periodo;
 import domain.trayectos.Trayecto;
 
 import javax.persistence.*;

@@ -1,7 +1,7 @@
-package test.domain.CargaDeDatos;
+package test.domain.CargaDeActividades;
 
-import domain.CargaDeDatos.adapters.CargaDeDatosApachePOIAdapter;
-import domain.CargaDeDatos.entidades.*;
+import domain.CargaDeActividades.adapters.CargaDeActividadesApachePOIAdapter;
+import domain.CargaDeActividades.entidades.*;
 import domain.calculoHC.CalculoHC;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.junit.jupiter.api.Assertions;
@@ -11,8 +11,8 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-public class CargaDeDatosApachePOIAdapterTest {
-    CargaDeDatosApachePOIAdapter adapterTest;
+public class CargaDeActividadesApachePOIAdapterTest {
+    CargaDeActividadesApachePOIAdapter adapterTest;
     HSSFSheet hojaLeida;
     Actividad actividadTest, actividadTestCompuesta;
 
@@ -20,9 +20,9 @@ public class CargaDeDatosApachePOIAdapterTest {
 
     @BeforeEach
     public void init() throws IOException {
-        CalculoHC.cargarFactoresDeEmision("src/main/java/domain/calculoHC/factorEmision.properties");
-        adapterTest = new CargaDeDatosApachePOIAdapter();
-        adapterTest.setFile("src/main/java/domain/CargaDeDatos/actividad.xls");
+        CalculoHC.cargarFactoresDeEmision("src/test/java/test/domain/CalculoHC/factorEmision.properties");
+        adapterTest = new CargaDeActividadesApachePOIAdapter();
+        adapterTest.setFile("src/test/java/test/domain/CargaDeActividades/actividad.xls");
         Periodo periodoTest = new Periodo(4,2022);
         Periodo periodoTestCompuesto = new Periodo(5,2021);
         actividadTest =
@@ -41,7 +41,7 @@ public class CargaDeDatosApachePOIAdapterTest {
     @DisplayName("Excel: se lee una fila")
     public void excel() {
 
-        CargaDeDatosApachePOIAdapter.LineaLeida linea = adapterTest.leerFila(hojaLeida,1);
+        CargaDeActividadesApachePOIAdapter.LineaLeida linea = adapterTest.leerFila(hojaLeida,1);
         Assertions.assertEquals("COMBUSTION_FIJA",linea.actividad);
         Assertions.assertEquals("GAS_NATURAL",linea.tipoDeConsumo);
         Assertions.assertEquals("M3",linea.unidad);
@@ -55,7 +55,7 @@ public class CargaDeDatosApachePOIAdapterTest {
     @DisplayName("Excel: se lee una fila de campo compuesto") //la de categoria
     public void excelCompuesto() {
 
-        CargaDeDatosApachePOIAdapter.LineaLeida linea = adapterTest.leerFila(hojaLeida,5);
+        CargaDeActividadesApachePOIAdapter.LineaLeida linea = adapterTest.leerFila(hojaLeida,5);
         Assertions.assertEquals("LOGISTICA_PRODUCTOS_RESIDUOS",linea.actividad);
         Assertions.assertEquals("CATEGORIA",linea.tipoDeConsumo);
         Assertions.assertEquals("-",linea.unidad);
@@ -80,7 +80,7 @@ public class CargaDeDatosApachePOIAdapterTest {
     @DisplayName("Se crea una actividad correctamente")
     public void actividad() {
 
-        CargaDeDatosApachePOIAdapter.LineaLeida linea = adapterTest.leerEntrada(hojaLeida,1);
+        CargaDeActividadesApachePOIAdapter.LineaLeida linea = adapterTest.leerEntrada(hojaLeida,1);
         Actividad actividadLeida = adapterTest.crearActividad(linea);
         Assertions.assertEquals(actividadTest.tipoActividad,actividadLeida.tipoActividad);
         Assertions.assertEquals(actividadTest.periodo.getAnio(),actividadLeida.periodo.getAnio());
@@ -95,7 +95,7 @@ public class CargaDeDatosApachePOIAdapterTest {
     @DisplayName("Se crea una actividad compuesta correctamente")
     public void actividadCompuesta() {
 
-        CargaDeDatosApachePOIAdapter.LineaLeida linea = adapterTest.leerEntrada(hojaLeida,5);
+        CargaDeActividadesApachePOIAdapter.LineaLeida linea = adapterTest.leerEntrada(hojaLeida,5);
         Actividad actividadLeida = adapterTest.crearActividad(linea);
         Assertions.assertEquals(actividadTestCompuesta.tipoActividad,actividadLeida.tipoActividad);
         Assertions.assertEquals(actividadTestCompuesta.periodo.getAnio(),actividadLeida.periodo.getAnio());

@@ -1,4 +1,4 @@
-package domain.CargaDeDatos.entidades;
+package domain.CargaDeActividades.entidades;
 
 import domain.calculoHC.HuellaCarbono;
 import domain.calculoHC.UnidadHC;
