@@ -71,7 +71,7 @@ public class Trayecto {
                         throw new RuntimeException(e);
                     }
                     })
-                    .mapToDouble(i->i).sum(); //TODO
+                    .mapToDouble(i->i).sum();
         return new Distancia(valor,"KM");
     }
 

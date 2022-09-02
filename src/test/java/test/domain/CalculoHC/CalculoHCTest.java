@@ -34,11 +34,9 @@ import static org.mockito.Mockito.when;
 
 public class CalculoHCTest {
 
-    ServicioCalcularDistancia servicioDistanciaTest;
     ServicioGeoDDSAdapter adapterMock;
 
 
-    TramoCompartido tramoCompartido = new TramoCompartido();
     Trabajador juan = new Trabajador();
     Trabajador pepe = new Trabajador();
     Trabajador carlos = new Trabajador();
