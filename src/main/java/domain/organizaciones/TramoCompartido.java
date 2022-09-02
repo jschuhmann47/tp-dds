@@ -1,13 +1,19 @@
 package domain.organizaciones;
 
+import javax.persistence.Embeddable;
+import javax.persistence.Transient;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Embeddable
 public class TramoCompartido {
 
-    private List<Organizacion> orgPosibles = new ArrayList<>();
+    @Transient
+    private List<Organizacion> orgPosibles = new ArrayList<>(); //lista de string?
+
+    @Transient
     private List<Trabajador> personasABordo = new ArrayList<>();
 
     public void agregarTrabajadorATramoCompartido(Trabajador trabajador) throws Exception {

@@ -15,15 +15,17 @@ public class Tramo {
 
     @Transient
     public MedioTransporte medioTransporte; //todo interfaz
-    @Embedded
-    @AttributeOverrides({@AttributeOverride(name="altura",column = @Column(name = "altura_inicio")),
-            @AttributeOverride(name = "calle",column = @Column(name = "calle_inicio")),
-            @AttributeOverride(name = "localidad",column = @Column(name = "localidad_inicio_id"))})
+//    @Embedded
+//    @AttributeOverrides({@AttributeOverride(name="altura",column = @Column(name = "altura_inicio")),
+//            @AttributeOverride(name = "calle",column = @Column(name = "calle_inicio")),
+//            @AttributeOverride(name = "localidad",column = @Column(name = "localidad_inicio_id"))})
+    @Transient
     public Direccion puntoInicio;
-    @Embedded
-    @AttributeOverrides({@AttributeOverride(name="altura",column = @Column(name = "altura_fin")),
-            @AttributeOverride(name = "calle",column = @Column(name = "calle_fin")),
-            @AttributeOverride(name = "localidad",column = @Column(name = "localidad_fin_id"))})
+//    @Embedded
+//    @AttributeOverrides({@AttributeOverride(name="altura",column = @Column(name = "altura_fin")),
+//            @AttributeOverride(name = "calle",column = @Column(name = "calle_fin")),
+//            @AttributeOverride(name = "localidad",column = @Column(name = "localidad_fin_id"))})
+    @Transient
     public Direccion puntoFinal;
     @Embedded
     public Distancia distanciaTramo;

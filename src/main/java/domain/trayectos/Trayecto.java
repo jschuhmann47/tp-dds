@@ -16,15 +16,17 @@ public class Trayecto {
     @GeneratedValue
     private int id;
 
-    @Embedded
-    @AttributeOverrides({@AttributeOverride(name="altura",column = @Column(name = "altura_salida")),
-            @AttributeOverride(name = "calle",column = @Column(name = "calle_salida")),
-            @AttributeOverride(name = "localidad",column = @Column(name = "localidad_salida_id"))})
+//    @Embedded
+//    @AttributeOverrides({@AttributeOverride(name="altura",column = @Column(name = "altura_salida")),
+//            @AttributeOverride(name = "calle",column = @Column(name = "calle_salida")),
+//            @AttributeOverride(name = "localidad",column = @Column(name = "localidad_salida_id"))})
+    @Transient
     private Direccion puntoDeSalida;
-    @Embedded
-    @AttributeOverrides({@AttributeOverride(name="altura",column = @Column(name = "altura_destino")),
-            @AttributeOverride(name = "calle",column = @Column(name = "calle_destino")),
-            @AttributeOverride(name = "localidad",column = @Column(name = "localidad_destino_id"))})
+//    @Embedded
+//    @AttributeOverrides({@AttributeOverride(name="altura",column = @Column(name = "altura_destino")),
+//            @AttributeOverride(name = "calle",column = @Column(name = "calle_destino")),
+//            @AttributeOverride(name = "localidad",column = @Column(name = "localidad_destino_id"))})
+    @Transient
     private Direccion puntoDeLlegada; //TODO la localidad no se overridea
     @Embedded
     public Frecuencia frecuencia;

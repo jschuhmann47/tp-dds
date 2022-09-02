@@ -9,12 +9,14 @@ import domain.transporte.CalcularHCTransporte;
 import domain.transporte.MedioTransporte;
 import domain.transporte.TipoCombustible;
 
+import javax.persistence.Embedded;
 import java.io.IOException;
 
 public class TransportePrivado implements MedioTransporte {
     TipoVehiculo tipo;
     TipoCombustible tipoCombustible;
 
+    @Embedded
     TramoCompartido tramoCompartido;
 
     public TransportePrivado(TipoVehiculo tipo, TipoCombustible tipoCombustible) {

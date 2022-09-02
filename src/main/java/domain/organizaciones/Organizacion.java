@@ -21,6 +21,10 @@ public class Organizacion {
     @GeneratedValue
     private int id;
 
+    @Column(name = "nombre")
+    @Getter
+    private String nombre;
+
     @ElementCollection
     @CollectionTable(name = "organizacion_clasificacion",joinColumns = @JoinColumn(name = "organizacion_id"))
     @Column(name = "clasificacion")
@@ -78,10 +82,10 @@ public class Organizacion {
         sector.agregarTrabajador(trabajador);
     }
 
-    public Organizacion(List<String> clasificacionOrg, List<Trabajador> miembros,
+    public Organizacion(String nombre,List<String> clasificacionOrg, List<Trabajador> miembros,
                         String razonSocial, List<Sector> sectores, TipoOrganizacion tipoOrganizacion,
                         Direccion ubicacion){
-
+        this.nombre = nombre;
         this.clasificacionOrg = clasificacionOrg;
 
         this.razonSocial = razonSocial;
