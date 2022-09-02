@@ -1,5 +1,9 @@
 package domain.CargaDeDatos.entidades;
 
+import domain.calculoHC.HuellaCarbono;
+import domain.calculoHC.UnidadHC;
+import lombok.Getter;
+
 import javax.persistence.*;
 
 @Entity
@@ -19,7 +23,7 @@ public class Actividad {
     public Unidad unidad;
 
     @Embedded
-    public Periodo periodo; //ponerlo aca
+    public Periodo periodo;
 
     @Enumerated(value = EnumType.STRING)
     public Periodicidad periodicidad;
@@ -27,7 +31,15 @@ public class Actividad {
     @Column(name = "valor")
     public Double valor;
 
+    @Embedded
+    @Getter
+    private HuellaCarbono huellaCarbono = new HuellaCarbono();
 
+
+    public void setHuellaCarbono(UnidadHC unidad, Double valor){
+        this.huellaCarbono.setUnidad(unidad);
+        this.huellaCarbono.setValor(valor);
+    }
 
 
     public Actividad() {
@@ -35,7 +47,8 @@ public class Actividad {
     }
 
 
-    public Actividad(TipoActividad tipoActividad, TipoDeConsumo tipoDeConsumo, Unidad unidad, Periodo periodo, Periodicidad periodicidad, Double valor) {
+    public Actividad(TipoActividad tipoActividad, TipoDeConsumo tipoDeConsumo, Unidad unidad, Periodo periodo,
+                     Periodicidad periodicidad, Double valor) {
         this.tipoActividad = tipoActividad;
         this.tipoDeConsumo = tipoDeConsumo;
         this.unidad = unidad;

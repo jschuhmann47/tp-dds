@@ -12,15 +12,16 @@ public class Direccion {
     private Integer altura;
     @Column(name = "calle")
     private String calle;
+
+    //@JoinColumn(name = "localidad_id",referencedColumnName = "id")
     @ManyToOne
-    @JoinColumn(name = "localidad_id",referencedColumnName = "id")
     private Localidad localidad;
 
 
     public Direccion() {
     }
 
-    public Direccion(Integer altura, String calle, Localidad localidad, Municipio municipio, Provincia provincia) {
+    public Direccion(Integer altura, String calle, Localidad localidad) {
         this.altura = altura;
         this.calle = calle;
         this.localidad = localidad;

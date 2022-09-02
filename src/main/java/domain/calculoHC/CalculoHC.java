@@ -17,6 +17,7 @@ import java.util.Properties;
 import java.util.stream.Collectors;
 
 public class CalculoHC {
+    static UnidadHC unidadPorDefecto;
 
     @Getter
     @Setter
@@ -42,18 +43,19 @@ public class CalculoHC {
     }
 
 
-    public static Double calcularHCDeActividad(Actividad actividad){
-        return actividad.valor * getFactoresEmision().get(actividad.tipoDeConsumo);
+    public static void calcularHCDeActividad(Actividad actividad){
+        Double valorAct = actividad.valor * getFactoresEmision().get(actividad.tipoDeConsumo);
+        actividad.setHuellaCarbono(CalculoHC.unidadPorDefecto, valorAct);
     }
 
-    public static Double calcularHCDeListaDeActividades(List<Actividad> actividadesDA, Periodo periodo) {
+    public static Double calcularHCDeListaDeActividades(List<Actividad> actividades, Periodo periodo) {
 
-        List<Actividad> listaHC = actividadesDA.stream()
+        List<Actividad> listaHC = actividades.stream()
                 .filter(a-> Objects.equals(a.periodo.getAnio(), periodo.getAnio())).collect(Collectors.toList());
         if(periodo.getMes()!=null){
             listaHC=listaHC.stream().filter(a->Objects.equals(a.periodo.getMes(), periodo.getMes())).collect(Collectors.toList());
         }
-        return sumarListaHC(listaHC.stream().map(CalculoHC::calcularHCDeActividad).collect(Collectors.toList()));
+        return sumarListaHC(listaHC.stream().map(a->a.getHuellaCarbono().getValor()).collect(Collectors.toList()));
     }
 
 

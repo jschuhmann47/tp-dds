@@ -19,14 +19,13 @@ public class Trayecto {
     @Embedded
     @AttributeOverrides({@AttributeOverride(name="altura",column = @Column(name = "altura_salida")),
             @AttributeOverride(name = "calle",column = @Column(name = "calle_salida")),
-            @AttributeOverride(name = "localidad_id",column = @Column(name = "localidad_salida_id"))})
+            @AttributeOverride(name = "localidad",column = @Column(name = "localidad_salida_id"))})
     private Direccion puntoDeSalida;
-//    @Embedded
-//    @AttributeOverrides({@AttributeOverride(name="altura",column = @Column(name = "altura_destino")),
-//            @AttributeOverride(name = "calle",column = @Column(name = "calle_destino")),
-//            @AttributeOverride(name = "localidad_id",column = @Column(name = "localidad_destino_id"))})
-    @Transient
-    private Direccion puntoDeLlegada; //diferenciar las direcciones?
+    @Embedded
+    @AttributeOverrides({@AttributeOverride(name="altura",column = @Column(name = "altura_destino")),
+            @AttributeOverride(name = "calle",column = @Column(name = "calle_destino")),
+            @AttributeOverride(name = "localidad",column = @Column(name = "localidad_destino_id"))})
+    private Direccion puntoDeLlegada; //TODO la localidad no se overridea
     @Embedded
     public Frecuencia frecuencia;
 

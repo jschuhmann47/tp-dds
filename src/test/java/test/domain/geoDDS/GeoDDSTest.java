@@ -10,9 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -38,8 +35,8 @@ public class GeoDDSTest {
     private Localidad ranchos = new Localidad(3680,"RANCHOS",1987,gralPaz);
     private Localidad pavon = new Localidad(3678,"PAVON",7103,gralLavalle);
 
-    Direccion direccionPrueba1 = new Direccion(100,"maipu",pavon,gralLavalle, buenosAires);
-    Direccion direccionPrueba2 = new Direccion(450,"san martin",ranchos,gralPaz, buenosAires);
+    Direccion direccionPrueba1 = new Direccion(100,"maipu",pavon);
+    Direccion direccionPrueba2 = new Direccion(450,"san martin",ranchos);
 
     @Test
     @DisplayName("Se obtiene la distancia entre dos direcciones")

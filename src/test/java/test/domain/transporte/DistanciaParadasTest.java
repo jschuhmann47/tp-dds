@@ -22,8 +22,8 @@ public class DistanciaParadasTest {
 
     Localidad localidad = new Localidad(1,"A",1,municipio);
 
-    Direccion direccion1 = new Direccion(100,"Rivadavia",localidad,municipio,provincia);
-    Direccion direccion2 = new Direccion(4000,"Corrientes",localidad,municipio,provincia);
+    Direccion direccion1 = new Direccion(100,"Rivadavia",localidad);
+    Direccion direccion2 = new Direccion(4000,"Corrientes",localidad);
 
     Distancia distancia1 = new Distancia(10.0,"KM");
     Distancia distancia2 = new Distancia(12.0,"KM");

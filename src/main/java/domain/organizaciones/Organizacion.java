@@ -66,6 +66,7 @@ public class Organizacion {
 
     public void cargarDatos(String archivo) throws IOException {
         CargaDeDatos.cargarDatos(this.getListaDeActividades(),archivo);
+        this.getListaDeActividades().forEach(CalculoHC::calcularHCDeActividad);
     }
 
     public void agregarNuevoSector(Sector sector){

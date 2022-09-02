@@ -1,6 +1,5 @@
 package test.domain.CalculoHC;
 
-import domain.CargaDeDatos.CargaDeDatos;
 import domain.CargaDeDatos.entidades.*;
 import domain.calculoHC.CalculoHC;
 import domain.geoDDS.Direccion;
@@ -10,7 +9,6 @@ import domain.geoDDS.entidades.*;
 import domain.organizaciones.Organizacion;
 import domain.organizaciones.Sector;
 import domain.organizaciones.Trabajador;
-import domain.organizaciones.TramoCompartido;
 import domain.transporte.CalcularHCTransporte;
 import domain.transporte.TipoCombustible;
 import domain.transporte.privado.TipoVehiculo;
@@ -60,9 +58,9 @@ public class CalculoHCTest {
 
     Localidad localidad = new Localidad(1,"A",1,municipio);
 
-    Direccion direccion1 = new Direccion(100,"Rivadavia",localidad,municipio,provincia);
-    Direccion direccion2 = new Direccion(4000,"Corrientes",localidad,municipio,provincia);
-    Direccion direccion3 = new Direccion(2300,"Mozart",localidad,municipio,provincia);
+    Direccion direccion1 = new Direccion(100,"Rivadavia",localidad);
+    Direccion direccion2 = new Direccion(4000,"Corrientes",localidad);
+    Direccion direccion3 = new Direccion(2300,"Mozart",localidad);
 
     Distancia distancia1 = new Distancia(10.0,"KM");
     Distancia distancia2 = new Distancia(12.0,"KM");
@@ -161,6 +159,7 @@ public class CalculoHCTest {
                                 periodo,Periodicidad.MENSUAL,1.0);
         actividades.add(gas);
         organizacionA.setListaDeActividades(actividades);
+        CalculoHC.calcularHCDeActividad(gas);
     }
 
 

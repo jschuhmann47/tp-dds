@@ -1,12 +1,10 @@
 package test.domain.trayectos;
 
 import domain.CargaDeDatos.entidades.Periodicidad;
-import domain.calculoHC.CalculoHC;
 import domain.geoDDS.Direccion;
 import domain.geoDDS.ServicioCalcularDistancia;
 import domain.geoDDS.adapters.ServicioGeoDDSAdapter;
 import domain.geoDDS.entidades.*;
-import domain.transporte.CalcularHCTransporte;
 import domain.transporte.TipoCombustible;
 import domain.transporte.privado.TipoVehiculo;
 import domain.transporte.privado.TransportePrivado;
@@ -21,7 +19,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,9 +34,9 @@ public class TrayectoTest {
 
     Localidad localidad = new Localidad(1,"A",1,municipio);
 
-    Direccion direccion1 = new Direccion(100,"Rivadavia",localidad,municipio,provincia);
-    Direccion direccion2 = new Direccion(4000,"Corrientes",localidad,municipio,provincia);
-    Direccion direccion3 = new Direccion(2300,"Mozart",localidad,municipio,provincia);
+    Direccion direccion1 = new Direccion(100,"Rivadavia",localidad);
+    Direccion direccion2 = new Direccion(4000,"Corrientes",localidad);
+    Direccion direccion3 = new Direccion(2300,"Mozart",localidad);
 
     Distancia distancia1 = new Distancia(10.0,"KM");
     Distancia distancia2 = new Distancia(12.0,"KM");
