@@ -4,11 +4,21 @@ import domain.geoDDS.Direccion;
 import domain.geoDDS.entidades.Distancia;
 import domain.transporte.MedioTransporte;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 import java.io.IOException;
 
-public class ServicioContratado implements MedioTransporte {
+
+@Entity
+@DiscriminatorValue("servicio_contratado")
+public class ServicioContratado extends MedioTransporte {
+
+
     private TransportePrivado transportePrivado;
     private String nombre;
+
+    public ServicioContratado() {
+    }
 
     public ServicioContratado(TransportePrivado transportePrivado, String nombre) {
         this.transportePrivado = transportePrivado;

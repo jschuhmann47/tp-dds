@@ -2,6 +2,7 @@ package domain.trayectos;
 
 import domain.geoDDS.Direccion;
 import domain.geoDDS.entidades.Distancia;
+import domain.transporte.EMedioTransporte;
 import domain.transporte.MedioTransporte;
 
 import javax.persistence.*;
@@ -15,6 +16,9 @@ public class Tramo {
 
     @Transient
     public MedioTransporte medioTransporte; //todo interfaz
+    @Enumerated(value = EnumType.STRING)
+    private EMedioTransporte eMedioTransporte;
+
     @Embedded
     @AssociationOverride(name = "localidad",joinColumns = @JoinColumn(name = "localidad_inicio_id"))
     @AttributeOverrides({@AttributeOverride(name="altura",column = @Column(name = "altura_inicio")),

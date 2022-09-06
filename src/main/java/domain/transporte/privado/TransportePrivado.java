@@ -3,21 +3,26 @@ package domain.transporte.privado;
 import domain.geoDDS.Direccion;
 import domain.geoDDS.ServicioCalcularDistancia;
 import domain.geoDDS.entidades.Distancia;
-import domain.organizaciones.TramoCompartido;
+import domain.trayectos.TramoCompartido;
 import domain.organizaciones.Trabajador;
 import domain.transporte.CalcularHCTransporte;
 import domain.transporte.MedioTransporte;
 import domain.transporte.TipoCombustible;
 
-import javax.persistence.Embedded;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.Transient;
 import java.io.IOException;
 
-public class TransportePrivado implements MedioTransporte {
-    TipoVehiculo tipo;
-    TipoCombustible tipoCombustible;
 
-    @Embedded
+@Entity
+@DiscriminatorValue("transporte_privado")
+public class TransportePrivado extends MedioTransporte {
+    @Transient
     TramoCompartido tramoCompartido;
+
+    public TransportePrivado() {
+    }
 
     public TransportePrivado(TipoVehiculo tipo, TipoCombustible tipoCombustible) {
         this.tipo = tipo;

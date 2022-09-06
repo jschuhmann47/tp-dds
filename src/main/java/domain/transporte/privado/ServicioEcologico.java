@@ -5,9 +5,18 @@ import domain.geoDDS.ServicioCalcularDistancia;
 import domain.geoDDS.entidades.Distancia;
 import domain.transporte.MedioTransporte;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 import java.io.IOException;
 
-public class ServicioEcologico implements MedioTransporte {
+@Entity
+@DiscriminatorValue("servicio_ecologico")
+public class ServicioEcologico extends MedioTransporte {
+
+    public ServicioEcologico() {
+        this.tipo = null;
+        this.tipoCombustible = null;
+    }
 
     public String detalle() {
         return "";

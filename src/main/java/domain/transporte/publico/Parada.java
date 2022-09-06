@@ -14,14 +14,14 @@ public class Parada {
     private int id;
     @Column(name = "parada_siguiente")
     @Setter
-    @Transient
+    @Transient //TODO
     Parada paradaSiguiente;
 
-    @Transient
+    @Transient //TODO
     Distancia distanciaAnterior;
-    @Transient
+    @Transient //TODO
     Distancia distanciaSiguiente;
-    @Transient
+    @Transient //TODO
     Direccion direccion;
 
     public Parada() {

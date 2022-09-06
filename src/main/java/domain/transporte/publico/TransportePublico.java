@@ -7,14 +7,23 @@ import domain.transporte.MedioTransporte;
 import domain.transporte.TipoCombustible;
 import domain.transporte.privado.TipoVehiculo;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
-public class TransportePublico implements MedioTransporte {
 
+@Entity
+@DiscriminatorValue("transporte_publico")
+public class TransportePublico extends MedioTransporte {
+
+    @OneToOne
+    @JoinColumn(name = "linea_id",referencedColumnName = "id")
     private Linea linea;
-    private TipoVehiculo tipo;
-    private TipoCombustible tipoCombustible;
+
+
+    public TransportePublico() {
+    }
 
     public TransportePublico(Linea linea, TipoVehiculo tipo, TipoCombustible tipoCombustible) {
         this.linea = linea;

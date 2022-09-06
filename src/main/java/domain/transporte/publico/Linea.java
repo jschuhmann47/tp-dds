@@ -17,7 +17,7 @@ public class Linea {
     @Column(name = "nombre_linea")
     private String nombreDeLinea;
 
-    @Transient
+    @Transient //TODO
     private List<Parada> paradas=new ArrayList<>();
 
     public int getId() {

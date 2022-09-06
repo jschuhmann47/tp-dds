@@ -1,14 +1,21 @@
-package domain.organizaciones;
+package domain.trayectos;
 
-import javax.persistence.Embeddable;
-import javax.persistence.Transient;
+import domain.geoDDS.entidades.Distancia;
+import domain.organizaciones.Organizacion;
+import domain.organizaciones.Trabajador;
+import domain.transporte.privado.TransportePrivado;
+
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Embeddable
+@Entity
 public class TramoCompartido {
+    @Id
+    @GeneratedValue
+    private int id;
 
     @Transient
     private List<Organizacion> orgPosibles = new ArrayList<>(); //lista de string?
@@ -49,5 +56,6 @@ public class TramoCompartido {
     public int cantidadDeTrabajadores(){
         return personasABordo.size();
     }
+
 
 }
