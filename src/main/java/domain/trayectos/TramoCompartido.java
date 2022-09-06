@@ -17,10 +17,16 @@ public class TramoCompartido {
     @GeneratedValue
     private int id;
 
-    @Transient
+    @OneToMany
+    @JoinColumn(name = "organizacion_id",referencedColumnName = "id")
     private List<Organizacion> orgPosibles = new ArrayList<>(); //lista de string?
 
-    @Transient
+    @OneToOne
+    @JoinColumn(name = "transporte_privado_id",referencedColumnName = "id")
+    private TransportePrivado transportePrivado;
+
+    @OneToMany
+    @JoinColumn(name = "trabajador_id",referencedColumnName = "id")
     private List<Trabajador> personasABordo = new ArrayList<>();
 
     public void agregarTrabajadorATramoCompartido(Trabajador trabajador) throws Exception {

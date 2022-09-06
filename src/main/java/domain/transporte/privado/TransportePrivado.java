@@ -9,16 +9,15 @@ import domain.transporte.CalcularHCTransporte;
 import domain.transporte.MedioTransporte;
 import domain.transporte.TipoCombustible;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import java.io.IOException;
 
 
 @Entity
 @DiscriminatorValue("transporte_privado")
+@Embeddable
 public class TransportePrivado extends MedioTransporte {
-    @Transient
+    @OneToOne(mappedBy = "transportePrivado")
     TramoCompartido tramoCompartido;
 
     public TransportePrivado() {
