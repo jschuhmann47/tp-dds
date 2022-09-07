@@ -12,16 +12,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity
+@Table(name = "tramo_compartido")
 public class TramoCompartido {
     @Id
     @GeneratedValue
     private int id;
 
-    @OneToMany
-    @JoinColumn(name = "organizacion_id",referencedColumnName = "id")
-    private List<Organizacion> orgPosibles = new ArrayList<>(); //lista de string?
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "tramo_compartido_organizacion",joinColumns = @JoinColumn(name = "tramo_compartido_id",referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "organizacion_id",referencedColumnName = "id"))
+    private List<Organizacion> orgPosibles = new ArrayList<>();
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "transporte_privado_id",referencedColumnName = "id")
     private TransportePrivado transportePrivado;
 

@@ -12,7 +12,7 @@ public class Provincia {
     @Column(name = "nombre")
     public String nombre;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "pais_id",referencedColumnName = "id")
     public Pais pais;
 

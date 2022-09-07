@@ -3,19 +3,20 @@ package db;
 import domain.organizaciones.Organizacion;
 import domain.organizaciones.Sector;
 import domain.organizaciones.TipoOrganizacion;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+
+import static db.EntityManagerHelper.entityManager;
+import static db.EntityManagerHelper.withTransaction;
 
 public class PersistenciaTest {
 
     @Test
     @DisplayName("Se persiste una organizacion")
+
+
 
     public void organizacionPersistir(){
         List<Sector> sectores = new ArrayList<>();
@@ -36,12 +37,6 @@ public class PersistenciaTest {
         Organizacion org = (Organizacion) EntityManagerHelper
                 .createQuery("FROM Organizacion WHERE razon_social = 'Valve Corporation S.A'").getSingleResult();
         Assertions.assertEquals("Valve Corporation S.A", org.getRazonSocial());
-    }
-
-    @AfterAll
-    @DisplayName("Limpieza") //no funca
-    public static void delete(){
-        EntityManagerHelper.rollback();
     }
 
 

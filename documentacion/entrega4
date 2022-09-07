@@ -1,0 +1,4 @@
+Se decide hacer una Single Table para los medios de transporte ya que hay pocos atributos en juego, y algunos medios
+directamente no tienen atributos, por lo que preferimos tener algunas columnas en null pero ganar en velocidad de acceso
+a la tabla. Para esto se cambio la interfaz MedioDeTransporte por una clase abstracta
+

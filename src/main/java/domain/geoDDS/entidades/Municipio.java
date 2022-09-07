@@ -14,7 +14,7 @@ public class Municipio {
     public String nombre;
 
     @Getter
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "provincia_id",referencedColumnName = "id")
     public Provincia provincia;
 

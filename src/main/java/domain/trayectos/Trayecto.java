@@ -28,7 +28,7 @@ public class Trayecto {
     @Embedded
     public Frecuencia frecuencia;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "trayecto_id",referencedColumnName = "id")
     private List<Tramo> tramos;
 

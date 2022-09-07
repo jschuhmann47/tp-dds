@@ -14,7 +14,7 @@ public class Localidad {
     @Column(name = "codigo_postal")
     public int codPostal;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "municipio_id",referencedColumnName = "id")
     public Municipio municipio;
 

@@ -13,10 +13,12 @@ public class AgenteSectorial {
     @GeneratedValue
     private int id;
 
-    @Transient
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "municipio_id",referencedColumnName = "id")
     private Municipio municipio;
 
-    @Transient
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "organizacion")
     List<Organizacion> organizaciones;
 
     public AgenteSectorial() {

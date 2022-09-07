@@ -17,7 +17,7 @@ import java.io.IOException;
 @DiscriminatorValue("transporte_privado")
 @Embeddable
 public class TransportePrivado extends MedioTransporte {
-    @OneToOne(mappedBy = "transportePrivado")
+    @OneToOne(mappedBy = "transportePrivado",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     TramoCompartido tramoCompartido;
 
     public TransportePrivado() {
@@ -27,6 +27,12 @@ public class TransportePrivado extends MedioTransporte {
         this.tipo = tipo;
         this.tipoCombustible = tipoCombustible;
         this.tramoCompartido = new TramoCompartido();
+    }
+
+    public TransportePrivado(TipoVehiculo tipo, TipoCombustible tipoCombustible,TramoCompartido tramoCompartido) {
+        this.tipo = tipo;
+        this.tipoCombustible = tipoCombustible;
+        this.tramoCompartido = tramoCompartido;
     }
 
 

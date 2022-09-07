@@ -13,8 +13,8 @@ public class Direccion {
     @Column(name = "calle")
     private String calle;
 
-    //@JoinColumn(name = "localidad_id",referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "localidad_id",referencedColumnName = "id")
     private Localidad localidad;
 
 

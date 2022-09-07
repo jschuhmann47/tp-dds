@@ -33,7 +33,7 @@ public class Organizacion {
     @Getter
     private String razonSocial;
 
-    @OneToMany(mappedBy = "organizacion")
+    @OneToMany(mappedBy = "organizacion",fetch = FetchType.LAZY,cascade = CascadeType.ALL) //todo repetido
     @Getter
     private List<Sector> sectores;
 
@@ -47,13 +47,13 @@ public class Organizacion {
 
     @Getter
     @Setter
-    @OneToMany
-    @JoinColumn(name = "actividad_id",referencedColumnName = "id")
+    @OneToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "organizacion_id",referencedColumnName = "id")
     private List<Actividad> listaDeActividades;
 
     @Setter
     @Getter
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "organizacion_id",referencedColumnName = "id")
     private List<Contacto> contactos;
 

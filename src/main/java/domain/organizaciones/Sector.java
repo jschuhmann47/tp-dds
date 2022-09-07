@@ -11,15 +11,18 @@ public class Sector {
     @Id
     @GeneratedValue
     private int id; //no se si el id se lo pone la org
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "organizacion_id",referencedColumnName = "id")
     public Organizacion organizacion;
 
     @Column(name = "nombre_sector")
     public String nombreSector;
 
-    @OneToMany
-    @JoinColumn(name = "sector_id",referencedColumnName = "id")
+//    @OneToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+//    @JoinColumn(name = "sector_id",referencedColumnName = "id")
+    @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    @JoinTable(name = "trabajador_sector",joinColumns = @JoinColumn(name = "sector_id",referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "trabajador_id",referencedColumnName = "id"))
     public List<Trabajador> trabajadores;
 
     public Organizacion getOrganizacion() {

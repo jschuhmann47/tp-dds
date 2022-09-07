@@ -15,9 +15,6 @@ public class Contacto {
     @GeneratedValue
     private int id;
 
-    @Column(name = "organizacion_id")
-    private int organizacionId;
-
     @Getter
     @Column(name = "telefono")
     private String nroTelefono;

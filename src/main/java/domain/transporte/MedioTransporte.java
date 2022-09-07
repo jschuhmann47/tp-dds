@@ -26,7 +26,7 @@ public abstract class MedioTransporte {
     public int getId() {
         return id;
     }
-    //protected EMedioTransporte eMedio;
+
     public abstract String detalle();
 
     public abstract Distancia calcularDistancia(Direccion origen, Direccion destino) throws Exception;
