@@ -17,8 +17,9 @@ public class Linea {
     @Column(name = "nombre_linea")
     private String nombreDeLinea;
 
-    @Transient //TODO
-    private List<Parada> paradas=new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinColumn(name = "linea_id",referencedColumnName = "id")
+    private List<Parada> paradas=new ArrayList<>(); //tomamos que la linea no comparte paradas con otras lineas
 
     public int getId() {
         return id;

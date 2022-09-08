@@ -12,16 +12,20 @@ public class Parada {
     @Id
     @GeneratedValue
     private int id;
-    @Column(name = "parada_siguiente")
     @Setter
-    @Transient //TODO
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parada_siguiente_id", referencedColumnName = "id")
     Parada paradaSiguiente;
 
-    @Transient //TODO
+    @Embedded
+    @AttributeOverrides({@AttributeOverride(name="distancia_valor",column = @Column(name = "distancia_valor_parada_anterior")),
+                        @AttributeOverride(name = "distancia_unidad",column = @Column(name = "distancia_unidad_parada_anterior"))})
     Distancia distanciaAnterior;
-    @Transient //TODO
+    @Embedded
+    @AttributeOverrides({@AttributeOverride(name="distancia_valor",column = @Column(name = "distancia_valor_parada_siguiente")),
+                        @AttributeOverride(name = "distancia_unidad",column = @Column(name = "distancia_unidad_parada_siguiente"))})
     Distancia distanciaSiguiente;
-    @Transient //TODO
+    @Embedded
     Direccion direccion;
 
     public Parada() {
