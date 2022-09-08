@@ -29,7 +29,7 @@ public class Organizacion {
 
 
 
-    @Column(name = "razon_social")
+    @Column(name = "razon_social",nullable = false)
     @Getter
     private String razonSocial;
 
@@ -42,7 +42,7 @@ public class Organizacion {
 
     @Getter
     @Embedded
-    private Direccion ubicacion;
+    private Direccion direccion;
 
 
     @Getter
@@ -82,14 +82,14 @@ public class Organizacion {
 
     public Organizacion(List<String> clasificacionOrg, List<Trabajador> miembros,
                         String razonSocial, List<Sector> sectores, TipoOrganizacion tipoOrganizacion,
-                        Direccion ubicacion){
+                        Direccion direccion){
 
         this.clasificacionOrg = clasificacionOrg;
 
         this.razonSocial = razonSocial;
         this.sectores = sectores;
         this.tipoOrganizacion= tipoOrganizacion;
-        this.ubicacion = ubicacion;
+        this.direccion = direccion;
         this.listaDeActividades=new ArrayList<>();
 
     }

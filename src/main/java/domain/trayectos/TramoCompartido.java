@@ -21,7 +21,7 @@ public class TramoCompartido {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "tramo_compartido_organizacion",joinColumns = @JoinColumn(name = "tramo_compartido_id",referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "organizacion_id",referencedColumnName = "id"))
-    private List<Organizacion> orgPosibles = new ArrayList<>();
+    private final List<Organizacion> orgPosibles = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "transporte_privado_id",referencedColumnName = "id")
@@ -29,7 +29,7 @@ public class TramoCompartido {
 
     @OneToMany
     @JoinColumn(name = "trabajador_id",referencedColumnName = "id")
-    private List<Trabajador> personasABordo = new ArrayList<>();
+    private final List<Trabajador> personasABordo = new ArrayList<>();
 
     public void agregarTrabajadorATramoCompartido(Trabajador trabajador) throws Exception {
 

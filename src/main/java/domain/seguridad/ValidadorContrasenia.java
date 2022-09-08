@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.Objects;
 
 public class ValidadorContrasenia {
-    private static int caracteresMinimos=8; //separar
+    private static final int caracteresMinimos=8; //separar
     private static ArrayList<String> topPeoresContrasenias;
 
 
-    private static List<Chequeo> listaDeChequeos = new ArrayList<Chequeo>();
+    private static final List<Chequeo> listaDeChequeos = new ArrayList<Chequeo>();
 
     public static ArrayList<String> getTopPeoresContrasenias() {
         return topPeoresContrasenias;

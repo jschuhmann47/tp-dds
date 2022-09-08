@@ -14,12 +14,12 @@ public class Linea {
     @GeneratedValue
     private int id;
 
-    @Column(name = "nombre_linea")
+    @Column(name = "nombre_linea",nullable = false)
     private String nombreDeLinea;
 
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "linea_id",referencedColumnName = "id")
-    private List<Parada> paradas=new ArrayList<>(); //tomamos que la linea no comparte paradas con otras lineas
+    private final List<Parada> paradas=new ArrayList<>(); //tomamos que la linea no comparte paradas con otras lineas
 
     public int getId() {
         return id;

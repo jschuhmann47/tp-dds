@@ -13,11 +13,11 @@ import javax.persistence.Enumerated;
 public class HuellaCarbono {
     @Setter
     @Enumerated(value = EnumType.STRING)
-    @Column(name = "huella_carbono_unidad")
+    @Column(name = "huella_carbono_unidad",nullable = false)
     @Getter
     private UnidadHC unidad;
     @Setter
-    @Column(name = "huella_carbono_valor")
+    @Column(name = "huella_carbono_valor",nullable = false)
     @Getter
     private double valor;
 }

@@ -6,9 +6,9 @@ import javax.persistence.Embeddable;
 
 @Embeddable
 public class Distancia {
-    @Column(name = "distancia_valor")
+    @Column(name = "distancia_valor",nullable = false)
     public Double valor;
-    @Column(name = "distancia_unidad")
+    @Column(name = "distancia_unidad",nullable = false)
     public String unidad;
 
     public Distancia() {

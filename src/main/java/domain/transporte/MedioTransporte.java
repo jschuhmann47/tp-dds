@@ -17,9 +17,9 @@ public abstract class MedioTransporte {
     @GeneratedValue
     private int id;
 
-    @Column(name = "tipo_vehiculo")
+    @Column(name = "tipo_vehiculo",nullable = false)
     protected TipoVehiculo tipo;
-    @Column(name = "tipo_combustible")
+    @Column(name = "tipo_combustible",nullable = false)
     @Enumerated(EnumType.STRING)
     protected TipoCombustible tipoCombustible;
 

@@ -16,10 +16,10 @@ public class Frecuencia {
         this.vecesQueRealizaTrayectoPorMes = vecesQueRealizaTrayectoPorMes;
     }
 
-    @Column(name = "frecuencia_de_uso")
+    @Column(name = "frecuencia_de_uso",nullable = false)
     Periodicidad frecuenciaDeUso;
 
-    @Column(name = "veces_por_mes")
+    @Column(name = "veces_por_mes",nullable = false)
     Integer vecesQueRealizaTrayectoPorMes;
 
     Integer vecesPorMes(Periodo periodo){

@@ -9,9 +9,9 @@ public class Localidad {
     @Id
     public int id;
 
-    @Column(name = "nombre")
+    @Column(name = "nombre",nullable = false)
     public String nombre;
-    @Column(name = "codigo_postal")
+    @Column(name = "codigo_postal",nullable = false)
     public int codPostal;
 
     @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)

@@ -14,8 +14,8 @@ import java.util.HashMap;
 import java.util.Properties;
 
 public class EnvioNotificacionJavaxMailAdapter implements EnvioNotificacionMailAdapter {
-    private HashMap<String,String> informacionDeSmtp = new HashMap<>();
-    private String tituloMail;
+    private final HashMap<String,String> informacionDeSmtp = new HashMap<>();
+    private final String tituloMail;
 
     public EnvioNotificacionJavaxMailAdapter(String propertiesPath, String tituloMail){
         this.tituloMail = tituloMail;

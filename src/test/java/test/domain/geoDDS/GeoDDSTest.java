@@ -24,16 +24,16 @@ public class GeoDDSTest {
         ServicioCalcularDistancia.setAdapter(adapterMock);
     }
 
-    private Pais argentina = new Pais(9,"ARGENTINA");
+    private final Pais argentina = new Pais(9,"ARGENTINA");
 
-    private Provincia buenosAires = new Provincia(168,"BUENOS AIRES",argentina);
-    private Provincia cordoba = new Provincia(172,"CORDOBA",argentina);
+    private final Provincia buenosAires = new Provincia(168,"BUENOS AIRES",argentina);
+    private final Provincia cordoba = new Provincia(172,"CORDOBA",argentina);
 
-    private Municipio gralLavalle = new Municipio(379,"GENERAL LAVALLE",buenosAires);
-    private Municipio gralPaz = new Municipio(380,"GENERAL PAZ",buenosAires);
+    private final Municipio gralLavalle = new Municipio(379,"GENERAL LAVALLE",buenosAires);
+    private final Municipio gralPaz = new Municipio(380,"GENERAL PAZ",buenosAires);
 
-    private Localidad ranchos = new Localidad(3680,"RANCHOS",1987,gralPaz);
-    private Localidad pavon = new Localidad(3678,"PAVON",7103,gralLavalle);
+    private final Localidad ranchos = new Localidad(3680,"RANCHOS",1987,gralPaz);
+    private final Localidad pavon = new Localidad(3678,"PAVON",7103,gralLavalle);
 
     Direccion direccionPrueba1 = new Direccion(100,"maipu",pavon);
     Direccion direccionPrueba2 = new Direccion(450,"san martin",ranchos);

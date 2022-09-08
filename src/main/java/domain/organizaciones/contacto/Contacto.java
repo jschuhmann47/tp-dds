@@ -16,11 +16,11 @@ public class Contacto {
     private int id;
 
     @Getter
-    @Column(name = "telefono")
+    @Column(name = "telefono",nullable = false)
     private String nroTelefono;
 
     @Getter
-    @Column(name = "email")
+    @Column(name = "email",nullable = false)
     private String email;
 
     @Transient //se persiste con el enum

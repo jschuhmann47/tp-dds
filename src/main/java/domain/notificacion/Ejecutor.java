@@ -9,8 +9,8 @@ import java.io.IOException;
 import java.util.List;
 
 public class Ejecutor implements Job {
-    private List<Contacto> listaDeContactos;
-    private String contenido;
+    private final List<Contacto> listaDeContactos;
+    private final String contenido;
 
     public Ejecutor(List<Contacto> listaDeContactos, String contenido) {
         this.listaDeContactos = listaDeContactos;

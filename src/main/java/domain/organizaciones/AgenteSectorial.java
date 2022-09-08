@@ -32,7 +32,7 @@ public class AgenteSectorial {
     public Double calcularHCEnAnio(Periodo periodo) {
 
         return organizaciones.stream()
-                .filter(org -> org.getUbicacion().getMunicipio().getId() == this.municipio.getId())
+                .filter(org -> org.getDireccion().getMunicipio().getId() == this.municipio.getId())
                 .mapToDouble(org -> {
                     try {
                         return org.calcularHC(periodo);

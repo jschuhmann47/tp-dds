@@ -17,7 +17,7 @@ public class ServicioContratado extends MedioTransporte {
 
     @Embedded
     private TransportePrivado transportePrivado;
-    @Column(name = "servicio_contratado_nombre")
+    @Column(name = "servicio_contratado_nombre",nullable = false)
     private String nombre;
 
     public ServicioContratado() {

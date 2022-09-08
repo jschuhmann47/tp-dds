@@ -9,12 +9,14 @@ import javax.mail.internet.MimeMessage;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.InvalidParameterException;
 import java.util.Properties;
 public class EnviarMailAux {
 
 
-    private Properties properties;
+    private final Properties properties;
     private Session session;
 
     public EnviarMailAux(String ruta) throws IOException {
@@ -23,7 +25,7 @@ public class EnviarMailAux {
     }
 
     private void loadConfig(String ruta) throws IOException {
-        InputStream is = new FileInputStream(ruta);
+        InputStream is = Files.newInputStream(Paths.get(ruta));
 
         this.properties.load(is);
     }
@@ -38,10 +40,10 @@ public class EnviarMailAux {
                 "mail.smtp.auth"
         };
 
-        for (int i = 0; i < keys.length; i++) {
-            if (this.properties.get(keys[i]) == null) {
+        for (String key : keys) {
+            if (this.properties.get(key) == null) {
                 throw new InvalidParameterException("No existe la clave "
-                        + keys[i]);
+                        + key);
             }
 
         }

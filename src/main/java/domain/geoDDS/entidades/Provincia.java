@@ -9,7 +9,7 @@ public class Provincia {
     @Id
     public int id;
 
-    @Column(name = "nombre")
+    @Column(name = "nombre",nullable = false)
     public String nombre;
 
     @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)

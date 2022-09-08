@@ -14,11 +14,11 @@ import java.io.IOException;
 public class ServicioGeoDDSRetrofitAdapter implements ServicioGeoDDSAdapter {
     public static ServicioCalcularDistancia instancia = null;
     private static final String urlApi = "https://ddstpa.com.ar/api/";
-    private Retrofit retrofit;
+    private final Retrofit retrofit;
 
-    private TokenInterceptor interceptorDeToken = new TokenInterceptor();
+    private final TokenInterceptor interceptorDeToken = new TokenInterceptor();
 
-    private OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptorDeToken).build();
+    private final OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptorDeToken).build();
 
     public ServicioGeoDDSRetrofitAdapter() {
         this.retrofit = new Retrofit.Builder()

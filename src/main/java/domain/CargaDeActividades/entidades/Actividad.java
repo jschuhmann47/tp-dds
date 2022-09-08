@@ -33,7 +33,7 @@ public class Actividad {
 
     @Embedded
     @Getter
-    private HuellaCarbono huellaCarbono = new HuellaCarbono();
+    private final HuellaCarbono huellaCarbono = new HuellaCarbono();
 
 
     public void setHuellaCarbono(UnidadHC unidad, Double valor){

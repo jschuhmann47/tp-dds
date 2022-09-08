@@ -8,9 +8,9 @@ import javax.persistence.*;
 
 @Embeddable
 public class Direccion {
-    @Column(name = "altura")
+    @Column(name = "altura",nullable = false)
     private Integer altura;
-    @Column(name = "calle")
+    @Column(name = "calle",nullable = false)
     private String calle;
 
     @ManyToOne(fetch = FetchType.LAZY)

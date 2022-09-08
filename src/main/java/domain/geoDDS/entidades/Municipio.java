@@ -10,7 +10,7 @@ public class Municipio {
     @Id
     public int id;
 
-    @Column(name = "nombre")
+    @Column(name = "nombre",nullable = false)
     public String nombre;
 
     @Getter

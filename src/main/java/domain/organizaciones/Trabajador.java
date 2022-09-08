@@ -15,13 +15,13 @@ public class Trabajador {
     @GeneratedValue
     private int id; //repetido
 
-    @Column(name = "apellido")
+    @Column(name = "apellido",nullable = false)
     private String apellido;
-    @Column(name = "nombre")
+    @Column(name = "nombre",nullable = false)
     private String nombre;
     @Enumerated(value = EnumType.STRING)
     private TipoDoc tipoDoc;
-    @Column(name = "nro_doc")
+    @Column(name = "nro_doc",nullable = false)
     private Integer nroDoc;
 
     @OneToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.MERGE})
@@ -43,7 +43,7 @@ public class Trabajador {
 
     public void solicitudAceptada(Sector sector){
         sectores.add(sector);
-    };
+    }
 
     public List<Trayecto> getListaTrayectos() {
         return listaTrayectos;

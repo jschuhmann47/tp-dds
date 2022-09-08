@@ -18,13 +18,15 @@ public class Parada {
     Parada paradaSiguiente;
 
     @Embedded
-    @AttributeOverrides({@AttributeOverride(name="distancia_valor",column = @Column(name = "distancia_valor_parada_anterior")),
-                        @AttributeOverride(name = "distancia_unidad",column = @Column(name = "distancia_unidad_parada_anterior"))})
+    @AttributeOverrides({@AttributeOverride(name="valor",column = @Column(name = "distancia_valor_parada_anterior")),
+                        @AttributeOverride(name = "unidad",column = @Column(name = "distancia_unidad_parada_anterior"))})
     Distancia distanciaAnterior;
+
     @Embedded
-    @AttributeOverrides({@AttributeOverride(name="distancia_valor",column = @Column(name = "distancia_valor_parada_siguiente")),
-                        @AttributeOverride(name = "distancia_unidad",column = @Column(name = "distancia_unidad_parada_siguiente"))})
+    @AttributeOverrides({@AttributeOverride(name="valor",column = @Column(name = "distancia_valor_parada_siguiente")),
+                        @AttributeOverride(name = "unidad",column = @Column(name = "distancia_unidad_parada_siguiente"))})
     Distancia distanciaSiguiente;
+
     @Embedded
     Direccion direccion;
 
