@@ -151,7 +151,7 @@ public class GeneradorReporteTest {
         organizacionB = new Organizacion(clasificaciones,trabajadoresB,
                 "Respawn Entretainment S.A",sectoresB, TipoOrganizacion.EMPRESA,direccion2);
         organizacionC = new Organizacion(clasificaciones,trabajadoresA,
-                "Renegade Corporation S.A",sectoresA, TipoOrganizacion.ONG,direccion3);
+                "Renegade Corporation S.A",sectoresA, TipoOrganizacion.ONG,direccion4);
 
 
         auto.agregarTrabajadorATramoCompartido(juan);
@@ -159,22 +159,22 @@ public class GeneradorReporteTest {
 
         trayectoTest.cargarTramos(tramoAuto,tramoColectivo);
         juan.agregarTrayectos(trayectoTest);
-        trayectoTest.registrarViajesEnMesYAnio(12,2020,20);
-        trayectoTest.registrarViajesEnMesYAnio(1,2021,20);
+        trayectoTest.registrarViajesEnMesYAnio(12,2020,30);
+        trayectoTest.registrarViajesEnMesYAnio(1,2021,30);
         List<Tramo> tramosB = new ArrayList<>();
         tramosB.add(tramoColectivo);
         Trayecto trayectoTestB = new Trayecto(direccion2,direccion3,tramosB,frecuencia);
-        trayectoTestB.registrarViajesEnMesYAnio(12,2020,10);
-        trayectoTestB.registrarViajesEnMesYAnio(1,2021,10);
+        trayectoTestB.registrarViajesEnMesYAnio(12,2020,20);
+        trayectoTestB.registrarViajesEnMesYAnio(1,2021,20);
         juan.agregarTrayectos(trayectoTestB);
 
         Periodo periodo = new Periodo(1,2021);
         List<Actividad> actividades = new ArrayList<>();
 
         Actividad gas = new Actividad(TipoActividad.COMBUSTION_FIJA, TipoDeConsumo.DIESEL,Unidad.M3,
-                periodo,Periodicidad.MENSUAL,300.0);
+                periodo,Periodicidad.MENSUAL,5000.0);
         Actividad carbono = new Actividad(TipoActividad.COMBUSTION_FIJA, TipoDeConsumo.DIESEL,Unidad.M3,
-                periodo.obtenerPeriodoAnterior(),Periodicidad.MENSUAL,1.0);
+                periodo.obtenerPeriodoAnterior(),Periodicidad.MENSUAL,25.0);
         Actividad gasToxico = new Actividad(TipoActividad.COMBUSTION_FIJA, TipoDeConsumo.GAS_NATURAL,Unidad.M3,
                 periodo,Periodicidad.MENSUAL,30000.0);
         CalculoHC.calcularHCDeActividad(gasToxico);
@@ -203,22 +203,22 @@ public class GeneradorReporteTest {
     @DisplayName("Se genera el HC total de un sector territorial")
     public void HCTotalSectorMunicipio(){
 
-        Assertions.assertEquals(1.6,GeneradorReporte.HCTotalPorSectorTerritorial(organizaciones,municipio));
+        Assertions.assertEquals(104020.0,GeneradorReporte.HCTotalPorSectorTerritorial(organizaciones,municipio));
     }
 
     @Test
     @DisplayName("Se genera el HC total por la clasificacion")
     public void HCTotalSector(){
         String clasificacion = "Videojuegos";
-        Assertions.assertEquals(1.6,GeneradorReporte.HCTotalPorClasificacion(organizaciones,clasificacion));
+        Assertions.assertEquals(218020.0,GeneradorReporte.HCTotalPorClasificacion(organizaciones,clasificacion));
     }
 
     @Test
     @DisplayName("Se genera la composicion de HC total de un sector territorial")
     public void composicionHCTotalSector(){
         List<Composicion> composicionList = GeneradorReporte.ComposicionHCTotalPorSectorTerritorial(organizaciones,municipio);
-        Assertions.assertEquals(10.0,composicionList.get(0).getPorcentaje());
-        Assertions.assertEquals(90.0,composicionList.get(1).getPorcentaje());
+        Assertions.assertEquals(8.0,Math.round(composicionList.get(0).getPorcentaje()));
+        Assertions.assertEquals(92.0,Math.round(composicionList.get(1).getPorcentaje()));
     }
 
     @Test
@@ -226,29 +226,35 @@ public class GeneradorReporteTest {
     public void composicionHCTotalProvincias(){
         List<Provincia> provincias = new ArrayList<>();
         provincias.add(provincia);
+        provincias.add(provincia2);
         List<Composicion> composicionList = GeneradorReporte.ComposicionHCTotalPorProvincias(organizaciones,provincias);
-        Assertions.assertEquals(10.0,composicionList.get(0).getPorcentaje());
-        Assertions.assertEquals(90.0,composicionList.get(1).getPorcentaje());
+        System.out.println(composicionList);
+        //provincia1
+        Assertions.assertEquals(8.0, Math.round(composicionList.get(0).getPorcentaje()));
+        Assertions.assertEquals(92.0,Math.round(composicionList.get(1).getPorcentaje()));
+        //provincia2
+        Assertions.assertEquals(16.0,Math.round(composicionList.get(2).getPorcentaje()));
+        Assertions.assertEquals(84.0,Math.round(composicionList.get(3).getPorcentaje()));
     }
 
     @Test
     @DisplayName("Se genera la composicion de una organizacion")
     public void composicionHCTotalOrganizacion(){
         List<Composicion> composicionList = GeneradorReporte.ComposicionHCTotalDeUnaOrganizacion(organizacionA);
-        Assertions.assertEquals(10.0,composicionList.get(0).getPorcentaje());
-        Assertions.assertEquals(90.0,composicionList.get(1).getPorcentaje());
+        Assertions.assertEquals(4.02,Math.round(composicionList.get(0).getPorcentaje()*100.0)/100.0);
+        Assertions.assertEquals(95.98,Math.round(composicionList.get(1).getPorcentaje()*100.0)/100.0);
     }
 
     @Test
     @DisplayName("Se genera la evolucion en un sector territorial")
     public void evolucionSectorT(){
-        Assertions.assertEquals(300.0,GeneradorReporte.evolucionHCTotalSectorTerritorial(organizaciones,municipio,new Periodo(1,2021)));
+        Assertions.assertEquals(59,Math.round(GeneradorReporte.evolucionHCTotalSectorTerritorial(organizaciones,municipio,new Periodo(1,2021))));
     }
 
     @Test
     @DisplayName("Se genera la evolucion en una organizacion")
     public void evolucionOrganizacion() throws Exception {
-        Assertions.assertEquals(300.0,GeneradorReporte.evolucionHCTotalOrganizacion(organizacionA,new Periodo(1,2021)));
+        Assertions.assertEquals(29.22,Math.round(GeneradorReporte.evolucionHCTotalOrganizacion(organizacionA,new Periodo(1,2021))*100.0)/100.0);
     }
 
 

@@ -7,6 +7,7 @@ import lombok.Setter;
 public class Composicion {
 
     @Setter
+    @Getter
     Provincia provincia;
     String nombre;
     @Getter
