@@ -188,7 +188,9 @@ public class GeneradorReporteTest {
     @Test
     @DisplayName("Se genera la composicion de HC total de un sector territorial")
     public void composicionHCTotalSector(){
-        Assertions.assertEquals(10.0,GeneradorReporte.ComposicionHCTotalPorSectorTerritorial(organizaciones,municipio).get(0).getPorcentaje());
+        List<Composicion> composicionList = GeneradorReporte.ComposicionHCTotalPorSectorTerritorial(organizaciones,municipio);
+        Assertions.assertEquals(10.0,composicionList.get(0).getPorcentaje());
+        Assertions.assertEquals(90.0,composicionList.get(1).getPorcentaje());
     }
 
     @Test
@@ -196,13 +198,17 @@ public class GeneradorReporteTest {
     public void composicionHCTotalProvincias(){
         List<Provincia> provincias = new ArrayList<>();
         provincias.add(provincia);
-        Assertions.assertEquals(10.0,GeneradorReporte.ComposicionHCTotalPorProvincias(organizaciones,provincias).get(0).getPorcentaje());
+        List<Composicion> composicionList = GeneradorReporte.ComposicionHCTotalPorProvincias(organizaciones,provincias);
+        Assertions.assertEquals(10.0,composicionList.get(0).getPorcentaje());
+        Assertions.assertEquals(90.0,composicionList.get(1).getPorcentaje());
     }
 
     @Test
     @DisplayName("Se genera la composicion de una organizacion")
     public void composicionHCTotalOrganizacion(){
-        Assertions.assertEquals(10.0,GeneradorReporte.ComposicionHCTotalDeUnaOrganizacion(organizacionA).get(0).getPorcentaje());
+        List<Composicion> composicionList = GeneradorReporte.ComposicionHCTotalDeUnaOrganizacion(organizacionA);
+        Assertions.assertEquals(10.0,composicionList.get(0).getPorcentaje());
+        Assertions.assertEquals(90.0,composicionList.get(1).getPorcentaje());
     }
 
 

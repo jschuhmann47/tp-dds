@@ -85,12 +85,10 @@ public class GeneradorReporte {
         composicionList.add(compTrabajadores);
         return composicionList;
     }
+
+
     private static List<Composicion> generarListaComposicionConProvincia(Double valorActividades, Double valorTrabajadores, Provincia provincia){
-        List<Composicion> composicionList = new ArrayList<>();
-        Composicion compActividades = new Composicion("Actividades",GeneradorReporte.porcentaje(valorActividades,valorActividades+valorTrabajadores));
-        Composicion compTrabajadores = new Composicion("Trabajadores",GeneradorReporte.porcentaje(valorTrabajadores,valorActividades+valorTrabajadores));
-        composicionList.add(compActividades);
-        composicionList.add(compTrabajadores);
+        List<Composicion> composicionList = GeneradorReporte.generarListaComposicion(valorActividades,valorTrabajadores);
         for (Composicion c : composicionList){
             c.setProvincia(provincia);
         }
@@ -103,6 +101,14 @@ public class GeneradorReporte {
     }
 
     public Double evolucionHCTotalSectorTerritorialAnual(List<Organizacion> organizaciones, Municipio municipio, Periodo periodo){
+        return null;
+    }
+
+    public Double evolucionHCTotalOrganizacionMensual(Organizacion organizacion, Integer mes, Integer anio){
+        return null;
+    }
+
+    public Double evolucionHCTotalOrganizacionAnual(Organizacion organizacion, Integer anio){
         return null;
     }
 }

@@ -3,10 +3,11 @@ package domain.trayectos;
 import domain.CargaDeActividades.entidades.Periodo;
 import domain.geoDDS.Direccion;
 import domain.geoDDS.entidades.Distancia;
+import lombok.Getter;
 
 import javax.persistence.*;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "trayecto")
@@ -28,6 +29,11 @@ public class Trayecto {
     @Embedded
     public Frecuencia frecuencia;
 
+    @Getter
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinColumn(name = "trayecto_id",referencedColumnName = "id")
+    private List<ViajeRealizado> viajesRealizados;
+
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "trayecto_id",referencedColumnName = "id")
     private List<Tramo> tramos;
@@ -44,6 +50,7 @@ public class Trayecto {
         this.tramos = tramos;
         this.frecuencia = frecuencia;
         distanciaTrayecto = this.distanciaTrayecto();
+        this.viajesRealizados = new ArrayList<>();
     }
 
     public Distancia getDistanciaTrayecto() {
@@ -83,6 +90,30 @@ public class Trayecto {
                     }
                 })
                 .sum();
+    }
+
+    public void registrarViajesEnMesYAnio(Integer mes, Integer anio, int cantidadASumar){
+        Optional<ViajeRealizado> posibleViaje =
+                this.viajesRealizados
+                        .stream()
+                        .filter(v -> Objects.equals(v.getAnio(), anio) && Objects.equals(v.getMes(), mes))
+                        .findFirst();
+        if(posibleViaje.isPresent()){
+            posibleViaje.get().sumarViajes(cantidadASumar);
+        }
+        else{
+            ViajeRealizado viajeNuevo = new ViajeRealizado(mes,anio);
+            viajeNuevo.sumarViajes(cantidadASumar);
+            this.viajesRealizados.add(viajeNuevo);
+        }
+    }
+
+    public Double calcularHCTotal(){
+        return this.tramos.stream().mapToDouble(Tramo::calcularHC).sum() * this.vecesRealizadas();
+    }
+
+    public int vecesRealizadas(){
+        return this.getViajesRealizados().stream().mapToInt(ViajeRealizado::getVecesRealizadaEnMes).sum();
     }
 
 

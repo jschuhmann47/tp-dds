@@ -54,5 +54,9 @@ public class Sector {
             }
         }).sum();
     }
+
+    public Double calcularHCTotalSector() {
+        return this.trabajadores.stream().mapToDouble(Trabajador::calcularHCTotal).sum();
+    }
 }
 

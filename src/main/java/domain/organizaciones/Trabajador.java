@@ -66,6 +66,7 @@ public class Trabajador {
     }
 
 
-
-
+    public Double calcularHCTotal() {
+        return this.listaTrayectos.stream().mapToDouble(Trayecto::calcularHCTotal).sum();
+    }
 }

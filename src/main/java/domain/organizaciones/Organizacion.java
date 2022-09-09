@@ -100,7 +100,7 @@ public class Organizacion {
     }
 
 
-    public Double calcularHCEmpleados(Periodo periodo) { //TODO cambiar en el uml
+    public Double calcularHCEmpleados(Periodo periodo) {
         return this.getSectores().stream().mapToDouble(s->s.calcularHCSector(periodo)).sum();
     }
 
@@ -130,7 +130,7 @@ public class Organizacion {
         return CalculoHC.calcularHCDeListaDeActividadesTotal(this.getListaDeActividades());
     }
     public Double calcularHCTotalTrabajadores(){
-        return 0.0; //TODO
+        return this.sectores.stream().mapToDouble(Sector::calcularHCTotalSector).sum();
     }
 
     public void notificarAContactos(String contenido) {
