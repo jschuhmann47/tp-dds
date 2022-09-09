@@ -3,6 +3,7 @@ package domain.organizaciones;
 
 import domain.CargaDeActividades.entidades.Periodo;
 import domain.geoDDS.entidades.Municipio;
+import domain.reportes.GeneradorReporte;
 
 import javax.persistence.*;
 import java.util.List;
@@ -30,16 +31,6 @@ public class AgenteSectorial {
     }
 
     public Double calcularHCEnAnio(Periodo periodo) {
-
-        return organizaciones.stream()
-                .filter(org -> org.getDireccion().getMunicipio().getId() == this.municipio.getId())
-                .mapToDouble(org -> {
-                    try {
-                        return org.calcularHCEnPeriodo(periodo);
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                })
-                .sum();
+        return GeneradorReporte.HCTotalPorSectorTerritorialEnPeriodo(organizaciones,municipio,periodo);
     }
 }

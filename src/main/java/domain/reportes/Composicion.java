@@ -1,6 +1,7 @@
 package domain.reportes;
 
 import domain.geoDDS.entidades.Provincia;
+import lombok.Getter;
 import lombok.Setter;
 
 public class Composicion {
@@ -8,6 +9,7 @@ public class Composicion {
     @Setter
     Provincia provincia;
     String nombre;
+    @Getter
     Double porcentaje;
 
     public Composicion(String nombre, Double porcentaje) {

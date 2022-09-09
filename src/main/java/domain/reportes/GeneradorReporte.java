@@ -1,6 +1,7 @@
 package domain.reportes;
 
 import com.sun.org.apache.xpath.internal.operations.Or;
+import domain.CargaDeActividades.entidades.Periodo;
 import domain.geoDDS.entidades.Municipio;
 import domain.geoDDS.entidades.Pais;
 import domain.geoDDS.entidades.Provincia;
@@ -12,11 +13,24 @@ import java.util.List;
 public class GeneradorReporte {
 
     public static Double HCTotalPorSectorTerritorial(List<Organizacion> organizaciones, Municipio municipio){
-        return organizaciones.stream().filter(o->o.getDireccion().getMunicipio() == municipio).mapToDouble(Organizacion::calcularHCTotal).sum();
+        return organizaciones.stream().filter(o->o.getDireccion().getMunicipio().getId() == municipio.getId())
+                .mapToDouble(Organizacion::calcularHCTotal).sum();
+    }
+
+    public static Double HCTotalPorSectorTerritorialEnPeriodo(List<Organizacion> organizaciones, Municipio municipio, Periodo periodo){
+        return organizaciones.stream().filter(o->o.getDireccion().getMunicipio().getId() == municipio.getId())
+                .mapToDouble(organizacion -> {
+                    try {
+                        return organizacion.calcularHCEnPeriodo(periodo);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }).sum();
     }
 
     public static Double HCTotalPorProvincia(List<Organizacion> organizaciones, Provincia provincia){
-        return organizaciones.stream().filter(o->o.getDireccion().getProvincia() == provincia).mapToDouble(Organizacion::calcularHCTotal).sum();
+        return organizaciones.stream().filter(o->o.getDireccion().getProvincia().getId() == provincia.getId())
+                .mapToDouble(Organizacion::calcularHCTotal).sum();
     }
 
     public static Double HCTotalPorClasificacion(List<Organizacion> organizaciones, String clasificacion){
@@ -48,11 +62,13 @@ public class GeneradorReporte {
     }
 
     public static Double HCTotalPorActividadSectorTerritorial(List<Organizacion> organizaciones, Municipio municipio){
-        return organizaciones.stream().filter(o->o.getDireccion().getMunicipio() == municipio).mapToDouble(Organizacion::calcularHCTotalActividades).sum();
+        return organizaciones.stream().filter(o->o.getDireccion().getMunicipio().getId() == municipio.getId())
+                .mapToDouble(Organizacion::calcularHCTotalActividades).sum();
     }
 
     public static Double HCTotalPorTrabajadorSectorTerritorial(List<Organizacion> organizaciones, Municipio municipio){
-        return organizaciones.stream().filter(o->o.getDireccion().getMunicipio() == municipio).mapToDouble(Organizacion::calcularHCTotalTrabajadores).sum();
+        return organizaciones.stream().filter(o->o.getDireccion().getMunicipio().getId() == municipio.getId())
+                .mapToDouble(Organizacion::calcularHCTotalTrabajadores).sum();
     }
 
     public static Double porcentaje(Double valor,Double total){
@@ -61,8 +77,10 @@ public class GeneradorReporte {
 
     private static List<Composicion> generarListaComposicion(Double valorActividades, Double valorTrabajadores){
         List<Composicion> composicionList = new ArrayList<>();
-        Composicion compActividades = new Composicion("Actividades",GeneradorReporte.porcentaje(valorActividades,valorActividades+valorTrabajadores));
-        Composicion compTrabajadores = new Composicion("Trabajadores",GeneradorReporte.porcentaje(valorTrabajadores,valorActividades+valorTrabajadores));
+        Composicion compActividades =
+                new Composicion("Actividades",GeneradorReporte.porcentaje(valorActividades,valorActividades+valorTrabajadores));
+        Composicion compTrabajadores =
+                new Composicion("Trabajadores",GeneradorReporte.porcentaje(valorTrabajadores,valorActividades+valorTrabajadores));
         composicionList.add(compActividades);
         composicionList.add(compTrabajadores);
         return composicionList;
@@ -77,5 +95,14 @@ public class GeneradorReporte {
             c.setProvincia(provincia);
         }
         return composicionList;
+    }
+
+
+    public Double evolucionHCTotalSectorTerritorialMensual(List<Organizacion> organizaciones, Municipio municipio, Periodo periodo){
+        return null;
+    }
+
+    public Double evolucionHCTotalSectorTerritorialAnual(List<Organizacion> organizaciones, Municipio municipio, Periodo periodo){
+        return null;
     }
 }

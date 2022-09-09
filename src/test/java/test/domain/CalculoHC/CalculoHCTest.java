@@ -78,6 +78,8 @@ public class CalculoHCTest {
 
 
 
+
+
     public CalculoHCTest() throws Exception {
     }
 
@@ -160,6 +162,7 @@ public class CalculoHCTest {
         actividades.add(gas);
         organizacionA.setListaDeActividades(actividades);
         CalculoHC.calcularHCDeActividad(gas);
+
     }
 
 
