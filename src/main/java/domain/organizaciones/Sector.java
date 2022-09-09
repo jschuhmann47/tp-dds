@@ -18,11 +18,9 @@ public class Sector {
     @Column(name = "nombre_sector",nullable = false)
     public String nombreSector;
 
-//    @OneToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.MERGE})
-//    @JoinColumn(name = "sector_id",referencedColumnName = "id")
     @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(name = "trabajador_sector",joinColumns = @JoinColumn(name = "sector_id",referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "trabajador_id",referencedColumnName = "id")) //TODO preguntar
+            inverseJoinColumns = @JoinColumn(name = "trabajador_id",referencedColumnName = "id"))
     public List<Trabajador> trabajadores;
 
     public Organizacion getOrganizacion() {

@@ -35,7 +35,7 @@ public class AgenteSectorial {
                 .filter(org -> org.getDireccion().getMunicipio().getId() == this.municipio.getId())
                 .mapToDouble(org -> {
                     try {
-                        return org.calcularHC(periodo);
+                        return org.calcularHCEnPeriodo(periodo);
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }

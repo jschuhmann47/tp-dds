@@ -9,9 +9,8 @@ import domain.organizaciones.Organizacion;
 import domain.organizaciones.Sector;
 import domain.organizaciones.TipoOrganizacion;
 import domain.organizaciones.Trabajador;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.After;
+import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +63,7 @@ public class PersistenciaTest {
                 .createQuery("FROM Organizacion WHERE razon_social = 'Valve Corporation S.A'").getSingleResult();
         Assertions.assertEquals("Valve Corporation S.A", org.getRazonSocial());
     }
+
 
 
 }

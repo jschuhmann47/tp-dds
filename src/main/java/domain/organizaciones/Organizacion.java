@@ -25,6 +25,7 @@ public class Organizacion {
     @ElementCollection
     @CollectionTable(name = "organizacion_clasificacion",joinColumns = @JoinColumn(name = "organizacion_id"))
     @Column(name = "clasificacion")
+    @Getter
     private List<String> clasificacionOrg;
 
 
@@ -33,7 +34,7 @@ public class Organizacion {
     @Getter
     private String razonSocial;
 
-    @OneToMany(mappedBy = "organizacion",fetch = FetchType.LAZY,cascade = CascadeType.ALL) //todo repetido
+    @OneToMany(mappedBy = "organizacion",fetch = FetchType.LAZY,cascade = CascadeType.ALL) //TODO dice organizacion (int) en esta tabla
     @Getter
     private List<Sector> sectores;
 
@@ -94,9 +95,10 @@ public class Organizacion {
 
     }
 
-    public Double calcularHC(Periodo periodo) throws Exception {
-        return CalculoHC.calcularHCDeListaDeActividades(this.getListaDeActividades(),periodo) + this.calcularHCEmpleados(periodo);
+    public Double calcularHCEnPeriodo(Periodo periodo) throws Exception {
+        return CalculoHC.calcularHCDeListaDeActividadesEnPeriodo(this.getListaDeActividades(),periodo) + this.calcularHCEmpleados(periodo);
     }
+
 
     public Double calcularHCEmpleados(Periodo periodo) { //TODO cambiar en el uml
         return this.getSectores().stream().mapToDouble(s->s.calcularHCSector(periodo)).sum();
@@ -119,6 +121,16 @@ public class Organizacion {
             detalles.add(detalle);
         });
         return detalles;
+    }
+
+    public Double calcularHCTotal(){
+        return this.calcularHCTotalActividades() + this.calcularHCTotalTrabajadores();
+    }
+    public Double calcularHCTotalActividades(){
+        return CalculoHC.calcularHCDeListaDeActividadesTotal(this.getListaDeActividades());
+    }
+    public Double calcularHCTotalTrabajadores(){
+        return 0.0; //TODO
     }
 
     public void notificarAContactos(String contenido) {

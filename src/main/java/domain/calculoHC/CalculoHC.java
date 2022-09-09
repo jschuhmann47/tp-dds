@@ -48,7 +48,7 @@ public class CalculoHC {
         actividad.setHuellaCarbono(CalculoHC.unidadPorDefecto, valorAct);
     }
 
-    public static Double calcularHCDeListaDeActividades(List<Actividad> actividades, Periodo periodo) {
+    public static Double calcularHCDeListaDeActividadesEnPeriodo(List<Actividad> actividades, Periodo periodo) {
 
         List<Actividad> listaHC = actividades.stream()
                 .filter(a-> Objects.equals(a.periodo.getAnio(), periodo.getAnio())).collect(Collectors.toList());
@@ -58,8 +58,13 @@ public class CalculoHC {
         return sumarListaHC(listaHC.stream().map(a->a.getHuellaCarbono().getValor()).collect(Collectors.toList()));
     }
 
+    public static Double calcularHCDeListaDeActividadesTotal(List<Actividad> actividades){
+        return actividades.stream().mapToDouble(actividad -> actividad.getHuellaCarbono().getValor()).sum();
+    }
+
 
     private static Double sumarListaHC(List<Double> listaHC){
         return listaHC.stream().mapToDouble(t->t).sum();
     }
+
 }

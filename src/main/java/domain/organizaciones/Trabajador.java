@@ -28,9 +28,7 @@ public class Trabajador {
     @JoinColumn(name = "trabajador_id",referencedColumnName = "id")
     private List<Trayecto> listaTrayectos = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.MERGE})
-    @JoinTable(name = "trabajador_sector",joinColumns = @JoinColumn(name = "trabajador_id",referencedColumnName = "id"),
-    inverseJoinColumns = @JoinColumn(name = "sector_id",referencedColumnName = "id"))
+    @ManyToMany(mappedBy = "trabajadores") //TODO queda trabajador_id en la tabla
     public List<Sector> sectores;
 
     public int getId() {
@@ -66,6 +64,7 @@ public class Trabajador {
             }
         }).sum();
     }
+
 
 
 
