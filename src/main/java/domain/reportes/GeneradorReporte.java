@@ -1,9 +1,7 @@
 package domain.reportes;
 
-import com.sun.org.apache.xpath.internal.operations.Or;
 import domain.CargaDeActividades.entidades.Periodo;
 import domain.geoDDS.entidades.Municipio;
-import domain.geoDDS.entidades.Pais;
 import domain.geoDDS.entidades.Provincia;
 import domain.organizaciones.Organizacion;
 
@@ -16,6 +14,7 @@ public class GeneradorReporte {
         return organizaciones.stream().filter(o->o.getDireccion().getMunicipio().getId() == municipio.getId())
                 .mapToDouble(Organizacion::calcularHCTotal).sum();
     }
+
 
     public static Double HCTotalPorSectorTerritorialEnPeriodo(List<Organizacion> organizaciones, Municipio municipio, Periodo periodo){
         return organizaciones.stream().filter(o->o.getDireccion().getMunicipio().getId() == municipio.getId())
@@ -54,12 +53,22 @@ public class GeneradorReporte {
     public static List<Composicion> ComposicionHCTotalPorProvincias(List<Organizacion> organizaciones, List<Provincia> provincias){
         List<Composicion> composicionesPorProv = new ArrayList<>();
         for(Provincia provincia : provincias){
-            Double porActividad = GeneradorReporte.HCTotalPorProvincia(organizaciones, provincia);
-            Double porTrabajador = GeneradorReporte.HCTotalPorProvincia(organizaciones, provincia);
+            Double porActividad = GeneradorReporte.HCTotalPorActividadProvincia(organizaciones, provincia);
+            Double porTrabajador = GeneradorReporte.HCTotalPorTrabajadorProvincia(organizaciones, provincia);
             composicionesPorProv.addAll(GeneradorReporte.generarListaComposicionConProvincia(porActividad,porTrabajador,provincia));
         }
         return composicionesPorProv;
     }
+
+    public static Double HCTotalPorActividadProvincia(List<Organizacion> organizaciones, Provincia provincia){
+        return organizaciones.stream().filter(o->o.getDireccion().getProvincia().getId() == provincia.getId())
+                .mapToDouble(Organizacion::calcularHCTotalActividades).sum();
+    }
+    public static Double HCTotalPorTrabajadorProvincia(List<Organizacion> organizaciones, Provincia provincia){
+        return organizaciones.stream().filter(o->o.getDireccion().getProvincia().getId() == provincia.getId())
+                .mapToDouble(Organizacion::calcularHCTotalTrabajadores).sum();
+    }
+
 
     public static Double HCTotalPorActividadSectorTerritorial(List<Organizacion> organizaciones, Municipio municipio){
         return organizaciones.stream().filter(o->o.getDireccion().getMunicipio().getId() == municipio.getId())
@@ -96,19 +105,24 @@ public class GeneradorReporte {
     }
 
 
-    public Double evolucionHCTotalSectorTerritorialMensual(List<Organizacion> organizaciones, Municipio municipio, Periodo periodo){
-        return null;
+    public static Double evolucionHCTotalSectorTerritorial(List<Organizacion> organizaciones, Municipio municipio, Periodo periodo){
+
+        Double HCMesAnterior = GeneradorReporte.HCTotalPorSectorTerritorialEnPeriodo(organizaciones,municipio,periodo.obtenerPeriodoAnterior());
+        Double HCMesActual = GeneradorReporte.HCTotalPorSectorTerritorialEnPeriodo(organizaciones,municipio,periodo);
+
+        return GeneradorReporte.evolucionPorcuentual(HCMesAnterior, HCMesActual);
     }
 
-    public Double evolucionHCTotalSectorTerritorialAnual(List<Organizacion> organizaciones, Municipio municipio, Periodo periodo){
-        return null;
+
+    public static Double evolucionHCTotalOrganizacion(Organizacion organizacion, Periodo periodo) throws Exception {
+        Double HCMesAnterior = organizacion.calcularHCEnPeriodo(periodo.obtenerPeriodoAnterior());
+        Double HCMesActual = organizacion.calcularHCEnPeriodo(periodo);
+
+        return GeneradorReporte.evolucionPorcuentual(HCMesAnterior, HCMesActual);
     }
 
-    public Double evolucionHCTotalOrganizacionMensual(Organizacion organizacion, Integer mes, Integer anio){
-        return null;
-    }
 
-    public Double evolucionHCTotalOrganizacionAnual(Organizacion organizacion, Integer anio){
-        return null;
+    private static Double evolucionPorcuentual(Double valorAnterior,Double valorActual){
+        return (valorActual-valorAnterior)/valorAnterior * 100;
     }
 }

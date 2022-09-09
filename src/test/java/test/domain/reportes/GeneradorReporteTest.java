@@ -53,16 +53,21 @@ public class GeneradorReporteTest {
 
     Organizacion organizacionA;
     Organizacion organizacionB;
+    Organizacion organizacionC;
 
     Pais pais = new Pais(1,"A");
     Provincia provincia = new Provincia(1,"A",pais);
+    Provincia provincia2 = new Provincia(2,"AA",pais);
     Municipio municipio = new Municipio(1,"A",provincia);
+    Municipio municipio2 = new Municipio(2,"AA",provincia2);
 
     Localidad localidad = new Localidad(1,"A",1,municipio);
+    Localidad localidad2 = new Localidad(2,"AA",2,municipio2);
 
     Direccion direccion1 = new Direccion(100,"Rivadavia",localidad);
     Direccion direccion2 = new Direccion(4000,"Corrientes",localidad);
     Direccion direccion3 = new Direccion(2300,"Mozart",localidad);
+    Direccion direccion4 = new Direccion(420,"Abril",localidad2);
 
     Distancia distancia1 = new Distancia(10.0,"KM");
     Distancia distancia2 = new Distancia(12.0,"KM");
@@ -111,6 +116,7 @@ public class GeneradorReporteTest {
         juan.sectores= new ArrayList<>();
         juan.sectores.add(marketing); //trabaja empresa A
         trabajadoresA.add(juan);
+        trabajadoresB.add(juan);
 
         pepe.sectores= new ArrayList<>();
         pepe.sectores.add(marketing); //trabaja empresa A
@@ -144,29 +150,51 @@ public class GeneradorReporteTest {
                 "Valve Corporation S.A",sectoresA, TipoOrganizacion.EMPRESA,direccion1);
         organizacionB = new Organizacion(clasificaciones,trabajadoresB,
                 "Respawn Entretainment S.A",sectoresB, TipoOrganizacion.EMPRESA,direccion2);
+        organizacionC = new Organizacion(clasificaciones,trabajadoresA,
+                "Renegade Corporation S.A",sectoresA, TipoOrganizacion.ONG,direccion3);
 
 
         auto.agregarTrabajadorATramoCompartido(juan);
         Trayecto trayectoTest = new Trayecto(direccion1,direccion3,listaTramos,frecuencia);
 
         trayectoTest.cargarTramos(tramoAuto,tramoColectivo);
-        juan.agregarTrayectos(trayectoTest, trayectoTest);
-
+        juan.agregarTrayectos(trayectoTest);
+        trayectoTest.registrarViajesEnMesYAnio(12,2020,20);
+        trayectoTest.registrarViajesEnMesYAnio(1,2021,20);
+        List<Tramo> tramosB = new ArrayList<>();
+        tramosB.add(tramoColectivo);
+        Trayecto trayectoTestB = new Trayecto(direccion2,direccion3,tramosB,frecuencia);
+        trayectoTestB.registrarViajesEnMesYAnio(12,2020,10);
+        trayectoTestB.registrarViajesEnMesYAnio(1,2021,10);
+        juan.agregarTrayectos(trayectoTestB);
 
         Periodo periodo = new Periodo(1,2021);
         List<Actividad> actividades = new ArrayList<>();
+
         Actividad gas = new Actividad(TipoActividad.COMBUSTION_FIJA, TipoDeConsumo.DIESEL,Unidad.M3,
-                periodo,Periodicidad.MENSUAL,1.0);
+                periodo,Periodicidad.MENSUAL,300.0);
+        Actividad carbono = new Actividad(TipoActividad.COMBUSTION_FIJA, TipoDeConsumo.DIESEL,Unidad.M3,
+                periodo.obtenerPeriodoAnterior(),Periodicidad.MENSUAL,1.0);
+        Actividad gasToxico = new Actividad(TipoActividad.COMBUSTION_FIJA, TipoDeConsumo.GAS_NATURAL,Unidad.M3,
+                periodo,Periodicidad.MENSUAL,30000.0);
+        CalculoHC.calcularHCDeActividad(gasToxico);
         actividades.add(gas);
+        actividades.add(carbono);
+        for(Actividad a : actividades){
+            CalculoHC.calcularHCDeActividad(a);
+        }
+
         organizacionA.setListaDeActividades(actividades);
-        CalculoHC.calcularHCDeActividad(gas);
+        organizacionB.setListaDeActividades(new ArrayList<>());
+        organizacionB.getListaDeActividades().add(gas);
+        organizacionC.setListaDeActividades(new ArrayList<>());
+        organizacionC.getListaDeActividades().add(gasToxico);
 
         organizaciones = new ArrayList<>();
         organizaciones.add(organizacionA);
         organizaciones.add(organizacionB);
+        organizaciones.add(organizacionC);
 
-        organizacionB.setListaDeActividades(new ArrayList<>());
-        organizacionB.getListaDeActividades().add(gas);
 
     }
 
@@ -209,6 +237,18 @@ public class GeneradorReporteTest {
         List<Composicion> composicionList = GeneradorReporte.ComposicionHCTotalDeUnaOrganizacion(organizacionA);
         Assertions.assertEquals(10.0,composicionList.get(0).getPorcentaje());
         Assertions.assertEquals(90.0,composicionList.get(1).getPorcentaje());
+    }
+
+    @Test
+    @DisplayName("Se genera la evolucion en un sector territorial")
+    public void evolucionSectorT(){
+        Assertions.assertEquals(300.0,GeneradorReporte.evolucionHCTotalSectorTerritorial(organizaciones,municipio,new Periodo(1,2021)));
+    }
+
+    @Test
+    @DisplayName("Se genera la evolucion en una organizacion")
+    public void evolucionOrganizacion() throws Exception {
+        Assertions.assertEquals(300.0,GeneradorReporte.evolucionHCTotalOrganizacion(organizacionA,new Periodo(1,2021)));
     }
 
 

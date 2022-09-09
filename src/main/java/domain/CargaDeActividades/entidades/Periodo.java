@@ -25,4 +25,25 @@ public class Periodo {
         this.anio = anio;
     }
 
+    public Periodo obtenerPeriodoAnterior(){
+        Periodo periodoAnterior = new Periodo();
+
+        if(this.getMes()==null){
+            periodoAnterior.setMes(null);
+            periodoAnterior.setAnio(this.getAnio()-1);
+            return periodoAnterior;
+        }
+
+        if(this.getMes()-1 == 0){
+            periodoAnterior.setMes(12);
+            periodoAnterior.setAnio(this.getAnio()-1);
+        }
+        else{
+            periodoAnterior.setMes(this.getMes()-1);
+            periodoAnterior.setAnio(this.getAnio());
+        }
+        return periodoAnterior;
+
+    }
+
 }
