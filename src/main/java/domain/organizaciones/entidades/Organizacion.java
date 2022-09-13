@@ -1,4 +1,4 @@
-package domain.organizaciones;
+package domain.organizaciones.entidades;
 
 import domain.CargaDeActividades.CargaDeActividades;
 import domain.CargaDeActividades.entidades.Actividad;
@@ -6,6 +6,7 @@ import domain.CargaDeActividades.entidades.Periodo;
 import domain.calculoHC.CalculoHC;
 import domain.geoDDS.Direccion;
 import domain.organizaciones.contacto.Contacto;
+import domain.organizaciones.solicitudes.Solicitud;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -34,7 +35,7 @@ public class Organizacion {
     @Getter
     private String razonSocial;
 
-    @OneToMany(mappedBy = "organizacion",fetch = FetchType.LAZY,cascade = CascadeType.ALL) //TODO dice organizacion (int) en esta tabla
+    @OneToMany(mappedBy = "organizacion",fetch = FetchType.LAZY,cascade = CascadeType.ALL) //todo dice organizacion (int) en esta tabla
     @Getter
     private List<Sector> sectores;
 
@@ -58,12 +59,35 @@ public class Organizacion {
     @JoinColumn(name = "organizacion_id",referencedColumnName = "id")
     private List<Contacto> contactos;
 
+    @Getter
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinColumn(name = "organizacion_id",referencedColumnName = "id")
+    private List<Solicitud> listaDeSolicitudes;
+
     public Organizacion(List<Trabajador> miembros, List<Sector> sectores) {
         this.sectores = sectores;
+        this.listaDeActividades = new ArrayList<>();
+        this.listaDeSolicitudes = new ArrayList<>();
     }
 
     public Organizacion(){
-        this.listaDeActividades=new ArrayList<>();
+        this.listaDeActividades = new ArrayList<>();
+        this.listaDeSolicitudes = new ArrayList<>();
+    }
+
+    public Organizacion(List<String> clasificacionOrg, List<Trabajador> miembros,
+                        String razonSocial, List<Sector> sectores, TipoOrganizacion tipoOrganizacion,
+                        Direccion direccion){
+
+        this.clasificacionOrg = clasificacionOrg;
+
+        this.razonSocial = razonSocial;
+        this.sectores = sectores;
+        this.tipoOrganizacion= tipoOrganizacion;
+        this.direccion = direccion;
+        this.listaDeActividades = new ArrayList<>();
+        this.listaDeSolicitudes = new ArrayList<>();
+
     }
 
 
@@ -77,23 +101,17 @@ public class Organizacion {
     }
 
     public void solicitudDeVinculacion(Trabajador trabajador, Sector sector){
-        trabajador.solicitudAceptada(sector);
-        sector.agregarTrabajador(trabajador);
+        Solicitud solicitudNueva = new Solicitud(sector,trabajador);
+        this.getListaDeSolicitudes().add(solicitudNueva);
     }
 
-    public Organizacion(List<String> clasificacionOrg, List<Trabajador> miembros,
-                        String razonSocial, List<Sector> sectores, TipoOrganizacion tipoOrganizacion,
-                        Direccion direccion){
-
-        this.clasificacionOrg = clasificacionOrg;
-
-        this.razonSocial = razonSocial;
-        this.sectores = sectores;
-        this.tipoOrganizacion= tipoOrganizacion;
-        this.direccion = direccion;
-        this.listaDeActividades=new ArrayList<>();
-
+    public void aceptarSolicitud(Solicitud solicitud){
+        solicitud.aceptarSolicitud();
     }
+    public void rechazarSolicitud(Solicitud solicitud){
+        solicitud.rechazarSolicitud();
+    }
+
 
     public Double calcularHCEnPeriodo(Periodo periodo) throws Exception {
         return CalculoHC.calcularHCDeListaDeActividadesEnPeriodo(this.getListaDeActividades(),periodo) + this.calcularHCEmpleados(periodo);

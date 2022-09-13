@@ -1,4 +1,4 @@
-package domain.organizaciones;
+package domain.organizaciones.entidades;
 
 import domain.CargaDeActividades.entidades.Periodo;
 import domain.trayectos.Trayecto;
@@ -13,7 +13,7 @@ import java.util.List;
 public class Trabajador {
     @Id
     @GeneratedValue
-    private int id; //repetido
+    private int id;
 
     @Column(name = "apellido",nullable = false)
     private String apellido;
@@ -28,7 +28,7 @@ public class Trabajador {
     @JoinColumn(name = "trabajador_id",referencedColumnName = "id")
     private List<Trayecto> listaTrayectos = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "trabajadores") //TODO queda trabajador_id en la tabla
+    @ManyToMany(mappedBy = "trabajadores") //todo queda trabajador_id en la tabla
     public List<Sector> sectores;
 
     public int getId() {
@@ -36,6 +36,9 @@ public class Trabajador {
     }
 
     public void solicitarVinculacion(Organizacion organizacion,Sector sector){
+        if(sector.getOrganizacion() != organizacion){
+            throw new RuntimeException("El sector ingresado no es de la organizacion ingresada");
+        }
         organizacion.solicitudDeVinculacion(this, sector);
     }
 

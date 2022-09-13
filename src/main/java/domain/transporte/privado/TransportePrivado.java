@@ -4,7 +4,7 @@ import domain.geoDDS.Direccion;
 import domain.geoDDS.ServicioCalcularDistancia;
 import domain.geoDDS.entidades.Distancia;
 import domain.trayectos.TramoCompartido;
-import domain.organizaciones.Trabajador;
+import domain.organizaciones.entidades.Trabajador;
 import domain.transporte.CalcularHCTransporte;
 import domain.transporte.MedioTransporte;
 import domain.transporte.TipoCombustible;

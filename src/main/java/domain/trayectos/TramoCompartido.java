@@ -1,8 +1,7 @@
 package domain.trayectos;
 
-import domain.geoDDS.entidades.Distancia;
-import domain.organizaciones.Organizacion;
-import domain.organizaciones.Trabajador;
+import domain.organizaciones.entidades.Organizacion;
+import domain.organizaciones.entidades.Trabajador;
 import domain.transporte.privado.TransportePrivado;
 
 import javax.persistence.*;
@@ -46,11 +45,10 @@ public class TramoCompartido {
             this.agregarABordo(trabajador);
 
         }else{
-            throw new Exception("El trabajador ingresado no puede compartir este tramo con las personas ya cargadas al mismo");
+            throw new Exception("El trabajador ingresado no puede compartir este tramo con las personas ya cargadas " +
+                    "al mismo, ya que no comparten ninguna organizacion");
         }
     }
-
-    //borrar organizacionesALasQuePertenecenLosPasajeros del uml
 
     List<Organizacion> organizacionesDeUnaPersona(Trabajador trabajador){
         return trabajador.sectores.stream().map(s->s.organizacion).collect(Collectors.toList());

@@ -1,6 +1,6 @@
 package test.domain.organizaciones.contacto;
 
-import domain.organizaciones.Organizacion;
+import domain.organizaciones.entidades.Organizacion;
 import domain.organizaciones.contacto.*;
 import domain.organizaciones.contacto.adapters.EnvioNotificacionJavaxMailAdapter;
 import domain.organizaciones.contacto.adapters.EnvioNotificacionUltraWppAdapter;

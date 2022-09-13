@@ -37,7 +37,7 @@ public class TransportePublico extends MedioTransporte {
     }
 
 
-    public Distancia calcularDistancia(Direccion origen,Direccion destino) throws Exception { //todo cambiar en el uml
+    public Distancia calcularDistancia(Direccion origen,Direccion destino) throws Exception {
         return linea.calcularDistancia(origen, destino);
 
     }

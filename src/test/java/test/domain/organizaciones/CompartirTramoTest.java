@@ -1,6 +1,8 @@
 package test.domain.organizaciones;
 
-import domain.organizaciones.*;
+import domain.organizaciones.entidades.Organizacion;
+import domain.organizaciones.entidades.Sector;
+import domain.organizaciones.entidades.Trabajador;
 import domain.trayectos.TramoCompartido;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,4 +1,4 @@
-package domain.organizaciones;
+package domain.organizaciones.entidades;
 
 public enum TipoDoc {
     DNI,

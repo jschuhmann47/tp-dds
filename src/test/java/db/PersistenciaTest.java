@@ -5,11 +5,10 @@ import domain.geoDDS.entidades.Localidad;
 import domain.geoDDS.entidades.Municipio;
 import domain.geoDDS.entidades.Pais;
 import domain.geoDDS.entidades.Provincia;
-import domain.organizaciones.Organizacion;
-import domain.organizaciones.Sector;
-import domain.organizaciones.TipoOrganizacion;
-import domain.organizaciones.Trabajador;
-import org.junit.After;
+import domain.organizaciones.entidades.Organizacion;
+import domain.organizaciones.entidades.Sector;
+import domain.organizaciones.entidades.TipoOrganizacion;
+import domain.organizaciones.entidades.Trabajador;
 import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;

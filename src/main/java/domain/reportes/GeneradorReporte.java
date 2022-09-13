@@ -3,21 +3,34 @@ package domain.reportes;
 import domain.CargaDeActividades.entidades.Periodo;
 import domain.geoDDS.entidades.Municipio;
 import domain.geoDDS.entidades.Provincia;
-import domain.organizaciones.Organizacion;
+import domain.organizaciones.entidades.Organizacion;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GeneradorReporte {
 
+    public static List<Organizacion> organizacionesEnMunicipio(List<Organizacion> organizaciones, Municipio municipio){
+        return organizaciones.stream()
+                .filter(o->o.getDireccion().getMunicipio().getId() == municipio.getId())
+                .collect(Collectors.toList());
+    }
+    public static List<Organizacion> organizacionesEnProvinicia(List<Organizacion> organizaciones, Provincia provincia){
+        return organizaciones.stream()
+                .filter(o->o.getDireccion().getProvincia().getId() == provincia.getId()).collect(Collectors.toList());
+    }
+
+
     public static Double HCTotalPorSectorTerritorial(List<Organizacion> organizaciones, Municipio municipio){
-        return organizaciones.stream().filter(o->o.getDireccion().getMunicipio().getId() == municipio.getId())
-                .mapToDouble(Organizacion::calcularHCTotal).sum();
+        return GeneradorReporte.organizacionesEnMunicipio(organizaciones,municipio).stream()
+                .mapToDouble(Organizacion::calcularHCTotal)
+                .sum();
     }
 
 
     public static Double HCTotalPorSectorTerritorialEnPeriodo(List<Organizacion> organizaciones, Municipio municipio, Periodo periodo){
-        return organizaciones.stream().filter(o->o.getDireccion().getMunicipio().getId() == municipio.getId())
+        return GeneradorReporte.organizacionesEnMunicipio(organizaciones,municipio).stream()
                 .mapToDouble(organizacion -> {
                     try {
                         return organizacion.calcularHCEnPeriodo(periodo);
@@ -28,7 +41,7 @@ public class GeneradorReporte {
     }
 
     public static Double HCTotalPorProvincia(List<Organizacion> organizaciones, Provincia provincia){
-        return organizaciones.stream().filter(o->o.getDireccion().getProvincia().getId() == provincia.getId())
+        return GeneradorReporte.organizacionesEnProvinicia(organizaciones,provincia).stream()
                 .mapToDouble(Organizacion::calcularHCTotal).sum();
     }
 
@@ -61,22 +74,22 @@ public class GeneradorReporte {
     }
 
     public static Double HCTotalPorActividadProvincia(List<Organizacion> organizaciones, Provincia provincia){
-        return organizaciones.stream().filter(o->o.getDireccion().getProvincia().getId() == provincia.getId())
+        return GeneradorReporte.organizacionesEnProvinicia(organizaciones,provincia).stream()
                 .mapToDouble(Organizacion::calcularHCTotalActividades).sum();
     }
     public static Double HCTotalPorTrabajadorProvincia(List<Organizacion> organizaciones, Provincia provincia){
-        return organizaciones.stream().filter(o->o.getDireccion().getProvincia().getId() == provincia.getId())
+        return GeneradorReporte.organizacionesEnProvinicia(organizaciones,provincia).stream()
                 .mapToDouble(Organizacion::calcularHCTotalTrabajadores).sum();
     }
 
 
     public static Double HCTotalPorActividadSectorTerritorial(List<Organizacion> organizaciones, Municipio municipio){
-        return organizaciones.stream().filter(o->o.getDireccion().getMunicipio().getId() == municipio.getId())
+        return GeneradorReporte.organizacionesEnMunicipio(organizaciones,municipio).stream()
                 .mapToDouble(Organizacion::calcularHCTotalActividades).sum();
     }
 
     public static Double HCTotalPorTrabajadorSectorTerritorial(List<Organizacion> organizaciones, Municipio municipio){
-        return organizaciones.stream().filter(o->o.getDireccion().getMunicipio().getId() == municipio.getId())
+        return GeneradorReporte.organizacionesEnMunicipio(organizaciones,municipio).stream()
                 .mapToDouble(Organizacion::calcularHCTotalTrabajadores).sum();
     }
 

@@ -67,7 +67,7 @@ public class Trayecto {
         this.tramos.addAll(Arrays.asList(tramos));
     }
 
-    public Distancia distanciaTrayecto(){ //private? y el de tramo tmb
+    public Distancia distanciaTrayecto(){
 
         double valor = tramos.stream().map(tramo -> {
                     try {
