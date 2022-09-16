@@ -1,5 +1,7 @@
 package domain.geoDDS.entidades;
 
+import lombok.Getter;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,6 +12,7 @@ public class Provincia {
     public int id;
 
     @Column(name = "nombre",nullable = false)
+    @Getter
     public String nombre;
 
     @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)

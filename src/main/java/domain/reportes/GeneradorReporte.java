@@ -22,15 +22,16 @@ public class GeneradorReporte {
     }
 
 
-    public static Double HCTotalPorSectorTerritorial(List<Organizacion> organizaciones, Municipio municipio){
-        return GeneradorReporte.organizacionesEnMunicipio(organizaciones,municipio).stream()
+    public static Reporte HCTotalPorSectorTerritorial(List<Organizacion> organizaciones, Municipio municipio){
+        Double valor = GeneradorReporte.organizacionesEnMunicipio(organizaciones,municipio).stream()
                 .mapToDouble(Organizacion::calcularHCTotal)
                 .sum();
+        return new Reporte("Huella de carbono del Municipio " + municipio.getNombre(),valor);
     }
 
 
-    public static Double HCTotalPorSectorTerritorialEnPeriodo(List<Organizacion> organizaciones, Municipio municipio, Periodo periodo){
-        return GeneradorReporte.organizacionesEnMunicipio(organizaciones,municipio).stream()
+    public static Reporte HCTotalPorSectorTerritorialEnPeriodo(List<Organizacion> organizaciones, Municipio municipio, Periodo periodo){
+        Double valor = GeneradorReporte.organizacionesEnMunicipio(organizaciones,municipio).stream()
                 .mapToDouble(organizacion -> {
                     try {
                         return organizacion.calcularHCEnPeriodo(periodo);
@@ -38,15 +39,21 @@ public class GeneradorReporte {
                         throw new RuntimeException(e);
                     }
                 }).sum();
+        return new Reporte("Huella de carbono del Municipio en el periodo: " + periodo.generarLeyenda(),valor);
     }
 
-    public static Double HCTotalPorProvincia(List<Organizacion> organizaciones, Provincia provincia){
-        return GeneradorReporte.organizacionesEnProvinicia(organizaciones,provincia).stream()
+    public static Reporte HCTotalPorProvincia(List<Organizacion> organizaciones, Provincia provincia){
+        Double valor = GeneradorReporte.organizacionesEnProvinicia(organizaciones,provincia).stream()
                 .mapToDouble(Organizacion::calcularHCTotal).sum();
+        return new Reporte("Huella de carbono de la provincia " + provincia.getNombre(),valor);
     }
 
-    public static Double HCTotalPorClasificacion(List<Organizacion> organizaciones, String clasificacion){
-        return organizaciones.stream().filter(o->o.getClasificacionOrg().contains(clasificacion)).mapToDouble(Organizacion::calcularHCTotal).sum();
+    public static Reporte HCTotalPorClasificacion(List<Organizacion> organizaciones, String clasificacion){
+        Double valor =  organizaciones.stream()
+                .filter(o->o.getClasificacionOrg().contains(clasificacion))
+                .mapToDouble(Organizacion::calcularHCTotal).sum();
+        return new Reporte("Huella de carbono de organizaciones con la clasificacion "
+                + "\"" + clasificacion + "\"",valor); //TODO hacer tabla de clasificacion para normalizacion?
     }
 
     public static List<Composicion> ComposicionHCTotalPorSectorTerritorial(List<Organizacion> organizaciones, Municipio municipio){
@@ -73,24 +80,28 @@ public class GeneradorReporte {
         return composicionesPorProv;
     }
 
-    public static Double HCTotalPorActividadProvincia(List<Organizacion> organizaciones, Provincia provincia){
-        return GeneradorReporte.organizacionesEnProvinicia(organizaciones,provincia).stream()
+    public static Reporte HCTotalPorActividadProvincia(List<Organizacion> organizaciones, Provincia provincia){
+        Double valor = GeneradorReporte.organizacionesEnProvinicia(organizaciones,provincia).stream()
                 .mapToDouble(Organizacion::calcularHCTotalActividades).sum();
+        return new Reporte("Huella de carbono por actividades en la provincia " + provincia.getNombre(),valor);
     }
-    public static Double HCTotalPorTrabajadorProvincia(List<Organizacion> organizaciones, Provincia provincia){
-        return GeneradorReporte.organizacionesEnProvinicia(organizaciones,provincia).stream()
+    public static Reporte HCTotalPorTrabajadorProvincia(List<Organizacion> organizaciones, Provincia provincia){
+        Double valor = GeneradorReporte.organizacionesEnProvinicia(organizaciones,provincia).stream()
                 .mapToDouble(Organizacion::calcularHCTotalTrabajadores).sum();
+        return new Reporte("Huella de carbono por trabajadores en la provincia " + provincia.getNombre(),valor);
     }
 
 
-    public static Double HCTotalPorActividadSectorTerritorial(List<Organizacion> organizaciones, Municipio municipio){
-        return GeneradorReporte.organizacionesEnMunicipio(organizaciones,municipio).stream()
+    public static Reporte HCTotalPorActividadSectorTerritorial(List<Organizacion> organizaciones, Municipio municipio){
+        Double valor = GeneradorReporte.organizacionesEnMunicipio(organizaciones,municipio).stream()
                 .mapToDouble(Organizacion::calcularHCTotalActividades).sum();
+        return new Reporte("Huella de carbono por actividades en el municipio " + municipio.getNombre(),valor);
     }
 
-    public static Double HCTotalPorTrabajadorSectorTerritorial(List<Organizacion> organizaciones, Municipio municipio){
-        return GeneradorReporte.organizacionesEnMunicipio(organizaciones,municipio).stream()
+    public static Reporte HCTotalPorTrabajadorSectorTerritorial(List<Organizacion> organizaciones, Municipio municipio){
+        Double valor = GeneradorReporte.organizacionesEnMunicipio(organizaciones,municipio).stream()
                 .mapToDouble(Organizacion::calcularHCTotalTrabajadores).sum();
+        return new Reporte("Huella de carbono por trabajadores en el municipio " + municipio.getNombre(),valor);
     }
 
     public static Double porcentaje(Double valor,Double total){

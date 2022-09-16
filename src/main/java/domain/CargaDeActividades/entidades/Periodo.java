@@ -46,4 +46,13 @@ public class Periodo {
 
     }
 
+    public String generarLeyenda(){
+        if(this.getMes()==null){
+            return "anio " + this.getAnio().toString();
+        }
+        else{
+            return "mes " + this.getMes().toString() + " del anio " + this.getAnio().toString();
+        }
+    }
+
 }

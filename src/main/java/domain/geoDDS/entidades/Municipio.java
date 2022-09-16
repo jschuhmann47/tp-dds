@@ -11,6 +11,7 @@ public class Municipio {
     public int id;
 
     @Column(name = "nombre",nullable = false)
+    @Getter
     public String nombre;
 
     @Getter
