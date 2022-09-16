@@ -17,13 +17,14 @@ public class Solicitud {
     @Getter
     private int id;
 
-    //TODO la persistencia
+
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn()
+    @JoinColumn(name = "sector_id", referencedColumnName = "id")
     private Sector sectorAIngresar;
-    @Transient
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "trabajador_id",referencedColumnName = "id")
     private Trabajador trabajador;
-    @Transient
+    @Embedded
     private EstadoSolicitud estadoSolicitud;
 
     public Solicitud(Sector sectorAIngresar, Trabajador trabajador) {
@@ -39,7 +40,6 @@ public class Solicitud {
         estadoSolicitud.setFechaUltimaModificacion(LocalDate.now());
         sectorAIngresar.agregarTrabajador(this.trabajador);
     }
-
 
 
     public void rechazarSolicitud() {
