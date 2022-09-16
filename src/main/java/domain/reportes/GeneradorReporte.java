@@ -6,6 +6,7 @@ import domain.geoDDS.entidades.Provincia;
 import domain.organizaciones.entidades.Organizacion;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,30 +55,41 @@ public class GeneradorReporte {
                 .mapToDouble(Organizacion::calcularHCTotal).sum();
         return new Reporte("Huella de carbono de organizaciones con la clasificacion "
                 + "\"" + clasificacion + "\"",valor); //TODO hacer tabla de clasificacion para normalizacion?
+
     }
 
-    public static List<Composicion> ComposicionHCTotalPorSectorTerritorial(List<Organizacion> organizaciones, Municipio municipio){
+    public static List<Reporte> ComposicionHCTotalPorSectorTerritorial(List<Organizacion> organizaciones, Municipio municipio){
 
-
-        Double porActividad = GeneradorReporte.HCTotalPorActividadSectorTerritorial(organizaciones, municipio);
-        Double porTrabajador = GeneradorReporte.HCTotalPorTrabajadorSectorTerritorial(organizaciones, municipio);
-        return GeneradorReporte.generarListaComposicion(porActividad,porTrabajador);
+        Reporte porActividad = GeneradorReporte.HCTotalPorActividadSectorTerritorial(organizaciones, municipio);
+        Reporte porTrabajador = GeneradorReporte.HCTotalPorTrabajadorSectorTerritorial(organizaciones, municipio);
+        return GeneradorReporte.calcularPorcentajes(porActividad,porTrabajador,"municipio: " + municipio.getNombre());
     }
 
-    public static List<Composicion> ComposicionHCTotalDeUnaOrganizacion(Organizacion organizacion){
-        Double porActividad = organizacion.calcularHCTotalActividades();
-        Double porTrabajador = organizacion.calcularHCTotalTrabajadores();
-        return GeneradorReporte.generarListaComposicion(porActividad,porTrabajador);
+    public static List<Reporte> ComposicionHCTotalDeUnaOrganizacion(Organizacion organizacion){
+        return GeneradorReporte
+                .calcularPorcentajes(GeneradorReporte.ComposicionHCTotalDeUnaOrganizacionPorActividad(organizacion),
+                                    GeneradorReporte.ComposicionHCTotalDeUnaOrganizacionPorTrabajador(organizacion),
+                                    "organizacion: " + organizacion.getRazonSocial());
     }
 
-    public static List<Composicion> ComposicionHCTotalPorProvincias(List<Organizacion> organizaciones, List<Provincia> provincias){
-        List<Composicion> composicionesPorProv = new ArrayList<>();
+    public static Reporte ComposicionHCTotalDeUnaOrganizacionPorActividad(Organizacion organizacion){
+        return new Reporte("Huella de carbono por actividades de la organizacion "
+                + organizacion.getRazonSocial(),organizacion.calcularHCTotalActividades());
+    }
+
+    public static Reporte ComposicionHCTotalDeUnaOrganizacionPorTrabajador(Organizacion organizacion){
+        return new Reporte("Huella de carbono por actividades de la organizacion "
+                + organizacion.getRazonSocial(),organizacion.calcularHCTotalTrabajadores());
+    }
+
+    public static List<Reporte> ComposicionHCTotalPorProvincias(List<Organizacion> organizaciones, List<Provincia> provincias){
+        List<Reporte> reportesList = new ArrayList<>();
         for(Provincia provincia : provincias){
-            Double porActividad = GeneradorReporte.HCTotalPorActividadProvincia(organizaciones, provincia);
-            Double porTrabajador = GeneradorReporte.HCTotalPorTrabajadorProvincia(organizaciones, provincia);
-            composicionesPorProv.addAll(GeneradorReporte.generarListaComposicionConProvincia(porActividad,porTrabajador,provincia));
+            Reporte porActividad = GeneradorReporte.HCTotalPorActividadProvincia(organizaciones, provincia);
+            Reporte porTrabajador = GeneradorReporte.HCTotalPorTrabajadorProvincia(organizaciones, provincia);
+            reportesList.addAll(GeneradorReporte.calcularPorcentajes(porActividad,porTrabajador,"provincia: " + provincia.getNombre()));
         }
-        return composicionesPorProv;
+        return reportesList;
     }
 
     public static Reporte HCTotalPorActividadProvincia(List<Organizacion> organizaciones, Provincia provincia){
@@ -108,45 +120,39 @@ public class GeneradorReporte {
         return valor/(total)*100;
     }
 
-    private static List<Composicion> generarListaComposicion(Double valorActividades, Double valorTrabajadores){
-        List<Composicion> composicionList = new ArrayList<>();
-        Composicion compActividades =
-                new Composicion("Actividades",GeneradorReporte.porcentaje(valorActividades,valorActividades+valorTrabajadores));
-        Composicion compTrabajadores =
-                new Composicion("Trabajadores",GeneradorReporte.porcentaje(valorTrabajadores,valorActividades+valorTrabajadores));
-        composicionList.add(compActividades);
-        composicionList.add(compTrabajadores);
-        return composicionList;
+    private static List<Reporte> generarListaReportes(Reporte ... reportes){
+        return new ArrayList<>(Arrays.asList(reportes));
+    }
+
+    private static List<Reporte> calcularPorcentajes(Reporte actividades, Reporte trabajadores,String detalle){ //todo refactor
+        Double actividadesP, trabajadoresP, total = actividades.getValor()+trabajadores.getValor();
+        actividadesP = GeneradorReporte.porcentaje(actividades.getValor(),total);
+        trabajadoresP = GeneradorReporte.porcentaje(trabajadores.getValor(),total);
+        Reporte actividadesR = new Reporte("Porcentaje de la huella de carbono de actividades de " + detalle,actividadesP);
+        Reporte trabajadoresR = new Reporte("Porcentaje de la huella de carbono de trabajadores de " + detalle,trabajadoresP);
+        return GeneradorReporte.generarListaReportes(actividadesR,trabajadoresR);
+
+    }
+
+    public static Reporte evolucionHCTotalSectorTerritorial(List<Organizacion> organizaciones, Municipio municipio, Periodo periodo){
+
+        Reporte HCMesAnterior = GeneradorReporte.HCTotalPorSectorTerritorialEnPeriodo(organizaciones,municipio,periodo.obtenerPeriodoAnterior());
+        Reporte HCMesActual = GeneradorReporte.HCTotalPorSectorTerritorialEnPeriodo(organizaciones,municipio,periodo);
+
+        return GeneradorReporte.evolucionPorcuentual(HCMesAnterior, HCMesActual,periodo,"municipio " + municipio.getNombre());
     }
 
 
-    private static List<Composicion> generarListaComposicionConProvincia(Double valorActividades, Double valorTrabajadores, Provincia provincia){
-        List<Composicion> composicionList = GeneradorReporte.generarListaComposicion(valorActividades,valorTrabajadores);
-        for (Composicion c : composicionList){
-            c.setProvincia(provincia);
-        }
-        return composicionList;
+    public static Reporte evolucionHCTotalOrganizacion(Organizacion organizacion, Periodo periodo) throws Exception {
+        Reporte HCMesAnterior = new Reporte("_",organizacion.calcularHCEnPeriodo(periodo.obtenerPeriodoAnterior()));
+        Reporte HCMesActual = new Reporte("_",organizacion.calcularHCEnPeriodo(periodo));
+
+        return GeneradorReporte.evolucionPorcuentual(HCMesAnterior, HCMesActual,periodo,"organizacion " + organizacion.getRazonSocial());
     }
 
 
-    public static Double evolucionHCTotalSectorTerritorial(List<Organizacion> organizaciones, Municipio municipio, Periodo periodo){
-
-        Double HCMesAnterior = GeneradorReporte.HCTotalPorSectorTerritorialEnPeriodo(organizaciones,municipio,periodo.obtenerPeriodoAnterior());
-        Double HCMesActual = GeneradorReporte.HCTotalPorSectorTerritorialEnPeriodo(organizaciones,municipio,periodo);
-
-        return GeneradorReporte.evolucionPorcuentual(HCMesAnterior, HCMesActual);
-    }
-
-
-    public static Double evolucionHCTotalOrganizacion(Organizacion organizacion, Periodo periodo) throws Exception {
-        Double HCMesAnterior = organizacion.calcularHCEnPeriodo(periodo.obtenerPeriodoAnterior());
-        Double HCMesActual = organizacion.calcularHCEnPeriodo(periodo);
-
-        return GeneradorReporte.evolucionPorcuentual(HCMesAnterior, HCMesActual);
-    }
-
-
-    private static Double evolucionPorcuentual(Double valorAnterior,Double valorActual){
-        return (valorActual-valorAnterior)/valorAnterior * 100;
+    private static Reporte evolucionPorcuentual(Reporte reporteAnterior,Reporte reporteActual,Periodo periodo, String detalle){
+        return new Reporte("Evolucion porcuentual del periodo: " + periodo.generarLeyenda() + " de: " + detalle,
+                (reporteActual.getValor()-reporteAnterior.getValor()) / reporteAnterior.getValor() * 100);
     }
 }

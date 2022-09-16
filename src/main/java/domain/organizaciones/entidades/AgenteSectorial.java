@@ -4,6 +4,7 @@ package domain.organizaciones.entidades;
 import domain.CargaDeActividades.entidades.Periodo;
 import domain.geoDDS.entidades.Municipio;
 import domain.reportes.GeneradorReporte;
+import domain.reportes.Reporte;
 
 import javax.persistence.*;
 import java.util.List;
@@ -30,7 +31,7 @@ public class AgenteSectorial {
         this.organizaciones = organizaciones;
     }
 
-    public Double calcularHCEnAnio(Periodo periodo) {
+    public Reporte calcularHCEnAnio(Periodo periodo) {
         return GeneradorReporte.HCTotalPorSectorTerritorialEnPeriodo(organizaciones,municipio,periodo);
     }
 }

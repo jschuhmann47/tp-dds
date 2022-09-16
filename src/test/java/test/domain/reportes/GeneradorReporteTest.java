@@ -10,8 +10,8 @@ import domain.organizaciones.entidades.Organizacion;
 import domain.organizaciones.entidades.Sector;
 import domain.organizaciones.entidades.TipoOrganizacion;
 import domain.organizaciones.entidades.Trabajador;
-import domain.reportes.Composicion;
 import domain.reportes.GeneradorReporte;
+import domain.reportes.Reporte;
 import domain.transporte.CalcularHCTransporte;
 import domain.transporte.TipoCombustible;
 import domain.transporte.privado.TipoVehiculo;
@@ -203,22 +203,23 @@ public class GeneradorReporteTest {
     @DisplayName("Se genera el HC total de un sector territorial")
     public void HCTotalSectorMunicipio(){
 
-        Assertions.assertEquals(104020.0,GeneradorReporte.HCTotalPorSectorTerritorial(organizaciones,municipio));
+        Assertions.assertEquals(104020.0,GeneradorReporte.HCTotalPorSectorTerritorial(organizaciones,municipio).getValor());
+        //System.out.println(GeneradorReporte.HCTotalPorSectorTerritorial(organizaciones,municipio).generarLeyenda());
     }
 
     @Test
     @DisplayName("Se genera el HC total por la clasificacion")
     public void HCTotalSector(){
         String clasificacion = "Videojuegos";
-        Assertions.assertEquals(218020.0,GeneradorReporte.HCTotalPorClasificacion(organizaciones,clasificacion));
+        Assertions.assertEquals(218020.0,GeneradorReporte.HCTotalPorClasificacion(organizaciones,clasificacion).getValor());
     }
 
     @Test
     @DisplayName("Se genera la composicion de HC total de un sector territorial")
     public void composicionHCTotalSector(){
-        List<Composicion> composicionList = GeneradorReporte.ComposicionHCTotalPorSectorTerritorial(organizaciones,municipio);
-        Assertions.assertEquals(8.0,Math.round(composicionList.get(0).getPorcentaje()));
-        Assertions.assertEquals(92.0,Math.round(composicionList.get(1).getPorcentaje()));
+        List<Reporte> composicionList = GeneradorReporte.ComposicionHCTotalPorSectorTerritorial(organizaciones,municipio);
+        Assertions.assertEquals(8.0,Math.round(composicionList.get(0).getValor()));
+        Assertions.assertEquals(92.0,Math.round(composicionList.get(1).getValor()));
     }
 
     @Test
@@ -227,34 +228,36 @@ public class GeneradorReporteTest {
         List<Provincia> provincias = new ArrayList<>();
         provincias.add(provincia);
         provincias.add(provincia2);
-        List<Composicion> composicionList = GeneradorReporte.ComposicionHCTotalPorProvincias(organizaciones,provincias);
+        List<Reporte> composicionList = GeneradorReporte.ComposicionHCTotalPorProvincias(organizaciones,provincias);
         System.out.println(composicionList);
         //provincia1
-        Assertions.assertEquals(8.0, Math.round(composicionList.get(0).getPorcentaje()));
-        Assertions.assertEquals(92.0,Math.round(composicionList.get(1).getPorcentaje()));
+        Assertions.assertEquals(8.0, Math.round(composicionList.get(0).getValor()));
+        Assertions.assertEquals(92.0,Math.round(composicionList.get(1).getValor()));
         //provincia2
-        Assertions.assertEquals(16.0,Math.round(composicionList.get(2).getPorcentaje()));
-        Assertions.assertEquals(84.0,Math.round(composicionList.get(3).getPorcentaje()));
+        Assertions.assertEquals(16.0,Math.round(composicionList.get(2).getValor()));
+        Assertions.assertEquals(84.0,Math.round(composicionList.get(3).getValor()));
     }
 
     @Test
     @DisplayName("Se genera la composicion de una organizacion")
     public void composicionHCTotalOrganizacion(){
-        List<Composicion> composicionList = GeneradorReporte.ComposicionHCTotalDeUnaOrganizacion(organizacionA);
-        Assertions.assertEquals(4.02,Math.round(composicionList.get(0).getPorcentaje()*100.0)/100.0);
-        Assertions.assertEquals(95.98,Math.round(composicionList.get(1).getPorcentaje()*100.0)/100.0);
+        List<Reporte> composicionList = GeneradorReporte.ComposicionHCTotalDeUnaOrganizacion(organizacionA);
+        Assertions.assertEquals(4.02,Math.round(composicionList.get(0).getValor()*100.0)/100.0);
+        Assertions.assertEquals(95.98,Math.round(composicionList.get(1).getValor()*100.0)/100.0);
     }
 
     @Test
     @DisplayName("Se genera la evolucion en un sector territorial")
     public void evolucionSectorT(){
-        Assertions.assertEquals(59,Math.round(GeneradorReporte.evolucionHCTotalSectorTerritorial(organizaciones,municipio,new Periodo(1,2021))));
+        Assertions.assertEquals(59,
+                Math.round(GeneradorReporte.evolucionHCTotalSectorTerritorial(organizaciones,municipio,new Periodo(1,2021)).getValor()));
     }
 
     @Test
     @DisplayName("Se genera la evolucion en una organizacion")
     public void evolucionOrganizacion() throws Exception {
-        Assertions.assertEquals(29.22,Math.round(GeneradorReporte.evolucionHCTotalOrganizacion(organizacionA,new Periodo(1,2021))*100.0)/100.0);
+        Assertions.assertEquals(29.22,
+                Math.round(GeneradorReporte.evolucionHCTotalOrganizacion(organizacionA,new Periodo(1,2021)).getValor()*100.0)/100.0);
     }
 
 
