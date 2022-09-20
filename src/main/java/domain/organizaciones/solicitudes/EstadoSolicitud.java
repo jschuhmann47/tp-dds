@@ -15,6 +15,6 @@ public class EstadoSolicitud {
     private PosibleEstadoSolicitud estadoSolicitud;
     @Setter
     @Getter
-    @Column(name = "fecha_ultima_modificacion")
+    @Column(name = "fecha_ultima_modificacion",columnDefinition = "DATE")
     private LocalDate fechaUltimaModificacion;
 }

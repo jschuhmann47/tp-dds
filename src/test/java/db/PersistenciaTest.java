@@ -59,8 +59,19 @@ public class PersistenciaTest {
     @DisplayName("Se recupera una organizacion")
     public void organizacionRecuperar(){
         Organizacion org = (Organizacion) EntityManagerHelper
-                .createQuery("FROM Organizacion WHERE razon_social = 'Valve Corporation S.A'").getSingleResult();
+                .createQuery("FROM Organizacion WHERE razon_social = 'Valve Corporation S.A'").getSingleResult(); //HQL = Hibernate Query Language (pseudo SQL)
+                //importa el nombre de la clase y de los atributos, no me importa el nombre de la columna
         Assertions.assertEquals("Valve Corporation S.A", org.getRazonSocial());
+    }
+
+    //para listas .getResultList(). count: getMaxResult()
+    //find(Servicio.class, 1) -> el id
+    //todo parametrizar consultas al entityManager
+
+    @AfterAll
+    public static void close(){
+        EntityManagerHelper.closeEntityManager();
+        EntityManagerHelper.closeEntityManagerFactory();
     }
 
 

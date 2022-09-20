@@ -41,7 +41,7 @@ public class Contacto {
         accionesNotificar.addAll(Arrays.asList(acciones));
     }
 
-    public void notificar(String contenido){
+    public void notificar(String contenido){ //todo factory con el enum
         accionesNotificar.forEach(t-> {
             try {
                 t.notificar(contenido,this.getNroTelefono(),this.getEmail());
