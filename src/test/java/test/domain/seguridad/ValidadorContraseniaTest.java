@@ -9,7 +9,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class ValidadorContraseniaTest {
-    ValidadorContrasenia contraseniaTest = new ValidadorContrasenia();
+    ValidadorContrasenia contraseniaTest = new ValidadorContrasenia("src/main/java/models/entities/" +
+            "seguridad/chequeos/peoresContrasenias.txt");
 
     public ValidadorContraseniaTest() throws IOException {
     }

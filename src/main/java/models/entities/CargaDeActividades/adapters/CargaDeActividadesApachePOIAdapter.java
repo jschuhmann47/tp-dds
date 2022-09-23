@@ -1,6 +1,5 @@
 package models.entities.CargaDeActividades.adapters;
 
-import entities.CargaDeActividades.entidades.*;
 import models.entities.CargaDeActividades.entidades.*;
 import models.entities.calculoHC.CalculoHC;
 import lombok.Setter;

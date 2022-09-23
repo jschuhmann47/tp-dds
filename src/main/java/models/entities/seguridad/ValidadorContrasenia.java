@@ -1,6 +1,6 @@
 package models.entities.seguridad;
 
-import entities.seguridad.chequeos.*;
+
 import models.entities.seguridad.chequeos.*;
 
 import java.io.*;
@@ -38,10 +38,9 @@ public class ValidadorContrasenia {
         return true;
     }
 
-    public ValidadorContrasenia() throws IOException { //constructor
+    public ValidadorContrasenia(String path) throws IOException { //constructor
         topPeoresContrasenias = new ArrayList<String>();
-        BufferedReader buffer = new BufferedReader(new FileReader("src/main/java/domain/" +
-                                                                    "seguridad/chequeos/peoresContrasenias.txt"));
+        BufferedReader buffer = new BufferedReader(new FileReader(path));
         String lineaLeida = buffer.readLine();
         while (lineaLeida != null){
             topPeoresContrasenias.add(lineaLeida);

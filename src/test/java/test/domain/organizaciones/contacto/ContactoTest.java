@@ -32,7 +32,7 @@ public class ContactoTest {
 //        mailAdapter = mock(EnvioNotificacionJavaxMailAdapter.class);
         whatsappAdapter = mock(EnvioNotificacionUltraWppAdapter.class);
         mailAdapter =
-                new EnvioNotificacionJavaxMailAdapter("src/main/java/domain/organizaciones/contacto/smtp.properties",
+                new EnvioNotificacionJavaxMailAdapter("src/main/java/models/entities/organizaciones/contacto/smtp.properties",
                         "Guia de recomendaciones");
 //        whatsappAdapter =
 //                new EnvioNotificacionUltraWppAdapter("src/main/java/domain/organizaciones/contacto/token.properties",
