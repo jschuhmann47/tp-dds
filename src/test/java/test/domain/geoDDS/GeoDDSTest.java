@@ -1,10 +1,10 @@
 package test.domain.geoDDS;
 
-import domain.geoDDS.ServicioCalcularDistancia;
-import domain.geoDDS.adapters.ServicioGeoDDSAdapter;
-import domain.geoDDS.entidades.*;
-import domain.geoDDS.Direccion;
+import models.entities.geoDDS.ServicioCalcularDistancia;
+import models.entities.geoDDS.adapters.ServicioGeoDDSAdapter;
+import models.entities.geoDDS.Direccion;
 
+import models.entities.geoDDS.entidades.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

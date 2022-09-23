@@ -1,27 +1,27 @@
 package test.domain.reportes;
 
-import domain.CargaDeActividades.entidades.*;
-import domain.calculoHC.CalculoHC;
-import domain.geoDDS.Direccion;
-import domain.geoDDS.ServicioCalcularDistancia;
-import domain.geoDDS.adapters.ServicioGeoDDSAdapter;
-import domain.geoDDS.entidades.*;
-import domain.organizaciones.entidades.Organizacion;
-import domain.organizaciones.entidades.Sector;
-import domain.organizaciones.entidades.TipoOrganizacion;
-import domain.organizaciones.entidades.Trabajador;
-import domain.reportes.GeneradorReporte;
-import domain.reportes.Reporte;
-import domain.transporte.CalcularHCTransporte;
-import domain.transporte.TipoCombustible;
-import domain.transporte.privado.TipoVehiculo;
-import domain.transporte.privado.TransportePrivado;
-import domain.transporte.publico.Linea;
-import domain.transporte.publico.Parada;
-import domain.transporte.publico.TransportePublico;
-import domain.trayectos.Frecuencia;
-import domain.trayectos.Tramo;
-import domain.trayectos.Trayecto;
+import models.entities.CargaDeActividades.entidades.*;
+import models.entities.calculoHC.CalculoHC;
+import models.entities.geoDDS.Direccion;
+import models.entities.geoDDS.ServicioCalcularDistancia;
+import models.entities.geoDDS.adapters.ServicioGeoDDSAdapter;
+import models.entities.geoDDS.entidades.*;
+import models.entities.organizaciones.entidades.Organizacion;
+import models.entities.organizaciones.entidades.Sector;
+import models.entities.organizaciones.entidades.TipoOrganizacion;
+import models.entities.organizaciones.entidades.Trabajador;
+import models.entities.reportes.GeneradorReporte;
+import models.entities.reportes.Reporte;
+import models.entities.transporte.CalcularHCTransporte;
+import models.entities.transporte.TipoCombustible;
+import models.entities.transporte.privado.TipoVehiculo;
+import models.entities.transporte.privado.TransportePrivado;
+import models.entities.transporte.publico.Linea;
+import models.entities.transporte.publico.Parada;
+import models.entities.transporte.publico.TransportePublico;
+import models.entities.trayectos.Frecuencia;
+import models.entities.trayectos.Tramo;
+import models.entities.trayectos.Trayecto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -171,7 +171,7 @@ public class GeneradorReporteTest {
         Periodo periodo = new Periodo(1,2021);
         List<Actividad> actividades = new ArrayList<>();
 
-        Actividad gas = new Actividad(TipoActividad.COMBUSTION_FIJA, TipoDeConsumo.DIESEL,Unidad.M3,
+        Actividad gas = new Actividad(TipoActividad.COMBUSTION_FIJA, TipoDeConsumo.DIESEL, Unidad.M3,
                 periodo,Periodicidad.MENSUAL,5000.0);
         Actividad carbono = new Actividad(TipoActividad.COMBUSTION_FIJA, TipoDeConsumo.DIESEL,Unidad.M3,
                 periodo.obtenerPeriodoAnterior(),Periodicidad.MENSUAL,25.0);

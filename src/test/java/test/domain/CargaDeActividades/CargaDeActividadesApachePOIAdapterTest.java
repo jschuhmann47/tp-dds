@@ -1,8 +1,8 @@
 package test.domain.CargaDeActividades;
 
-import domain.CargaDeActividades.adapters.CargaDeActividadesApachePOIAdapter;
-import domain.CargaDeActividades.entidades.*;
-import domain.calculoHC.CalculoHC;
+import models.entities.CargaDeActividades.adapters.CargaDeActividadesApachePOIAdapter;
+import models.entities.CargaDeActividades.entidades.*;
+import models.entities.calculoHC.CalculoHC;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,8 +27,8 @@ public class CargaDeActividadesApachePOIAdapterTest {
         Periodo periodoTestCompuesto = new Periodo(5,2021);
         actividadTest =
                 //new ActividadDA(Actividad.COMBUSTION_FIJA, TipoDeConsumo.GAS_NATURAL, Unidad.M3, Periodicidad.MENSUAL,34.0,4,2022);
-                new Actividad(TipoActividad.COMBUSTION_FIJA,TipoDeConsumo.GAS_NATURAL,Unidad.M3,
-                        periodoTest,Periodicidad.MENSUAL,34.0);
+                new Actividad(TipoActividad.COMBUSTION_FIJA, TipoDeConsumo.GAS_NATURAL, Unidad.M3,
+                        periodoTest, Periodicidad.MENSUAL,34.0);
         actividadTestCompuesta =
                 //new ActividadDA(Actividad.LOGISTICA_PRODUCTOS_RESIDUOS, TipoDeConsumo.PRODUCTO_TRANSPORTADO, Unidad.U, Periodicidad.MENSUAL,2.0,5,2021);
                 new Actividad(TipoActividad.LOGISTICA_PRODUCTOS_RESIDUOS,TipoDeConsumo.PRODUCTO_TRANSPORTADO,Unidad.U,

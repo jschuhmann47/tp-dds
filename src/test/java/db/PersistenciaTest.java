@@ -1,14 +1,14 @@
 package db;
 
-import domain.geoDDS.Direccion;
-import domain.geoDDS.entidades.Localidad;
-import domain.geoDDS.entidades.Municipio;
-import domain.geoDDS.entidades.Pais;
-import domain.geoDDS.entidades.Provincia;
-import domain.organizaciones.entidades.Organizacion;
-import domain.organizaciones.entidades.Sector;
-import domain.organizaciones.entidades.TipoOrganizacion;
-import domain.organizaciones.entidades.Trabajador;
+import models.entities.geoDDS.Direccion;
+import models.entities.geoDDS.entidades.Localidad;
+import models.entities.geoDDS.entidades.Municipio;
+import models.entities.geoDDS.entidades.Pais;
+import models.entities.geoDDS.entidades.Provincia;
+import models.entities.organizaciones.entidades.Organizacion;
+import models.entities.organizaciones.entidades.Sector;
+import models.entities.organizaciones.entidades.TipoOrganizacion;
+import models.entities.organizaciones.entidades.Trabajador;
 import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;

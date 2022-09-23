@@ -1,9 +1,11 @@
 package test.domain.organizaciones.contacto;
 
-import domain.organizaciones.entidades.Organizacion;
-import domain.organizaciones.contacto.*;
-import domain.organizaciones.contacto.adapters.EnvioNotificacionJavaxMailAdapter;
-import domain.organizaciones.contacto.adapters.EnvioNotificacionUltraWppAdapter;
+import models.entities.organizaciones.contacto.Contacto;
+import models.entities.organizaciones.contacto.MandarMail;
+import models.entities.organizaciones.contacto.MandarWhatsapp;
+import models.entities.organizaciones.entidades.Organizacion;
+import models.entities.organizaciones.contacto.adapters.EnvioNotificacionJavaxMailAdapter;
+import models.entities.organizaciones.contacto.adapters.EnvioNotificacionUltraWppAdapter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

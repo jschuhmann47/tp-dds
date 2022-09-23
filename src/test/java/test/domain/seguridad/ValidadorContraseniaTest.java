@@ -1,6 +1,6 @@
 package test.domain.seguridad;
 
-import domain.seguridad.*;
+import models.entities.seguridad.ValidadorContrasenia;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

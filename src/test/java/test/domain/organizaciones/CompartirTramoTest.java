@@ -1,9 +1,9 @@
 package test.domain.organizaciones;
 
-import domain.organizaciones.entidades.Organizacion;
-import domain.organizaciones.entidades.Sector;
-import domain.organizaciones.entidades.Trabajador;
-import domain.trayectos.TramoCompartido;
+import models.entities.organizaciones.entidades.Organizacion;
+import models.entities.organizaciones.entidades.Sector;
+import models.entities.organizaciones.entidades.Trabajador;
+import models.entities.trayectos.TramoCompartido;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

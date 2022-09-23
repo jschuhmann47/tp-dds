@@ -1,12 +1,12 @@
 package test.domain.transporte;
 
-import domain.geoDDS.Direccion;
-import domain.geoDDS.entidades.*;
-import domain.transporte.TipoCombustible;
-import domain.transporte.privado.TipoVehiculo;
-import domain.transporte.publico.Linea;
-import domain.transporte.publico.Parada;
-import domain.transporte.publico.TransportePublico;
+import models.entities.geoDDS.Direccion;
+import models.entities.geoDDS.entidades.*;
+import models.entities.transporte.TipoCombustible;
+import models.entities.transporte.privado.TipoVehiculo;
+import models.entities.transporte.publico.Linea;
+import models.entities.transporte.publico.Parada;
+import models.entities.transporte.publico.TransportePublico;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
