@@ -1,5 +1,6 @@
 package server;
 
+import models.controllers.OrganizacionController;
 import spark.Spark;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 import spark.utils.BooleanHelper;
@@ -23,6 +24,8 @@ public class Router {
     }
 
     private static void configure(){
-
+        OrganizacionController organizacionController = new OrganizacionController();
+        Spark.get("/a", organizacionController::mostrar, Router.engine);
+        Spark.get("/prueba",(request, response) -> "Sos " + request.queryParams("nombre"));
     }
 }
