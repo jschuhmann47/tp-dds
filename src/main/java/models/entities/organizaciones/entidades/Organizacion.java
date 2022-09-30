@@ -20,6 +20,7 @@ import java.util.List;
 public class Organizacion {
     @Id
     @GeneratedValue
+    @Getter
     private int id;
 
 

@@ -22,9 +22,12 @@ public class OrganizacionController {
 
     public ModelAndView mostrar(Request request, Response response){
         HashMap<String,Object> parametros = new HashMap<>();
-        Organizacion organizacionA = new Organizacion(null,null,
-                "Valve Corporation S.A",null, TipoOrganizacion.EMPRESA,null);
-        parametros.put("organizacion",organizacionA);
+        Organizacion org = repo.buscar(new Integer(request.params("id")));
+        if(org == null){
+            return new ModelAndView(parametros, "welcome.hbs");
+        }
+        parametros.put("organizacion",org);
+
         return new ModelAndView(parametros, "organizacion-menu.hbs");
     }
 

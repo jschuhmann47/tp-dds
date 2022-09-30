@@ -1,5 +1,6 @@
 package server;
 
+import models.controllers.LoginController;
 import models.controllers.OrganizacionController;
 import spark.Spark;
 import spark.template.handlebars.HandlebarsTemplateEngine;
@@ -25,7 +26,12 @@ public class Router {
 
     private static void configure(){
         OrganizacionController organizacionController = new OrganizacionController();
-        Spark.get("/a", organizacionController::mostrar, Router.engine);
-        Spark.get("/prueba",(request, response) -> "Sos " + request.queryParams("nombre"));
+        LoginController loginController = new LoginController();
+
+        //Spark.get("/menu", organizacionController::mostrar, Router.engine);
+        //Spark.get("/login",(request, response) -> "Sos " + request.queryParams("nombre"));
+        Spark.get("/",loginController::inicio, Router.engine);
+        Spark.post("/",loginController::login);
+        Spark.get("/menu/:id",organizacionController::mostrar, Router.engine);
     }
 }
