@@ -30,8 +30,8 @@ public class Router {
 
         //Spark.get("/menu", organizacionController::mostrar, Router.engine);
         //Spark.get("/login",(request, response) -> "Sos " + request.queryParams("nombre"));
-        Spark.get("/",loginController::inicio, Router.engine);
-        Spark.post("/",loginController::login);
+        Spark.get("/login",loginController::inicio, Router.engine);
+        Spark.post("/login",loginController::login);
         Spark.get("/menu/:id",organizacionController::mostrar, Router.engine);
     }
 }
