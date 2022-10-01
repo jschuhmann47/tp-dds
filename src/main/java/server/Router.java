@@ -2,6 +2,8 @@ package server;
 
 import models.controllers.LoginController;
 import models.controllers.OrganizacionController;
+import models.controllers.WelcomeController;
+import models.middleware.Auth;
 import spark.Spark;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 import spark.utils.BooleanHelper;
@@ -25,12 +27,16 @@ public class Router {
     }
 
     private static void configure(){
+        WelcomeController wc = new WelcomeController();
         OrganizacionController organizacionController = new OrganizacionController();
         LoginController loginController = new LoginController();
+        Auth auth = new Auth();
 
-        //Spark.get("/menu", organizacionController::mostrar, Router.engine);
+        Spark.get("/", wc::inicio, Router.engine);
         //Spark.get("/login",(request, response) -> "Sos " + request.queryParams("nombre"));
+        //Spark.before("/login", auth::verificarSesion);
         Spark.get("/login",loginController::inicio, Router.engine);
+
         Spark.post("/login",loginController::login);
         Spark.get("/menu/:id",organizacionController::mostrar, Router.engine);
     }

@@ -1,6 +1,6 @@
 package models.repositories.factories;
 
-import models.daos.DAOHibernate;
+import models.repositories.daos.DAOHibernate;
 import models.entities.organizaciones.entidades.Organizacion;
 import models.repositories.RepositorioDeOrganizaciones;
 

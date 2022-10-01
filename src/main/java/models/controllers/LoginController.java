@@ -23,7 +23,7 @@ public class LoginController {
 
             String nombreDeUsuario = request.queryParams("nombreDeUsuario");
             String contrasenia = request.queryParams("contrasenia");
-            System.out.println("asdasdasdaaa" + nombreDeUsuario);
+
             //if(organizaciones.existe(nombreDeUsuario, contrasenia)){
             if(organizaciones.existePorId(nombreDeUsuario)){
                 //Organizacion org = organizaciones.buscarOrganizacion(nombreDeUsuario, contrasenia);
@@ -35,13 +35,14 @@ public class LoginController {
                 response.redirect("/menu/" + org.getId());
             }
             else{
-                response.redirect("/chau");
+                response.redirect("/login");
 
             }
         }
         catch (Exception e){
             //Funcionalidad disponible solo con persistencia en Base de Datos
             response.redirect("/error");
+
         }
         finally {
             return response;

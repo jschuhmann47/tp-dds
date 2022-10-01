@@ -1,7 +1,7 @@
 package models.repositories;
 
 import db.EntityManagerHelper;
-import models.daos.DAO;
+import models.repositories.daos.DAO;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;

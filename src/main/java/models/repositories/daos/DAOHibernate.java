@@ -1,4 +1,4 @@
-package models.daos;
+package models.repositories.daos;
 
 
 import db.EntityManagerHelper;

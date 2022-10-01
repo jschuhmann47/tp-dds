@@ -1,6 +1,6 @@
 package models.repositories;
 
-import models.daos.DAO;
+import models.repositories.daos.DAO;
 import models.entities.organizaciones.entidades.Organizacion;
 
 import javax.persistence.criteria.CriteriaBuilder;
