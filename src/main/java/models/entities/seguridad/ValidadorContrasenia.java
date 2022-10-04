@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ValidadorContrasenia {
-    private static final int caracteresMinimos=8; //separar
+    private static final int caracteresMinimos=8;
     private static ArrayList<String> topPeoresContrasenias;
 
 
-    private static final List<Chequeo> listaDeChequeos = new ArrayList<Chequeo>();
+    private static final List<Chequeo> listaDeChequeos = new ArrayList<>();
 
     public static ArrayList<String> getTopPeoresContrasenias() {
         return topPeoresContrasenias;

@@ -5,13 +5,15 @@ import models.entities.geoDDS.entidades.Localidad;
 import models.entities.geoDDS.entidades.Municipio;
 import models.entities.geoDDS.entidades.Pais;
 import models.entities.geoDDS.entidades.Provincia;
-import models.entities.organizaciones.entidades.Organizacion;
-import models.entities.organizaciones.entidades.Sector;
-import models.entities.organizaciones.entidades.TipoOrganizacion;
-import models.entities.organizaciones.entidades.Trabajador;
+import models.entities.organizaciones.entidades.*;
+import models.entities.organizaciones.solicitudes.Solicitud;
+import models.entities.seguridad.cuentas.Permiso;
+import models.entities.seguridad.cuentas.Rol;
+import models.entities.seguridad.cuentas.Usuario;
 import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class PersistenciaTest {
@@ -29,7 +31,7 @@ public class PersistenciaTest {
         clasificaciones.add("Videojuegos");
         clasificaciones.add("Desarrollador");
 
-        Trabajador juan = new Trabajador();
+        Trabajador juan = new Trabajador("Fernandez","Juan", TipoDoc.DNI, 12345678);
 
         List<Trabajador> trabajadoresA = new ArrayList<>();
         trabajadoresA.add(juan);
@@ -46,11 +48,20 @@ public class PersistenciaTest {
         Organizacion organizacion = new Organizacion(clasificaciones,trabajadoresA,
                 "Valve Corporation S.A",sectores, TipoOrganizacion.EMPRESA,direccion1);
 
+        List<Solicitud> listaSolicitudes = new ArrayList<>();
+        Solicitud sol = new Solicitud(marketing,juan);
+        //setearle
+        listaSolicitudes.add(sol);
+        organizacion.setListaDeSolicitudes(listaSolicitudes);
+
         EntityManagerHelper.beginTransaction();
         EntityManagerHelper.getEntityManager().persist(pais);
         EntityManagerHelper.getEntityManager().persist(provincia);
         EntityManagerHelper.getEntityManager().persist(municipio);
         EntityManagerHelper.getEntityManager().persist(localidad);
+        EntityManagerHelper.getEntityManager().persist(sol);
+        EntityManagerHelper.getEntityManager().persist(marketing);
+        EntityManagerHelper.getEntityManager().persist(juan);
         EntityManagerHelper.getEntityManager().persist(organizacion);
         EntityManagerHelper.commit();
     }
@@ -67,6 +78,15 @@ public class PersistenciaTest {
     //para listas .getResultList(). count: getMaxResult()
     //find(Servicio.class, 1) -> el id
     //todo parametrizar consultas al entityManager
+
+    @Test
+    @DisplayName("Se persiste un usuario")
+    public void usuarioPersistir(){
+        Usuario user = new Usuario("juancito","123456789", Rol.BASICO, Permiso.VER_ORGANIZACION);
+        EntityManagerHelper.beginTransaction();
+        EntityManagerHelper.persist(user);
+        EntityManagerHelper.commit();
+    }
 
     @AfterAll
     public static void close(){

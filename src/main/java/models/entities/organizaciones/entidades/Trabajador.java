@@ -31,6 +31,16 @@ public class Trabajador {
     @ManyToMany(mappedBy = "trabajadores") //todo queda trabajador_id en la tabla
     public List<Sector> sectores;
 
+    public Trabajador(String apellido, String nombre, TipoDoc tipoDoc, Integer nroDoc) {
+        this.apellido = apellido;
+        this.nombre = nombre;
+        this.tipoDoc = tipoDoc;
+        this.nroDoc = nroDoc;
+    }
+
+    public Trabajador(){
+    }
+
     public int getId() {
         return id;
     }
@@ -58,7 +68,7 @@ public class Trabajador {
         listaTrayectos.addAll(Arrays.asList(trayectos));
     }
 
-    public Double calcularHC(Periodo periodo) throws Exception{
+    public Double calcularHC(Periodo periodo) throws Exception{ //
         return this.listaTrayectos.stream().mapToDouble(t-> {
             try {
                 return t.calcularHC(periodo);
@@ -66,6 +76,14 @@ public class Trabajador {
                 throw new RuntimeException(e);
             }
         }).sum();
+    }
+    public class TrabajadorDTO{
+        String nombre;
+        Double HCTotal;
+        public TrabajadorDTO(Trabajador t){
+            nombre = t.nombre;
+            HCTotal = t.calcularHCTotal();
+        }
     }
 
 

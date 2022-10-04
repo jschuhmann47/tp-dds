@@ -61,6 +61,7 @@ public class Organizacion {
     private List<Contacto> contactos;
 
     @Getter
+    @Setter
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "organizacion_id",referencedColumnName = "id")
     private List<Solicitud> listaDeSolicitudes;

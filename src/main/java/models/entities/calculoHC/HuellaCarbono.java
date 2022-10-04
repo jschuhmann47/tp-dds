@@ -10,7 +10,7 @@ import javax.persistence.Enumerated;
 
 
 @Embeddable
-public class HuellaCarbono {
+public class HuellaCarbono { //TODO agregar atributos
     @Setter
     @Enumerated(value = EnumType.STRING)
     @Column(name = "huella_carbono_unidad",nullable = false)

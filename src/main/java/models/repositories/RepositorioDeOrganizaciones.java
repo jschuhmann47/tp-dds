@@ -13,14 +13,14 @@ public class RepositorioDeOrganizaciones extends Repositorio<Organizacion> {
         super(dao);
     }
 
-    public Organizacion buscarOrganizacion(String username, String password){
+    public Organizacion buscar(String username, String password){ //todo usuario s
         return this.dao.buscar(this.condicionUsuarioYContrasenia(username,password));
     }
     public Organizacion buscarOrganizacionPorId(String id){
         return this.dao.buscar(this.condicionId(id));
     }
     public Boolean existe(String username, String password){
-        return buscarOrganizacion(username,password) != null;
+        return buscar(username,password) != null;
     }
     public Boolean existePorId(String id){
         return buscarOrganizacionPorId(id) != null;

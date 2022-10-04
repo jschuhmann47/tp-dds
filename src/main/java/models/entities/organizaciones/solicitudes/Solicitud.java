@@ -26,6 +26,10 @@ public class Solicitud {
     @Embedded
     private EstadoSolicitud estadoSolicitud;
 
+    public Solicitud(){
+
+    }
+
     public Solicitud(Sector sectorAIngresar, Trabajador trabajador) {
         this.trabajador = trabajador;
         this.sectorAIngresar = sectorAIngresar;
