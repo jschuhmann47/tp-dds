@@ -1,6 +1,7 @@
 package server;
 
 import models.controllers.LoginController;
+import models.controllers.MenuController;
 import models.controllers.OrganizacionController;
 import models.middlewares.AuthMiddleware;
 import spark.Spark;
@@ -29,20 +30,32 @@ public class Router {
 
         OrganizacionController organizacionController = new OrganizacionController();
         LoginController loginController = new LoginController();
-        AuthMiddleware authMiddleware = new AuthMiddleware();
+        MenuController menuController = new MenuController();
+
 
         Spark.path("/login", () -> {
             Spark.get("",loginController::inicio, Router.engine);
             Spark.post("",loginController::login);
-            //Spark.post("/logout",loginController::logout);
+
         });
         //Spark.get("/login",(request, response) -> "Sos " + request.queryParams("nombre"));
         //Spark.before("/login", auth::verificarSesion);
-        Spark.path("/organizaciones", () -> {
-            Spark.get("/:id",organizacionController::mostrar, Router.engine);
-            Spark.get("/:id/vinculaciones",organizacionController::mostrarVinculaciones, Router.engine);
-            //Spark.get("/menu/:id/vinculaciones",organizacionController::mostrarVinculaciones, Router.engine);
+
+        Spark.path("/menu",() -> {
+            Spark.before("", AuthMiddleware::verificarSesion);
+            Spark.before("/*", AuthMiddleware::verificarSesion);
+            Spark.post("/logout",loginController::logout); //post o get?
+            Spark.get("",menuController::inicio,Router.engine);
+
+            Spark.path("/organizacion", () -> {
+                Spark.get("",organizacionController::mostrar, Router.engine);
+                Spark.get("/vinculaciones",organizacionController::mostrarVinculaciones, Router.engine);
+                //Spark.get("/menu/:id/vinculaciones",organizacionController::mostrarVinculaciones, Router.engine);
+            });
+
         });
+
+
 
 
         //queryParam el de nombre=Eze&...

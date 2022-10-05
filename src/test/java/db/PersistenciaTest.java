@@ -9,6 +9,7 @@ import models.entities.organizaciones.entidades.*;
 import models.entities.organizaciones.solicitudes.Solicitud;
 import models.entities.seguridad.cuentas.Permiso;
 import models.entities.seguridad.cuentas.Rol;
+import models.entities.seguridad.cuentas.TipoRecurso;
 import models.entities.seguridad.cuentas.Usuario;
 import org.junit.jupiter.api.*;
 
@@ -82,7 +83,8 @@ public class PersistenciaTest {
     @Test
     @DisplayName("Se persiste un usuario")
     public void usuarioPersistir(){
-        Usuario user = new Usuario("juancito","123456789", Rol.BASICO, Permiso.VER_ORGANIZACION);
+
+        Usuario user = new Usuario("juancito","123456789",Rol.BASICO,1, TipoRecurso.ORGANIZACION,Permiso.VER_ORGANIZACION);
         EntityManagerHelper.beginTransaction();
         EntityManagerHelper.persist(user);
         EntityManagerHelper.commit();

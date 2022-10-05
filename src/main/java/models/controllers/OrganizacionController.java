@@ -22,7 +22,7 @@ public class OrganizacionController {
 
     public ModelAndView mostrar(Request request, Response response){
         HashMap<String,Object> parametros = new HashMap<>();
-        Organizacion org = this.repo.buscar(new Integer(request.params("id")));
+        Organizacion org = this.repo.buscar(new Integer(request.session().attribute("resource_id").toString())); //todo validar
         if(org == null){ //try catch
             response.redirect("/error");
         }
@@ -34,7 +34,7 @@ public class OrganizacionController {
 
     public ModelAndView mostrarVinculaciones(Request request, Response response){
         HashMap<String,Object> parametros = new HashMap<>();
-        Organizacion org = this.repo.buscar(new Integer(request.params("id")));
+        Organizacion org = this.repo.buscar(new Integer(request.session().attribute("resource_id").toString()));
         if(org == null){
             return new ModelAndView(parametros, "welcome.hbs");
         }

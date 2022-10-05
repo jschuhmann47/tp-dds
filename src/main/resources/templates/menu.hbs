@@ -16,7 +16,7 @@
             aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand">Bienvenida {{organizacion.razonSocial}}</a>
+        <a class="navbar-brand">Bienvenido {{usuario.nombreDeUsuario}}</a>
 
         <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
@@ -24,7 +24,7 @@
                     <a class="nav-link" href="home.html">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Perfil</a>
+                    <a class="nav-link" href="./logout" >Logout</a>
                 </li>
             </ul>
         </div>
@@ -33,7 +33,7 @@
     <div class="card-group row-cols-md-2" style="margin-left: 150px; margin-top: 150px;">
         <div class="col">
             <div class="card mb-5 bg-light" style="max-width: 540px;">
-                <a class="btn p-0" href="menu/organizacion/vinculaciones" role="button">
+                <a class="btn p-0" href="/menu/organizacion" role="button">
                     <div class="row g-0">
                         <div class="col-md-4">
                             <img src="../images/menu/manos.jpg" class="img-fluid rounded-start" alt="..."
@@ -42,9 +42,8 @@
                         <div class="col-md-8">
 
                             <div class="card-body">
-                                <h5 class="card-title">Aceptar Vinculacion</h5>
-                                <p class="card-text">Pruebas de que se acceden a los datos
-                                {{organizacion.direccion.calle}} </p>
+                                <h5 class="card-title">Ver detalle de organizacion</h5>
+                                <p class="card-text">Pruebas de que se acceden a los datos</p>
                             </div>
                         </div>
                     </div>

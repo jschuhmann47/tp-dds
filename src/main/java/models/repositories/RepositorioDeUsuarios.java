@@ -28,7 +28,7 @@ public class RepositorioDeUsuarios extends Repositorio<Usuario>{
         Root<Usuario> condicionRaiz = usuarioQuery.from(Usuario.class);
 
         Predicate condicion = criteriaBuilder
-                .and(criteriaBuilder.equal(condicionRaiz.get("nombreUsuario"), nombreDeUsuario),
+                .and(criteriaBuilder.equal(condicionRaiz.get("nombreDeUsuario"), nombreDeUsuario),
                         criteriaBuilder.equal(condicionRaiz.get("contrasenia"),contrasenia));
 
         usuarioQuery.where(condicion);

@@ -17,7 +17,7 @@ public class Usuario {
     private int id;
 
     @Column(name = "nombre_de_usuario",nullable = false)
-    private String nombreUsuario;
+    private String nombreDeUsuario;
     @Column(name = "contrasenia",nullable = false)
     private String contrasenia;
     @Enumerated(value = EnumType.STRING)
@@ -39,8 +39,8 @@ public class Usuario {
     private TipoRecurso tipoRecurso;
 
 
-    public Usuario(String nombreUsuario, String contrasenia, Rol rol, Integer id, TipoRecurso tipo, Permiso ... permisos) {
-        this.nombreUsuario = nombreUsuario;
+    public Usuario(String nombreDeUsuario, String contrasenia, Rol rol, Integer id, TipoRecurso tipo, Permiso ... permisos) {
+        this.nombreDeUsuario = nombreDeUsuario;
         this.contrasenia = HashingHelper.hashear(contrasenia); //validar que la contrasenia sea fuerte antes de instanciar
         this.rol = rol;
         this.permisos.addAll(Arrays.asList(permisos));
@@ -59,7 +59,7 @@ public class Usuario {
         }
     }
 
-    private Integer obtenerIdRecurso(){
+    public Integer obtenerIdRecurso(){
         switch (this.getTipoRecurso()){
             case ORGANIZACION:
                 return this.organizacionId;
