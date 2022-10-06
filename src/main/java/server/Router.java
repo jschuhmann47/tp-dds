@@ -1,8 +1,10 @@
 package server;
 
-import models.controllers.LoginController;
-import models.controllers.MenuController;
-import models.controllers.OrganizacionController;
+import models.controllers.*;
+import models.entities.organizaciones.entidades.Trabajador;
+import models.entities.seguridad.cuentas.Permiso;
+import models.entities.seguridad.cuentas.Rol;
+import models.helpers.PermisoHelper;
 import models.middlewares.AuthMiddleware;
 import spark.Spark;
 import spark.template.handlebars.HandlebarsTemplateEngine;
@@ -31,6 +33,8 @@ public class Router {
         OrganizacionController organizacionController = new OrganizacionController();
         LoginController loginController = new LoginController();
         MenuController menuController = new MenuController();
+        TrabajadorController trabajadorController = new TrabajadorController();
+        AdministradorController administradorController = new AdministradorController();
 
 
         Spark.path("/login", () -> {
@@ -48,11 +52,55 @@ public class Router {
             Spark.get("",menuController::inicio,Router.engine);
 
             Spark.path("/organizacion", () -> {
+                Spark.before("", (request, response) -> {
+                   if(!PermisoHelper.usuarioTienePermisos(request, Permiso.VER_ORGANIZACION)){
+                       response.redirect("/prohibido");
+                       Spark.halt();
+                   }
+                });
+                Spark.before("/*", (request, response) -> {
+                    if(!PermisoHelper.usuarioTienePermisos(request, Permiso.VER_ORGANIZACION)){
+                        response.redirect("/prohibido");
+                        Spark.halt();
+                    }
+                });
                 Spark.get("",organizacionController::mostrar, Router.engine);
                 Spark.get("/vinculaciones",organizacionController::mostrarVinculaciones, Router.engine);
                 //Spark.get("/menu/:id/vinculaciones",organizacionController::mostrarVinculaciones, Router.engine);
             });
 
+            Spark.path("/trabajador", () -> {
+                Spark.before("", (request, response) -> {
+                    if(!PermisoHelper.usuarioTienePermisos(request, Permiso.VER_TRABAJADOR)){
+                        response.redirect("/prohibido");
+                        Spark.halt();
+                    }
+                });
+                Spark.before("/*", (request, response) -> {
+                    if(!PermisoHelper.usuarioTienePermisos(request, Permiso.VER_TRABAJADOR)){
+                        response.redirect("/prohibido");
+                        Spark.halt();
+                    }
+                });
+
+                Spark.get("",trabajadorController::mostrar, Router.engine);
+            });
+
+            Spark.path("/administrador", () -> {
+                Spark.before("", (request, response) -> {
+                    if(!PermisoHelper.usuarioTieneRol(request, Rol.ADMINISTRADOR)){
+                        response.redirect("/prohibido");
+                        Spark.halt();
+                    }
+                });
+                Spark.before("/*", (request, response) -> {
+                    if(!PermisoHelper.usuarioTieneRol(request, Rol.ADMINISTRADOR)){
+                        response.redirect("/prohibido");
+                        Spark.halt();
+                    }
+                });
+                Spark.get("",administradorController::mostrar, Router.engine);
+            });
         });
 
 

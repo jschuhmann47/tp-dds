@@ -22,7 +22,7 @@ public class OrganizacionController {
 
     public ModelAndView mostrar(Request request, Response response){
         HashMap<String,Object> parametros = new HashMap<>();
-        Organizacion org = this.repo.buscar(new Integer(request.session().attribute("resource_id").toString())); //todo validar
+        Organizacion org = this.repo.buscar(new Integer(request.session().attribute("resource_id").toString())); //todo validara
         if(org == null){ //try catch
             response.redirect("/error");
         }

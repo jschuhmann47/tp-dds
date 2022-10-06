@@ -33,6 +33,8 @@ public class LoginController {
                 request.session().attribute("id", usuario.getId());
                 request.session().attribute("resource_type",usuario.getTipoRecurso().toString());
                 request.session().attribute("resource_id",usuario.obtenerIdRecurso());
+                request.session().attribute("permissions",usuario.getPermisos());
+
 
                 response.redirect("/menu");
             }

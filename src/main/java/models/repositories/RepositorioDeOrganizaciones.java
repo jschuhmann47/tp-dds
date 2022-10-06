@@ -28,7 +28,7 @@ public class RepositorioDeOrganizaciones extends Repositorio<Organizacion> {
 
     private BusquedaCondicional condicionUsuarioYContrasenia(String username, String password) {
         return null;
-    }
+    } //TODO
 
     private BusquedaCondicional condicionId(String id){
         CriteriaBuilder criteriaBuilder = criteriaBuilder();
