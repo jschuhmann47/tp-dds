@@ -115,8 +115,12 @@ public class Organizacion {
     }
 
 
-    public Double calcularHCEnPeriodo(Periodo periodo) throws Exception {
-        return CalculoHC.calcularHCDeListaDeActividadesEnPeriodo(this.getListaDeActividades(),periodo) + this.calcularHCEmpleados(periodo);
+    public Double calcularHCEnPeriodo(Periodo periodo) {
+        return this.calcularHCActividadesEnPeriodo(periodo) + this.calcularHCEmpleados(periodo);
+    }
+
+    public Double calcularHCActividadesEnPeriodo(Periodo periodo){
+        return CalculoHC.calcularHCDeListaDeActividadesEnPeriodo(this.getListaDeActividades(),periodo);
     }
 
 

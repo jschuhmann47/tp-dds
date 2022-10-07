@@ -62,11 +62,11 @@ public class Usuario {
     public Integer obtenerIdRecurso(){
         switch (this.getTipoRecurso()){
             case ORGANIZACION:
-                return this.organizacionId;
+                return this.getOrganizacionId();
             case TRABAJADOR:
-                return this.trabajadorId;
+                return this.getTrabajadorId();
             case AGENTE_SECTORIAL:
-                return this.agenteSectorialId;
+                return this.getAgenteSectorialId();
         }
         return null;
     }

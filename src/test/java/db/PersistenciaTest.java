@@ -18,10 +18,9 @@ import java.util.Collection;
 import java.util.List;
 
 public class PersistenciaTest {
-
+    Organizacion organizacion;
     @Test
     @DisplayName("Se persiste una organizacion")
-
 
     public void organizacionPersistir(){
         List<Sector> sectores = new ArrayList<>();
@@ -46,7 +45,7 @@ public class PersistenciaTest {
 
         Direccion direccion1 = new Direccion(100,"Rivadavia",localidad);
 
-        Organizacion organizacion = new Organizacion(clasificaciones,trabajadoresA,
+        organizacion = new Organizacion(clasificaciones,trabajadoresA,
                 "Valve Corporation S.A",sectores, TipoOrganizacion.EMPRESA,direccion1);
 
         List<Solicitud> listaSolicitudes = new ArrayList<>();
@@ -84,7 +83,8 @@ public class PersistenciaTest {
     @DisplayName("Se persiste un usuario")
     public void usuarioPersistir(){
 
-        Usuario user = new Usuario("juancito","123456789",Rol.BASICO,1, TipoRecurso.ORGANIZACION,Permiso.VER_ORGANIZACION);
+        Usuario user = new Usuario("juancito","123456789",Rol.BASICO,organizacion.getId(),
+                TipoRecurso.ORGANIZACION,Permiso.VER_ORGANIZACION);
         EntityManagerHelper.beginTransaction();
         EntityManagerHelper.persist(user);
         EntityManagerHelper.commit();

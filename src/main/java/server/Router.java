@@ -48,38 +48,42 @@ public class Router {
         Spark.path("/menu",() -> {
             Spark.before("", AuthMiddleware::verificarSesion);
             Spark.before("/*", AuthMiddleware::verificarSesion);
-            Spark.post("/logout",loginController::logout); //post o get?
+            Spark.get("/logout",loginController::logout); //post o get?
             Spark.get("",menuController::inicio,Router.engine);
 
             Spark.path("/organizacion", () -> {
                 Spark.before("", (request, response) -> {
                    if(!PermisoHelper.usuarioTienePermisos(request, Permiso.VER_ORGANIZACION)){
                        response.redirect("/prohibido");
-                       Spark.halt();
+                       Spark.halt("Recurso prohibido");
                    }
                 });
                 Spark.before("/*", (request, response) -> {
                     if(!PermisoHelper.usuarioTienePermisos(request, Permiso.VER_ORGANIZACION)){
                         response.redirect("/prohibido");
-                        Spark.halt();
+                        Spark.halt("Recurso prohibido");
                     }
                 });
                 Spark.get("",organizacionController::mostrar, Router.engine);
                 Spark.get("/vinculaciones",organizacionController::mostrarVinculaciones, Router.engine);
-                //Spark.get("/menu/:id/vinculaciones",organizacionController::mostrarVinculaciones, Router.engine);
+                Spark.get("/medicion",organizacionController::mostrarMedicion, Router.engine);
+                Spark.get("/reportes",organizacionController::mostrarReportes, Router.engine);
+                Spark.get("/calculadora",organizacionController::mostrarCalculadoraHC, Router.engine);
+                Spark.get("/recomendaciones",organizacionController::mostrarRecomendaciones, Router.engine);
+                Spark.get("/menu/:id/vinculaciones",organizacionController::mostrarVinculaciones, Router.engine);
             });
 
             Spark.path("/trabajador", () -> {
                 Spark.before("", (request, response) -> {
                     if(!PermisoHelper.usuarioTienePermisos(request, Permiso.VER_TRABAJADOR)){
                         response.redirect("/prohibido");
-                        Spark.halt();
+                        Spark.halt("Recurso prohibido");
                     }
                 });
                 Spark.before("/*", (request, response) -> {
                     if(!PermisoHelper.usuarioTienePermisos(request, Permiso.VER_TRABAJADOR)){
                         response.redirect("/prohibido");
-                        Spark.halt();
+                        Spark.halt("Recurso prohibido");
                     }
                 });
 
@@ -90,13 +94,13 @@ public class Router {
                 Spark.before("", (request, response) -> {
                     if(!PermisoHelper.usuarioTieneRol(request, Rol.ADMINISTRADOR)){
                         response.redirect("/prohibido");
-                        Spark.halt();
+                        Spark.halt("Recurso prohibido");
                     }
                 });
                 Spark.before("/*", (request, response) -> {
                     if(!PermisoHelper.usuarioTieneRol(request, Rol.ADMINISTRADOR)){
                         response.redirect("/prohibido");
-                        Spark.halt();
+                        Spark.halt("Recurso prohibido");
                     }
                 });
                 Spark.get("",administradorController::mostrar, Router.engine);
