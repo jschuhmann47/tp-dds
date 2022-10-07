@@ -8,6 +8,7 @@ import models.repositories.factories.FactoryRepositorioDeTrabajadores;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
+import spark.Spark;
 
 import java.util.HashMap;
 
@@ -22,12 +23,17 @@ public class TrabajadorController {
 
     public ModelAndView mostrar(Request request, Response response) {
         HashMap<String,Object> parametros = new HashMap<>();
+        Trabajador trabajador = this.obtenerTrabajador(request,response);
+        parametros.put("trabajador",trabajador);
+        return new ModelAndView(parametros, "trabajador-menu.hbs");
+    }
+
+    private Trabajador obtenerTrabajador(Request request, Response response){
         Trabajador trabajador = this.repo.buscar(new Integer(request.session().attribute("id").toString())); //todo validar
         if(trabajador == null){ //try catch
             response.redirect("/error");
+            Spark.halt();
         }
-        parametros.put("trabajador",trabajador);
-
-        return new ModelAndView(parametros, "trabajador-menu.hbs");
+        return trabajador;
     }
 }

@@ -8,6 +8,7 @@ import models.repositories.factories.FactoryRepositorioDeOrganizaciones;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
+import spark.Spark;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,11 +48,13 @@ public class OrganizacionController {
     }
 
     private Organizacion obtenerOrganizacion(Request request, Response response){
-        Organizacion org = this.repo.buscar(new Integer(request.session().attribute("resource_id").toString()));
-        if(org == null){
+        if(this.repo.existe(new Integer(request.session().attribute("resource_id").toString()))){
+            return this.repo.buscar(new Integer(request.session().attribute("resource_id").toString()));
+        } else{
             response.redirect("/error"); //que hacer aca
+            Spark.halt();
         }
-        return org;
+        return null;
     }
 
     public ModelAndView mostrarReportes(Request request, Response response) {

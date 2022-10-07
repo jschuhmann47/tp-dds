@@ -37,6 +37,10 @@ public class Repositorio<T>{
         return this.dao.buscar(id);
     }
 
+    public Boolean existe(int id){
+        return this.dao.buscar(id) != null;
+    }
+
     public CriteriaBuilder criteriaBuilder(){
         return EntityManagerHelper.getEntityManager().getCriteriaBuilder();
     }
