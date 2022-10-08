@@ -48,7 +48,7 @@ public class OrganizacionController {
     }
 
     private Organizacion obtenerOrganizacion(Request request, Response response){
-        if(this.repo.existe(new Integer(request.session().attribute("resource_id").toString()))){
+        if(this.repo.existe(new Integer(request.session().attribute("resource_id").toString()))){ //todo validar tipo
             return this.repo.buscar(new Integer(request.session().attribute("resource_id").toString()));
         } else{
             response.redirect("/error"); //que hacer aca

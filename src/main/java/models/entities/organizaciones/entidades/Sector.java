@@ -1,5 +1,6 @@
 package models.entities.organizaciones.entidades;
 
+import lombok.Setter;
 import models.entities.CargaDeActividades.entidades.Periodo;
 
 import javax.persistence.*;
@@ -15,6 +16,7 @@ public class Sector {
     @JoinColumn(name = "organizacion_id",referencedColumnName = "id")
     public Organizacion organizacion;
 
+    @Setter
     @Column(name = "nombre_sector",nullable = false)
     public String nombreSector;
 

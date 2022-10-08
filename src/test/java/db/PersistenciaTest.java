@@ -18,14 +18,13 @@ import java.util.Collection;
 import java.util.List;
 
 public class PersistenciaTest {
-    Organizacion organizacion;
+
     @Test
     @DisplayName("Se persiste una organizacion")
-
     public void organizacionPersistir(){
         List<Sector> sectores = new ArrayList<>();
         Sector marketing = new Sector();
-        marketing.nombreSector = "Marketing";
+        marketing.setNombreSector("Marketing");
         sectores.add(marketing);
         List<String> clasificaciones = new ArrayList<>();
         clasificaciones.add("Videojuegos");
@@ -45,7 +44,7 @@ public class PersistenciaTest {
 
         Direccion direccion1 = new Direccion(100,"Rivadavia",localidad);
 
-        organizacion = new Organizacion(clasificaciones,trabajadoresA,
+        Organizacion organizacion = new Organizacion(clasificaciones,trabajadoresA,
                 "Valve Corporation S.A",sectores, TipoOrganizacion.EMPRESA,direccion1);
 
         List<Solicitud> listaSolicitudes = new ArrayList<>();
@@ -54,14 +53,20 @@ public class PersistenciaTest {
         listaSolicitudes.add(sol);
         organizacion.setListaDeSolicitudes(listaSolicitudes);
 
+        List<Organizacion> organizacionList = new ArrayList<>();
+        organizacionList.add(organizacion);
+
+        AgenteSectorial agenteSectorial = new AgenteSectorial("perez","catalina",municipio,organizacionList);
+
         EntityManagerHelper.beginTransaction();
         EntityManagerHelper.getEntityManager().persist(pais);
         EntityManagerHelper.getEntityManager().persist(provincia);
         EntityManagerHelper.getEntityManager().persist(municipio);
         EntityManagerHelper.getEntityManager().persist(localidad);
-        EntityManagerHelper.getEntityManager().persist(sol);
+        //EntityManagerHelper.getEntityManager().persist(sol);
         EntityManagerHelper.getEntityManager().persist(marketing);
         EntityManagerHelper.getEntityManager().persist(juan);
+        EntityManagerHelper.getEntityManager().persist(agenteSectorial);
         EntityManagerHelper.getEntityManager().persist(organizacion);
         EntityManagerHelper.commit();
     }
@@ -80,13 +85,32 @@ public class PersistenciaTest {
     //todo parametrizar consultas al entityManager
 
     @Test
-    @DisplayName("Se persiste un usuario")
-    public void usuarioPersistir(){
+    @DisplayName("Se persisten usuarios")
+    public void administradorPersistir(){
+        Organizacion org = (Organizacion) EntityManagerHelper
+                .createQuery("FROM Organizacion WHERE razon_social = 'Valve Corporation S.A'")
+                .getSingleResult();
+        Trabajador juan = (Trabajador) EntityManagerHelper
+                .createQuery("FROM Trabajador WHERE nro_doc=12345678")
+                .getSingleResult();
+        AgenteSectorial agenteSectorial = (AgenteSectorial)
+                EntityManagerHelper
+                        .createQuery("FROM AgenteSectorial WHERE municipio_id=1")
+                        .getSingleResult();
 
-        Usuario user = new Usuario("juancito","123456789",Rol.BASICO,organizacion.getId(),
+        Usuario user = new Usuario("juancito","123456789",Rol.BASICO,org.getId(),
                 TipoRecurso.ORGANIZACION,Permiso.VER_ORGANIZACION);
+        Usuario user2 = new Usuario("tomas","123",Rol.BASICO,juan.getId(),
+                TipoRecurso.TRABAJADOR,Permiso.VER_TRABAJADOR);
+        Usuario user3 = new Usuario("agente","1234",Rol.BASICO,agenteSectorial.getId(),
+                TipoRecurso.AGENTE_SECTORIAL,Permiso.VER_AGENTESECTORIAL);
+        Usuario admin = new Usuario("admin","admin",Rol.ADMINISTRADOR, org.getId(),
+                TipoRecurso.ORGANIZACION,Permiso.VER_ORGANIZACION); //todo ver que hacer con el recurso cuando es admin
         EntityManagerHelper.beginTransaction();
         EntityManagerHelper.persist(user);
+        EntityManagerHelper.persist(user2);
+        EntityManagerHelper.persist(user3);
+        EntityManagerHelper.persist(admin);
         EntityManagerHelper.commit();
     }
 

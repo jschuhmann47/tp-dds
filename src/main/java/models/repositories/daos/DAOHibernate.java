@@ -35,6 +35,12 @@ public class DAOHibernate<T> implements DAO<T> {
                 .getSingleResult();
     }
 
+    public List<T> buscarQuery(String query) {
+        return (List<T>) EntityManagerHelper.getEntityManager()
+                .createQuery(query)
+                .getResultList();
+    }
+
     @Override
     public void agregar(Object unObjeto) {
         EntityManagerHelper.getEntityManager().getTransaction().begin();

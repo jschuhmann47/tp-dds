@@ -1,8 +1,6 @@
 package server;
 
 import models.controllers.*;
-import models.entities.organizaciones.entidades.AgenteSectorial;
-import models.entities.organizaciones.entidades.Trabajador;
 import models.entities.seguridad.cuentas.Permiso;
 import models.entities.seguridad.cuentas.Rol;
 import models.helpers.PermisoHelper;
@@ -88,10 +86,10 @@ public class Router {
                 });
 
                 Spark.get("",trabajadorController::mostrar, Router.engine);
-//                Spark.get("/calculadora",trabajadorController::mostrarCalculadora, Router.engine);
+                Spark.get("/calculadora",trabajadorController::mostrarCalculadoraHC, Router.engine);
 //                Spark.get("/reportes",trabajadorController::mostrarReportes, Router.engine);
 //                Spark.get("/vinculacion",trabajadorController::mostrarVinculacion, Router.engine);
-//                Spark.get("/trayectos",trabajadorController::mostrarReportes, Router.engine);
+//                Spark.get("/trayectos",trabajadorController::mostrarTrayectos, Router.engine);
             });
 
             Spark.path("/agente", () -> {
@@ -108,6 +106,8 @@ public class Router {
                     }
                 });
                 Spark.get("",agenteController::mostrar,Router.engine);
+//                Spark.get("/recomendaciones",agenteController::mostrarRecomendaciones,Router.engine);
+//                Spark.get("/reportes",agenteController::mostrarReportes,Router.engine);
             });
 
             Spark.path("/administrador", () -> {
@@ -124,6 +124,9 @@ public class Router {
                     }
                 });
                 Spark.get("",administradorController::mostrar, Router.engine);
+//                Spark.get("/config",administradorController::mostrarConfiguracion, Router.engine);
+//                Spark.post("/config",administradorController::cargarConfiguracion, Router.engine);
+
             });
         });
         Spark.get("/prohibido",errorController::prohibido,Router.engine);

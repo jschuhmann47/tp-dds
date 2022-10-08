@@ -29,11 +29,16 @@ public class TrabajadorController {
     }
 
     private Trabajador obtenerTrabajador(Request request, Response response){
-        Trabajador trabajador = this.repo.buscar(new Integer(request.session().attribute("id").toString())); //todo validar
+        Trabajador trabajador = this.repo.buscar(new Integer(request.session().attribute("resource_id").toString())); //todo validar
         if(trabajador == null){ //try catch
             response.redirect("/error");
             Spark.halt();
         }
         return trabajador;
+    }
+
+    public ModelAndView mostrarCalculadoraHC(Request request, Response response) {
+        HashMap<String,Object> parametros = new HashMap<>();
+        return new ModelAndView(parametros,"calculadora-trabajador-menu.hbs");
     }
 }

@@ -17,10 +17,10 @@ public class Solicitud {
     private int id;
 
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     @JoinColumn(name = "sector_id", referencedColumnName = "id")
     private Sector sectorAIngresar;
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     @JoinColumn(name = "trabajador_id",referencedColumnName = "id")
     private Trabajador trabajador;
     @Embedded

@@ -36,26 +36,28 @@ public class Usuario {
     @Column(name = "agente_sectorial_id")
     private int agenteSectorialId;
 
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "tipo_recurso")
     private TipoRecurso tipoRecurso;
 
 
-    public Usuario(String nombreDeUsuario, String contrasenia, Rol rol, Integer id, TipoRecurso tipo, Permiso ... permisos) {
+    public Usuario(String nombreDeUsuario, String contrasenia, Rol rol, Integer idRecurso, TipoRecurso tipo, Permiso ... permisos) {
         this.nombreDeUsuario = nombreDeUsuario;
         this.contrasenia = HashingHelper.hashear(contrasenia); //validar que la contrasenia sea fuerte antes de instanciar
         this.rol = rol;
         this.permisos.addAll(Arrays.asList(permisos));
-        this.setearTipo(id,tipo);
+        this.setearTipo(idRecurso,tipo);
     }
 
-    private void setearTipo(Integer id, TipoRecurso tipo) {
+    private void setearTipo(Integer idRecurso, TipoRecurso tipo) {
         this.tipoRecurso = tipo;
         switch (tipo){
             case ORGANIZACION:
-                this.organizacionId = id;
+                this.organizacionId = idRecurso;
             case TRABAJADOR:
-                this.trabajadorId = id;
+                this.trabajadorId = idRecurso;
             case AGENTE_SECTORIAL:
-                this.agenteSectorialId = id;
+                this.agenteSectorialId = idRecurso;
         }
     }
 
@@ -70,6 +72,23 @@ public class Usuario {
         }
         return null;
     }
+
+    public void agregarPermiso(Permiso permiso){
+        this.getPermisos().add(permiso);
+    }
+
+    public Boolean tienePermisos(Permiso ... permisos){
+        return Arrays.stream(permisos).allMatch(this::tienePermiso);
+    }
+
+    public Boolean tienePermiso(Permiso permiso) {
+        return this.permisos.contains(permiso);
+    }
+
+    public Boolean tieneRol(Rol rol){
+        return this.getRol()==rol;
+    }
+
 
     public Usuario(){
 
