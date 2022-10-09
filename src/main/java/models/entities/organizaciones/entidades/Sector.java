@@ -1,9 +1,11 @@
 package models.entities.organizaciones.entidades;
 
+import lombok.Getter;
 import lombok.Setter;
 import models.entities.CargaDeActividades.entidades.Periodo;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -17,13 +19,14 @@ public class Sector {
     public Organizacion organizacion;
 
     @Setter
+    @Getter
     @Column(name = "nombre_sector",nullable = false)
     public String nombreSector;
 
     @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(name = "trabajador_sector",joinColumns = @JoinColumn(name = "sector_id",referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "trabajador_id",referencedColumnName = "id"))
-    public List<Trabajador> trabajadores;
+    public List<Trabajador> trabajadores = new ArrayList<>();
 
     public Organizacion getOrganizacion() {
         return organizacion;

@@ -1,5 +1,6 @@
 package models.entities.organizaciones.entidades;
 
+import lombok.Getter;
 import models.entities.CargaDeActividades.entidades.Periodo;
 import models.entities.trayectos.Trayecto;
 
@@ -15,12 +16,17 @@ public class Trabajador {
     @GeneratedValue
     private int id;
 
+    @Getter
     @Column(name = "apellido",nullable = false)
     private String apellido;
+
+    @Getter
     @Column(name = "nombre",nullable = false)
     private String nombre;
+    @Getter
     @Enumerated(value = EnumType.STRING)
     private TipoDoc tipoDoc;
+    @Getter
     @Column(name = "nro_doc",nullable = false)
     private Integer nroDoc;
 
@@ -28,8 +34,9 @@ public class Trabajador {
     @JoinColumn(name = "trabajador_id",referencedColumnName = "id")
     private List<Trayecto> listaTrayectos = new ArrayList<>();
 
+    @Getter
     @ManyToMany(mappedBy = "trabajadores") //todo queda trabajador_id en la tabla
-    public List<Sector> sectores;
+    public List<Sector> sectores = new ArrayList<>();
 
     public Trabajador(String apellido, String nombre, TipoDoc tipoDoc, Integer nroDoc) {
         this.apellido = apellido;
@@ -84,6 +91,10 @@ public class Trabajador {
             nombre = t.nombre;
             HCTotal = t.calcularHCTotal();
         }
+    }
+
+    public void agregarSector(Sector sector){
+        this.getSectores().add(sector);
     }
 
 

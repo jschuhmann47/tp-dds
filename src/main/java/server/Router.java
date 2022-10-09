@@ -3,6 +3,7 @@ package server;
 import models.controllers.*;
 import models.entities.seguridad.cuentas.Permiso;
 import models.entities.seguridad.cuentas.Rol;
+import models.entities.seguridad.cuentas.TipoRecurso;
 import models.helpers.PermisoHelper;
 import models.middlewares.AuthMiddleware;
 import spark.Spark;
@@ -37,6 +38,10 @@ public class Router {
         ErrorHandlerController errorController = new ErrorHandlerController();
         AgenteSectorialController agenteController = new AgenteSectorialController();
 
+        Spark.get("/",((request, response) -> {
+            response.redirect("/login");
+            return response;
+        }));
 
         Spark.path("/login", () -> {
             Spark.get("",loginController::inicio, Router.engine);
@@ -52,20 +57,24 @@ public class Router {
 
             Spark.path("/organizacion", () -> {
                 Spark.before("", (request, response) -> {
-                   if(!PermisoHelper.usuarioTienePermisos(request, Permiso.VER_ORGANIZACION)){ //todo o el id de ese tipo es null??
+                   if(!PermisoHelper.usuarioTienePermisos(request, Permiso.VER_ORGANIZACION)
+                           || !PermisoHelper.usuarioTieneRecursoDeTipo(request, TipoRecurso.ORGANIZACION)){ //todo o el id de ese tipo es null??
                        response.redirect("/prohibido");
                        Spark.halt("Recurso prohibido");
                    }
                 });
                 Spark.before("/*", (request, response) -> {
-                    if(!PermisoHelper.usuarioTienePermisos(request, Permiso.VER_ORGANIZACION)){
+                    if(!PermisoHelper.usuarioTienePermisos(request, Permiso.VER_ORGANIZACION)
+                            || !PermisoHelper.usuarioTieneRecursoDeTipo(request, TipoRecurso.ORGANIZACION)){
                         response.redirect("/prohibido");
                         Spark.halt("Recurso prohibido");
                     }
                 });
                 Spark.get("",organizacionController::mostrar, Router.engine);
                 Spark.get("/vinculaciones",organizacionController::mostrarVinculaciones, Router.engine);
-                Spark.get("/medicion",organizacionController::mostrarMedicion, Router.engine);
+                Spark.get("/mediciones",organizacionController::mostrarMedicion, Router.engine);
+                Spark.get("/mediciones/agregar",organizacionController::mostrarNuevaMedicion, Router.engine);
+                Spark.post("/mediciones/agregar",organizacionController::registrarNuevaMedicion);
                 Spark.get("/reportes",organizacionController::mostrarReportes, Router.engine);
                 Spark.get("/calculadora",organizacionController::mostrarCalculadoraHC, Router.engine);
                 Spark.get("/recomendaciones",organizacionController::mostrarRecomendaciones, Router.engine);

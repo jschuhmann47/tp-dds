@@ -32,6 +32,9 @@ public class PersistenciaTest {
 
         Trabajador juan = new Trabajador("Fernandez","Juan", TipoDoc.DNI, 12345678);
 
+        marketing.agregarTrabajador(juan);
+        juan.agregarSector(marketing);
+
         List<Trabajador> trabajadoresA = new ArrayList<>();
         trabajadoresA.add(juan);
 
@@ -48,6 +51,7 @@ public class PersistenciaTest {
                 "Valve Corporation S.A",sectores, TipoOrganizacion.EMPRESA,direccion1);
 
         List<Solicitud> listaSolicitudes = new ArrayList<>();
+        marketing.setOrganizacion(organizacion);
         Solicitud sol = new Solicitud(marketing,juan);
         //setearle
         listaSolicitudes.add(sol);
@@ -63,9 +67,9 @@ public class PersistenciaTest {
         EntityManagerHelper.getEntityManager().persist(provincia);
         EntityManagerHelper.getEntityManager().persist(municipio);
         EntityManagerHelper.getEntityManager().persist(localidad);
-        //EntityManagerHelper.getEntityManager().persist(sol);
         EntityManagerHelper.getEntityManager().persist(marketing);
         EntityManagerHelper.getEntityManager().persist(juan);
+        EntityManagerHelper.getEntityManager().persist(sol);
         EntityManagerHelper.getEntityManager().persist(agenteSectorial);
         EntityManagerHelper.getEntityManager().persist(organizacion);
         EntityManagerHelper.commit();

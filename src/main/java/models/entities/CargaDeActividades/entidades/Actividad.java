@@ -8,7 +8,9 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "actividad")
+@Getter
 public class Actividad {
+
     @Id
     @GeneratedValue
     private int id;

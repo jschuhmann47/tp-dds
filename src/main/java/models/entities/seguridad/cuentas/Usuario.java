@@ -89,6 +89,10 @@ public class Usuario {
         return this.getRol()==rol;
     }
 
+    public Boolean tieneRecurso(TipoRecurso tipoRecurso){
+        return this.getTipoRecurso()==tipoRecurso;
+    }
+
 
     public Usuario(){
 

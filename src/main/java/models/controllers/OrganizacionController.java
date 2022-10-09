@@ -44,6 +44,7 @@ public class OrganizacionController {
         HashMap<String, Object> parametros = new HashMap<>();
         Organizacion org = this.obtenerOrganizacion(request, response);
         parametros.put("organizacion", org); //todo cargar las mediciones
+        parametros.put("mediciones",org.getListaDeActividades());
         return new ModelAndView(parametros, "mediciones-menu.hbs");
     }
 
@@ -58,7 +59,7 @@ public class OrganizacionController {
     }
 
     public ModelAndView mostrarReportes(Request request, Response response) {
-        return new ModelAndView(new HashMap<String,Object>(),"reportes-organizacion-menu.hbs"); //mostrar los botones y al tocar dice el valor
+        return new ModelAndView(new HashMap<String,Object>(),"reportes-menu.hbs"); //mostrar los botones y al tocar dice el valor
     }
 
     public ModelAndView mostrarCalculadoraHC(Request request, Response response){
@@ -96,5 +97,16 @@ public class OrganizacionController {
 
     public ModelAndView mostrarRecomendaciones(Request request, Response response) {
         return new ModelAndView(new HashMap<String,Object>(),"recomendaciones.hbs");
+    }
+
+    public ModelAndView mostrarNuevaMedicion(Request request, Response response) {
+        return new ModelAndView(new HashMap<String,Object>(),"mediciones-formulario.hbs");
+    }
+
+    public Response registrarNuevaMedicion(Request request, Response response) {
+        String nombre = request.queryParams("nombre");
+        //TODO y persistir etc
+        response.redirect("/menu/organizacion/mediciones");
+        return response;
     }
 }

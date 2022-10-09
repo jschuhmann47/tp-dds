@@ -33,25 +33,24 @@
 <table>
     <thead>
     <th>Nro</th>
-    <th>Nombre del trabajador</th>
-    <th>Sector solicitado</th>
-    <th>Estado</th>
-    <th>Ultima modificacion</th>
+    <th>Nombre medicion</th>
+
 
     </thead>
 
     <tbody>
-        {{#each solicitudes}}
+        {{#each mediciones}}
         <tr>
             <td>{{this.id}}</td>
-            <td>{{this.trabajador.apellido}}</td>
-            <td>{{this.sectorAIngresar.nombreSector}}</td>
-            <td>{{this.estadoSolicitud.estadoSolicitud}}</td>
-            <td>{{this.estadoSolicitud.fechaUltimaModificacion}}</td>
+            <td>{{this.tipoActividad}}</td>
         </tr>
         {{/each}}
     </tbody>
 </table>
 </body>
+
+<button>
+    <a href="/menu/organizacion/mediciones/agregar">Agregar medicion</a>
+</button>
 
 </html>
