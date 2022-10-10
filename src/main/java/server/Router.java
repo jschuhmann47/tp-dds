@@ -76,6 +76,7 @@ public class Router {
                 Spark.get("/mediciones/agregar",organizacionController::mostrarNuevaMedicion, Router.engine);
                 Spark.post("/mediciones/agregar",organizacionController::registrarNuevaMedicion);
                 Spark.get("/reportes",organizacionController::mostrarReportes, Router.engine);
+                Spark.get("/reportes/nuevo",organizacionController::mostrarNuevoReporte, Router.engine);
                 Spark.get("/calculadora",organizacionController::mostrarCalculadoraHC, Router.engine);
                 Spark.get("/recomendaciones",organizacionController::mostrarRecomendaciones, Router.engine);
             });

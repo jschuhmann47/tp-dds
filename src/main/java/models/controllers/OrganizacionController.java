@@ -1,6 +1,6 @@
 package models.controllers;
 
-import models.entities.CargaDeActividades.entidades.Periodo;
+import models.entities.CargaDeActividades.entidades.*;
 import models.entities.calculoHC.CalculoHC;
 import models.entities.organizaciones.entidades.Organizacion;
 import models.repositories.Repositorio;
@@ -100,13 +100,27 @@ public class OrganizacionController {
     }
 
     public ModelAndView mostrarNuevaMedicion(Request request, Response response) {
-        return new ModelAndView(new HashMap<String,Object>(),"mediciones-formulario.hbs");
+        return new ModelAndView(new HashMap<String,Object>(),"subir-archivo-menu.hbs");
     }
 
     public Response registrarNuevaMedicion(Request request, Response response) {
-        String nombre = request.queryParams("nombre");
-        //TODO y persistir etc
+        //TODO chequear q no haya ningun campo null
+        Actividad actividad = new Actividad(
+                TipoActividad.valueOf(request.queryParams("tipoDeActividad")),
+                TipoDeConsumo.valueOf(request.queryParams("tipoDeConsumo")),
+                Unidad.valueOf(request.queryParams("unidad")),
+                new Periodo(new Integer(request.queryParams("mes")),new Integer(request.queryParams("anio"))),
+                Periodicidad.valueOf(request.queryParams("periodicidad")),
+                new Double(request.queryParams("valor"))
+        );
+        Organizacion org = this.obtenerOrganizacion(request,response);
+        org.agregarActividad(actividad);
+        // persistir actividad?
         response.redirect("/menu/organizacion/mediciones");
         return response;
+    }
+
+    public ModelAndView mostrarNuevoReporte(Request request, Response response) {
+        return new ModelAndView(new HashMap<String,Object>(),"subir-archivo-menu.hbs");
     }
 }

@@ -34,7 +34,6 @@ public class Actividad {
     public Double valor;
 
     @Embedded
-    @Getter
     private final HuellaCarbono huellaCarbono = new HuellaCarbono();
 
 

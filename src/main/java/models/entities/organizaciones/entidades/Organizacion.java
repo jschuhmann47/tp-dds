@@ -94,8 +94,12 @@ public class Organizacion {
 
 
     public void cargarDatos(String archivo) throws IOException {
-        CargaDeActividades.cargarActividades(this.getListaDeActividades(),archivo);
-        this.getListaDeActividades().forEach(CalculoHC::calcularHCDeActividad);
+        CargaDeActividades.cargarActividadesDeArchivo(this.getListaDeActividades(),archivo);
+
+    }
+
+    public void agregarActividad(Actividad actividad){
+        CargaDeActividades.cargarActividad(this.getListaDeActividades(),actividad);
     }
 
     public void agregarNuevoSector(Sector sector){

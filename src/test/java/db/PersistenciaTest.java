@@ -23,12 +23,13 @@ import models.entities.transporte.publico.TransportePublico;
 import models.entities.trayectos.Frecuencia;
 import models.entities.trayectos.Tramo;
 import models.entities.trayectos.Trayecto;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 import static org.mockito.Mockito.mock;

@@ -1,0 +1,18 @@
+
+
+body{
+    background-image: url(/images/menu/2258.jpg) ;
+    background-size: cover;
+}
+
+   .center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+  
+  
+  
