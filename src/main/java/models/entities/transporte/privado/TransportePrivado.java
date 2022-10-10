@@ -21,6 +21,7 @@ public class TransportePrivado extends MedioTransporte {
     TramoCompartido tramoCompartido;
 
     public TransportePrivado() {
+
     }
 
     public TransportePrivado(TipoVehiculo tipo, TipoCombustible tipoCombustible) {

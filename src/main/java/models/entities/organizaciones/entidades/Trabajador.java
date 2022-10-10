@@ -71,7 +71,12 @@ public class Trabajador {
         this.listaTrayectos = listaTrayectos;
     }
 
-    public void agregarTrayectos(Trayecto... trayectos){
+    /**
+     * agregarTrayectos
+     * @param trayectos recibe trayectos.
+     *
+     */
+    public void agregarTrayectos(Trayecto ... trayectos){
         listaTrayectos.addAll(Arrays.asList(trayectos));
     }
 

@@ -39,13 +39,9 @@ public class Tramo {
         this.medioTransporte = medioTransporte;
         this.puntoInicio = puntoInicio;
         this.puntoFinal = puntoFinal;
-        this.distanciaTramo = this.distanciaARecorrer(puntoInicio,puntoFinal);
+        this.distanciaTramo = medioTransporte.calcularDistancia(puntoInicio,puntoFinal);
     }
 
-    public Distancia distanciaARecorrer(Direccion puntoInicio, Direccion puntoFinal) throws Exception {
-        this.distanciaTramo = medioTransporte.calcularDistancia(puntoInicio,puntoFinal);
-        return this.distanciaTramo;
-    }
 
     public Distancia getDistancia() {
         return this.distanciaTramo;

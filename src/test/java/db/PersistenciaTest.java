@@ -1,27 +1,44 @@
 package db;
 
+import models.entities.CargaDeActividades.entidades.*;
+import models.entities.calculoHC.CalculoHC;
+import models.entities.calculoHC.UnidadHC;
 import models.entities.geoDDS.Direccion;
-import models.entities.geoDDS.entidades.Localidad;
-import models.entities.geoDDS.entidades.Municipio;
-import models.entities.geoDDS.entidades.Pais;
-import models.entities.geoDDS.entidades.Provincia;
+import models.entities.geoDDS.ServicioCalcularDistancia;
+import models.entities.geoDDS.adapters.ServicioGeoDDSAdapter;
+import models.entities.geoDDS.entidades.*;
 import models.entities.organizaciones.entidades.*;
 import models.entities.organizaciones.solicitudes.Solicitud;
 import models.entities.seguridad.cuentas.Permiso;
 import models.entities.seguridad.cuentas.Rol;
 import models.entities.seguridad.cuentas.TipoRecurso;
 import models.entities.seguridad.cuentas.Usuario;
+import models.entities.transporte.CalcularHCTransporte;
+import models.entities.transporte.TipoCombustible;
+import models.entities.transporte.privado.TipoVehiculo;
+import models.entities.transporte.privado.TransportePrivado;
+import models.entities.transporte.publico.Linea;
+import models.entities.transporte.publico.Parada;
+import models.entities.transporte.publico.TransportePublico;
+import models.entities.trayectos.Frecuencia;
+import models.entities.trayectos.Tramo;
+import models.entities.trayectos.Trayecto;
 import org.junit.jupiter.api.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class PersistenciaTest {
 
     @Test
     @DisplayName("Se persiste una organizacion")
-    public void organizacionPersistir(){
+    public void organizacionPersistir() throws Exception {
         List<Sector> sectores = new ArrayList<>();
         Sector marketing = new Sector();
         marketing.setNombreSector("Marketing");
@@ -46,6 +63,14 @@ public class PersistenciaTest {
 
 
         Direccion direccion1 = new Direccion(100,"Rivadavia",localidad);
+        Direccion direccion2 = new Direccion(4000,"Corrientes",localidad);
+        Direccion direccion3 = new Direccion(2300,"Mozart",localidad);
+
+        Distancia distancia1 = new Distancia(10.0,"KM");
+        Distancia distancia2 = new Distancia(12.0,"KM");
+
+        Parada paradaTest1 = new Parada(distancia1,distancia2,direccion2);
+        Parada paradaTest2 = new Parada(distancia2,distancia1,direccion3);
 
         Organizacion organizacion = new Organizacion(clasificaciones,trabajadoresA,
                 "Valve Corporation S.A",sectores, TipoOrganizacion.EMPRESA,direccion1);
@@ -62,14 +87,72 @@ public class PersistenciaTest {
 
         AgenteSectorial agenteSectorial = new AgenteSectorial("perez","catalina",municipio,organizacionList);
 
+
+        CalculoHC.cargarFactoresDeEmision("src/test/java/test/domain/CalculoHC/factorEmision.properties");
+        CalculoHC.setUnidadPorDefecto(UnidadHC.GRAMO_EQ);
+        CalcularHCTransporte.cargarConsumosPorKm("src/test/java/test/domain/CalculoHC/litrosConsumidosPorKm.properties");
+        Actividad actividadTest = new Actividad(TipoActividad.COMBUSTION_FIJA, TipoDeConsumo.GAS_NATURAL, Unidad.M3,
+                        new Periodo(7,2021), Periodicidad.MENSUAL,34.0);
+        CalculoHC.calcularHCDeActividad(actividadTest);
+        organizacion.setListaDeActividades(Arrays.asList(actividadTest));
+
+
+
+        TransportePrivado auto = new TransportePrivado(TipoVehiculo.AUTO, TipoCombustible.NAFTA);
+        Linea linea7 = new Linea("Linea 7", paradaTest1,paradaTest2);
+        TransportePublico colectivoTest = new TransportePublico(linea7,TipoVehiculo.COLECTIVO,TipoCombustible.NAFTA);
+
+        ServicioGeoDDSAdapter adapterMock = mock(ServicioGeoDDSAdapter.class);
+        ServicioCalcularDistancia.setAdapter(adapterMock);
+
+        when(adapterMock.distanciaEntre(direccion1,direccion2)).thenReturn(distancia1);
+        Tramo tramoAuto = new Tramo(auto,direccion1,direccion2);
+
+        when(adapterMock.distanciaEntre(direccion2,direccion3)).thenReturn(distancia2);
+        Tramo tramoColectivo = new Tramo(colectivoTest,direccion2,direccion3);
+
+        List<Tramo> listaTramos = new ArrayList<>();
+        listaTramos.add(tramoAuto);
+        listaTramos.add(tramoColectivo);
+
+        Frecuencia frecuencia = new Frecuencia(Periodicidad.MENSUAL,8);
+
+        paradaTest1.setParadaSiguiente(paradaTest2);
+        paradaTest2.setParadaSiguiente(null);
+
+
+        auto.agregarTrabajadorATramoCompartido(juan);
+
+        Trayecto trayectoTest = new Trayecto(direccion1,direccion3,listaTramos,frecuencia);
+
+        trayectoTest.cargarTramos(tramoAuto,tramoColectivo);
+
+        juan.agregarTrayectos(trayectoTest);
+
+
+
+
         EntityManagerHelper.beginTransaction();
         EntityManagerHelper.getEntityManager().persist(pais);
         EntityManagerHelper.getEntityManager().persist(provincia);
         EntityManagerHelper.getEntityManager().persist(municipio);
         EntityManagerHelper.getEntityManager().persist(localidad);
+
         EntityManagerHelper.getEntityManager().persist(marketing);
+        EntityManagerHelper.getEntityManager().persist(auto);
+        EntityManagerHelper.getEntityManager().persist(colectivoTest);
+        EntityManagerHelper.getEntityManager().persist(linea7);
         EntityManagerHelper.getEntityManager().persist(juan);
-        EntityManagerHelper.getEntityManager().persist(sol);
+//        EntityManagerHelper.getEntityManager().persist(sol);
+
+//        EntityManagerHelper.getEntityManager().persist(actividadTest);
+//        EntityManagerHelper.getEntityManager().persist(linea7);
+//        EntityManagerHelper.getEntityManager().persist(tramoAuto);
+//        EntityManagerHelper.getEntityManager().persist(tramoColectivo);
+//        EntityManagerHelper.getEntityManager().persist(paradaTest1);
+//        EntityManagerHelper.getEntityManager().persist(paradaTest2);
+
+
         EntityManagerHelper.getEntityManager().persist(agenteSectorial);
         EntityManagerHelper.getEntityManager().persist(organizacion);
         EntityManagerHelper.commit();

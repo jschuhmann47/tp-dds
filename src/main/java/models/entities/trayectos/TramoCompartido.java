@@ -40,7 +40,7 @@ public class TramoCompartido {
         }
     }
 
-    void perteneceAAlgunaOrg(Trabajador trabajador,List<Organizacion> organizaciones) throws Exception {
+    private void perteneceAAlgunaOrg(Trabajador trabajador,List<Organizacion> organizaciones) throws Exception {
         if (!Collections.disjoint(organizacionesDeUnaPersona(trabajador),organizaciones)){
             this.agregarABordo(trabajador);
 

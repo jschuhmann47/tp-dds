@@ -28,7 +28,7 @@ public class Linea {
     public Linea() {
     }
 
-    public Linea(String nombreDeLinea, Parada ... variasParadas) throws IOException {
+    public Linea(String nombreDeLinea, Parada ... variasParadas) {
         this.nombreDeLinea = nombreDeLinea;
         paradas.addAll(Arrays.asList(variasParadas));
 

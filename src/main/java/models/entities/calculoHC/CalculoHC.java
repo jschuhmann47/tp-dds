@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 
 public class CalculoHC {
     @Getter
+    @Setter
     static UnidadHC unidadPorDefecto;
 
     @Getter
