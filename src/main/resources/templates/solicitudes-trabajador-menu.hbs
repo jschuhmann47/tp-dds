@@ -30,27 +30,30 @@
         </div>
     </header>
 
-<table>
-    <thead>
-    <th>Nro</th>
-    <th>Nombre del trabajador</th>
-    <th>Sector solicitado</th>
-    <th>Estado</th>
-    <th>Ultima modificacion</th>
-
-    </thead>
-
-    <tbody>
+    <table class="table table-bordered bg-light" style="margin-left: 40px; max-width: fit-content;">
+        <thead>
+          <tr>
+            <th scope="col">Nombre del Trabajador</th>
+            <th scope="col">Sector Solicitado</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Ultima modificacion</th>
+            <th scope="col">-</th>
+            <th scope="col">-</th>
+          </tr>
+        </thead>
+        <tbody>
         {{#each solicitudes}}
-        <tr>
+          <tr>
             <td>{{this.id}}</td>
             <td>{{this.sectorAIngresar.nombreSector}}</td>
             <td>{{this.estadoSolicitud.posibleEstadoSolicitud}}</td>
             <td>{{this.estadoSolicitud.fechaUltimaModificacion}}</td>
-        </tr>
-        {{/each}}
-    </tbody>
-</table>
+            <td><a class="btn btn-success" href="#" role="button">Aceptar</a></td>
+            <td><a class="btn btn-danger" href="#" role="button">Rechazar</a></td>
+          </tr>
+          {{/each}}
+        </tbody>
+    </table>
 </body>
 
 </html>
