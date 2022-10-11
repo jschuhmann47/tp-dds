@@ -100,6 +100,7 @@ public class Router {
                 Spark.get("/reportes",trabajadorController::mostrarReportes, Router.engine);
                 Spark.get("/vinculacion",trabajadorController::mostrarVinculaciones, Router.engine);
                 Spark.get("/trayectos",trabajadorController::mostrarTrayectos, Router.engine);
+                Spark.get("/recomendaciones",trabajadorController::mostrarRecomendaciones, Router.engine);
             });
 
             Spark.path("/agente", () -> {
@@ -116,8 +117,8 @@ public class Router {
                     }
                 });
                 Spark.get("",agenteController::mostrar,Router.engine);
-//                Spark.get("/recomendaciones",agenteController::mostrarRecomendaciones,Router.engine);
-//                Spark.get("/reportes",agenteController::mostrarReportes,Router.engine);
+                Spark.get("/recomendaciones",agenteController::mostrarRecomendaciones,Router.engine);
+                Spark.get("/reportes",agenteController::mostrarReportes,Router.engine);
             });
 
             Spark.path("/administrador", () -> {

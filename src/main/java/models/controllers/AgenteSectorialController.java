@@ -13,4 +13,12 @@ public class AgenteSectorialController {
         HashMap<String,Object> parametros = new HashMap<>();
         return new ModelAndView(parametros, "agente-menu.hbs");
     }
+
+    public ModelAndView mostrarRecomendaciones(Request request, Response response) {
+        return new ModelAndView(new HashMap<String,Object>(),"recomendaciones.hbs"); //dependen del tipo de cuenta?
+    }
+
+    public ModelAndView mostrarReportes(Request request, Response response) {
+        return new ModelAndView(new HashMap<String,Object>(),"reportes-menu.hbs");
+    }
 }

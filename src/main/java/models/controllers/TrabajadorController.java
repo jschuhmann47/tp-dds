@@ -63,4 +63,8 @@ public class TrabajadorController {
 
         return new ModelAndView(parametros, "trayectos-trabajador-menu.hbs");
     }
+
+    public ModelAndView mostrarRecomendaciones(Request request, Response response) {
+        return new ModelAndView(new HashMap<String,Object>(),"recomendaciones.hbs"); //dependen del tipo de cuenta?
+    }
 }
