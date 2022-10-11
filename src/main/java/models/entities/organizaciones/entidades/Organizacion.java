@@ -62,7 +62,7 @@ public class Organizacion {
 
     @Getter
     @Setter
-    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "organizacion_id",referencedColumnName = "id")
     private List<Solicitud> listaDeSolicitudes;
 
@@ -106,17 +106,7 @@ public class Organizacion {
         sectores.add(sector);
     }
 
-    public void solicitudDeVinculacion(Trabajador trabajador, Sector sector){
-        Solicitud solicitudNueva = new Solicitud(sector,trabajador);
-        this.getListaDeSolicitudes().add(solicitudNueva);
-    }
 
-    public void aceptarSolicitud(Solicitud solicitud){
-        solicitud.aceptarSolicitud();
-    }
-    public void rechazarSolicitud(Solicitud solicitud){
-        solicitud.rechazarSolicitud();
-    }
 
 
     public Double calcularHCEnPeriodo(Periodo periodo) {

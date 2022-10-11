@@ -1,7 +1,9 @@
 package models.entities.organizaciones.entidades;
 
 import lombok.Getter;
+import lombok.Setter;
 import models.entities.CargaDeActividades.entidades.Periodo;
+import models.entities.organizaciones.solicitudes.Solicitud;
 import models.entities.trayectos.Trayecto;
 
 import javax.persistence.*;
@@ -38,6 +40,12 @@ public class Trabajador {
     @ManyToMany(mappedBy = "trabajadores") //todo queda trabajador_id en la tabla
     public List<Sector> sectores = new ArrayList<>();
 
+    @Getter
+    @Setter
+    @OneToMany(mappedBy = "trabajador")
+    @JoinColumn(name = "trabajador_id",referencedColumnName = "id")
+    private List<Solicitud> listaDeSolicitudes = new ArrayList<>();
+
     public Trabajador(String apellido, String nombre, TipoDoc tipoDoc, Integer nroDoc) {
         this.apellido = apellido;
         this.nombre = nombre;
@@ -56,10 +64,16 @@ public class Trabajador {
         if(sector.getOrganizacion() != organizacion){
             throw new RuntimeException("El sector ingresado no es de la organizacion ingresada");
         }
-        organizacion.solicitudDeVinculacion(this, sector);
+        sector.solicitudDeVinculacion(this.crearSolicitud(organizacion,sector));
     }
 
-    public void solicitudAceptada(Sector sector){
+    private Solicitud crearSolicitud(Organizacion organizacion, Sector sector){
+        Solicitud solicitud = new Solicitud(sector,this);
+        this.getListaDeSolicitudes().add(solicitud);
+        return solicitud;
+    }
+
+    private void solicitudAceptada(Sector sector){
         sectores.add(sector);
     }
 
@@ -89,19 +103,10 @@ public class Trabajador {
             }
         }).sum();
     }
-    public class TrabajadorDTO{
-        String nombre;
-        Double HCTotal;
-        public TrabajadorDTO(Trabajador t){
-            nombre = t.nombre;
-            HCTotal = t.calcularHCTotal();
-        }
-    }
 
     public void agregarSector(Sector sector){
         this.getSectores().add(sector);
     }
-
 
     public Double calcularHCTotal() {
         return this.listaTrayectos.stream().mapToDouble(Trayecto::calcularHCTotal).sum();

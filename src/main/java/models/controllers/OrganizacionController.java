@@ -64,17 +64,15 @@ public class OrganizacionController {
 
     public ModelAndView mostrarCalculadoraHC(Request request, Response response){
         String periodoQuery = request.queryParams("periodo"); //x query?
+        Periodo periodo = new Periodo(new Integer(request.queryParams("mes")),new Integer(request.queryParams("anio")));
         HashMap<String, Object> parametros = new HashMap<>();
-        if(periodoQuery != null){
+        if(periodo.getAnio() != null){
             Organizacion org = this.obtenerOrganizacion(request, response);
-            //PeriodoHelper.formatear(periodo);
-            Periodo periodo = new Periodo(1,1); //TODO
             parametros.put("consumo-actividad",org.calcularHCActividadesEnPeriodo(periodo));
             parametros.put("consumo-trabajador",org.calcularHCEmpleados(periodo));
-            parametros.put("periodo",periodo);
+            parametros.put("periodo",periodo); //si mes null en la vista?
             parametros.put("factor-emision",CalculoHC.getUnidadPorDefecto());
             parametros.put("huella-carbono",org.calcularHCEnPeriodo(periodo));
-
         }
         return new ModelAndView(parametros,"calculadora-organizacion-menu.hbs");
     }
@@ -82,21 +80,18 @@ public class OrganizacionController {
     public ModelAndView calcularCalculadoraHCTotal(Request request, Response response){
         HashMap<String, Object> parametros = new HashMap<>();
         Organizacion org = this.obtenerOrganizacion(request, response);
+
         parametros.put("consumo-actividad",org.calcularHCTotalActividades());
         parametros.put("consumo-trabajador",org.calcularHCTotalTrabajadores());
         parametros.put("periodo","TOTAL");
         parametros.put("factor-emision",CalculoHC.getUnidadPorDefecto());
-        try{
-            parametros.put("huella-carbono",org.calcularHCTotal());
-        } catch (Exception e){
-            //TODO
-        }
+        parametros.put("huella-carbono",org.calcularHCTotal());
 
         return new ModelAndView(parametros,"calculadora-organizacion-menu.hbs");
     }
 
     public ModelAndView mostrarRecomendaciones(Request request, Response response) {
-        return new ModelAndView(new HashMap<String,Object>(),"recomendaciones.hbs");
+        return new ModelAndView(new HashMap<String,Object>(),"recomendaciones.hbs"); //dependen del tipo de cuenta?
     }
 
     public ModelAndView mostrarNuevaMedicion(Request request, Response response) {

@@ -17,12 +17,12 @@ public class Solicitud {
     private int id;
 
     @Getter
-    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     @JoinColumn(name = "sector_id", referencedColumnName = "id")
     private Sector sectorAIngresar;
 
     @Getter
-    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     @JoinColumn(name = "trabajador_id",referencedColumnName = "id")
     private Trabajador trabajador;
     @Embedded
@@ -38,18 +38,19 @@ public class Solicitud {
         this.sectorAIngresar = sectorAIngresar;
         this.estadoSolicitud = new EstadoSolicitud();
         estadoSolicitud.setFechaUltimaModificacion(LocalDate.now());
-        estadoSolicitud.setEstadoSolicitud(PosibleEstadoSolicitud.PENDIENTE);
+        estadoSolicitud.setPosibleEstadoSolicitud(PosibleEstadoSolicitud.PENDIENTE);
     }
 
     public void aceptarSolicitud(){
-        estadoSolicitud.setEstadoSolicitud(PosibleEstadoSolicitud.ACEPTADO);
+        estadoSolicitud.setPosibleEstadoSolicitud(PosibleEstadoSolicitud.ACEPTADO);
         estadoSolicitud.setFechaUltimaModificacion(LocalDate.now());
         sectorAIngresar.agregarTrabajador(this.trabajador);
+        this.trabajador.agregarSector(this.getSectorAIngresar());
     }
 
 
     public void rechazarSolicitud() {
-        estadoSolicitud.setEstadoSolicitud(PosibleEstadoSolicitud.RECHAZADO);
+        estadoSolicitud.setPosibleEstadoSolicitud(PosibleEstadoSolicitud.RECHAZADO);
         estadoSolicitud.setFechaUltimaModificacion(LocalDate.now());
     }
 

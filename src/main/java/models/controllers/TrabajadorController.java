@@ -41,4 +41,17 @@ public class TrabajadorController {
         HashMap<String,Object> parametros = new HashMap<>();
         return new ModelAndView(parametros,"calculadora-trabajador-menu.hbs");
     }
+
+    public ModelAndView mostrarReportes(Request request, Response response) {
+        return new ModelAndView(new HashMap<String,Object>(),"reportes-menu.hbs");
+    }
+
+    public ModelAndView mostrarVinculaciones(Request request, Response response){
+        HashMap<String,Object> parametros = new HashMap<>();
+        Trabajador trabajador = this.obtenerTrabajador(request,response);
+        parametros.put("trabajador",trabajador);
+        parametros.put("solicitudes",trabajador.getListaDeSolicitudes());
+
+        return new ModelAndView(parametros, "solicitudes-menu.hbs");
+    }
 }

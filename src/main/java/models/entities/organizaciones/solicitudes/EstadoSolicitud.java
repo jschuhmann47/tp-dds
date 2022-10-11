@@ -15,7 +15,7 @@ public class EstadoSolicitud {
     @Getter
     @Enumerated(value = EnumType.STRING)
     @Column(name = "estado_solicitud")
-    private PosibleEstadoSolicitud estadoSolicitud;
+    private PosibleEstadoSolicitud posibleEstadoSolicitud;
     @Setter
     @Getter
     @Column(name = "fecha_ultima_modificacion",columnDefinition = "DATE")

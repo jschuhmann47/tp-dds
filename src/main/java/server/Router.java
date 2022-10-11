@@ -97,8 +97,8 @@ public class Router {
 
                 Spark.get("",trabajadorController::mostrar, Router.engine);
                 Spark.get("/calculadora",trabajadorController::mostrarCalculadoraHC, Router.engine);
-//                Spark.get("/reportes",trabajadorController::mostrarReportes, Router.engine);
-//                Spark.get("/vinculacion",trabajadorController::mostrarVinculacion, Router.engine);
+                Spark.get("/reportes",trabajadorController::mostrarReportes, Router.engine);
+                Spark.get("/vinculacion",trabajadorController::mostrarVinculaciones, Router.engine);
 //                Spark.get("/trayectos",trabajadorController::mostrarTrayectos, Router.engine);
             });
 
