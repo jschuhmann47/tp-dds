@@ -52,6 +52,15 @@ public class TrabajadorController {
         parametros.put("trabajador",trabajador);
         parametros.put("solicitudes",trabajador.getListaDeSolicitudes());
 
-        return new ModelAndView(parametros, "solicitudes-menu.hbs");
+        return new ModelAndView(parametros, "solicitudes-trabajador-menu.hbs");
+    }
+
+    public ModelAndView mostrarTrayectos(Request request, Response response) {
+        HashMap<String,Object> parametros = new HashMap<>();
+        Trabajador trabajador = this.obtenerTrabajador(request,response);
+        parametros.put("trabajador",trabajador);
+        parametros.put("trayectos",trabajador.getListaTrayectos());
+
+        return new ModelAndView(parametros, "trayectos-trabajador-menu.hbs");
     }
 }

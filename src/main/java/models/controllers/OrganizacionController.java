@@ -37,7 +37,7 @@ public class OrganizacionController {
         parametros.put("organizacion",org);
         parametros.put("solicitudes",org.getListaDeSolicitudes());
 
-        return new ModelAndView(parametros, "solicitudes-menu.hbs");
+        return new ModelAndView(parametros, "solicitudes-organizacion-menu.hbs");
     }
 
     public ModelAndView mostrarMedicion(Request request, Response response) {

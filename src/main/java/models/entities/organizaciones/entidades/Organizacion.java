@@ -14,6 +14,7 @@ import javax.persistence.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "organizacion")
@@ -60,21 +61,19 @@ public class Organizacion {
     @JoinColumn(name = "organizacion_id",referencedColumnName = "id")
     private List<Contacto> contactos;
 
-    @Getter
-    @Setter
-    @OneToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "organizacion_id",referencedColumnName = "id")
-    private List<Solicitud> listaDeSolicitudes;
+//    @Getter
+//    @Setter
+//    @OneToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+//    @JoinColumn(name = "organizacion_id",referencedColumnName = "id")
+//    private List<Solicitud> listaDeSolicitudes;
 
     public Organizacion(List<Trabajador> miembros, List<Sector> sectores) {
         this.sectores = sectores;
         this.listaDeActividades = new ArrayList<>();
-        this.listaDeSolicitudes = new ArrayList<>();
     }
 
     public Organizacion(){
         this.listaDeActividades = new ArrayList<>();
-        this.listaDeSolicitudes = new ArrayList<>();
     }
 
     public Organizacion(List<String> clasificacionOrg, List<Trabajador> miembros,
@@ -88,8 +87,6 @@ public class Organizacion {
         this.tipoOrganizacion= tipoOrganizacion;
         this.direccion = direccion;
         this.listaDeActividades = new ArrayList<>();
-        this.listaDeSolicitudes = new ArrayList<>();
-
     }
 
 
@@ -157,4 +154,7 @@ public class Organizacion {
         });
     }
 
+    public List<Solicitud> getListaDeSolicitudes() {
+        return this.getSectores().stream().flatMap(sector -> sector.getSolicitudes().stream()).collect(Collectors.toList());
+    }
 }
