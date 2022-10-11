@@ -30,23 +30,22 @@
         </div>
     </header>
 
-<table>
-    <thead>
-    <th>Nro</th>
-    <th>Nombre medicion</th>
-
-
-    </thead>
-
-    <tbody>
-        {{#each mediciones}}
-        <tr>
+    <table class="table table-bordered bg-light" style="margin-left: 40px; max-width: fit-content;">
+        <thead>
+          <tr>
+            <th scope="col">Numero</th>
+            <th scope="col">Nombre de la medicion</th>
+          </tr>
+        </thead>
+        <tbody>
+        {{#each solicitudes}}
+          <tr>
             <td>{{this.id}}</td>
             <td>{{this.tipoActividad}}</td>
-        </tr>
-        {{/each}}
-    </tbody>
-</table>
+          </tr>
+          {{/each}}
+        </tbody>
+    </table>
 </body>
 
 <button>
