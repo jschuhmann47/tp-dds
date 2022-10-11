@@ -32,7 +32,6 @@ public class Sector {
 
     @Getter
     @OneToMany(mappedBy = "sectorAIngresar",fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "sector_id",referencedColumnName = "id")
     public List<Solicitud> solicitudes = new ArrayList<>();
 
     public Organizacion getOrganizacion() {

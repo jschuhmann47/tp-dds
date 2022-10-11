@@ -43,7 +43,6 @@ public class Trabajador {
     @Getter
     @Setter
     @OneToMany(mappedBy = "trabajador")
-    @JoinColumn(name = "trabajador_id",referencedColumnName = "id")
     private List<Solicitud> listaDeSolicitudes = new ArrayList<>();
 
     public Trabajador(String apellido, String nombre, TipoDoc tipoDoc, Integer nroDoc) {

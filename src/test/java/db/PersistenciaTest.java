@@ -76,12 +76,9 @@ public class PersistenciaTest {
         Organizacion organizacion = new Organizacion(clasificaciones,trabajadoresA,
                 "Valve Corporation S.A",sectores, TipoOrganizacion.EMPRESA,direccion1);
 
-        List<Solicitud> listaSolicitudes = new ArrayList<>();
         marketing.setOrganizacion(organizacion);
         Solicitud sol = new Solicitud(marketing,juan);
-        //setearle
-        listaSolicitudes.add(sol);
-        organizacion.setListaDeSolicitudes(listaSolicitudes);
+        marketing.aceptarSolicitud(sol);
 
         List<Organizacion> organizacionList = new ArrayList<>();
         organizacionList.add(organizacion);
@@ -144,7 +141,7 @@ public class PersistenciaTest {
         EntityManagerHelper.getEntityManager().persist(colectivoTest);
         EntityManagerHelper.getEntityManager().persist(linea7);
         EntityManagerHelper.getEntityManager().persist(juan);
-//        EntityManagerHelper.getEntityManager().persist(sol);
+        EntityManagerHelper.getEntityManager().persist(sol);
 
 //        EntityManagerHelper.getEntityManager().persist(actividadTest);
 //        EntityManagerHelper.getEntityManager().persist(linea7);

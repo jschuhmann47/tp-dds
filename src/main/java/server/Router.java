@@ -99,7 +99,7 @@ public class Router {
                 Spark.get("/calculadora",trabajadorController::mostrarCalculadoraHC, Router.engine);
                 Spark.get("/reportes",trabajadorController::mostrarReportes, Router.engine);
                 Spark.get("/vinculacion",trabajadorController::mostrarVinculaciones, Router.engine);
-//                Spark.get("/trayectos",trabajadorController::mostrarTrayectos, Router.engine);
+                Spark.get("/trayectos",trabajadorController::mostrarTrayectos, Router.engine);
             });
 
             Spark.path("/agente", () -> {
@@ -134,8 +134,8 @@ public class Router {
                     }
                 });
                 Spark.get("",administradorController::mostrar, Router.engine);
-//                Spark.get("/config",administradorController::mostrarConfiguracion, Router.engine);
-//                Spark.post("/config",administradorController::cargarConfiguracion, Router.engine);
+                Spark.get("/config",administradorController::mostrarConfiguracionActualFE, Router.engine);
+                Spark.post("/config",administradorController::editarFE);
 
             });
         });
