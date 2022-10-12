@@ -10,9 +10,7 @@ import spark.Request;
 import spark.Response;
 import spark.Spark;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class OrganizacionController {
 
@@ -62,7 +60,11 @@ public class OrganizacionController {
         return new ModelAndView(new HashMap<String,Object>(),"reportes-menu.hbs"); //mostrar los botones y al tocar dice el valor
     }
 
-    public ModelAndView mostrarCalculadoraHC(Request request, Response response){
+    public ModelAndView mostrarHC(Request request, Response response){
+        return new ModelAndView(new HashMap<String,Object>(),"calculadora-organizacion-menu.hbs");
+    }
+
+    public ModelAndView calcularHC(Request request, Response response){
         String periodoQuery = request.queryParams("periodo"); //x query?
         Periodo periodo = new Periodo(new Integer(request.queryParams("mes")),new Integer(request.queryParams("anio")));
         HashMap<String, Object> parametros = new HashMap<>();
@@ -73,6 +75,8 @@ public class OrganizacionController {
             parametros.put("periodo",periodo); //si mes null en la vista?
             parametros.put("factor-emision",CalculoHC.getUnidadPorDefecto());
             parametros.put("huella-carbono",org.calcularHCEnPeriodo(periodo));
+        } else{
+            return this.calcularCalculadoraHCTotal(request,response);
         }
         return new ModelAndView(parametros,"calculadora-organizacion-menu.hbs");
     }

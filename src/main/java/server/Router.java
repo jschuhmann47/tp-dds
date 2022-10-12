@@ -71,41 +71,70 @@ public class Router {
                     }
                 });
                 Spark.get("",organizacionController::mostrar, Router.engine);
-                Spark.get("/vinculaciones",organizacionController::mostrarVinculaciones, Router.engine);
-                Spark.get("/mediciones",organizacionController::mostrarMedicion, Router.engine);
-                Spark.get("/mediciones/agregar",organizacionController::mostrarNuevaMedicion, Router.engine);
-                Spark.post("/mediciones/agregar",organizacionController::registrarNuevaMedicion);
-                Spark.get("/reportes",organizacionController::mostrarReportes, Router.engine);
-                Spark.get("/reportes/nuevo",organizacionController::mostrarNuevoReporte, Router.engine);
-                Spark.get("/calculadora",organizacionController::mostrarCalculadoraHC, Router.engine);
+
+                Spark.path("/vinculaciones", () -> {
+                    Spark.get("",organizacionController::mostrarVinculaciones, Router.engine);
+                });
+
+
+                Spark.path("/mediciones", () -> {
+                    Spark.get("",organizacionController::mostrarMedicion, Router.engine);
+                    Spark.get("/agregar",organizacionController::mostrarNuevaMedicion, Router.engine);
+                    Spark.post("/agregar",organizacionController::registrarNuevaMedicion);
+                });
+                Spark.path("/reportes", () -> {
+                    Spark.get("",organizacionController::mostrarReportes, Router.engine);
+                    Spark.get("/nuevo",organizacionController::mostrarNuevoReporte, Router.engine);
+                });
+
+                Spark.path("/calculadora", () -> {
+                    Spark.get("",organizacionController::mostrarHC, Router.engine);
+                    Spark.post("",organizacionController::calcularHC, Router.engine);
+                });
+
                 Spark.get("/recomendaciones",organizacionController::mostrarRecomendaciones, Router.engine);
             });
 
             Spark.path("/trabajador", () -> {
                 Spark.before("", (request, response) -> {
-                    if(!PermisoHelper.usuarioTienePermisos(request, Permiso.VER_TRABAJADOR)){ //todo no funca?
+                    if(!PermisoHelper.usuarioTienePermisos(request, Permiso.VER_TRABAJADOR)
+                        || !PermisoHelper.usuarioTieneRecursoDeTipo(request, TipoRecurso.TRABAJADOR)){
                         response.redirect("/prohibido");
                         Spark.halt("Recurso prohibido");
                     }
                 });
                 Spark.before("/*", (request, response) -> {
-                    if(!PermisoHelper.usuarioTienePermisos(request, Permiso.VER_TRABAJADOR)){
+                    if(!PermisoHelper.usuarioTienePermisos(request, Permiso.VER_TRABAJADOR)
+                        || !PermisoHelper.usuarioTieneRecursoDeTipo(request, TipoRecurso.TRABAJADOR)){
                         response.redirect("/prohibido");
                         Spark.halt("Recurso prohibido");
                     }
                 });
 
                 Spark.get("",trabajadorController::mostrar, Router.engine);
-                Spark.get("/calculadora",trabajadorController::mostrarCalculadoraHC, Router.engine);
-                Spark.get("/reportes",trabajadorController::mostrarReportes, Router.engine);
-                Spark.get("/vinculacion",trabajadorController::mostrarVinculaciones, Router.engine);
-                Spark.get("/trayectos",trabajadorController::mostrarTrayectos, Router.engine);
+
+                Spark.path("/calculadora", () -> {
+                    Spark.get("",trabajadorController::mostrarCalculadoraHC, Router.engine);
+                });
+
+                Spark.path("/reportes", () -> {
+                    Spark.get("",trabajadorController::mostrarReportes, Router.engine);
+                });
+
+                Spark.path("/vinculacion", () -> {
+                    Spark.get("",trabajadorController::mostrarVinculaciones, Router.engine);
+                });
+
+                Spark.path("/trayectos", () -> {
+                    Spark.get("",trabajadorController::mostrarTrayectos, Router.engine);
+                });
+
                 Spark.get("/recomendaciones",trabajadorController::mostrarRecomendaciones, Router.engine);
             });
 
             Spark.path("/agente", () -> {
                 Spark.before("", (request, response) -> {
-                    if(!PermisoHelper.usuarioTienePermisos(request, Permiso.VER_AGENTESECTORIAL)){ //todo no funca?
+                    if(!PermisoHelper.usuarioTienePermisos(request, Permiso.VER_AGENTESECTORIAL)){
                         response.redirect("/prohibido");
                         Spark.halt("Recurso prohibido");
                     }
@@ -117,8 +146,13 @@ public class Router {
                     }
                 });
                 Spark.get("",agenteController::mostrar,Router.engine);
+
+                Spark.path("/reportes", () -> {
+                    Spark.get("/reportes",agenteController::mostrarReportes,Router.engine);
+                });
+
                 Spark.get("/recomendaciones",agenteController::mostrarRecomendaciones,Router.engine);
-                Spark.get("/reportes",agenteController::mostrarReportes,Router.engine);
+
             });
 
             Spark.path("/administrador", () -> {
@@ -135,8 +169,10 @@ public class Router {
                     }
                 });
                 Spark.get("",administradorController::mostrar, Router.engine);
-                Spark.get("/config",administradorController::mostrarConfiguracionActualFE, Router.engine);
-                Spark.post("/config",administradorController::editarFE);
+                Spark.path("/config", () -> {
+                    Spark.get("/config",administradorController::mostrarConfiguracionActualFE, Router.engine);
+                    Spark.post("/config",administradorController::editarFE);
+                });
 
             });
         });
