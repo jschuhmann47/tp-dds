@@ -34,16 +34,15 @@
         </h2>
     </div>
 
-    <div class="d-flex justify-content-center" style="margin-top: 40px;">
+    <div class="d-flex justify-content-center" style="margin-top: 100px;">
         <table class="table table-bordered bg-light" style="max-width: fit-content;">
             <thead>
                 <tr>
-                    <th scope="col">Nombre del Trabajador</th>
+                    <th scope="col">Nombre de la Organizacion</th>
                     <th scope="col">Sector Solicitado</th>
                     <th scope="col">Estado</th>
                     <th scope="col">Ultima modificacion</th>
-                    <th scope="col">-</th>
-                    <th scope="col">-</th>
+
                 </tr>
             </thead>
             <tbody>
@@ -53,12 +52,16 @@
                     <td>{{this.sectorAIngresar.nombreSector}}</td>
                     <td>{{this.estadoSolicitud.posibleEstadoSolicitud}}</td>
                     <td>{{this.estadoSolicitud.fechaUltimaModificacion}}</td>
-                    <td><a class="btn btn-success" href="#" role="button">Aceptar</a></td>
-                    <td><a class="btn btn-danger" href="#" role="button">Rechazar</a></td>
                 </tr>
                 <div hidden>{{/each}}</div>
             </tbody>
         </table>
+    </div>
+
+    <div class="d-flex justify-content-center">
+        <button type="button" class="btn btn-success" style="margin-top: 100px;">
+            <a href="" style="color: inherit">Nueva Vinculacion</a>
+        </button>
     </div>
 </body>
 
