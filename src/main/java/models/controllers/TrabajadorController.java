@@ -61,7 +61,7 @@ public class TrabajadorController {
         parametros.put("trabajador",trabajador);
         parametros.put("trayectos",trabajador.getListaTrayectos());
 
-        return new ModelAndView(parametros, "trayectos-trabajador-menu.hbs");
+        return new ModelAndView(parametros, "agregar-trayecto.hbs");
     }
 
     public ModelAndView mostrarRecomendaciones(Request request, Response response) {

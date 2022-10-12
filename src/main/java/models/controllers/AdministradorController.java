@@ -18,11 +18,6 @@ public class AdministradorController {
         return new ModelAndView(parametros, "factor-emision-menu.hbs");
     }
 
-    public ModelAndView mostrarEdicionFE(Request request, Response response) {
-        HashMap<String,Object> parametros = new HashMap<>();
-        return new ModelAndView(parametros, "factor-emision-editar.hbs");
-    }
-
     public Response editarFE(Request request,Response response){
         //TODO buscar y guardar el valor nuevo
         return response;

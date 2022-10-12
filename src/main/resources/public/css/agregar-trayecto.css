@@ -1,0 +1,37 @@
+
+body {
+    height: 400px;
+    background-image: url("2258.jpg");
+  background-size: cover;
+    background-repeat:no-repeat;
+    background-position: center center;
+  }
+
+
+
+
+
+.agregarTrayectos{
+    border: 1px solid #e1e1e1;
+    border-radius: 5px;
+    padding: 17px;
+    width: 700px;   
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50% , -50%);
+}
+
+.terminar{
+    text-align: center;
+    background-position: center center;
+}
+
+h1{
+    text-align: center;
+background-color: rgba(219, 207, 207, 0.459);
+text-shadow: 5px 10px 10px rgba(0, 0, 0, 0.75);
+font-style: oblique ;
+color: azure;
+}
+

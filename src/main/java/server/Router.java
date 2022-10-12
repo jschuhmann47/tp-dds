@@ -148,7 +148,7 @@ public class Router {
                 Spark.get("",agenteController::mostrar,Router.engine);
 
                 Spark.path("/reportes", () -> {
-                    Spark.get("/reportes",agenteController::mostrarReportes,Router.engine);
+                    Spark.get("",agenteController::mostrarReportes,Router.engine);
                 });
 
                 Spark.get("/recomendaciones",agenteController::mostrarRecomendaciones,Router.engine);
@@ -170,13 +170,26 @@ public class Router {
                 });
                 Spark.get("",administradorController::mostrar, Router.engine);
                 Spark.path("/config", () -> {
-                    Spark.get("/config",administradorController::mostrarConfiguracionActualFE, Router.engine);
-                    Spark.post("/config",administradorController::editarFE);
+                    Spark.get("",administradorController::mostrarConfiguracionActualFE, Router.engine);
+                    Spark.post("",administradorController::editarFE);
                 });
 
             });
         });
         Spark.get("/prohibido",errorController::prohibido,Router.engine);
         Spark.get("/error",errorController::error,Router.engine);
+
+
+
+
+
+
+
+
+
+
+
+        //FIN
+        Spark.get("/*",errorController::error,Router.engine);
     }
 }
