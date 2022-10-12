@@ -29,26 +29,34 @@
 
     </header>
 
-    <table class="table table-bordered bg-light" style="margin-left: 40px; max-width: fit-content;">
-        <thead>
-          <tr>
-            <th scope="col">Numero</th>
-            <th scope="col">Nombre de la medicion</th>
-          </tr>
-        </thead>
-        <tbody>
-        {{#each solicitudes}}
-          <tr>
-            <td>{{this.id}}</td>
-            <td>{{this.tipoActividad}}</td>
-          </tr>
-          {{/each}}
-        </tbody>
-    </table>
-</body>
+    <div class="d-flex justify-content-center">
+        <h2 class="p-3 mb-2 bg-light text-dark mt-5" style="max-width: 222px;">Mediciones</h2>
+    </div>
 
-<button>
-    <a href="/menu/organizacion/mediciones/agregar">Agregar medicion</a>
-</button>
+    <div class="d-flex justify-content-center" style="margin-top: 100px;">
+        <table class="table table-bordered bg-light" style="max-width: fit-content;">
+            <thead>
+                <tr>
+                    <th scope="col">Numero</th>
+                    <th scope="col">Nombre de la medicion</th>
+                </tr>
+            </thead>
+            <tbody>
+                <div hidden>{{#each solicitudes}}</div>
+                <tr>
+                    <td>{{this.id}}</td>
+                    <td>{{this.tipoActividad}}</td>
+                </tr>
+                <div hidden>{{/each}}</div>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="d-flex justify-content-center">
+        <button type="button" class="btn btn-success" style="margin-top: 100px;">
+            <a href="/menu/organizacion/mediciones/agregar" style="color: inherit">Agregar medicion</a>
+        </button>
+    </div>
+</body>
 
 </html>
