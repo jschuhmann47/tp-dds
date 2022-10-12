@@ -11,23 +11,22 @@
 
 <body class="bg-image" style="background-image: url('../images/menu/2258.jpg'); height: 100vh;">
     <header class="navbar navbar-expand-lg navbar-light bg-light ps-4 opacity-75">
-
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
             aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand">Bienvenido {{usuario.nombreDeUsuario}}</a>
+        <a class="navbar-brand">Bienvenido {{trabajador.nombre}} {{trabajador.apellido}}</a>
 
         <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item active">
                     <a class="nav-link" href="/menu">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/menu/logout" >Logout</a>
-                </li>
             </ul>
         </div>
+
+        <a class="nav-link" style="margin-right: 40px;" href="/menu/logout" >Logout</a>
+
     </header>
 
     <div class="card-group row-cols-md-2" style="margin-left: 150px; margin-top: 150px;">
