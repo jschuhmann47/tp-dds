@@ -4,6 +4,7 @@ import models.entities.CargaDeActividades.entidades.*;
 import models.entities.calculoHC.CalculoHC;
 import models.entities.organizaciones.entidades.Organizacion;
 import models.repositories.Repositorio;
+import models.repositories.RepositorioDeOrganizaciones;
 import models.repositories.factories.FactoryRepositorioDeOrganizaciones;
 import spark.ModelAndView;
 import spark.Request;
@@ -14,7 +15,7 @@ import java.util.HashMap;
 
 public class OrganizacionController {
 
-    private Repositorio<Organizacion> repo;
+    private RepositorioDeOrganizaciones repo;
 
     public OrganizacionController() {
         this.repo = FactoryRepositorioDeOrganizaciones.get();
@@ -120,6 +121,7 @@ public class OrganizacionController {
     }
 
     public ModelAndView mostrarNuevoReporte(Request request, Response response) {
-        return new ModelAndView(new HashMap<String,Object>(),"subir-archivo-menu.hbs");
+        HashMap<String, Object> parametros = new HashMap<>();
+        return new ModelAndView(parametros,"subir-archivo-menu.hbs");
     }
 }

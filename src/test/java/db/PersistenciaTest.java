@@ -191,8 +191,6 @@ public class PersistenciaTest {
                 TipoRecurso.AGENTE_SECTORIAL,Permiso.VER_AGENTESECTORIAL);
         Usuario admin = new Usuario("admin","admin",Rol.ADMINISTRADOR, org.getId(),
                 TipoRecurso.ORGANIZACION,Permiso.VER_ORGANIZACION); //todo ver que hacer con el recurso cuando es admin
-        Usuario adminTodosLosPermisos = new Usuario("sudo","sudo",Rol.ADMINISTRADOR,null,null,null);
-        //TODO
         EntityManagerHelper.beginTransaction();
         EntityManagerHelper.persist(user);
         EntityManagerHelper.persist(user2);

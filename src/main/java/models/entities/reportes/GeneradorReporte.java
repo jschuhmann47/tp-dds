@@ -62,14 +62,14 @@ public class GeneradorReporte {
 
         Reporte porActividad = GeneradorReporte.HCTotalPorActividadSectorTerritorial(organizaciones, municipio);
         Reporte porTrabajador = GeneradorReporte.HCTotalPorTrabajadorSectorTerritorial(organizaciones, municipio);
-        return GeneradorReporte.calcularPorcentajes(porActividad,porTrabajador,"municipio: " + municipio.getNombre());
+        return GeneradorReporte.calcularPorcentajes(porActividad,porTrabajador,"Municipio: " + municipio.getNombre());
     }
 
     public static List<Reporte> ComposicionHCTotalDeUnaOrganizacion(Organizacion organizacion){
         return GeneradorReporte
                 .calcularPorcentajes(GeneradorReporte.ComposicionHCTotalDeUnaOrganizacionPorActividad(organizacion),
                                     GeneradorReporte.ComposicionHCTotalDeUnaOrganizacionPorTrabajador(organizacion),
-                                    "organizacion: " + organizacion.getRazonSocial());
+                                    "Organizacion: " + organizacion.getRazonSocial());
     }
 
     public static Reporte ComposicionHCTotalDeUnaOrganizacionPorActividad(Organizacion organizacion){
@@ -87,7 +87,7 @@ public class GeneradorReporte {
         for(Provincia provincia : provincias){
             Reporte porActividad = GeneradorReporte.HCTotalPorActividadProvincia(organizaciones, provincia);
             Reporte porTrabajador = GeneradorReporte.HCTotalPorTrabajadorProvincia(organizaciones, provincia);
-            reportesList.addAll(GeneradorReporte.calcularPorcentajes(porActividad,porTrabajador,"provincia: " + provincia.getNombre()));
+            reportesList.addAll(GeneradorReporte.calcularPorcentajes(porActividad,porTrabajador,"Provincia: " + provincia.getNombre()));
         }
         return reportesList;
     }
@@ -139,20 +139,21 @@ public class GeneradorReporte {
         Reporte HCMesAnterior = GeneradorReporte.HCTotalPorSectorTerritorialEnPeriodo(organizaciones,municipio,periodo.obtenerPeriodoAnterior());
         Reporte HCMesActual = GeneradorReporte.HCTotalPorSectorTerritorialEnPeriodo(organizaciones,municipio,periodo);
 
-        return GeneradorReporte.evolucionPorcuentual(HCMesAnterior, HCMesActual,periodo,"municipio " + municipio.getNombre());
+        return GeneradorReporte.evolucionPorcuentual(HCMesAnterior, HCMesActual,periodo,"Municipio " + municipio.getNombre());
     }
 
 
     public static Reporte evolucionHCTotalOrganizacion(Organizacion organizacion, Periodo periodo) throws Exception {
-        Reporte HCMesAnterior = new Reporte("_",organizacion.calcularHCEnPeriodo(periodo.obtenerPeriodoAnterior()));
-        Reporte HCMesActual = new Reporte("_",organizacion.calcularHCEnPeriodo(periodo));
+        Reporte HCMesAnterior = new Reporte(null,organizacion.calcularHCEnPeriodo(periodo.obtenerPeriodoAnterior()));
+        Reporte HCMesActual = new Reporte(null,organizacion.calcularHCEnPeriodo(periodo));
 
-        return GeneradorReporte.evolucionPorcuentual(HCMesAnterior, HCMesActual,periodo,"organizacion " + organizacion.getRazonSocial());
+        return GeneradorReporte.evolucionPorcuentual(HCMesAnterior, HCMesActual,periodo,"Organizacion " + organizacion.getRazonSocial());
     }
 
 
     private static Reporte evolucionPorcuentual(Reporte reporteAnterior,Reporte reporteActual,Periodo periodo, String detalle){
-        return new Reporte("Evolucion porcuentual del periodo: " + periodo.generarLeyenda() + " de: " + detalle,
+        return new Reporte("Evolucion porcuentual del periodo: " + periodo.generarLeyenda() + " de: "
+                + detalle + "  (con respecto al periodo anterior: " + periodo.obtenerPeriodoAnterior().generarLeyenda() + ")",
                 (reporteActual.getValor()-reporteAnterior.getValor()) / reporteAnterior.getValor() * 100);
     }
 }
