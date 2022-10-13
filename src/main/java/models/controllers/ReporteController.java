@@ -4,6 +4,7 @@ import models.entities.geoDDS.entidades.Municipio;
 import models.entities.geoDDS.entidades.Provincia;
 import models.entities.organizaciones.entidades.Organizacion;
 import models.entities.reportes.GeneradorReporte;
+import models.entities.reportes.Reporte;
 import models.repositories.Repositorio;
 import models.repositories.RepositorioDeMunicipios;
 import models.repositories.RepositorioDeOrganizaciones;
@@ -16,6 +17,7 @@ import spark.Request;
 import spark.Response;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class ReporteController {
     private RepositorioDeOrganizaciones repoOrg;
@@ -36,12 +38,19 @@ public class ReporteController {
     public ModelAndView composicionHCTerritorio(Request request, Response response){
         HashMap<String, Object> parametros = new HashMap<>();
         Municipio municipio = this.buscarMunicipio(request.queryParams("municipio"),request.queryParams("provincia"));
-        parametros.put("reporte", GeneradorReporte.ComposicionHCTotalPorSectorTerritorial(repoOrg.buscarTodos(),municipio));
-        return new ModelAndView(parametros,"reportes-menu.hbs");
+        if(municipio != null){
+            parametros.put("reporte", GeneradorReporte.ComposicionHCTotalPorSectorTerritorial(this.repoOrg.buscarTodosDeMunicipio(municipio),municipio));
+        }
+        return new ModelAndView(parametros,"reportes-composicion-hc-municipio.hbs");
     }
 
     public ModelAndView composicionHCPais(Request request, Response response){
         HashMap<String, Object> parametros = new HashMap<>();
+        List<Provincia> provincias = this.repoProvincia.buscarTodos(); //se asume que son todas de arg, se puede hacer mas extensible pero no es prioridad ahora
+        List<Reporte> reportes = GeneradorReporte.ComposicionHCTotalPorProvincias(
+                this.repoOrg.buscarTodos(),
+                provincias
+        );
         return new ModelAndView(parametros,"reportes-menu.hbs");
     }
 

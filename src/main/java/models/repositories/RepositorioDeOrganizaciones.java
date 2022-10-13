@@ -1,5 +1,6 @@
 package models.repositories;
 
+import models.entities.geoDDS.entidades.Municipio;
 import models.repositories.daos.DAO;
 import models.entities.organizaciones.entidades.Organizacion;
 
@@ -7,10 +8,16 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.List;
 
 public class RepositorioDeOrganizaciones extends Repositorio<Organizacion> {
     public RepositorioDeOrganizaciones(DAO<Organizacion> dao) {
         super(dao);
+    }
+
+    public List<Organizacion> buscarTodosDeMunicipio(Municipio municipio) {
+        //TODO
+        return null;
     }
 
 //    public Organizacion buscar(String id){
