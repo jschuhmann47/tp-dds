@@ -143,7 +143,7 @@ public class GeneradorReporte {
     }
 
 
-    public static Reporte evolucionHCTotalOrganizacion(Organizacion organizacion, Periodo periodo) throws Exception {
+    public static Reporte evolucionHCTotalOrganizacion(Organizacion organizacion, Periodo periodo) {
         Reporte HCMesAnterior = new Reporte(null,organizacion.calcularHCEnPeriodo(periodo.obtenerPeriodoAnterior()));
         Reporte HCMesActual = new Reporte(null,organizacion.calcularHCEnPeriodo(periodo));
 

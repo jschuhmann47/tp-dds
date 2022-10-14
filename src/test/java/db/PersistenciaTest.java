@@ -57,10 +57,10 @@ public class PersistenciaTest {
         trabajadoresA.add(juan);
 
         Pais pais = new Pais(1,"A");
-        Provincia provincia = new Provincia(1,"A",pais);
-        Municipio municipio = new Municipio(1,"A",provincia);
+        Provincia provincia = new Provincia(1,"BUENOS AIRES",pais);
+        Municipio municipio = new Municipio(1,"CABA",provincia);
 
-        Localidad localidad = new Localidad(1,"A",1,municipio);
+        Localidad localidad = new Localidad(1,"ALMAGRO",1,municipio);
 
 
         Direccion direccion1 = new Direccion(100,"Rivadavia",localidad);

@@ -1,11 +1,11 @@
 package models.controllers;
 
+import models.entities.CargaDeActividades.entidades.Periodo;
 import models.entities.geoDDS.entidades.Municipio;
 import models.entities.geoDDS.entidades.Provincia;
 import models.entities.organizaciones.entidades.Organizacion;
 import models.entities.reportes.GeneradorReporte;
 import models.entities.reportes.Reporte;
-import models.repositories.Repositorio;
 import models.repositories.RepositorioDeMunicipios;
 import models.repositories.RepositorioDeOrganizaciones;
 import models.repositories.RepositorioDeProvincias;
@@ -35,47 +35,62 @@ public class ReporteController {
         return new ModelAndView(parametros,"reportes-menu.hbs");
     }
 
-    public ModelAndView composicionHCTerritorio(Request request, Response response){
-        HashMap<String, Object> parametros = new HashMap<>();
-        Municipio municipio = this.buscarMunicipio(request.queryParams("municipio"),request.queryParams("provincia"));
-        if(municipio != null){
-            parametros.put("reporte", GeneradorReporte.ComposicionHCTotalPorSectorTerritorial(this.repoOrg.buscarTodosDeMunicipio(municipio),municipio));
-        }
-        return new ModelAndView(parametros,"reportes-composicion-hc-municipio.hbs");
-    }
-
     public ModelAndView composicionHCPais(Request request, Response response){
         HashMap<String, Object> parametros = new HashMap<>();
-        List<Provincia> provincias = this.repoProvincia.buscarTodos(); //se asume que son todas de arg, se puede hacer mas extensible pero no es prioridad ahora
+
         List<Reporte> reportes = GeneradorReporte.ComposicionHCTotalPorProvincias(
                 this.repoOrg.buscarTodos(),
-                provincias
+                this.repoProvincia.buscarTodos()  //se asume que son todas de arg, se puede hacer mas extensible pero no es prioridad ahora
         );
+        parametros.put("reportes", reportes);
         return new ModelAndView(parametros,"reportes-menu.hbs");
     }
 
     public ModelAndView composicionHCOrganizacion(Request request, Response response){
         HashMap<String, Object> parametros = new HashMap<>();
+        Organizacion organizacion = this.repoOrg.buscarPorRazonSocial(request.queryParams("razonSocial"));
+        if(organizacion!=null){
+            parametros.put("reportes",GeneradorReporte.ComposicionHCTotalDeUnaOrganizacion(organizacion));
+        }
         return new ModelAndView(parametros,"reportes-menu.hbs");
     }
 
     public ModelAndView composicionHCMunicipio(Request request, Response response){ //Sector territorial
         HashMap<String, Object> parametros = new HashMap<>();
-        return new ModelAndView(parametros,"reportes-menu.hbs");
+        Municipio municipio = this.buscarMunicipio(request.queryParams("municipio"),request.queryParams("provincia"));
+        if(municipio != null){
+            parametros.put("reportes", GeneradorReporte.ComposicionHCTotalPorSectorTerritorial(this.repoOrg.buscarTodosDeMunicipio(municipio),municipio));
+        }
+        return new ModelAndView(parametros,"reportes-composicion-hc-municipio.hbs");
     }
 
     public ModelAndView evolucionHCMunicipio(Request request, Response response){ //
         HashMap<String, Object> parametros = new HashMap<>();
+        Municipio municipio = this.buscarMunicipio(request.queryParams("municipio"),request.queryParams("provincia"));
+        Periodo periodo = new Periodo(new Integer(request.queryParams("mes")),new Integer(request.queryParams("anio")));
+        if(municipio != null){
+            parametros.put("reportes", GeneradorReporte.evolucionHCTotalSectorTerritorial(this.repoOrg.buscarTodosDeMunicipio(municipio),municipio,periodo));
+        }
         return new ModelAndView(parametros,"reportes-menu.hbs");
     }
 
-    public ModelAndView HCPorTipoOrganizacion(Request request, Response response){
+    public ModelAndView HCPorClasificacionOrganizacion(Request request, Response response){
         HashMap<String, Object> parametros = new HashMap<>();
+        Organizacion organizacion = this.repoOrg.buscarPorRazonSocial(request.queryParams("razonSocial")); //todo hacer upper todo
+        if(organizacion != null){
+            String clasificacion = request.queryParams("clasificacion");
+            parametros.put("reportes",GeneradorReporte.HCTotalPorClasificacion(this.repoOrg.buscarTodosClasificacion(clasificacion),clasificacion));
+        }
         return new ModelAndView(parametros,"reportes-menu.hbs");
     }
 
     public ModelAndView evolucionHCOrganizacion(Request request, Response response){
         HashMap<String, Object> parametros = new HashMap<>();
+        Organizacion organizacion = this.repoOrg.buscarPorRazonSocial(request.queryParams("razonSocial"));
+        if(organizacion != null){
+            Periodo periodo = new Periodo(new Integer(request.queryParams("mes")),new Integer(request.queryParams("anio")));
+            parametros.put("reportes",GeneradorReporte.evolucionHCTotalOrganizacion(organizacion,periodo));
+        }
         return new ModelAndView(parametros,"reportes-menu.hbs");
     }
 
