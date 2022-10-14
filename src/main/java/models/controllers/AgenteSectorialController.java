@@ -16,7 +16,7 @@ public class AgenteSectorialController {
 
     public ModelAndView mostrar(Request request, Response response){
         HashMap<String,Object> parametros = new HashMap<>();
-        parametros.put("agente",this.repo.buscar(request.session().attribute("id")));
+        parametros.put("agente",this.repo.buscar(request.session().attribute("resource_id")));
         return new ModelAndView(parametros, "agente-menu.hbs");
     }
 

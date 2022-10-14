@@ -56,7 +56,7 @@ public class PersistenciaTest {
         List<Trabajador> trabajadoresA = new ArrayList<>();
         trabajadoresA.add(juan);
 
-        Pais pais = new Pais(1,"A");
+        Pais pais = new Pais(1,"ARGENTINA");
         Provincia provincia = new Provincia(1,"BUENOS AIRES",pais);
         Municipio municipio = new Municipio(1,"CABA",provincia);
 
