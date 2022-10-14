@@ -16,29 +16,29 @@ public class RepositorioDeOrganizaciones extends Repositorio<Organizacion> {
     }
 
 
-    public List<Organizacion> buscarTodosDeMunicipio(Municipio municipio) {
-        return EntityManagerHelper.getEntityManager()
-                .createQuery("FROM Organizacion o " +
-                        "WHERE o.direccion.localidad.municipio.id = " + municipio.getId()).getResultList();
-    }
 //    public List<Organizacion> buscarTodosDeMunicipio(Municipio municipio) {
-//        return this.dao.buscarTodos(this.condicionMunicipio(municipio));
+//        return EntityManagerHelper.getEntityManager()
+//                .createQuery("FROM Organizacion o " +
+//                        "WHERE o.direccion.localidad.municipio.id = " + municipio.getId()).getResultList();
 //    }
+    public List<Organizacion> buscarTodosDeMunicipio(Municipio municipio) {
+        return this.dao.buscarTodos(this.condicionMunicipio(municipio));
+    }
 
     public Organizacion buscarPorRazonSocial(String razonSocial){
         return this.dao.buscar(this.condicionRazonSocial(razonSocial));
     }
 
-    public List<Organizacion> buscarTodosClasificacion(String clasificacion) {
-        return EntityManagerHelper.getEntityManager()
-                .createQuery("FROM Organizacion o " +
-                        "WHERE '" + clasificacion + "' MEMBER OF o.clasificacionOrg").getResultList();
-    }
-
-
 //    public List<Organizacion> buscarTodosClasificacion(String clasificacion) {
-//        return this.dao.buscarTodos(this.condicionClasificacion(clasificacion));
+//        return EntityManagerHelper.getEntityManager()
+//                .createQuery("FROM Organizacion o " +
+//                        "WHERE '" + clasificacion + "' MEMBER OF o.clasificacionOrg").getResultList();
 //    }
+
+
+    public List<Organizacion> buscarTodosClasificacion(String clasificacion) {
+        return this.dao.buscarTodos(this.condicionClasificacion(clasificacion));
+    }
 
     private BusquedaCondicional condicionRazonSocial(String razonSocial) {
         CriteriaBuilder criteriaBuilder = criteriaBuilder();
@@ -58,12 +58,11 @@ public class RepositorioDeOrganizaciones extends Repositorio<Organizacion> {
         CriteriaQuery<Organizacion> usuarioQuery = criteriaBuilder.createQuery(Organizacion.class);
 
         Root<Organizacion> condicionRaiz = usuarioQuery.from(Organizacion.class);
-        Join<Organizacion, Direccion> direccionJoin = condicionRaiz.join("direccion", JoinType.INNER);
-        Join<Organizacion, Localidad> localidadJoin = condicionRaiz.join("localidad", JoinType.INNER);
-        Join<Organizacion, Municipio> municipioJoin = condicionRaiz.join("municipio",JoinType.INNER); //ver si es el atributo o la columna
+//        Join<Organizacion, Direccion> direccionJoin = condicionRaiz.join("direccion", JoinType.INNER);
+//        Join<Organizacion, Localidad> localidadJoin = condicionRaiz.join("localidad", JoinType.INNER);
+//        Join<Organizacion, Municipio> municipioJoin = condicionRaiz.join("municipio",JoinType.INNER); //ver si es el atributo o la columna
 
-
-        Predicate condicionMunicipio = criteriaBuilder.equal(condicionRaiz.get("municipio"), municipio);
+        Predicate condicionMunicipio = criteriaBuilder.equal(condicionRaiz.get("direccion").get("localidad").get("municipio"), municipio);
 
         usuarioQuery.where(condicionMunicipio);
 
@@ -77,10 +76,10 @@ public class RepositorioDeOrganizaciones extends Repositorio<Organizacion> {
         CriteriaQuery<Organizacion> usuarioQuery = criteriaBuilder.createQuery(Organizacion.class);
 
         Root<Organizacion> condicionRaiz = usuarioQuery.from(Organizacion.class);
-        Join<Organizacion, String> clasificacionJoin = condicionRaiz.join("clasificacionOrg", JoinType.INNER);
+//        Join<Organizacion, String> clasificacionJoin = condicionRaiz.join("clasificacionOrg", JoinType.INNER);
 
-        Predicate condicionClasificacion = criteriaBuilder.equal(condicionRaiz.get("clasificacionOrg"), clasificacion); //todo chequear
-//
+        Predicate condicionClasificacion = criteriaBuilder.isMember(clasificacion,condicionRaiz.get("clasificacionOrg"));
+
         usuarioQuery.where(condicionClasificacion);
 
         return new BusquedaCondicional(null, usuarioQuery);

@@ -1,11 +1,12 @@
 package db;
 
-import models.controllers.ReporteController;
 import models.entities.geoDDS.entidades.Municipio;
 import models.entities.geoDDS.entidades.Pais;
 import models.entities.geoDDS.entidades.Provincia;
 import models.entities.organizaciones.entidades.Organizacion;
+import models.repositories.RepositorioDeMunicipios;
 import models.repositories.RepositorioDeOrganizaciones;
+import models.repositories.factories.FactoryRepositorioDeMunicipios;
 import models.repositories.factories.FactoryRepositorioDeOrganizaciones;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -13,9 +14,10 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-public class ReporteTest {
+public class QueryTest {
 
     RepositorioDeOrganizaciones repoOrg = FactoryRepositorioDeOrganizaciones.get();
+    RepositorioDeMunicipios repoMun = FactoryRepositorioDeMunicipios.get();
 
     @Test
     @DisplayName("Se encuentra una organizacion dado la clasificacion")
@@ -50,5 +52,25 @@ public class ReporteTest {
         Municipio municipio = new Municipio(99,"CATARATAS DEL IGUAZU",provincia);
         List<Organizacion> orgs = repoOrg.buscarTodosDeMunicipio(municipio); //compara por id
         Assertions.assertTrue(orgs.isEmpty());
+    }
+
+    @Test
+    @DisplayName("Se busca organizacion dada razon social")
+    public void orgRazonSocial(){
+        Organizacion org = repoOrg.buscarPorRazonSocial("Valve Corporation S.A");
+
+        Assertions.assertEquals("Valve Corporation S.A",org.getRazonSocial());
+        Assertions.assertEquals(1,org.getId());
+        Assertions.assertEquals("Rivadavia",org.getDireccion().getCalle());
+    }
+
+    @Test
+    @DisplayName("Se busca municipio por nombre y por su provincia")
+    public void municipioNombreYProvincia(){
+        Municipio municipio = repoMun.buscarNombre("CABA","BUENOS AIRES");
+
+        Assertions.assertEquals("CABA",municipio.getNombre());
+        Assertions.assertEquals("BUENOS AIRES",municipio.getProvincia().getNombre());
+        Assertions.assertEquals(1,municipio.getId());
     }
 }
