@@ -81,13 +81,7 @@ public class Trayecto {
 
     public Double calcularHC(Periodo periodo) {
         return this.tramos.stream()
-                .mapToDouble(t-> {
-                    try {
-                        return t.calcularHC()*this.frecuencia.vecesPorMes(periodo);
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                })
+                .mapToDouble(t-> t.calcularHC() * this.frecuencia.vecesPorMes(periodo))
                 .sum();
     }
 

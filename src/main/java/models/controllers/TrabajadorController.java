@@ -1,5 +1,7 @@
 package models.controllers;
 
+import models.entities.CargaDeActividades.entidades.Periodo;
+import models.entities.calculoHC.CalculoHC;
 import models.entities.organizaciones.entidades.Organizacion;
 import models.entities.organizaciones.entidades.Sector;
 import models.entities.organizaciones.entidades.Trabajador;
@@ -45,7 +47,17 @@ public class TrabajadorController {
     }
 
     public ModelAndView mostrarCalculadoraHC(Request request, Response response) {
-        HashMap<String,Object> parametros = new HashMap<>();
+        Periodo periodo = new Periodo(new Integer(request.queryParams("mes")),new Integer(request.queryParams("anio")));
+        HashMap<String, Object> parametros = new HashMap<>();
+        Trabajador trabajador = this.obtenerTrabajador(request, response);
+        if(periodo.getAnio() != null){
+            parametros.put("periodo",periodo);
+            parametros.put("factor-emision", CalculoHC.getUnidadPorDefecto());
+            parametros.put("huella-carbono",trabajador.calcularHC(periodo));
+        } else{
+            parametros.put("periodo","TOTAL");
+            parametros.put("huella-carbono",trabajador.calcularHCTotal());
+        }
         return new ModelAndView(parametros,"calculadora-trabajador-menu.hbs");
     }
 

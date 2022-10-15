@@ -93,14 +93,10 @@ public class Trabajador {
         listaTrayectos.addAll(Arrays.asList(trayectos));
     }
 
-    public Double calcularHC(Periodo periodo) throws Exception{ //
-        return this.listaTrayectos.stream().mapToDouble(t-> {
-            try {
-                return t.calcularHC(periodo);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }).sum();
+    public Double calcularHC(Periodo periodo){ //
+        return this.listaTrayectos.stream()
+                .mapToDouble(t-> t.calcularHC(periodo))
+                .sum();
     }
 
     public void agregarSector(Sector sector){
