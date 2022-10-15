@@ -3,7 +3,8 @@ package models.controllers;
 import models.entities.CargaDeActividades.entidades.*;
 import models.entities.calculoHC.CalculoHC;
 import models.entities.organizaciones.entidades.Organizacion;
-import models.repositories.Repositorio;
+import models.entities.organizaciones.entidades.Sector;
+import models.entities.organizaciones.solicitudes.Solicitud;
 import models.repositories.RepositorioDeOrganizaciones;
 import models.repositories.factories.FactoryRepositorioDeOrganizaciones;
 import spark.ModelAndView;
@@ -12,6 +13,9 @@ import spark.Response;
 import spark.Spark;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class OrganizacionController {
 
@@ -123,5 +127,34 @@ public class OrganizacionController {
     public ModelAndView mostrarNuevoReporte(Request request, Response response) {
         HashMap<String, Object> parametros = new HashMap<>();
         return new ModelAndView(parametros,"subir-archivo-menu.hbs");
+    }
+
+    public Response aceptarVinculacion(Request request, Response response){
+        Solicitud solicitud = this.obtenerSolicitud(request,response);
+        solicitud.aceptarSolicitud();
+        return response;
+    }
+    public Response rechazarVinculacion(Request request, Response response){
+        Solicitud solicitud = this.obtenerSolicitud(request,response);
+        solicitud.rechazarSolicitud();
+        return response;
+    }
+
+    private Solicitud obtenerSolicitud(Request request, Response response){
+        Organizacion organizacion = this.obtenerOrganizacion(request,response);
+        Sector sector = this.obtenerSector(organizacion,request); //TODO revisar esto de la solID
+        return sector.getSolicitudes().stream().filter(sol -> sol.getId() == new Integer(request.queryParams("solicitudId"))).collect(Collectors.toList()).get(0);
+
+    }
+
+    private Sector obtenerSector(Organizacion organizacion, Request request){
+        List<Sector> posibleSector = organizacion.getSectores().stream()
+                .filter(s -> Objects.equals(s.getNombreSector(), request.queryParams("nombreSector")))
+                .collect(Collectors.toList());
+        if(posibleSector.isEmpty()){
+            throw new RuntimeException("No se encontro el sector " + request.queryParams("nombreSector"));
+        }else{
+            return posibleSector.get(0);
+        }
     }
 }

@@ -1,6 +1,7 @@
 package models.entities.parametros;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -12,8 +13,17 @@ public class ParametroFE {
     @GeneratedValue
     private int id;
 
+    @Getter
     @Column(name = "nombre")
     public String nombre;
+
+    @Getter
+    @Setter
     @Column(name = "valor")
     public Double valor;
+
+    public ParametroFE(String nombre, Double valor) {
+        this.nombre = nombre;
+        this.valor = valor;
+    }
 }

@@ -9,6 +9,7 @@ import models.entities.geoDDS.adapters.ServicioGeoDDSAdapter;
 import models.entities.geoDDS.entidades.*;
 import models.entities.organizaciones.entidades.*;
 import models.entities.organizaciones.solicitudes.Solicitud;
+import models.entities.parametros.ParametroFE;
 import models.entities.seguridad.cuentas.Permiso;
 import models.entities.seguridad.cuentas.Rol;
 import models.entities.seguridad.cuentas.TipoRecurso;
@@ -127,6 +128,8 @@ public class PersistenciaTest {
 
         juan.agregarTrayectos(trayectoTest);
 
+
+        ParametroFE autoFE = new ParametroFE("Auto",0.2);
 
 
 
