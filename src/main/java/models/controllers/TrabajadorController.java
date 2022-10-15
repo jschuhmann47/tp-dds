@@ -1,12 +1,16 @@
 package models.controllers;
 
+import models.entities.CargaDeActividades.entidades.Periodicidad;
 import models.entities.CargaDeActividades.entidades.Periodo;
 import models.entities.calculoHC.CalculoHC;
 import models.entities.geoDDS.Direccion;
 import models.entities.organizaciones.entidades.Organizacion;
 import models.entities.organizaciones.entidades.Sector;
 import models.entities.organizaciones.entidades.Trabajador;
+import models.entities.trayectos.Frecuencia;
+import models.entities.trayectos.Tramo;
 import models.entities.trayectos.Trayecto;
+import models.helpers.ListHelper;
 import models.repositories.RepositorioDeOrganizaciones;
 import models.repositories.RepositorioDeTrabajadores;
 import models.repositories.factories.FactoryRepositorioDeTrabajadores;
@@ -15,7 +19,9 @@ import spark.Request;
 import spark.Response;
 import spark.Spark;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class TrabajadorController {
     private RepositorioDeTrabajadores repoTrabajadores;
@@ -115,7 +121,11 @@ public class TrabajadorController {
     }
 
     public Response registrarNuevoTrayecto(Request request, Response response) {
-        //TODO
+        //TODO parsear los tramos
+        List<Tramo> tramos = new ArrayList<>(); //lo que llege del front
+
+        Frecuencia frecuencia = new Frecuencia(Periodicidad.valueOf(request.queryParams("periodicidad")),new Integer("vecesPorMes"));
+        Trayecto trayecto = new Trayecto(ListHelper.getFirstElement(tramos).getPuntoInicio(), ListHelper.getLastElement(tramos).getPuntoFinal(),tramos,frecuencia);
         return response;
     }
 }

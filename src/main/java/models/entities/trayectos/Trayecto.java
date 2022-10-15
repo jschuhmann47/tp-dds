@@ -15,11 +15,14 @@ public class Trayecto {
     @GeneratedValue
     private int id;
 
+    @Getter
     @Embedded
     @AssociationOverride(name = "localidad",joinColumns = @JoinColumn(name = "localidad_inicio_id"))
     @AttributeOverrides({@AttributeOverride(name="altura",column = @Column(name = "altura_inicio")),
                         @AttributeOverride(name = "calle",column = @Column(name = "calle_inicio"))})
     private Direccion puntoDeSalida;
+
+    @Getter
     @Embedded
     @AssociationOverride(name = "localidad",joinColumns = @JoinColumn(name = "localidad_fin_id"))
     @AttributeOverrides({@AttributeOverride(name="altura",column = @Column(name = "altura_fin")),
