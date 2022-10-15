@@ -39,7 +39,7 @@ import static org.mockito.Mockito.when;
 public class PersistenciaTest {
 
     @Test
-    @DisplayName("Se persiste una organizacion")
+    @DisplayName("Se persisten datos del dominio")
     public void organizacionPersistir() throws Exception {
         List<Sector> sectores = new ArrayList<>();
         Sector marketing = new Sector();
@@ -84,7 +84,7 @@ public class PersistenciaTest {
         List<Organizacion> organizacionList = new ArrayList<>();
         organizacionList.add(organizacion);
 
-        AgenteSectorial agenteSectorial = new AgenteSectorial("perez","catalina",municipio,organizacionList);
+        AgenteSectorial agenteSectorial = new AgenteSectorial("Perez","Catalina",municipio,organizacionList);
 
 
         CalculoHC.cargarFactoresDeEmision("src/test/java/test/domain/CalculoHC/factorEmision.properties");
@@ -145,6 +145,7 @@ public class PersistenciaTest {
         EntityManagerHelper.getEntityManager().persist(linea7);
         EntityManagerHelper.getEntityManager().persist(juan);
         EntityManagerHelper.getEntityManager().persist(sol);
+        EntityManagerHelper.getEntityManager().persist(autoFE);
 
 //        EntityManagerHelper.getEntityManager().persist(actividadTest);
 //        EntityManagerHelper.getEntityManager().persist(linea7);

@@ -17,8 +17,10 @@ public class AgenteSectorial {
     @GeneratedValue
     private int id;
 
+    @Getter
     @Column(name = "apellido",nullable = false)
     private String apellido;
+    @Getter
     @Column(name = "nombre",nullable = false)
     private String nombre;
 

@@ -26,4 +26,8 @@ public class ParametroFE {
         this.nombre = nombre;
         this.valor = valor;
     }
+
+    public ParametroFE(){
+
+    }
 }
