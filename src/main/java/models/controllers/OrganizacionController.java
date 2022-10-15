@@ -70,7 +70,7 @@ public class OrganizacionController {
     }
 
     public ModelAndView calcularHC(Request request, Response response){
-        String periodoQuery = request.queryParams("periodo"); //x query?
+//        String periodoQuery = request.queryParams("periodo");
         Periodo periodo = new Periodo(new Integer(request.queryParams("mes")),new Integer(request.queryParams("anio")));
         HashMap<String, Object> parametros = new HashMap<>();
         if(periodo.getAnio() != null){
@@ -142,19 +142,8 @@ public class OrganizacionController {
 
     private Solicitud obtenerSolicitud(Request request, Response response){
         Organizacion organizacion = this.obtenerOrganizacion(request,response);
-        Sector sector = this.obtenerSector(organizacion,request); //TODO revisar esto de la solID
+        Sector sector = organizacion.obtenerSectorPorNombre(request.queryParams("nombreSector")); //TODO revisar esto de la solID
         return sector.getSolicitudes().stream().filter(sol -> sol.getId() == new Integer(request.queryParams("solicitudId"))).collect(Collectors.toList()).get(0);
-
     }
 
-    private Sector obtenerSector(Organizacion organizacion, Request request){
-        List<Sector> posibleSector = organizacion.getSectores().stream()
-                .filter(s -> Objects.equals(s.getNombreSector(), request.queryParams("nombreSector")))
-                .collect(Collectors.toList());
-        if(posibleSector.isEmpty()){
-            throw new RuntimeException("No se encontro el sector " + request.queryParams("nombreSector"));
-        }else{
-            return posibleSector.get(0);
-        }
-    }
 }

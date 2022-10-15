@@ -2,13 +2,13 @@ package models.controllers;
 
 import models.entities.CargaDeActividades.entidades.Periodo;
 import models.entities.calculoHC.CalculoHC;
+import models.entities.geoDDS.Direccion;
 import models.entities.organizaciones.entidades.Organizacion;
 import models.entities.organizaciones.entidades.Sector;
 import models.entities.organizaciones.entidades.Trabajador;
-import models.repositories.Repositorio;
+import models.entities.trayectos.Trayecto;
 import models.repositories.RepositorioDeOrganizaciones;
 import models.repositories.RepositorioDeTrabajadores;
-import models.repositories.factories.FactoryRepositorioDeOrganizaciones;
 import models.repositories.factories.FactoryRepositorioDeTrabajadores;
 import spark.ModelAndView;
 import spark.Request;
@@ -16,9 +16,6 @@ import spark.Response;
 import spark.Spark;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class TrabajadorController {
     private RepositorioDeTrabajadores repoTrabajadores;
@@ -46,7 +43,11 @@ public class TrabajadorController {
         return trabajador;
     }
 
-    public ModelAndView mostrarCalculadoraHC(Request request, Response response) {
+    public ModelAndView mostrarCalculadora(Request request, Response response) {
+        return new ModelAndView(null,"calculadora-trabajador-menu.hbs");
+    }
+
+    public ModelAndView calcularHC(Request request, Response response) {
         Periodo periodo = new Periodo(new Integer(request.queryParams("mes")),new Integer(request.queryParams("anio")));
         HashMap<String, Object> parametros = new HashMap<>();
         Trabajador trabajador = this.obtenerTrabajador(request, response);
@@ -94,21 +95,27 @@ public class TrabajadorController {
             return response;
         }
         Organizacion org = this.repoOrgs.buscarPorRazonSocial(request.queryParams("razonSocial"));
-        List<Sector> posibleSector = org.getSectores().stream()
-                .filter(s -> Objects.equals(s.getNombreSector(), request.queryParams("nombreSector")))
-                .collect(Collectors.toList());
-//                .get(0); //ta bien asi?
-        if(posibleSector.isEmpty()){
-            //error no se encontro
-        }
-        else{
-            Sector sectorAVincularse = posibleSector.get(0); //se supone que hay uno solo con el nombre ese
-            trabajador.solicitarVinculacion(org,sectorAVincularse);
-            //solicitud creada ok
-            response.redirect("/menu/trabajador/solicitudes");
-        }
+        Sector sectorAVincularse = org.obtenerSectorPorNombre(request.queryParams("nombreSector"));
+        trabajador.solicitarVinculacion(org,sectorAVincularse);
+
+        //solicitud creada ok
+
+        response.redirect("/menu/trabajador/solicitudes");
         return response;
 
     }
 
+
+    public ModelAndView mostrarNuevaVinculacion(Request request, Response response) {
+        return new ModelAndView(null,"nueva-vinculacion-trabajador-menu.hbs");
+    }
+
+    public ModelAndView mostrarNuevoTrayecto(Request request, Response response) {
+        return new ModelAndView(null,"nuevo-trayecto-menu.hbs");
+    }
+
+    public Response registrarNuevoTrayecto(Request request, Response response) {
+        //TODO
+        return response;
+    }
 }

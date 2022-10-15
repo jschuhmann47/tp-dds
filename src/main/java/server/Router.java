@@ -74,6 +74,8 @@ public class Router {
 
                 Spark.path("/vinculaciones", () -> {
                     Spark.get("",organizacionController::mostrarVinculaciones, Router.engine);
+                    Spark.post("/aceptar",organizacionController::aceptarVinculacion); //todo ruta ok?
+                    Spark.post("/rechazar",organizacionController::rechazarVinculacion);
                 });
 
 
@@ -114,7 +116,8 @@ public class Router {
                 Spark.get("",trabajadorController::mostrar, Router.engine);
 
                 Spark.path("/calculadora", () -> {
-                    Spark.get("",trabajadorController::mostrarCalculadoraHC, Router.engine);
+                    Spark.get("",trabajadorController::mostrarCalculadora, Router.engine);
+                    Spark.post("",trabajadorController::calcularHC, Router.engine);
                 });
 
                 Spark.path("/reportes", () -> {
@@ -123,10 +126,14 @@ public class Router {
 
                 Spark.path("/vinculacion", () -> {
                     Spark.get("",trabajadorController::mostrarVinculaciones, Router.engine);
+                    Spark.get("/nuevo",trabajadorController::mostrarNuevaVinculacion, Router.engine);
+                    Spark.post("/nuevo",trabajadorController::nuevaSolicitud);
                 });
 
                 Spark.path("/trayectos", () -> {
                     Spark.get("",trabajadorController::mostrarTrayectos, Router.engine);
+                    Spark.get("/nuevo",trabajadorController::mostrarNuevoTrayecto, Router.engine);
+                    Spark.post("/nuevo",trabajadorController::registrarNuevoTrayecto);
                 });
 
                 Spark.get("/recomendaciones",trabajadorController::mostrarRecomendaciones, Router.engine);
@@ -149,6 +156,7 @@ public class Router {
 
                 Spark.path("/reportes", () -> {
                     Spark.get("",agenteController::mostrarReportes,Router.engine);
+                    //TODO la parte de los reportes
                 });
 
                 Spark.get("/recomendaciones",agenteController::mostrarRecomendaciones,Router.engine);

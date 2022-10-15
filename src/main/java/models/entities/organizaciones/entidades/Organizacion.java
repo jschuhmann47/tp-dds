@@ -14,6 +14,7 @@ import javax.persistence.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Entity
@@ -156,5 +157,16 @@ public class Organizacion {
 
     public List<Solicitud> getListaDeSolicitudes() {
         return this.getSectores().stream().flatMap(sector -> sector.getSolicitudes().stream()).collect(Collectors.toList());
+    }
+
+    public Sector obtenerSectorPorNombre(String nombre){
+        List<Sector> posibleSector = this.getSectores().stream()
+                .filter(s -> Objects.equals(s.getNombreSector(), nombre))
+                .collect(Collectors.toList());
+        if(posibleSector.isEmpty()){
+            throw new RuntimeException("No se encontro el sector " + nombre);
+        }else{
+            return posibleSector.get(0); //se asume unico
+        }
     }
 }
