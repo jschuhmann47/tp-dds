@@ -76,11 +76,10 @@ public class ReporteController {
 
     public ModelAndView HCPorClasificacionOrganizacion(Request request, Response response){
         HashMap<String, Object> parametros = new HashMap<>();
-        Organizacion organizacion = this.repoOrg.buscarPorRazonSocial(request.queryParams("razonSocial")); //todo hacer upper todo
-        if(organizacion != null){
-            String clasificacion = request.queryParams("clasificacion");
-            parametros.put("reportes",GeneradorReporte.HCTotalPorClasificacion(this.repoOrg.buscarTodosClasificacion(clasificacion),clasificacion));
-        }
+
+        String clasificacion = request.queryParams("clasificacion");
+        parametros.put("reportes",GeneradorReporte.HCTotalPorClasificacion(this.repoOrg.buscarTodosClasificacion(clasificacion),clasificacion));
+
         return new ModelAndView(parametros,"reportes-menu.hbs");
     }
 

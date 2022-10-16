@@ -27,10 +27,21 @@ public class AdministradorController {
         return new ModelAndView(parametros, "factor-emision-menu.hbs");
     }
 
-    public Response editarFE(Request request,Response response){
+    public Response editarFE(Request request,Response response){ //TODO
         editarParametroFE("auto",request);
+        editarParametroFE("moto",request);
+        editarParametroFE("camioneta",request);
+        editarParametroFE("micro",request);
         editarParametroFE("colectivo",request);
-        //todo asi igual con todos los atributos
+        editarParametroFE("subte",request);
+        editarParametroFE("tren",request);
+
+
+        editarParametroFE("diesel",request);
+        editarParametroFE("gas",request);
+        editarParametroFE("gnc",request);
+        editarParametroFE("nafta",request);
+
         return response;
     }
 

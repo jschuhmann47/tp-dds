@@ -25,7 +25,7 @@ public class CalculoHC {
     @Setter
     static HashMap<TipoDeConsumo, Double> factoresEmision = new HashMap<>();
 
-    public static void cargarFactoresDeEmision(String nombreArchivo){
+    public static void cargarFactoresDeEmision(String nombreArchivo){ //todo base de datos
         Properties FEconfigs = new Properties();
         try{
             InputStream input = Files.newInputStream(new File(nombreArchivo).toPath());

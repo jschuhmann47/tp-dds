@@ -50,22 +50,22 @@ public class TrabajadorController {
     }
 
     public ModelAndView mostrarCalculadora(Request request, Response response) {
-        return new ModelAndView(null,"calculadora-trabajador-menu.hbs");
+        return new ModelAndView(null,"calculadora.hbs");
     }
 
     public ModelAndView calcularHC(Request request, Response response) {
         Periodo periodo = new Periodo(new Integer(request.queryParams("mes")),new Integer(request.queryParams("anio")));
         HashMap<String, Object> parametros = new HashMap<>();
         Trabajador trabajador = this.obtenerTrabajador(request, response);
+        parametros.put("factor-emision", CalculoHC.getUnidadPorDefecto());
         if(periodo.getAnio() != null){
             parametros.put("periodo",periodo);
-            parametros.put("factor-emision", CalculoHC.getUnidadPorDefecto());
             parametros.put("huella-carbono",trabajador.calcularHC(periodo));
         } else{
             parametros.put("periodo","TOTAL");
             parametros.put("huella-carbono",trabajador.calcularHCTotal());
         }
-        return new ModelAndView(parametros,"calculadora-trabajador-menu.hbs");
+        return new ModelAndView(parametros,"calculadora.hbs");
     }
 
     public ModelAndView mostrarReportes(Request request, Response response) {
@@ -101,10 +101,14 @@ public class TrabajadorController {
             return response;
         }
         Organizacion org = this.repoOrgs.buscarPorRazonSocial(request.queryParams("razonSocial"));
-        Sector sectorAVincularse = org.obtenerSectorPorNombre(request.queryParams("nombreSector"));
-        trabajador.solicitarVinculacion(org,sectorAVincularse);
-
-        //solicitud creada ok
+        if(org != null){
+            Sector sectorAVincularse = org.obtenerSectorPorNombre(request.queryParams("nombreSector"));
+            if(sectorAVincularse != null){
+                trabajador.solicitarVinculacion(org,sectorAVincularse);
+                //solicitud creada ok
+                //TODO cartel en js
+            }
+        }
 
         response.redirect("/menu/trabajador/solicitudes");
         return response;

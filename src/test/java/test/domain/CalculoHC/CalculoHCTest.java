@@ -168,21 +168,21 @@ public class CalculoHCTest {
 
     @Test
     @DisplayName("Se calcula la HC de una organizacion en un año")
-    public void orgAnual() throws Exception {
+    public void orgAnual() {
         Periodo periodo = new Periodo(null,2021);
         Assertions.assertEquals(268800.8,organizacionA.calcularHCEnPeriodo(periodo));
     }
 
     @Test
     @DisplayName("Se calcula la HC de una organizacion en un mes")
-    public void orgMensual() throws Exception {
+    public void orgMensual() {
         Periodo periodo = new Periodo(7,2021);
         Assertions.assertEquals(22400.0,organizacionA.calcularHCEnPeriodo(periodo));
     }
 
     @Test
     @DisplayName("Se calcula la HC de un empleado")
-    public void empl() throws Exception {
+    public void empl() {
         Periodo periodo = new Periodo(null,2021);
         Assertions.assertEquals(268800.0, juan.calcularHC(periodo));
 

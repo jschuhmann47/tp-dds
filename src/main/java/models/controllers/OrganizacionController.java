@@ -66,7 +66,7 @@ public class OrganizacionController {
     }
 
     public ModelAndView mostrarHC(Request request, Response response){
-        return new ModelAndView(new HashMap<String,Object>(),"calculadora-organizacion-menu.hbs");
+        return new ModelAndView(new HashMap<String,Object>(),"calculadora.hbs");
     }
 
     public ModelAndView calcularHC(Request request, Response response){
@@ -83,7 +83,7 @@ public class OrganizacionController {
         } else{
             return this.calcularCalculadoraHCTotal(request,response);
         }
-        return new ModelAndView(parametros,"calculadora-organizacion-menu.hbs");
+        return new ModelAndView(parametros,"calculadora.hbs");
     }
 
     public ModelAndView calcularCalculadoraHCTotal(Request request, Response response){
@@ -96,7 +96,7 @@ public class OrganizacionController {
         parametros.put("factor-emision",CalculoHC.getUnidadPorDefecto());
         parametros.put("huella-carbono",org.calcularHCTotal());
 
-        return new ModelAndView(parametros,"calculadora-organizacion-menu.hbs");
+        return new ModelAndView(parametros,"calculadora.hbs");
     }
 
     public ModelAndView mostrarRecomendaciones(Request request, Response response) {
@@ -104,7 +104,7 @@ public class OrganizacionController {
     }
 
     public ModelAndView mostrarNuevaMedicion(Request request, Response response) {
-        return new ModelAndView(new HashMap<String,Object>(),"subir-archivo-menu.hbs");
+        return new ModelAndView(new HashMap<String,Object>(),"mediciones-formulario.hbs");
     }
 
     public Response registrarNuevaMedicion(Request request, Response response) {
