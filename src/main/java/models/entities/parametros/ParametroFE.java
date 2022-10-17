@@ -2,11 +2,12 @@ package models.entities.parametros;
 
 import lombok.Getter;
 import lombok.Setter;
+import models.entities.CargaDeActividades.entidades.TipoDeConsumo;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "parametro_fe") //TODO mejorar esto
+@Table(name = "parametro_fe")
 public class ParametroFE {
     @Getter
     @Id
@@ -15,12 +16,12 @@ public class ParametroFE {
 
     @Getter
     @Column(name = "nombre")
-    public String nombre;
+    private String nombre;
 
     @Getter
     @Setter
     @Column(name = "valor")
-    public Double valor;
+    private Double valor;
 
     public ParametroFE(String nombre, Double valor) {
         this.nombre = nombre;

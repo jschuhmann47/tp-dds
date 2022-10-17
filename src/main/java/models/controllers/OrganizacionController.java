@@ -6,23 +6,25 @@ import models.entities.organizaciones.entidades.Organizacion;
 import models.entities.organizaciones.entidades.Sector;
 import models.entities.organizaciones.solicitudes.Solicitud;
 import models.repositories.RepositorioDeOrganizaciones;
+import models.repositories.RepositorioDeParametrosFE;
 import models.repositories.factories.FactoryRepositorioDeOrganizaciones;
+import models.repositories.factories.FactoryRepositorioDeParametrosFE;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 import spark.Spark;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class OrganizacionController {
 
-    private RepositorioDeOrganizaciones repo;
+    private RepositorioDeOrganizaciones repoOrganizaciones;
+    private RepositorioDeParametrosFE repoFE;
 
     public OrganizacionController() {
-        this.repo = FactoryRepositorioDeOrganizaciones.get();
+        this.repoOrganizaciones = FactoryRepositorioDeOrganizaciones.get();
+        this.repoFE = FactoryRepositorioDeParametrosFE.get();
     }
 
 
@@ -52,8 +54,8 @@ public class OrganizacionController {
     }
 
     private Organizacion obtenerOrganizacion(Request request, Response response){
-        if(this.repo.existe(new Integer(request.session().attribute("resource_id").toString()))){ //todo validar tipo
-            return this.repo.buscar(new Integer(request.session().attribute("resource_id").toString()));
+        if(this.repoOrganizaciones.existe(new Integer(request.session().attribute("resource_id").toString()))){ //todo validar tipo
+            return this.repoOrganizaciones.buscar(new Integer(request.session().attribute("resource_id").toString()));
         } else{
             response.redirect("/error"); //que hacer aca
             Spark.halt();
@@ -70,7 +72,7 @@ public class OrganizacionController {
     }
 
     public ModelAndView calcularHC(Request request, Response response){
-//        String periodoQuery = request.queryParams("periodo");
+        this.setearCalculadoraHC();
         Periodo periodo = new Periodo(new Integer(request.queryParams("mes")),new Integer(request.queryParams("anio")));
         HashMap<String, Object> parametros = new HashMap<>();
         if(periodo.getAnio() != null){
@@ -87,6 +89,7 @@ public class OrganizacionController {
     }
 
     public ModelAndView calcularCalculadoraHCTotal(Request request, Response response){
+        this.setearCalculadoraHC();
         HashMap<String, Object> parametros = new HashMap<>();
         Organizacion org = this.obtenerOrganizacion(request, response);
 
@@ -97,6 +100,10 @@ public class OrganizacionController {
         parametros.put("huella-carbono",org.calcularHCTotal());
 
         return new ModelAndView(parametros,"calculadora.hbs");
+    }
+
+    private void setearCalculadoraHC(){
+        CalculoHC.setFactoresEmisionFE(this.repoFE.buscarTodos());
     }
 
     public ModelAndView mostrarRecomendaciones(Request request, Response response) {

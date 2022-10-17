@@ -2,6 +2,7 @@ package test.domain.CalculoHC;
 
 import models.entities.CargaDeActividades.entidades.*;
 import models.entities.calculoHC.CalculoHC;
+import models.entities.calculoHC.UnidadHC;
 import models.entities.geoDDS.Direccion;
 import models.entities.geoDDS.ServicioCalcularDistancia;
 import models.entities.geoDDS.adapters.ServicioGeoDDSAdapter;
@@ -9,7 +10,8 @@ import models.entities.geoDDS.entidades.*;
 import models.entities.organizaciones.entidades.Organizacion;
 import models.entities.organizaciones.entidades.Sector;
 import models.entities.organizaciones.entidades.Trabajador;
-import models.entities.transporte.CalcularHCTransporte;
+import models.entities.calculoHC.CalcularHCTransporte;
+import models.entities.parametros.ParametroFE;
 import models.entities.transporte.TipoCombustible;
 import models.entities.transporte.privado.TipoVehiculo;
 import models.entities.transporte.privado.TransportePrivado;
@@ -80,14 +82,22 @@ public class CalculoHCTest {
 
 
 
-    public CalculoHCTest() throws Exception {
+    public CalculoHCTest() {
     }
 
 
     @BeforeEach
     public void init() throws Exception {
-        CalculoHC.cargarFactoresDeEmision("src/test/java/test/domain/CalculoHC/factorEmision.properties");
-        CalcularHCTransporte.cargarConsumosPorKm("src/test/java/test/domain/CalculoHC/litrosConsumidosPorKm.properties");
+        ParametroFE autoFE = new ParametroFE(TipoVehiculo.AUTO.toString(),40.0);
+        ParametroFE diesel = new ParametroFE(TipoDeConsumo.DIESEL.toString(),0.8);
+        ParametroFE colectivo = new ParametroFE(TipoVehiculo.COLECTIVO.toString(),25.0);
+        List<ParametroFE> parametrosFE = new ArrayList<>();
+        parametrosFE.add(autoFE);
+        parametrosFE.add(diesel);
+        parametrosFE.add(colectivo);
+
+        CalculoHC.setFactoresEmisionFE(parametrosFE);
+        CalculoHC.setUnidadPorDefecto(UnidadHC.GRAMO_EQ);
 
         this.adapterMock = mock(ServicioGeoDDSAdapter.class);
         ServicioCalcularDistancia.setAdapter(this.adapterMock);

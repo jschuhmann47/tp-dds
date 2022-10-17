@@ -89,7 +89,7 @@ public class CargaDeActividadesApachePOIAdapter implements CargaDeActividadesAda
             LineaLeida medio = leerFila(hojaALeer,rowNum+1);
             LineaLeida distancia = leerFila(hojaALeer,rowNum+2);
             LineaLeida peso = leerFila(hojaALeer,rowNum+3);
-            linea.valor = distancia.valor * peso.valor * CalculoHC.getFactorEmision(TipoDeConsumo.valueOf(medio.valorString));
+            linea.valor = distancia.valor * peso.valor * CalculoHC.getFactorEmision(medio.valorString).getValor();
             linea.tipoDeConsumo = String.valueOf(TipoDeConsumo.PRODUCTO_TRANSPORTADO);
             linea.unidad = String.valueOf(Unidad.U);
         }

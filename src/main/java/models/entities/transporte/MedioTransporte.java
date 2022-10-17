@@ -1,5 +1,7 @@
 package models.entities.transporte;
 
+import lombok.Getter;
+import models.entities.calculoHC.CalculoHC;
 import models.entities.geoDDS.Direccion;
 import models.entities.geoDDS.entidades.Distancia;
 import models.entities.transporte.privado.TipoVehiculo;
@@ -16,8 +18,11 @@ public abstract class MedioTransporte {
     @GeneratedValue
     private int id;
 
+    @Getter
     @Column(name = "tipo_vehiculo",nullable = false)
     protected TipoVehiculo tipo;
+
+    @Getter
     @Column(name = "tipo_combustible",nullable = false)
     @Enumerated(EnumType.STRING)
     protected TipoCombustible tipoCombustible;
@@ -29,7 +34,9 @@ public abstract class MedioTransporte {
     public abstract String detalle();
 
     public abstract Distancia calcularDistancia(Direccion origen, Direccion destino) throws Exception;
-    public abstract Double getConsumoPorKM();
+    public Double getConsumoPorKM(){
+        return CalculoHC.getFactorEmision(this.getTipo().toString()).getValor();
+    }
 
     public abstract Double calcularHC(Distancia distancia);
 }

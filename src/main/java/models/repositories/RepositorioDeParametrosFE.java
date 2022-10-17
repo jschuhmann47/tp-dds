@@ -1,7 +1,7 @@
 package models.repositories;
 
-import models.entities.organizaciones.entidades.Organizacion;
 import models.entities.parametros.ParametroFE;
+import models.helpers.StringHelper;
 import models.repositories.daos.DAO;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -24,10 +24,12 @@ public class RepositorioDeParametrosFE extends Repositorio<ParametroFE>{
 
         Root<ParametroFE> condicionRaiz = parametroFECriteriaQuery.from(ParametroFE.class);
 
-        Predicate condicionNombre = criteriaBuilder.equal(condicionRaiz.get("nombre"), nombre);
+        Predicate condicionNombre = criteriaBuilder.equal(condicionRaiz.get("nombre"), StringHelper.toEnumFormat(nombre));
 
         parametroFECriteriaQuery.where(condicionNombre);
 
         return new BusquedaCondicional(null, parametroFECriteriaQuery);
     }
+
+
 }

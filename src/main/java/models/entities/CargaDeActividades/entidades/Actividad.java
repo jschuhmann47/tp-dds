@@ -25,6 +25,7 @@ public class Actividad {
     public Unidad unidad;
 
     @Embedded
+    @Getter
     public Periodo periodo;
 
     @Enumerated(value = EnumType.STRING)

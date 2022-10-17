@@ -2,18 +2,11 @@ package models.entities.calculoHC;
 
 import models.entities.CargaDeActividades.entidades.Actividad;
 import models.entities.CargaDeActividades.entidades.Periodo;
-import models.entities.CargaDeActividades.entidades.TipoDeConsumo;
 import lombok.Getter;
 import lombok.Setter;
+import models.entities.parametros.ParametroFE;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
-import java.util.Properties;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class CalculoHC {
@@ -21,41 +14,55 @@ public class CalculoHC {
     @Setter
     static UnidadHC unidadPorDefecto;
 
+//    @Getter
+//    @Setter
+//    static HashMap<TipoDeConsumo, Double> factoresEmision = new HashMap<>();
+
     @Getter
     @Setter
-    static HashMap<TipoDeConsumo, Double> factoresEmision = new HashMap<>();
+    static List<ParametroFE> factoresEmisionFE;
 
-    public static void cargarFactoresDeEmision(String nombreArchivo){ //todo base de datos
-        Properties FEconfigs = new Properties();
-        try{
-            InputStream input = Files.newInputStream(new File(nombreArchivo).toPath());
-            FEconfigs.load(input);
-        } catch(IOException e){
-            e.printStackTrace();
-        }
-        for (String key : FEconfigs.stringPropertyNames()) {
-            Double value = Double.valueOf(FEconfigs.getProperty(key));
-            TipoDeConsumo tc = TipoDeConsumo.valueOf(key);
-            factoresEmision.put(tc, value);
+//    public static void cargarFactoresDeEmision(String nombreArchivo){
+//        Properties FEconfigs = new Properties();
+//        try{
+//            InputStream input = Files.newInputStream(new File(nombreArchivo).toPath());
+//            FEconfigs.load(input);
+//        } catch(IOException e){
+//            e.printStackTrace();
+//        }
+//        for (String key : FEconfigs.stringPropertyNames()) {
+//            Double value = Double.valueOf(FEconfigs.getProperty(key));
+//            TipoDeConsumo tc = TipoDeConsumo.valueOf(key);
+//            factoresEmision.put(tc, value);
+//        }
+//    }
+//
+//    public static Double getFactorEmision(TipoDeConsumo tc){
+//        return factoresEmision.get(tc);
+//    }
+
+    public static ParametroFE getFactorEmision(String nombre){
+        List<ParametroFE> posibleFactor = factoresEmisionFE.stream().filter(f -> Objects.equals(f.getNombre(), nombre)).collect(Collectors.toList());
+        if(posibleFactor.isEmpty()){
+            throw new RuntimeException("No existe el factor de emision");
+        }else{
+            return posibleFactor.get(0);
         }
     }
-
-    public static Double getFactorEmision(TipoDeConsumo tc){
-        return factoresEmision.get(tc);
-    }
-
 
     public static void calcularHCDeActividad(Actividad actividad){
-        Double valorAct = actividad.valor * getFactoresEmision().get(actividad.tipoDeConsumo);
-        actividad.setHuellaCarbono(CalculoHC.unidadPorDefecto, valorAct);
+        Double valorAct = actividad.getValor() * CalculoHC.getFactorEmision(actividad.getTipoDeConsumo().toString()).getValor();
+        //CORRESPONDENCIA EN LA BASE CON EL ENUM? SI PARA MANTENER ESTANDAR CON EL EXCEL
+        actividad.setHuellaCarbono(CalculoHC.getUnidadPorDefecto(), valorAct);
     }
+
 
     public static Double calcularHCDeListaDeActividadesEnPeriodo(List<Actividad> actividades, Periodo periodo) {
 
         List<Actividad> listaHC = actividades.stream()
-                .filter(a-> Objects.equals(a.periodo.getAnio(), periodo.getAnio())).collect(Collectors.toList());
+                .filter(a-> Objects.equals(a.getPeriodo().getAnio(), periodo.getAnio())).collect(Collectors.toList());
         if(periodo.getMes()!=null){
-            listaHC=listaHC.stream().filter(a->Objects.equals(a.periodo.getMes(), periodo.getMes())).collect(Collectors.toList());
+            listaHC=listaHC.stream().filter(a->Objects.equals(a.getPeriodo().getMes(), periodo.getMes())).collect(Collectors.toList());
         }
         return sumarListaHC(listaHC.stream().map(a->a.getHuellaCarbono().getValor()).collect(Collectors.toList()));
     }

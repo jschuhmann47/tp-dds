@@ -1,11 +1,12 @@
 package models.entities.transporte.privado;
 
+import models.entities.calculoHC.CalculoHC;
 import models.entities.geoDDS.Direccion;
 import models.entities.geoDDS.ServicioCalcularDistancia;
 import models.entities.geoDDS.entidades.Distancia;
 import models.entities.trayectos.TramoCompartido;
 import models.entities.organizaciones.entidades.Trabajador;
-import models.entities.transporte.CalcularHCTransporte;
+import models.entities.calculoHC.CalcularHCTransporte;
 import models.entities.transporte.MedioTransporte;
 import models.entities.transporte.TipoCombustible;
 
@@ -46,9 +47,7 @@ public class TransportePrivado extends MedioTransporte {
         return ServicioCalcularDistancia.distanciaEntre(origen, destino);
     }
 
-    public Double getConsumoPorKM(){
-        return CalcularHCTransporte.getConsumosPorKm().get(this.tipo);
-    }
+
 
     public Double calcularHC(Distancia distancia) {
         return this.getConsumoPorKM() * distancia.valor / tramoCompartido.cantidadDeTrabajadores();

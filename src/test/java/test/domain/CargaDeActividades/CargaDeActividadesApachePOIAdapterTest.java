@@ -3,6 +3,9 @@ package test.domain.CargaDeActividades;
 import models.entities.CargaDeActividades.adapters.CargaDeActividadesApachePOIAdapter;
 import models.entities.CargaDeActividades.entidades.*;
 import models.entities.calculoHC.CalculoHC;
+import models.entities.calculoHC.UnidadHC;
+import models.entities.parametros.ParametroFE;
+import models.entities.transporte.privado.TipoVehiculo;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,6 +13,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CargaDeActividadesApachePOIAdapterTest {
     CargaDeActividadesApachePOIAdapter adapterTest;
@@ -20,7 +25,18 @@ public class CargaDeActividadesApachePOIAdapterTest {
 
     @BeforeEach
     public void init() throws IOException {
-        CalculoHC.cargarFactoresDeEmision("src/test/java/test/domain/CalculoHC/factorEmision.properties");
+
+        ParametroFE autoFE = new ParametroFE(TipoVehiculo.AUTO.toString(),0.2);
+        ParametroFE gasFE = new ParametroFE(TipoDeConsumo.GAS_NATURAL.toString(),0.6);
+        ParametroFE camionCarga = new ParametroFE(TipoDeConsumo.CAMION_CARGA.toString(),2.0);
+        List<ParametroFE> parametrosFE = new ArrayList<>();
+        parametrosFE.add(autoFE);
+        parametrosFE.add(gasFE);
+        parametrosFE.add(camionCarga);
+
+        CalculoHC.setFactoresEmisionFE(parametrosFE);
+        CalculoHC.setUnidadPorDefecto(UnidadHC.GRAMO_EQ);
+
         adapterTest = new CargaDeActividadesApachePOIAdapter();
         adapterTest.setFile("src/test/java/test/domain/CargaDeActividades/actividad.xls");
         Periodo periodoTest = new Periodo(4,2022);

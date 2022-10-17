@@ -14,7 +14,7 @@ import models.entities.seguridad.cuentas.Permiso;
 import models.entities.seguridad.cuentas.Rol;
 import models.entities.seguridad.cuentas.TipoRecurso;
 import models.entities.seguridad.cuentas.Usuario;
-import models.entities.transporte.CalcularHCTransporte;
+import models.entities.calculoHC.CalcularHCTransporte;
 import models.entities.transporte.TipoCombustible;
 import models.entities.transporte.privado.TipoVehiculo;
 import models.entities.transporte.privado.TransportePrivado;
@@ -86,17 +86,6 @@ public class PersistenciaTest {
 
         AgenteSectorial agenteSectorial = new AgenteSectorial("Perez","Catalina",municipio,organizacionList);
 
-
-        CalculoHC.cargarFactoresDeEmision("src/test/java/test/domain/CalculoHC/factorEmision.properties");
-        CalculoHC.setUnidadPorDefecto(UnidadHC.GRAMO_EQ);
-        CalcularHCTransporte.cargarConsumosPorKm("src/test/java/test/domain/CalculoHC/litrosConsumidosPorKm.properties");
-        Actividad actividadTest = new Actividad(TipoActividad.COMBUSTION_FIJA, TipoDeConsumo.GAS_NATURAL, Unidad.M3,
-                        new Periodo(7,2021), Periodicidad.MENSUAL,34.0);
-        CalculoHC.calcularHCDeActividad(actividadTest);
-        organizacion.setListaDeActividades(Arrays.asList(actividadTest));
-
-
-
         TransportePrivado auto = new TransportePrivado(TipoVehiculo.AUTO, TipoCombustible.NAFTA);
         Linea linea7 = new Linea("Linea 7", paradaTest1,paradaTest2);
         TransportePublico colectivoTest = new TransportePublico(linea7,TipoVehiculo.COLECTIVO,TipoCombustible.NAFTA);
@@ -129,8 +118,19 @@ public class PersistenciaTest {
         juan.agregarTrayectos(trayectoTest);
 
 
-        ParametroFE autoFE = new ParametroFE("Auto",0.2);
+        ParametroFE autoFE = new ParametroFE(TipoVehiculo.AUTO.toString(),0.2);
+        ParametroFE gas = new ParametroFE(TipoDeConsumo.GAS_NATURAL.toString(),0.6);
+        List<ParametroFE> parametrosFE = new ArrayList<>();
+        parametrosFE.add(autoFE);
+        parametrosFE.add(gas);
 
+        CalculoHC.setFactoresEmisionFE(parametrosFE);
+        CalculoHC.setUnidadPorDefecto(UnidadHC.GRAMO_EQ);
+
+        Actividad actividadTest = new Actividad(TipoActividad.COMBUSTION_FIJA, TipoDeConsumo.GAS_NATURAL, Unidad.M3,
+                new Periodo(7,2021), Periodicidad.MENSUAL,34.0);
+        CalculoHC.calcularHCDeActividad(actividadTest);
+        organizacion.setListaDeActividades(Arrays.asList(actividadTest));
 
 
         EntityManagerHelper.beginTransaction();
@@ -146,6 +146,7 @@ public class PersistenciaTest {
         EntityManagerHelper.getEntityManager().persist(juan);
         EntityManagerHelper.getEntityManager().persist(sol);
         EntityManagerHelper.getEntityManager().persist(autoFE);
+        EntityManagerHelper.getEntityManager().persist(gas);
 
 //        EntityManagerHelper.getEntityManager().persist(actividadTest);
 //        EntityManagerHelper.getEntityManager().persist(linea7);
@@ -171,7 +172,6 @@ public class PersistenciaTest {
 
     //para listas .getResultList(). count: getMaxResult()
     //find(Servicio.class, 1) -> el id
-    //todo parametrizar consultas al entityManager
 
     @Test
     @DisplayName("Se persisten usuarios")
@@ -194,7 +194,7 @@ public class PersistenciaTest {
         Usuario user3 = new Usuario("agente","1234",Rol.BASICO,agenteSectorial.getId(),
                 TipoRecurso.AGENTE_SECTORIAL,Permiso.VER_AGENTESECTORIAL);
         Usuario admin = new Usuario("admin","admin",Rol.ADMINISTRADOR, org.getId(),
-                TipoRecurso.ORGANIZACION,Permiso.VER_ORGANIZACION); //todo ver que hacer con el recurso cuando es admin
+                TipoRecurso.ORGANIZACION,Permiso.VER_ORGANIZACION);
         EntityManagerHelper.beginTransaction();
         EntityManagerHelper.persist(user);
         EntityManagerHelper.persist(user2);
