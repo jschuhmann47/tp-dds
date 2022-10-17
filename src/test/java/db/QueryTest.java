@@ -103,7 +103,7 @@ public class QueryTest {
     public void parametros(){
         ParametroFE auto = repoParametrosFE.buscarNombre("Auto");
         Assertions.assertEquals(0.2,auto.getValor());
-        Assertions.assertEquals("Auto",auto.getNombre());
+        Assertions.assertEquals("AUTO",auto.getNombre());
     }
 
     @Test
