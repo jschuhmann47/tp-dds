@@ -53,8 +53,12 @@
                     <td>{{this.trabajador.apellido}}</td>
                     <td>{{this.estadoSolicitud.posibleEstadoSolicitud}}</td>
                     <td>{{this.estadoSolicitud.fechaUltimaModificacion}}</td>
-                    <td><a class="btn btn-success" href="#" role="button">Aceptar</a></td>
-                    <td><a class="btn btn-danger" href="#" role="button">Rechazar</a></td>
+                    <form action="/aceptar" method "post">
+                        <td><button class="btn btn-success" type="submit">Aceptar</button></td>
+                    </form>
+                    <form action="/rechazar" method "post">
+                        <td><button class="btn btn-danger" type="submit">Rechazar</button></td>
+                    </form>
                 </tr>
                 <div hidden>{{/each}}</div>
             </tbody>
