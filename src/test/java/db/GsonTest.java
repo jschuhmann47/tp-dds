@@ -1,16 +1,19 @@
 package db;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import models.entities.geoDDS.Direccion;
 import models.entities.geoDDS.ServicioCalcularDistancia;
 import models.entities.geoDDS.adapters.ServicioGeoDDSAdapter;
 import models.entities.geoDDS.entidades.Distancia;
+import models.entities.transporte.MedioTransporte;
 import models.entities.transporte.TipoCombustible;
 import models.entities.transporte.privado.TipoVehiculo;
 import models.entities.transporte.privado.TransportePrivado;
 import models.entities.trayectos.Tramo;
 import models.entities.trayectos.TramoCompartido;
+import models.helpers.deserializers.MedioTransporteDeserializer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -49,7 +52,12 @@ public class GsonTest {
     public void instanciar(){
         Type tipoTramo = new TypeToken<Tramo>() {}.getType();
         //Abstract classes can't be instantiated! Register an InstanceCreator or a TypeAdapter for this type.
-        Gson gson = new Gson();
+
+        MedioTransporteDeserializer medioDeserializer = new MedioTransporteDeserializer("tipo");
+        medioDeserializer.agregarMedioTransporte("AUTO", TransportePrivado.class);
+
+        Gson gson = new GsonBuilder().registerTypeAdapter(MedioTransporte.class, medioDeserializer).create();
+
         Tramo tramo = gson.fromJson("{\"id\":0,\"medioTransporte\":{\"tramoCompartido\":{\"id\":0,\"orgPosibles\":[],\"personasABordo\":[]}," +
                 "\"id\":0,\"tipo\":\"AUTO\",\"tipoCombustible\":\"NAFTA\"},\"puntoInicio\":{\"altura\":1," +
                 "\"calle\":\"hola\"},\"puntoFinal\":{\"altura\":2,\"calle\":\"hola\"}," +
