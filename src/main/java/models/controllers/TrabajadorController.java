@@ -1,5 +1,8 @@
 package models.controllers;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import db.EntityManagerHelper;
 import models.entities.CargaDeActividades.entidades.Periodicidad;
 import models.entities.CargaDeActividades.entidades.Periodo;
 import models.entities.calculoHC.CalculoHC;
@@ -7,6 +10,7 @@ import models.entities.geoDDS.Direccion;
 import models.entities.organizaciones.entidades.Organizacion;
 import models.entities.organizaciones.entidades.Sector;
 import models.entities.organizaciones.entidades.Trabajador;
+import models.entities.organizaciones.solicitudes.Solicitud;
 import models.entities.trayectos.Frecuencia;
 import models.entities.trayectos.Tramo;
 import models.entities.trayectos.Trayecto;
@@ -19,7 +23,9 @@ import spark.Request;
 import spark.Response;
 import spark.Spark;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -97,16 +103,16 @@ public class TrabajadorController {
     public Response nuevaSolicitud(Request request, Response response){
         Trabajador trabajador = this.obtenerTrabajador(request,response);
         if(request.queryParams("nombreSector") == null || request.queryParams("razonSocial") == null){
-            //error no escribio
             return response;
         }
         Organizacion org = this.repoOrgs.buscarPorRazonSocial(request.queryParams("razonSocial"));
         if(org != null){
             Sector sectorAVincularse = org.obtenerSectorPorNombre(request.queryParams("nombreSector"));
             if(sectorAVincularse != null){
-                trabajador.solicitarVinculacion(org,sectorAVincularse);
-                //solicitud creada ok
-                //TODO cartel en js
+                Solicitud sol = trabajador.solicitarVinculacion(org,sectorAVincularse);
+                EntityManagerHelper.beginTransaction();
+                EntityManagerHelper.getEntityManager().persist(sol);
+                EntityManagerHelper.commit();
             }
         }
 
@@ -125,11 +131,27 @@ public class TrabajadorController {
     }
 
     public Response registrarNuevoTrayecto(Request request, Response response) {
-        //TODO parsear los tramos
-        List<Tramo> tramos = new ArrayList<>(); //lo que llege del front
+        List<Tramo> tramos = this.decodearTramos(request.queryParams("tramos")); //testear
 
         Frecuencia frecuencia = new Frecuencia(Periodicidad.valueOf(request.queryParams("periodicidad")),new Integer("vecesPorMes"));
-        Trayecto trayecto = new Trayecto(ListHelper.getFirstElement(tramos).getPuntoInicio(), ListHelper.getLastElement(tramos).getPuntoFinal(),tramos,frecuencia);
+        Trayecto trayecto = new Trayecto
+                        (ListHelper.getFirstElement(tramos).getPuntoInicio(),
+                        ListHelper.getLastElement(tramos).getPuntoFinal(),
+                        tramos,
+                        frecuencia);
+
+        Trabajador trabajador = this.obtenerTrabajador(request,response);
+        trabajador.agregarTrayectos(trayecto);
+        EntityManagerHelper.beginTransaction();
+        EntityManagerHelper.getEntityManager().persist(trayecto);
+        EntityManagerHelper.commit();
         return response;
+    }
+
+    private List<Tramo> decodearTramos(String body){
+        Type tipoTramo = new TypeToken<ArrayList<Tramo>>() {}.getType();
+
+        Gson gson = new Gson();
+        return gson.fromJson(body, tipoTramo);
     }
 }

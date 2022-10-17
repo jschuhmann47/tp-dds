@@ -14,6 +14,7 @@ public class Tramo {
     @GeneratedValue
     private int id;
 
+    @Getter
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "medio_transporte_id",referencedColumnName = "id")
     public MedioTransporte medioTransporte;

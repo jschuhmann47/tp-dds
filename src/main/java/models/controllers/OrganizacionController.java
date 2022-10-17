@@ -1,5 +1,6 @@
 package models.controllers;
 
+import db.EntityManagerHelper;
 import models.entities.CargaDeActividades.entidades.*;
 import models.entities.calculoHC.CalculoHC;
 import models.entities.organizaciones.entidades.Organizacion;
@@ -126,7 +127,9 @@ public class OrganizacionController {
         );
         Organizacion org = this.obtenerOrganizacion(request,response);
         org.agregarActividad(actividad);
-        // persistir actividad?
+
+        EntityManagerHelper.getEntityManager().persist(actividad);
+
         response.redirect("/menu/organizacion/mediciones");
         return response;
     }

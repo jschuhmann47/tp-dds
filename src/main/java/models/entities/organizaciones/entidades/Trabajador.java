@@ -59,14 +59,16 @@ public class Trabajador {
         return id;
     }
 
-    public void solicitarVinculacion(Organizacion organizacion,Sector sector){
+    public Solicitud solicitarVinculacion(Organizacion organizacion,Sector sector){
         if(sector.getOrganizacion() != organizacion){
             throw new RuntimeException("El sector ingresado no es de la organizacion ingresada");
         }
-        sector.solicitudDeVinculacion(this.crearSolicitud(organizacion,sector));
+        Solicitud nuevaSol = this.crearSolicitud(sector);
+        sector.solicitudDeVinculacion(nuevaSol);
+        return nuevaSol;
     }
 
-    private Solicitud crearSolicitud(Organizacion organizacion, Sector sector){
+    private Solicitud crearSolicitud(Sector sector){
         Solicitud solicitud = new Solicitud(sector,this);
         this.getListaDeSolicitudes().add(solicitud);
         return solicitud;
@@ -84,11 +86,7 @@ public class Trabajador {
         this.listaTrayectos = listaTrayectos;
     }
 
-    /**
-     * agregarTrayectos
-     * @param trayectos recibe trayectos.
-     *
-     */
+
     public void agregarTrayectos(Trayecto ... trayectos){
         listaTrayectos.addAll(Arrays.asList(trayectos));
     }
