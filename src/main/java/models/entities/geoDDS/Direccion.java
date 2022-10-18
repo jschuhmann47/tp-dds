@@ -1,5 +1,6 @@
 package models.entities.geoDDS;
 
+import lombok.Getter;
 import models.entities.geoDDS.entidades.Localidad;
 import models.entities.geoDDS.entidades.Municipio;
 import models.entities.geoDDS.entidades.Provincia;
@@ -7,6 +8,7 @@ import models.entities.geoDDS.entidades.Provincia;
 import javax.persistence.*;
 
 @Embeddable
+@Getter
 public class Direccion {
     @Column(name = "altura",nullable = false)
     private Integer altura;

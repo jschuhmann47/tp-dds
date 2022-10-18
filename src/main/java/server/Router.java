@@ -37,6 +37,7 @@ public class Router {
         AdministradorController administradorController = new AdministradorController();
         ErrorHandlerController errorController = new ErrorHandlerController();
         AgenteSectorialController agenteController = new AgenteSectorialController();
+        ReporteController reporteController = new ReporteController();
 
         Spark.get("/",((request, response) -> {
             response.redirect("/login");
@@ -85,8 +86,23 @@ public class Router {
                     Spark.post("/agregar",organizacionController::registrarNuevaMedicion);
                 });
                 Spark.path("/reportes", () -> {
-                    Spark.get("",organizacionController::mostrarReportes, Router.engine);
-                    Spark.get("/nuevo",organizacionController::mostrarNuevoReporte, Router.engine);
+                    Spark.get("",reporteController::mostrarReportes, Router.engine);
+
+                    Spark.get("/composicionHCOrganizacion",reporteController::mostrarComposicionHCOrganizacion, Router.engine);
+                    Spark.post("/composicionHCOrganizacion",reporteController::composicionHCOrganizacion, Router.engine);
+
+                    Spark.get("/composicionHCTerritorio",reporteController::mostrarComposicionHCMunicipio, Router.engine);
+                    Spark.post("/composicionHCTerritorio",reporteController::composicionHCMunicipio, Router.engine);
+
+                    Spark.get("/composicionHCPais",reporteController::composicionHCPais, Router.engine);
+
+                    Spark.get("/composicionHCTerritorio",reporteController::mostrarComposicionHCMunicipio, Router.engine);
+                    Spark.post("/composicionHCTerritorio",reporteController::composicionHCMunicipio, Router.engine);
+
+                    Spark.get("/evolucionHCOrganizacion",reporteController::mostrarEvolucionHCOrganizacion, Router.engine);
+                    Spark.post("/evolucionHCOrganizacion",reporteController::evolucionHCOrganizacion, Router.engine);
+
+
                 });
 
                 Spark.path("/calculadora", () -> {

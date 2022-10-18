@@ -43,7 +43,7 @@ public class ReporteController {
                 this.repoProvincia.buscarTodos()  //se asume que son todas de arg, se puede hacer mas extensible pero no es prioridad ahora
         );
         parametros.put("reportes", reportes);
-        return new ModelAndView(parametros,"reportes-menu.hbs");
+        return new ModelAndView(parametros,"composicion-hc-pais.hbs");
     }
 
     public ModelAndView composicionHCOrganizacion(Request request, Response response){
@@ -52,7 +52,12 @@ public class ReporteController {
         if(organizacion!=null){
             parametros.put("reportes",GeneradorReporte.ComposicionHCTotalDeUnaOrganizacion(organizacion));
         }
-        return new ModelAndView(parametros,"reportes-menu.hbs");
+        return new ModelAndView(parametros,"composicion-hc-organizacion.hbs");
+    }
+
+    public ModelAndView mostrarComposicionHCOrganizacion(Request request, Response response){
+        HashMap<String, Object> parametros = new HashMap<>();
+        return new ModelAndView(parametros,"composicion-hc-organizacion.hbs");
     }
 
     public ModelAndView composicionHCMunicipio(Request request, Response response){ //Sector territorial
@@ -61,8 +66,13 @@ public class ReporteController {
         if(municipio != null){
             parametros.put("reportes", GeneradorReporte.ComposicionHCTotalPorSectorTerritorial(this.repoOrg.buscarTodosDeMunicipio(municipio),municipio));
         }
-        return new ModelAndView(parametros,"reportes-composicion-hc-municipio.hbs");
+        return new ModelAndView(parametros,"composicion-hc-territorio.hbs");
     }
+    public ModelAndView mostrarComposicionHCMunicipio(Request request, Response response){ //Sector territorial
+        HashMap<String, Object> parametros = new HashMap<>();
+        return new ModelAndView(parametros,"composicion-hc-territorio.hbs");
+    }
+
 
     public ModelAndView evolucionHCMunicipio(Request request, Response response){ //
         HashMap<String, Object> parametros = new HashMap<>();
@@ -90,7 +100,7 @@ public class ReporteController {
             Periodo periodo = new Periodo(new Integer(request.queryParams("mes")),new Integer(request.queryParams("anio")));
             parametros.put("reportes",GeneradorReporte.evolucionHCTotalOrganizacion(organizacion,periodo));
         }
-        return new ModelAndView(parametros,"reportes-menu.hbs");
+        return new ModelAndView(parametros,"evolucion-hc-organizacion.hbs");
     }
 
     private Municipio buscarMunicipio(String nombreMunicipio, String nombreProvincia){
@@ -99,5 +109,13 @@ public class ReporteController {
 
     private Provincia buscarProvincia(String nombreProvincia){
         return this.repoProvincia.buscarNombre(nombreProvincia);
+    }
+
+    public ModelAndView mostrarReportes(Request request, Response response) {
+        return new ModelAndView(new HashMap<String,Object>(),"reportes-menu.hbs");
+    }
+
+    public ModelAndView mostrarEvolucionHCOrganizacion(Request request, Response response) { //todo extraer en mostrar menu asi no se escribe 100 veces
+        return new ModelAndView(null,"evolucion-hc-organizacion.hbs");
     }
 }

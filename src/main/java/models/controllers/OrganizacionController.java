@@ -43,7 +43,7 @@ public class OrganizacionController {
         parametros.put("organizacion",org);
         parametros.put("solicitudes",org.getListaDeSolicitudes());
 
-        return new ModelAndView(parametros, "solicitudes-organizacion-menu.hbs");
+        return new ModelAndView(parametros, "solicitudes-organizacion-menu.hbs"); //aceptar esa solicitud en concreto
     }
 
     public ModelAndView mostrarMedicion(Request request, Response response) {
@@ -55,21 +55,21 @@ public class OrganizacionController {
     }
 
     private Organizacion obtenerOrganizacion(Request request, Response response){
-        if(this.repoOrganizaciones.existe(new Integer(request.session().attribute("resource_id").toString()))){ //todo validar tipo
+        if(this.repoOrganizaciones.existe(new Integer(request.session().attribute("resource_id").toString()))){
             return this.repoOrganizaciones.buscar(new Integer(request.session().attribute("resource_id").toString()));
         } else{
-            response.redirect("/error"); //que hacer aca
+            response.redirect("/error");
             Spark.halt();
         }
         return null;
     }
 
-    public ModelAndView mostrarReportes(Request request, Response response) {
+    public ModelAndView mostrarReportes(Request request, Response response) { //esto es lo de cargar excel
         return new ModelAndView(new HashMap<String,Object>(),"reportes-menu.hbs"); //mostrar los botones y al tocar dice el valor
     }
 
     public ModelAndView mostrarHC(Request request, Response response){
-        return new ModelAndView(new HashMap<String,Object>(),"calculadora.hbs");
+        return new ModelAndView(new HashMap<String,Object>(),"calculadora-organizacion.hbs");
     }
 
     public ModelAndView calcularHC(Request request, Response response){
@@ -78,15 +78,14 @@ public class OrganizacionController {
         HashMap<String, Object> parametros = new HashMap<>();
         if(periodo.getAnio() != null){
             Organizacion org = this.obtenerOrganizacion(request, response);
-            parametros.put("consumo-actividad",org.calcularHCActividadesEnPeriodo(periodo));
-            parametros.put("consumo-trabajador",org.calcularHCEmpleados(periodo));
-            parametros.put("periodo",periodo); //si mes null en la vista?
-            parametros.put("factor-emision",CalculoHC.getUnidadPorDefecto());
-            parametros.put("huella-carbono",org.calcularHCEnPeriodo(periodo));
+            parametros.put("consumoActividad",org.calcularHCActividadesEnPeriodo(periodo));
+            parametros.put("consumoTrabajador",org.calcularHCEmpleados(periodo));
+            parametros.put("factorEmision",CalculoHC.getUnidadPorDefecto());
+            parametros.put("huellaCarbono",org.calcularHCEnPeriodo(periodo));
         } else{
             return this.calcularCalculadoraHCTotal(request,response);
         }
-        return new ModelAndView(parametros,"calculadora.hbs");
+        return new ModelAndView(parametros,"calculadora-organizacion.hbs");
     }
 
     public ModelAndView calcularCalculadoraHCTotal(Request request, Response response){
@@ -94,11 +93,10 @@ public class OrganizacionController {
         HashMap<String, Object> parametros = new HashMap<>();
         Organizacion org = this.obtenerOrganizacion(request, response);
 
-        parametros.put("consumo-actividad",org.calcularHCTotalActividades());
-        parametros.put("consumo-trabajador",org.calcularHCTotalTrabajadores());
-        parametros.put("periodo","TOTAL");
-        parametros.put("factor-emision",CalculoHC.getUnidadPorDefecto());
-        parametros.put("huella-carbono",org.calcularHCTotal());
+        parametros.put("consumoActividad",org.calcularHCTotalActividades());
+        parametros.put("consumoTrabajador",org.calcularHCTotalTrabajadores());
+        parametros.put("factorEmision",CalculoHC.getUnidadPorDefecto());
+        parametros.put("huellaCarbono",org.calcularHCTotal());
 
         return new ModelAndView(parametros,"calculadora.hbs");
     }
@@ -116,19 +114,23 @@ public class OrganizacionController {
     }
 
     public Response registrarNuevaMedicion(Request request, Response response) {
-        //TODO chequear q no haya ningun campo null
-        Actividad actividad = new Actividad(
-                TipoActividad.valueOf(request.queryParams("tipoDeActividad")),
-                TipoDeConsumo.valueOf(request.queryParams("tipoDeConsumo")),
-                Unidad.valueOf(request.queryParams("unidad")),
-                new Periodo(new Integer(request.queryParams("mes")),new Integer(request.queryParams("anio"))),
-                Periodicidad.valueOf(request.queryParams("periodicidad")),
-                new Double(request.queryParams("valor"))
-        );
-        Organizacion org = this.obtenerOrganizacion(request,response);
-        org.agregarActividad(actividad);
+        if(!(request.queryParams("tipoDeActividad") == null || request.queryParams("tipoDeConsumo") == null ||
+                request.queryParams("unidad") == null || request.queryParams("mes") == null ||
+                request.queryParams("anio") == null || request.queryParams("periodicidad") == null || request.queryParams("valor") == null))
+        {
+            Actividad actividad = new Actividad(
+                    TipoActividad.valueOf(request.queryParams("tipoDeActividad")),
+                    TipoDeConsumo.valueOf(request.queryParams("tipoDeConsumo")),
+                    Unidad.valueOf(request.queryParams("unidad")),
+                    new Periodo(new Integer(request.queryParams("mes")),new Integer(request.queryParams("anio"))),
+                    Periodicidad.valueOf(request.queryParams("periodicidad")),
+                    new Double(request.queryParams("valor"))
+            );
+            Organizacion org = this.obtenerOrganizacion(request,response);
+            org.agregarActividad(actividad);
 
-        EntityManagerHelper.getEntityManager().persist(actividad);
+            EntityManagerHelper.getEntityManager().persist(actividad);
+        }
 
         response.redirect("/menu/organizacion/mediciones");
         return response;

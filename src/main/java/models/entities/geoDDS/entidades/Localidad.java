@@ -1,9 +1,12 @@
 package models.entities.geoDDS.entidades;
 
+import lombok.Getter;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "localidad")
+@Getter
 public class Localidad {
 
     @Id

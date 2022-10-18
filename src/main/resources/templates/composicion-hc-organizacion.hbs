@@ -87,41 +87,39 @@
         </nav>
     
     </div>
-    <div style="float: left; margin-left: 450px; margin-top: 150px;">
+    <div style="float: left; margin-left: 600px; margin-top: 150px;">
             <table class="table table-bordered bg-light">
             <thead>
                 <tr>
                     <th scope="col">Nombre de la Organizacion</th>
-                    <th scope="col">Mes</th>
-                    <th scope="col">Año</th>
                 </tr>
             </thead>
             <tbody>
-                <form action="/composicion-hc-territorio" method="post">
+                <form action="/composicionHCOrganizacion" method="post">
                     <tr>
-                        <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="nombreOrganizacion"></td>
-                        <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="mes"></td>
-                        <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="año"></td>
+                        <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="razonSocial"></td>
                     </tr>
                     <tr>
-                        <td colspan="3"><button class="w-100 btn btn-lg btn-success" type="submit">Calcular</button></td>
+                        <td colspan="2"><button class="w-100 btn btn-lg btn-success" type="submit">Calcular</button></td>
                     </tr>
                 </form>
             </tbody>
         </table>
         <table class="table table-bordered bg-light">
+            {{#each reportes}}
             <tr>
                 <td class="d-flex justify-content-center fw-bold">Descripcion</td>
-                <td>ACA VA LA DESC</td>
+                <td>{{this.descripcion}}</td>
             </tr>
             <tr>
                 <td class="d-flex justify-content-center fw-bold">Valor</td>
-                <td>ACA VA EL VALOR</td>
+                <td>{{this.valor}}</td>
             </tr>
             <tr>
                 <td class="d-flex justify-content-center fw-bold">Fecha</td>
-                <td>ACA VA LA FECHA</td>
+                <td>{{this.fecha}}</td>
             </tr>
+            {{/each}}
         </table>
     </div>
 </body>

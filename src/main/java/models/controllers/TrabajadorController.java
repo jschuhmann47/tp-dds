@@ -63,13 +63,11 @@ public class TrabajadorController {
         Periodo periodo = new Periodo(new Integer(request.queryParams("mes")),new Integer(request.queryParams("anio")));
         HashMap<String, Object> parametros = new HashMap<>();
         Trabajador trabajador = this.obtenerTrabajador(request, response);
-        parametros.put("factor-emision", CalculoHC.getUnidadPorDefecto());
+        parametros.put("factorEmision", CalculoHC.getUnidadPorDefecto());
         if(periodo.getAnio() != null){
-            parametros.put("periodo",periodo);
-            parametros.put("huella-carbono",trabajador.calcularHC(periodo));
+            parametros.put("huellaCarbono",trabajador.calcularHC(periodo));
         } else{
-            parametros.put("periodo","TOTAL");
-            parametros.put("huella-carbono",trabajador.calcularHCTotal());
+            parametros.put("huellaCarbono",trabajador.calcularHCTotal());
         }
         return new ModelAndView(parametros,"calculadora.hbs");
     }
@@ -93,7 +91,7 @@ public class TrabajadorController {
         parametros.put("trabajador",trabajador);
         parametros.put("trayectos",trabajador.getListaTrayectos());
 
-        return new ModelAndView(parametros, "agregar-trayecto.hbs");
+        return new ModelAndView(parametros, "trayectos-menu.hbs");
     }
 
     public ModelAndView mostrarRecomendaciones(Request request, Response response) {
@@ -123,11 +121,11 @@ public class TrabajadorController {
 
 
     public ModelAndView mostrarNuevaVinculacion(Request request, Response response) {
-        return new ModelAndView(null,"nueva-vinculacion-trabajador-menu.hbs");
+        return new ModelAndView(null,"nueva-vinculacion.hbs");
     }
 
     public ModelAndView mostrarNuevoTrayecto(Request request, Response response) {
-        return new ModelAndView(null,"nuevo-trayecto-menu.hbs");
+        return new ModelAndView(null,"agregar-trayecto.hbs");
     }
 
     public Response registrarNuevoTrayecto(Request request, Response response) {
