@@ -20,6 +20,7 @@ public class Direccion {
     private Localidad localidad;
 
 
+
     public Direccion() {
     }
 
