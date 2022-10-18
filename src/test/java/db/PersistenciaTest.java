@@ -10,13 +10,10 @@ import models.entities.geoDDS.entidades.*;
 import models.entities.organizaciones.entidades.*;
 import models.entities.organizaciones.solicitudes.Solicitud;
 import models.entities.parametros.ParametroFE;
-import models.entities.reportes.GeneradorReporte;
-import models.entities.reportes.Reporte;
 import models.entities.seguridad.cuentas.Permiso;
 import models.entities.seguridad.cuentas.Rol;
 import models.entities.seguridad.cuentas.TipoRecurso;
 import models.entities.seguridad.cuentas.Usuario;
-import models.entities.calculoHC.CalcularHCTransporte;
 import models.entities.transporte.TipoCombustible;
 import models.entities.transporte.privado.TipoVehiculo;
 import models.entities.transporte.privado.TransportePrivado;
@@ -112,6 +109,8 @@ public class PersistenciaTest {
         ServicioGeoDDSAdapter adapterMock = mock(ServicioGeoDDSAdapter.class);
         ServicioCalcularDistancia.setAdapter(adapterMock);
 
+        auto.agregarTrabajadorATramoCompartido(juan);
+
         when(adapterMock.distanciaEntre(direccion1,direccion2)).thenReturn(distancia1);
         Tramo tramoAuto = new Tramo(auto,direccion1,direccion2);
 
@@ -127,14 +126,18 @@ public class PersistenciaTest {
         paradaTest1.setParadaSiguiente(paradaTest2);
         paradaTest2.setParadaSiguiente(null);
 
-        auto.agregarTrabajadorATramoCompartido(juan);
+
 
 
         Trayecto trayectoTest = new Trayecto(direccion1,direccion3,listaTramos,frecuencia);
 
-        trayectoTest.cargarTramos(tramoAuto,tramoColectivo);
+        //trayectoTest.cargarTramos(tramoAuto,tramoColectivo);
 
         juan.agregarTrayectos(trayectoTest);
+
+        trayectoTest.registrarViajesEnMesYAnio(7,2021,5);
+
+        juan.calcularHC(new Periodo(7,2021));
 
 
 

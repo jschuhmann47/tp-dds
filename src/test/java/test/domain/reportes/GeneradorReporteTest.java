@@ -14,7 +14,6 @@ import models.entities.organizaciones.entidades.Trabajador;
 import models.entities.parametros.ParametroFE;
 import models.entities.reportes.GeneradorReporte;
 import models.entities.reportes.Reporte;
-import models.entities.calculoHC.CalcularHCTransporte;
 import models.entities.transporte.TipoCombustible;
 import models.entities.transporte.privado.TipoVehiculo;
 import models.entities.transporte.privado.TransportePrivado;

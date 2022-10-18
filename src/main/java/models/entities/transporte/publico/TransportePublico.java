@@ -1,9 +1,7 @@
 package models.entities.transporte.publico;
 
-import models.entities.calculoHC.CalculoHC;
 import models.entities.geoDDS.Direccion;
 import models.entities.geoDDS.entidades.Distancia;
-import models.entities.calculoHC.CalcularHCTransporte;
 import models.entities.transporte.MedioTransporte;
 import models.entities.transporte.TipoCombustible;
 import models.entities.transporte.privado.TipoVehiculo;

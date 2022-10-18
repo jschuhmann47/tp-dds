@@ -3,6 +3,7 @@ package models.controllers;
 import db.EntityManagerHelper;
 import models.entities.CargaDeActividades.entidades.*;
 import models.entities.calculoHC.CalculoHC;
+import models.entities.calculoHC.UnidadHC;
 import models.entities.organizaciones.entidades.Organizacion;
 import models.entities.organizaciones.entidades.Sector;
 import models.entities.organizaciones.solicitudes.Solicitud;
@@ -74,6 +75,9 @@ public class OrganizacionController {
 
     public ModelAndView calcularHC(Request request, Response response){
         this.setearCalculadoraHC();
+        if(request.queryParams("mes") == null || request.queryParams("anio") == null){
+            throw new RuntimeException("No se ingreso mes o año");
+        }
         Periodo periodo = new Periodo(new Integer(request.queryParams("mes")),new Integer(request.queryParams("anio")));
         HashMap<String, Object> parametros = new HashMap<>();
         if(periodo.getAnio() != null){
@@ -103,6 +107,7 @@ public class OrganizacionController {
 
     private void setearCalculadoraHC(){
         CalculoHC.setFactoresEmisionFE(this.repoFE.buscarTodos());
+        CalculoHC.setUnidadPorDefecto(UnidadHC.GRAMO_EQ);
     }
 
     public ModelAndView mostrarRecomendaciones(Request request, Response response) {
@@ -110,7 +115,7 @@ public class OrganizacionController {
     }
 
     public ModelAndView mostrarNuevaMedicion(Request request, Response response) {
-        return new ModelAndView(new HashMap<String,Object>(),"mediciones-formulario.hbs");
+        return new ModelAndView(new HashMap<String,Object>(),"agregar-actividad.hbs");
     }
 
     public Response registrarNuevaMedicion(Request request, Response response) {

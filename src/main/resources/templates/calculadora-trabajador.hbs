@@ -57,12 +57,16 @@
     <div class="d-flex justify-content-center" style="margin-top: 40px;">
         <table class="table table-bordered bg-light mt-5" style="max-width: 500px;">
             <tr>
-                <td>Facto de emision</td>
+                <td>Factor de emision</td>
+                {{#if factorEmision}}
                 <td>{{factorEmision}}</td>
+                {{/if}}
               </tr>
             <tr>
                 <td>Huella de carbono</td>
+                {{#if huellaCarbono}}
                 <td>{{huellaCarbono}}</td>
+                {{/if}}
             </tr>
         </table>
     </div>

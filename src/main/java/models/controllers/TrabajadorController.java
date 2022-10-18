@@ -6,6 +6,7 @@ import db.EntityManagerHelper;
 import models.entities.CargaDeActividades.entidades.Periodicidad;
 import models.entities.CargaDeActividades.entidades.Periodo;
 import models.entities.calculoHC.CalculoHC;
+import models.entities.calculoHC.UnidadHC;
 import models.entities.geoDDS.Direccion;
 import models.entities.organizaciones.entidades.Organizacion;
 import models.entities.organizaciones.entidades.Sector;
@@ -67,10 +68,14 @@ public class TrabajadorController {
 
     public ModelAndView calcularHC(Request request, Response response) {
         this.setearCalculadoraHC();
+        if(request.queryParams("mes") == null || request.queryParams("anio") == null){
+            throw new RuntimeException("No se ingreso mes o año");
+        }
         Periodo periodo = new Periodo(new Integer(request.queryParams("mes")),new Integer(request.queryParams("anio")));
         HashMap<String, Object> parametros = new HashMap<>();
         Trabajador trabajador = this.obtenerTrabajador(request, response);
-        parametros.put("factorEmision", CalculoHC.getUnidadPorDefecto());
+        parametros.put("trabajador",trabajador);
+        //parametros.put("factorEmision", CalculoHC.getUnidadPorDefecto()).toString();
         if(periodo.getAnio() != null){
             parametros.put("huellaCarbono",trabajador.calcularHC(periodo));
         } else{
@@ -162,5 +167,6 @@ public class TrabajadorController {
 
     private void setearCalculadoraHC(){
         CalculoHC.setFactoresEmisionFE(this.repoFE.buscarTodos());
+        CalculoHC.setUnidadPorDefecto(UnidadHC.GRAMO_EQ);
     }
 }

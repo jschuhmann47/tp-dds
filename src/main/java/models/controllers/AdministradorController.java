@@ -27,7 +27,7 @@ public class AdministradorController {
         return new ModelAndView(parametros, "factor-emision-menu.hbs");
     }
 
-    public Response editarFE(Request request,Response response){ //TODO
+    public Response editarFE(Request request,Response response){
         editarParametroFE("auto",request);
         editarParametroFE("moto",request);
         editarParametroFE("camioneta",request);

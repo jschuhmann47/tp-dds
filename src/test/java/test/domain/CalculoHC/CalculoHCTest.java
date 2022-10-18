@@ -10,7 +10,6 @@ import models.entities.geoDDS.entidades.*;
 import models.entities.organizaciones.entidades.Organizacion;
 import models.entities.organizaciones.entidades.Sector;
 import models.entities.organizaciones.entidades.Trabajador;
-import models.entities.calculoHC.CalcularHCTransporte;
 import models.entities.parametros.ParametroFE;
 import models.entities.transporte.TipoCombustible;
 import models.entities.transporte.privado.TipoVehiculo;

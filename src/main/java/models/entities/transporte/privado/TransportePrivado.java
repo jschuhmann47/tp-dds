@@ -1,13 +1,11 @@
 package models.entities.transporte.privado;
 
 import lombok.Getter;
-import models.entities.calculoHC.CalculoHC;
 import models.entities.geoDDS.Direccion;
 import models.entities.geoDDS.ServicioCalcularDistancia;
 import models.entities.geoDDS.entidades.Distancia;
 import models.entities.trayectos.TramoCompartido;
 import models.entities.organizaciones.entidades.Trabajador;
-import models.entities.calculoHC.CalcularHCTransporte;
 import models.entities.transporte.MedioTransporte;
 import models.entities.transporte.TipoCombustible;
 

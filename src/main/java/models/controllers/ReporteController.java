@@ -2,6 +2,7 @@ package models.controllers;
 
 import models.entities.CargaDeActividades.entidades.Periodo;
 import models.entities.calculoHC.CalculoHC;
+import models.entities.calculoHC.UnidadHC;
 import models.entities.geoDDS.entidades.Municipio;
 import models.entities.geoDDS.entidades.Provincia;
 import models.entities.organizaciones.entidades.Organizacion;
@@ -155,5 +156,6 @@ public class ReporteController {
 
     private void setearParametrosFE(){
         CalculoHC.setFactoresEmisionFE(this.repoFE.buscarTodos());
+        CalculoHC.setUnidadPorDefecto(UnidadHC.GRAMO_EQ);
     }
 }

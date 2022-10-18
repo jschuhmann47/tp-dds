@@ -33,6 +33,8 @@ public class Tramo {
     @AttributeOverrides({@AttributeOverride(name="altura",column = @Column(name = "altura_fin")),
             @AttributeOverride(name = "calle",column = @Column(name = "calle_fin"))})
     public Direccion puntoFinal;
+
+    @Getter
     @Embedded
     public Distancia distanciaTramo;
 
