@@ -81,7 +81,7 @@ public class ReporteController {
         if(municipio != null){
             parametros.put("reportes", GeneradorReporte.evolucionHCTotalSectorTerritorial(this.repoOrg.buscarTodosDeMunicipio(municipio),municipio,periodo));
         }
-        return new ModelAndView(parametros,"reportes-menu.hbs");
+        return new ModelAndView(parametros,"evolucion-hc-territorio.hbs");
     }
 
     public ModelAndView HCPorClasificacionOrganizacion(Request request, Response response){
@@ -90,7 +90,7 @@ public class ReporteController {
         String clasificacion = request.queryParams("clasificacion");
         parametros.put("reportes",GeneradorReporte.HCTotalPorClasificacion(this.repoOrg.buscarTodosClasificacion(clasificacion),clasificacion));
 
-        return new ModelAndView(parametros,"reportes-menu.hbs");
+        return new ModelAndView(parametros,"hc-clasificacion-organizacion.hbs");
     }
 
     public ModelAndView evolucionHCOrganizacion(Request request, Response response){
@@ -103,6 +103,19 @@ public class ReporteController {
         return new ModelAndView(parametros,"evolucion-hc-organizacion.hbs");
     }
 
+    public ModelAndView HCPorMunicipio(Request request, Response response){
+        HashMap<String, Object> parametros = new HashMap<>();
+        Municipio municipio = this.buscarMunicipio(request.queryParams("municipio"),request.queryParams("provincia"));
+        if(municipio != null){
+            parametros.put("reportes", GeneradorReporte.HCTotalPorSectorTerritorial(this.repoOrg.buscarTodosDeMunicipio(municipio),municipio));
+        }
+        return new ModelAndView(parametros,"hc-total-territorio.hbs");
+    }
+
+    public ModelAndView mostrarHCPorMunicipio(Request request, Response response){
+        return new ModelAndView(null,"hc-total-territorio.hbs");
+    }
+
     private Municipio buscarMunicipio(String nombreMunicipio, String nombreProvincia){
         return this.repoMunicipio.buscarNombre(nombreMunicipio,nombreProvincia);
     }
@@ -112,10 +125,18 @@ public class ReporteController {
     }
 
     public ModelAndView mostrarReportes(Request request, Response response) {
-        return new ModelAndView(new HashMap<String,Object>(),"reportes-menu.hbs");
+        return new ModelAndView(null,"reportes-menu.hbs");
     }
 
-    public ModelAndView mostrarEvolucionHCOrganizacion(Request request, Response response) { //todo extraer en mostrar menu asi no se escribe 100 veces
+    public ModelAndView mostrarEvolucionHCOrganizacion(Request request, Response response) {
         return new ModelAndView(null,"evolucion-hc-organizacion.hbs");
+    }
+
+    public ModelAndView mostrarEvolucionHCMunicipio(Request request, Response response) {
+        return new ModelAndView(null,"evolucion-hc-territorio.hbs");
+    }
+
+    public ModelAndView mostrarHCPorClasificacionOrganizacion(Request request, Response response) {
+        return new ModelAndView(null,"hc-clasificacion-organizacion.hbs");
     }
 }

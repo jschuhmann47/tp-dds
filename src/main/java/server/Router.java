@@ -102,6 +102,18 @@ public class Router {
                     Spark.get("/evolucionHCOrganizacion",reporteController::mostrarEvolucionHCOrganizacion, Router.engine);
                     Spark.post("/evolucionHCOrganizacion",reporteController::evolucionHCOrganizacion, Router.engine);
 
+                    Spark.get("/evolucionHCTerritorio",reporteController::mostrarEvolucionHCMunicipio, Router.engine);
+                    Spark.post("/evolucionHCTerritorio",reporteController::evolucionHCMunicipio, Router.engine);
+
+                    Spark.get("/HCTipoOrganizacion",reporteController::mostrarHCPorClasificacionOrganizacion, Router.engine);
+                    Spark.post("/HCTipoOrganizacion",reporteController::HCPorClasificacionOrganizacion, Router.engine);
+
+                    Spark.get("/HCTotalTerritorio",reporteController::mostrarHCPorMunicipio, Router.engine);
+                    Spark.post("/HCTotalTerritorio",reporteController::HCPorMunicipio, Router.engine);
+
+                    Spark.get("/HCTotalTerritorio",reporteController::mostrarHCPorMunicipio, Router.engine);
+                    Spark.post("/HCTotalTerritorio",reporteController::HCPorMunicipio, Router.engine);
+
 
                 });
 
