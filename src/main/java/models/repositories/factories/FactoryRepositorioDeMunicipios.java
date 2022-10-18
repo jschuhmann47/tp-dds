@@ -8,10 +8,6 @@ public class FactoryRepositorioDeMunicipios {
 
     private static RepositorioDeMunicipios repo = null;
 
-//    static{
-//        repo = null;
-//    }
-
     public static RepositorioDeMunicipios get(){
         if(repo == null){
             repo = new RepositorioDeMunicipios(new DAOHibernate<>(Municipio.class));

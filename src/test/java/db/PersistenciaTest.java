@@ -211,7 +211,7 @@ public class PersistenciaTest {
         Usuario user2 = new Usuario("tomas","123",Rol.BASICO,juan.getId(),
                 TipoRecurso.TRABAJADOR,Permiso.VER_TRABAJADOR);
         Usuario user3 = new Usuario("agente","1234",Rol.BASICO,agenteSectorial.getId(),
-                TipoRecurso.AGENTE_SECTORIAL,Permiso.VER_AGENTESECTORIAL);
+                TipoRecurso.AGENTE,Permiso.VER_AGENTESECTORIAL);
         Usuario admin = new Usuario("admin","admin",Rol.ADMINISTRADOR, org.getId(),
                 TipoRecurso.ORGANIZACION,Permiso.VER_ORGANIZACION);
         EntityManagerHelper.beginTransaction();

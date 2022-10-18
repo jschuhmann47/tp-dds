@@ -13,6 +13,7 @@ import java.util.List;
 
 public class AdministradorController {
 
+    //TODO crear organizaciones,sectores,usuarios,etc
     RepositorioDeParametrosFE repoFE = FactoryRepositorioDeParametrosFE.get();
 
     public ModelAndView mostrar(Request request, Response response) {
@@ -28,20 +29,8 @@ public class AdministradorController {
     }
 
     public Response editarFE(Request request,Response response){
-        editarParametroFE("auto",request);
-        editarParametroFE("moto",request);
-        editarParametroFE("camioneta",request);
-        editarParametroFE("micro",request);
-        editarParametroFE("colectivo",request);
-        editarParametroFE("subte",request);
-        editarParametroFE("tren",request);
-
-
-        editarParametroFE("diesel",request);
-        editarParametroFE("gas",request);
-        editarParametroFE("gnc",request);
-        editarParametroFE("nafta",request);
-
+        ParametroFE parametroFE = this.repoFE.buscar(new Integer(request.queryParams("id"))); //TODO algo asi
+        parametroFE.setValor(new Double(request.queryParams("nuevoValor")));
         return response;
     }
 
@@ -52,4 +41,37 @@ public class AdministradorController {
                     .setValor(new Double(request.queryParams(nombreAtributo)));
         }
     }
+
+    public ModelAndView mostrarNuevaOrganizacion(Request request, Response response){
+        return null;
+    }
+
+    public Response crearNuevaOrganizacion(Request request, Response response){
+        return null;
+    }
+
+    public ModelAndView mostrarNuevoSector(Request request, Response response){
+        return null;
+    }
+
+    public Response crearNuevoSector(Request request, Response response){
+        return null;
+    }
+
+    public ModelAndView mostrarNuevoTransporte(Request request, Response response){
+        return null;
+    }
+
+    public Response crearNuevoTransporte(Request request, Response response){
+        return null;
+    }
+
+    public ModelAndView mostrarNuevaParada(Request request, Response response){
+        return null;
+    }
+
+    public Response crearNuevaParada(Request request, Response response){
+        return null;
+    }
+
 }

@@ -97,7 +97,7 @@ public class TrabajadorController {
         return new ModelAndView(parametros, "solicitudes-trabajador-menu.hbs");
     }
 
-    public ModelAndView mostrarTrayectos(Request request, Response response) {
+    public ModelAndView mostrarTrayectos(Request request, Response response) { //TODO mostrar tramos y editar etc
         HashMap<String,Object> parametros = new HashMap<>();
         Trabajador trabajador = this.obtenerTrabajador(request,response);
         parametros.put("trabajador",trabajador);

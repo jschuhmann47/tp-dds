@@ -36,7 +36,7 @@ public class LoginController {
                 request.session().attribute("permissions",usuario.getPermisos());
 
 
-                response.redirect("/menu");
+                response.redirect("/" + usuario.getTipoRecurso().toString().toLowerCase());
             }
             else{
                 response.redirect("/login");
@@ -58,4 +58,13 @@ public class LoginController {
         response.redirect("/login");
         return response;
     }
+
+    public ModelAndView mostrarNuevoUsuario(Request request, Response response){
+        return null;
+    }
+
+    public Response crearNuevoUsuario(Request request, Response response){ //validar con el owasp
+        return null;
+    }
+
 }

@@ -45,13 +45,13 @@
         </tr>
       </thead>
       <tbody>
-        <form action="/menu/administrador/config" method="post">
+        <form action="/administrador/config" method="post">
           {{#each factores}}
           <div class="form-floating">
               <tr>
                   <td>{{this.nombre}}</td>
                   <td>{{this.valor}}</td>
-                  <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="{{this.nombre}}"></td>
+                  <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="nuevoValor" value="{{this.id}}"></td>
                   <td colspan="3"><button class="w-100 btn btn-lg btn-warning" type="submit">Editar</button></td>
               </tr>
           {{/each}}

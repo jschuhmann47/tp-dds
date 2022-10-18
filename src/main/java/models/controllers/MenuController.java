@@ -23,6 +23,6 @@ public class MenuController {
             Spark.halt();
         }
         parametros.put("usuario",usuario);
-        return new ModelAndView(parametros,"menu.hbs");
+        return new ModelAndView(parametros, usuario.getTipoRecurso().toString().toLowerCase() + "menu.hbs");
     }
 }

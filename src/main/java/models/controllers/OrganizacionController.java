@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class OrganizacionController {
-
+    //TODO provincias, municipios, orgs, sectores, medios t que llege una lista, que no escriba a mano
     private RepositorioDeOrganizaciones repoOrganizaciones;
     private RepositorioDeParametrosFE repoFE;
 
@@ -73,22 +73,20 @@ public class OrganizacionController {
         return new ModelAndView(new HashMap<String,Object>(),"calculadora-organizacion.hbs");
     }
 
-    public ModelAndView calcularHC(Request request, Response response){
+    public ModelAndView calcularHC(Request request, Response response){ //NO LLEGA ACA SI ES TOTAL
         this.setearCalculadoraHC();
-        if(request.queryParams("mes") == null || request.queryParams("anio") == null){
-            throw new RuntimeException("No se ingreso mes o año");
-        }
+//        if(request.queryParams("mes") == null || request.queryParams("anio") == null){ //todo hacer un boton para calcular total
+//            throw new RuntimeException("No se ingreso mes o año");
+//        }
         Periodo periodo = new Periodo(new Integer(request.queryParams("mes")),new Integer(request.queryParams("anio")));
         HashMap<String, Object> parametros = new HashMap<>();
-        if(periodo.getAnio() != null){
-            Organizacion org = this.obtenerOrganizacion(request, response);
-            parametros.put("consumoActividad",org.calcularHCActividadesEnPeriodo(periodo));
-            parametros.put("consumoTrabajador",org.calcularHCEmpleados(periodo));
-            parametros.put("factorEmision",CalculoHC.getUnidadPorDefecto());
-            parametros.put("huellaCarbono",org.calcularHCEnPeriodo(periodo));
-        } else{
-            return this.calcularCalculadoraHCTotal(request,response);
-        }
+
+        Organizacion org = this.obtenerOrganizacion(request, response);
+        parametros.put("consumoActividad",org.calcularHCActividadesEnPeriodo(periodo));
+        parametros.put("consumoTrabajador",org.calcularHCEmpleados(periodo));
+        parametros.put("factorEmision",CalculoHC.getUnidadPorDefecto());
+        parametros.put("huellaCarbono",org.calcularHCEnPeriodo(periodo));
+
         return new ModelAndView(parametros,"calculadora-organizacion.hbs");
     }
 
@@ -102,7 +100,7 @@ public class OrganizacionController {
         parametros.put("factorEmision",CalculoHC.getUnidadPorDefecto());
         parametros.put("huellaCarbono",org.calcularHCTotal());
 
-        return new ModelAndView(parametros,"calculadora.hbs");
+        return new ModelAndView(parametros,"calculadora-organizacion.hbs");
     }
 
     private void setearCalculadoraHC(){
@@ -115,27 +113,28 @@ public class OrganizacionController {
     }
 
     public ModelAndView mostrarNuevaMedicion(Request request, Response response) {
-        return new ModelAndView(new HashMap<String,Object>(),"agregar-actividad.hbs");
+        return new ModelAndView(new HashMap<String,Object>(),"mediciones-menu.hbs");
     }
 
     public Response registrarNuevaMedicion(Request request, Response response) {
-        if(!(request.queryParams("tipoDeActividad") == null || request.queryParams("tipoDeConsumo") == null ||
-                request.queryParams("unidad") == null || request.queryParams("mes") == null ||
-                request.queryParams("anio") == null || request.queryParams("periodicidad") == null || request.queryParams("valor") == null))
-        {
-            Actividad actividad = new Actividad(
-                    TipoActividad.valueOf(request.queryParams("tipoDeActividad")),
-                    TipoDeConsumo.valueOf(request.queryParams("tipoDeConsumo")),
-                    Unidad.valueOf(request.queryParams("unidad")),
-                    new Periodo(new Integer(request.queryParams("mes")),new Integer(request.queryParams("anio"))),
-                    Periodicidad.valueOf(request.queryParams("periodicidad")),
-                    new Double(request.queryParams("valor"))
-            );
-            Organizacion org = this.obtenerOrganizacion(request,response);
-            org.agregarActividad(actividad);
+//        if(!(request.queryParams("tipoDeActividad") == null || request.queryParams("tipoDeConsumo") == null ||
+//                request.queryParams("unidad") == null || request.queryParams("mes") == null ||
+//                request.queryParams("anio") == null || request.queryParams("periodicidad") == null || request.queryParams("valor") == null))
+//        {
+        //VIENE DEL EXCEL
+        Actividad actividad = new Actividad(
+                TipoActividad.valueOf(request.queryParams("tipoDeActividad")),
+                TipoDeConsumo.valueOf(request.queryParams("tipoDeConsumo")),
+                Unidad.valueOf(request.queryParams("unidad")),
+                new Periodo(new Integer(request.queryParams("mes")),new Integer(request.queryParams("anio"))),
+                Periodicidad.valueOf(request.queryParams("periodicidad")),
+                new Double(request.queryParams("valor"))
+        );
+        Organizacion org = this.obtenerOrganizacion(request,response);
+        org.agregarActividad(actividad);
 
-            EntityManagerHelper.getEntityManager().persist(actividad);
-        }
+        EntityManagerHelper.getEntityManager().persist(actividad);
+
 
         response.redirect("/menu/organizacion/mediciones");
         return response;
@@ -159,7 +158,7 @@ public class OrganizacionController {
 
     private Solicitud obtenerSolicitud(Request request, Response response){
         Organizacion organizacion = this.obtenerOrganizacion(request,response);
-        Sector sector = organizacion.obtenerSectorPorNombre(request.queryParams("nombreSector")); //TODO revisar esto de la solID
+        Sector sector = organizacion.obtenerSectorPorNombre(request.queryParams("nombreSector")); //TODO que le pase la sol Id de una -> repoSolicitudes
         return sector.getSolicitudes().stream().filter(sol -> sol.getId() == new Integer(request.queryParams("solicitudId"))).collect(Collectors.toList()).get(0);
     }
 

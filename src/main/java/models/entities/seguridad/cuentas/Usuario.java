@@ -56,7 +56,7 @@ public class Usuario {
                 this.organizacionId = idRecurso;
             case TRABAJADOR:
                 this.trabajadorId = idRecurso;
-            case AGENTE_SECTORIAL:
+            case AGENTE:
                 this.agenteSectorialId = idRecurso;
         }
     }
@@ -67,7 +67,7 @@ public class Usuario {
                 return this.getOrganizacionId();
             case TRABAJADOR:
                 return this.getTrabajadorId();
-            case AGENTE_SECTORIAL:
+            case AGENTE:
                 return this.getAgenteSectorialId();
         }
         return null;
