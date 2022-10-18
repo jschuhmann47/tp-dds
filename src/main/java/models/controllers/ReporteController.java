@@ -1,16 +1,20 @@
 package models.controllers;
 
 import models.entities.CargaDeActividades.entidades.Periodo;
+import models.entities.calculoHC.CalculoHC;
 import models.entities.geoDDS.entidades.Municipio;
 import models.entities.geoDDS.entidades.Provincia;
 import models.entities.organizaciones.entidades.Organizacion;
+import models.entities.parametros.ParametroFE;
 import models.entities.reportes.GeneradorReporte;
 import models.entities.reportes.Reporte;
 import models.repositories.RepositorioDeMunicipios;
 import models.repositories.RepositorioDeOrganizaciones;
+import models.repositories.RepositorioDeParametrosFE;
 import models.repositories.RepositorioDeProvincias;
 import models.repositories.factories.FactoryRepositorioDeMunicipios;
 import models.repositories.factories.FactoryRepositorioDeOrganizaciones;
+import models.repositories.factories.FactoryRepositorioDeParametrosFE;
 import models.repositories.factories.FactoryRepositorioDeProvincias;
 import spark.ModelAndView;
 import spark.Request;
@@ -23,11 +27,13 @@ public class ReporteController {
     private RepositorioDeOrganizaciones repoOrg;
     private RepositorioDeMunicipios repoMunicipio;
     private RepositorioDeProvincias repoProvincia;
+    private RepositorioDeParametrosFE repoFE;
 
     public ReporteController(){
         this.repoOrg = FactoryRepositorioDeOrganizaciones.get();
         this.repoMunicipio = FactoryRepositorioDeMunicipios.get();
         this.repoProvincia = FactoryRepositorioDeProvincias.get();
+        this.repoFE = FactoryRepositorioDeParametrosFE.get();
     }
 
     public ModelAndView mostrarMenu(Request request, Response response){
@@ -36,6 +42,7 @@ public class ReporteController {
     }
 
     public ModelAndView composicionHCPais(Request request, Response response){
+        this.setearParametrosFE();
         HashMap<String, Object> parametros = new HashMap<>();
 
         List<Reporte> reportes = GeneradorReporte.ComposicionHCTotalPorProvincias(
@@ -47,6 +54,7 @@ public class ReporteController {
     }
 
     public ModelAndView composicionHCOrganizacion(Request request, Response response){
+        this.setearParametrosFE();
         HashMap<String, Object> parametros = new HashMap<>();
         Organizacion organizacion = this.repoOrg.buscarPorRazonSocial(request.queryParams("razonSocial"));
         if(organizacion!=null){
@@ -61,6 +69,7 @@ public class ReporteController {
     }
 
     public ModelAndView composicionHCMunicipio(Request request, Response response){ //Sector territorial
+        this.setearParametrosFE();
         HashMap<String, Object> parametros = new HashMap<>();
         Municipio municipio = this.buscarMunicipio(request.queryParams("municipio"),request.queryParams("provincia"));
         if(municipio != null){
@@ -74,7 +83,8 @@ public class ReporteController {
     }
 
 
-    public ModelAndView evolucionHCMunicipio(Request request, Response response){ //
+    public ModelAndView evolucionHCMunicipio(Request request, Response response){
+        this.setearParametrosFE();
         HashMap<String, Object> parametros = new HashMap<>();
         Municipio municipio = this.buscarMunicipio(request.queryParams("municipio"),request.queryParams("provincia"));
         Periodo periodo = new Periodo(new Integer(request.queryParams("mes")),new Integer(request.queryParams("anio")));
@@ -85,6 +95,7 @@ public class ReporteController {
     }
 
     public ModelAndView HCPorClasificacionOrganizacion(Request request, Response response){
+        this.setearParametrosFE();
         HashMap<String, Object> parametros = new HashMap<>();
 
         String clasificacion = request.queryParams("clasificacion");
@@ -94,6 +105,7 @@ public class ReporteController {
     }
 
     public ModelAndView evolucionHCOrganizacion(Request request, Response response){
+        this.setearParametrosFE();
         HashMap<String, Object> parametros = new HashMap<>();
         Organizacion organizacion = this.repoOrg.buscarPorRazonSocial(request.queryParams("razonSocial"));
         if(organizacion != null){
@@ -104,6 +116,7 @@ public class ReporteController {
     }
 
     public ModelAndView HCPorMunicipio(Request request, Response response){
+        this.setearParametrosFE();
         HashMap<String, Object> parametros = new HashMap<>();
         Municipio municipio = this.buscarMunicipio(request.queryParams("municipio"),request.queryParams("provincia"));
         if(municipio != null){
@@ -138,5 +151,9 @@ public class ReporteController {
 
     public ModelAndView mostrarHCPorClasificacionOrganizacion(Request request, Response response) {
         return new ModelAndView(null,"hc-clasificacion-organizacion.hbs");
+    }
+
+    private void setearParametrosFE(){
+        CalculoHC.setFactoresEmisionFE(this.repoFE.buscarTodos());
     }
 }

@@ -16,7 +16,10 @@ import models.entities.trayectos.Tramo;
 import models.entities.trayectos.Trayecto;
 import models.helpers.ListHelper;
 import models.repositories.RepositorioDeOrganizaciones;
+import models.repositories.RepositorioDeParametrosFE;
 import models.repositories.RepositorioDeTrabajadores;
+import models.repositories.factories.FactoryRepositorioDeOrganizaciones;
+import models.repositories.factories.FactoryRepositorioDeParametrosFE;
 import models.repositories.factories.FactoryRepositorioDeTrabajadores;
 import spark.ModelAndView;
 import spark.Request;
@@ -32,9 +35,12 @@ import java.util.List;
 public class TrabajadorController {
     private RepositorioDeTrabajadores repoTrabajadores;
     private RepositorioDeOrganizaciones repoOrgs;
+    private RepositorioDeParametrosFE repoFE;
 
     public TrabajadorController() {
         this.repoTrabajadores = FactoryRepositorioDeTrabajadores.get();
+        this.repoOrgs = FactoryRepositorioDeOrganizaciones.get();
+        this.repoFE = FactoryRepositorioDeParametrosFE.get();
     }
 
 
@@ -56,10 +62,11 @@ public class TrabajadorController {
     }
 
     public ModelAndView mostrarCalculadora(Request request, Response response) {
-        return new ModelAndView(null,"calculadora.hbs");
+        return new ModelAndView(null,"calculadora-trabajador.hbs");
     }
 
     public ModelAndView calcularHC(Request request, Response response) {
+        this.setearCalculadoraHC();
         Periodo periodo = new Periodo(new Integer(request.queryParams("mes")),new Integer(request.queryParams("anio")));
         HashMap<String, Object> parametros = new HashMap<>();
         Trabajador trabajador = this.obtenerTrabajador(request, response);
@@ -69,7 +76,7 @@ public class TrabajadorController {
         } else{
             parametros.put("huellaCarbono",trabajador.calcularHCTotal());
         }
-        return new ModelAndView(parametros,"calculadora.hbs");
+        return new ModelAndView(parametros,"calculadora-trabajador.hbs");
     }
 
     public ModelAndView mostrarReportes(Request request, Response response) {
@@ -151,5 +158,9 @@ public class TrabajadorController {
 
         Gson gson = new Gson();
         return gson.fromJson(body, tipoTramo);
+    }
+
+    private void setearCalculadoraHC(){
+        CalculoHC.setFactoresEmisionFE(this.repoFE.buscarTodos());
     }
 }

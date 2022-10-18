@@ -149,7 +149,35 @@ public class Router {
                 });
 
                 Spark.path("/reportes", () -> {
-                    Spark.get("",trabajadorController::mostrarReportes, Router.engine);
+                    Spark.get("",reporteController::mostrarReportes, Router.engine);
+
+                    Spark.get("/composicionHCOrganizacion",reporteController::mostrarComposicionHCOrganizacion, Router.engine);
+                    Spark.post("/composicionHCOrganizacion",reporteController::composicionHCOrganizacion, Router.engine);
+
+                    Spark.get("/composicionHCTerritorio",reporteController::mostrarComposicionHCMunicipio, Router.engine);
+                    Spark.post("/composicionHCTerritorio",reporteController::composicionHCMunicipio, Router.engine);
+
+                    Spark.get("/composicionHCPais",reporteController::composicionHCPais, Router.engine);
+
+                    Spark.get("/composicionHCTerritorio",reporteController::mostrarComposicionHCMunicipio, Router.engine);
+                    Spark.post("/composicionHCTerritorio",reporteController::composicionHCMunicipio, Router.engine);
+
+                    Spark.get("/evolucionHCOrganizacion",reporteController::mostrarEvolucionHCOrganizacion, Router.engine);
+                    Spark.post("/evolucionHCOrganizacion",reporteController::evolucionHCOrganizacion, Router.engine);
+
+                    Spark.get("/evolucionHCTerritorio",reporteController::mostrarEvolucionHCMunicipio, Router.engine);
+                    Spark.post("/evolucionHCTerritorio",reporteController::evolucionHCMunicipio, Router.engine);
+
+                    Spark.get("/HCTipoOrganizacion",reporteController::mostrarHCPorClasificacionOrganizacion, Router.engine);
+                    Spark.post("/HCTipoOrganizacion",reporteController::HCPorClasificacionOrganizacion, Router.engine);
+
+                    Spark.get("/HCTotalTerritorio",reporteController::mostrarHCPorMunicipio, Router.engine);
+                    Spark.post("/HCTotalTerritorio",reporteController::HCPorMunicipio, Router.engine);
+
+                    Spark.get("/HCTotalTerritorio",reporteController::mostrarHCPorMunicipio, Router.engine);
+                    Spark.post("/HCTotalTerritorio",reporteController::HCPorMunicipio, Router.engine);
+
+
                 });
 
                 Spark.path("/vinculacion", () -> {
@@ -183,8 +211,35 @@ public class Router {
                 Spark.get("",agenteController::mostrar,Router.engine);
 
                 Spark.path("/reportes", () -> {
-                    Spark.get("",agenteController::mostrarReportes,Router.engine);
-                    //TODO la parte de los reportes
+                    Spark.get("",reporteController::mostrarReportes, Router.engine);
+
+                    Spark.get("/composicionHCOrganizacion",reporteController::mostrarComposicionHCOrganizacion, Router.engine);
+                    Spark.post("/composicionHCOrganizacion",reporteController::composicionHCOrganizacion, Router.engine);
+
+                    Spark.get("/composicionHCTerritorio",reporteController::mostrarComposicionHCMunicipio, Router.engine);
+                    Spark.post("/composicionHCTerritorio",reporteController::composicionHCMunicipio, Router.engine);
+
+                    Spark.get("/composicionHCPais",reporteController::composicionHCPais, Router.engine);
+
+                    Spark.get("/composicionHCTerritorio",reporteController::mostrarComposicionHCMunicipio, Router.engine);
+                    Spark.post("/composicionHCTerritorio",reporteController::composicionHCMunicipio, Router.engine);
+
+                    Spark.get("/evolucionHCOrganizacion",reporteController::mostrarEvolucionHCOrganizacion, Router.engine);
+                    Spark.post("/evolucionHCOrganizacion",reporteController::evolucionHCOrganizacion, Router.engine);
+
+                    Spark.get("/evolucionHCTerritorio",reporteController::mostrarEvolucionHCMunicipio, Router.engine);
+                    Spark.post("/evolucionHCTerritorio",reporteController::evolucionHCMunicipio, Router.engine);
+
+                    Spark.get("/HCTipoOrganizacion",reporteController::mostrarHCPorClasificacionOrganizacion, Router.engine);
+                    Spark.post("/HCTipoOrganizacion",reporteController::HCPorClasificacionOrganizacion, Router.engine);
+
+                    Spark.get("/HCTotalTerritorio",reporteController::mostrarHCPorMunicipio, Router.engine);
+                    Spark.post("/HCTotalTerritorio",reporteController::HCPorMunicipio, Router.engine);
+
+                    Spark.get("/HCTotalTerritorio",reporteController::mostrarHCPorMunicipio, Router.engine);
+                    Spark.post("/HCTotalTerritorio",reporteController::HCPorMunicipio, Router.engine);
+
+
                 });
 
                 Spark.get("/recomendaciones",agenteController::mostrarRecomendaciones,Router.engine);

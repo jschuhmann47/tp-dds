@@ -10,6 +10,8 @@ import models.entities.geoDDS.entidades.*;
 import models.entities.organizaciones.entidades.*;
 import models.entities.organizaciones.solicitudes.Solicitud;
 import models.entities.parametros.ParametroFE;
+import models.entities.reportes.GeneradorReporte;
+import models.entities.reportes.Reporte;
 import models.entities.seguridad.cuentas.Permiso;
 import models.entities.seguridad.cuentas.Rol;
 import models.entities.seguridad.cuentas.TipoRecurso;
@@ -41,6 +43,22 @@ public class PersistenciaTest {
     @Test
     @DisplayName("Se persisten datos del dominio")
     public void organizacionPersistir() throws Exception {
+
+        ParametroFE autoFE = new ParametroFE(TipoVehiculo.AUTO.toString(),40.0);
+        ParametroFE gas = new ParametroFE(TipoDeConsumo.GAS_NATURAL.toString(),0.6);
+        ParametroFE colectivoFE = new ParametroFE(TipoVehiculo.COLECTIVO.toString(),25.0);
+        ParametroFE nafta = new ParametroFE(TipoDeConsumo.NAFTA.toString(),1.2);
+
+        List<ParametroFE> parametrosFE = new ArrayList<>();
+        parametrosFE.add(autoFE);
+        parametrosFE.add(gas);
+        parametrosFE.add(colectivoFE);
+        parametrosFE.add(nafta);
+
+        CalculoHC.setFactoresEmisionFE(parametrosFE);
+        CalculoHC.setUnidadPorDefecto(UnidadHC.GRAMO_EQ);
+
+
         List<Sector> sectores = new ArrayList<>();
         Sector marketing = new Sector();
         marketing.setNombreSector("Marketing");
@@ -87,6 +105,7 @@ public class PersistenciaTest {
         AgenteSectorial agenteSectorial = new AgenteSectorial("Perez","Catalina",municipio,organizacionList);
 
         TransportePrivado auto = new TransportePrivado(TipoVehiculo.AUTO, TipoCombustible.NAFTA);
+
         Linea linea7 = new Linea("Linea 7", paradaTest1,paradaTest2);
         TransportePublico colectivoTest = new TransportePublico(linea7,TipoVehiculo.COLECTIVO,TipoCombustible.NAFTA);
 
@@ -108,8 +127,8 @@ public class PersistenciaTest {
         paradaTest1.setParadaSiguiente(paradaTest2);
         paradaTest2.setParadaSiguiente(null);
 
-
         auto.agregarTrabajadorATramoCompartido(juan);
+
 
         Trayecto trayectoTest = new Trayecto(direccion1,direccion3,listaTramos,frecuencia);
 
@@ -118,19 +137,14 @@ public class PersistenciaTest {
         juan.agregarTrayectos(trayectoTest);
 
 
-        ParametroFE autoFE = new ParametroFE(TipoVehiculo.AUTO.toString(),0.2);
-        ParametroFE gas = new ParametroFE(TipoDeConsumo.GAS_NATURAL.toString(),0.6);
-        List<ParametroFE> parametrosFE = new ArrayList<>();
-        parametrosFE.add(autoFE);
-        parametrosFE.add(gas);
-
-        CalculoHC.setFactoresEmisionFE(parametrosFE);
-        CalculoHC.setUnidadPorDefecto(UnidadHC.GRAMO_EQ);
 
         Actividad actividadTest = new Actividad(TipoActividad.COMBUSTION_FIJA, TipoDeConsumo.GAS_NATURAL, Unidad.M3,
                 new Periodo(7,2021), Periodicidad.MENSUAL,34.0);
+        Actividad actividadTest2 = new Actividad(TipoActividad.COMBUSTION_FIJA, TipoDeConsumo.GAS_NATURAL, Unidad.M3,
+                new Periodo(6,2021), Periodicidad.MENSUAL,18.0);
         CalculoHC.calcularHCDeActividad(actividadTest);
-        organizacion.setListaDeActividades(Arrays.asList(actividadTest));
+        CalculoHC.calcularHCDeActividad(actividadTest2);
+        organizacion.setListaDeActividades(Arrays.asList(actividadTest,actividadTest2));
 
 
         EntityManagerHelper.beginTransaction();
@@ -147,6 +161,8 @@ public class PersistenciaTest {
         EntityManagerHelper.getEntityManager().persist(sol);
         EntityManagerHelper.getEntityManager().persist(autoFE);
         EntityManagerHelper.getEntityManager().persist(gas);
+        EntityManagerHelper.getEntityManager().persist(colectivoFE);
+        EntityManagerHelper.getEntityManager().persist(nafta);
 
 //        EntityManagerHelper.getEntityManager().persist(actividadTest);
 //        EntityManagerHelper.getEntityManager().persist(linea7);

@@ -5,6 +5,8 @@ import models.entities.CargaDeActividades.entidades.Periodo;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 @Embeddable
 public class Frecuencia {
@@ -16,6 +18,7 @@ public class Frecuencia {
         this.vecesQueRealizaTrayectoPorMes = vecesQueRealizaTrayectoPorMes;
     }
 
+    @Enumerated(value = EnumType.STRING)
     @Column(name = "frecuencia_de_uso",nullable = false)
     Periodicidad frecuenciaDeUso;
 

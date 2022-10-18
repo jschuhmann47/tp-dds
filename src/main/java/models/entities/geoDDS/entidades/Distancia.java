@@ -1,10 +1,13 @@
 package models.entities.geoDDS.entidades;
 
 
+import lombok.Getter;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
+@Getter
 public class Distancia {
     @Column(name = "distancia_valor",nullable = false)
     public Double valor;

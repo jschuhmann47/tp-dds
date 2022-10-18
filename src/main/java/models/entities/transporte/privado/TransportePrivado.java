@@ -1,5 +1,6 @@
 package models.entities.transporte.privado;
 
+import lombok.Getter;
 import models.entities.calculoHC.CalculoHC;
 import models.entities.geoDDS.Direccion;
 import models.entities.geoDDS.ServicioCalcularDistancia;
@@ -18,6 +19,7 @@ import java.io.IOException;
 @DiscriminatorValue("transporte_privado")
 @Embeddable
 public class TransportePrivado extends MedioTransporte {
+    @Getter
     @OneToOne(mappedBy = "transportePrivado",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     TramoCompartido tramoCompartido;
 
@@ -39,7 +41,7 @@ public class TransportePrivado extends MedioTransporte {
 
 
     public String detalle() {
-        return "Tipo de vehiculo:" + tipo.toString() + " - " + "Tipo de combustible: " + tipoCombustible.toString();
+        return "Tipo de vehiculo:" + this.tipo.toString() + " - " + "Tipo de combustible: " + this.tipoCombustible.toString();
     }
 
 
@@ -50,7 +52,7 @@ public class TransportePrivado extends MedioTransporte {
 
 
     public Double calcularHC(Distancia distancia) {
-        return this.getConsumoPorKM() * distancia.valor / tramoCompartido.cantidadDeTrabajadores();
+        return this.getConsumoPorKM() * distancia.getValor() / tramoCompartido.cantidadDeTrabajadores();
     }
 
     public void agregarTrabajadorATramoCompartido(Trabajador trabajador) throws Exception {
