@@ -1,6 +1,8 @@
 package models.entities.seguridad;
 
 
+import lombok.Getter;
+import lombok.Setter;
 import models.entities.seguridad.chequeos.*;
 
 import java.io.*;
@@ -11,8 +13,9 @@ public class ValidadorContrasenia {
     private static final int caracteresMinimos=8;
     private static ArrayList<String> topPeoresContrasenias;
 
-
-    private static final List<Chequeo> listaDeChequeos = new ArrayList<>();
+    @Getter
+    @Setter
+    private static List<Chequeo> listaDeChequeos = new ArrayList<>();
 
     public static ArrayList<String> getTopPeoresContrasenias() {
         return topPeoresContrasenias;
@@ -21,10 +24,6 @@ public class ValidadorContrasenia {
     public static int getCaracteresMinimos() {
         return caracteresMinimos;
     }
-
-    //Agregar lo de que se puede activar y desactivar los chequeos
-    //preguntar que se desactiva y que no
-
 
 
     public static boolean esContraseniaValida(String contrasenia){
@@ -51,10 +50,10 @@ public class ValidadorContrasenia {
     }
 
     private void inicializarChequeos() {
-        Minuscula minuscula = Minuscula.getInstance();
-        Mayuscula mayuscula = Mayuscula.getInstance();
+        Minuscula minuscula = new Minuscula();
+        Mayuscula mayuscula = new Mayuscula();
         TopPeores topPeores = new TopPeores();
-        Numero numero = Numero.getInstance();
+        Numero numero = new Numero();
         Longitud longitud = new Longitud();
 
         listaDeChequeos.add(minuscula);

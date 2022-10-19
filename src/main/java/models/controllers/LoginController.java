@@ -1,5 +1,10 @@
 package models.controllers;
 
+import db.EntityManagerHelper;
+import models.entities.seguridad.ValidadorContrasenia;
+import models.entities.seguridad.cuentas.Permiso;
+import models.entities.seguridad.cuentas.Rol;
+import models.entities.seguridad.cuentas.TipoRecurso;
 import models.entities.seguridad.cuentas.Usuario;
 import models.helpers.HashingHelper;
 import models.repositories.RepositorioDeUsuarios;
@@ -60,11 +65,33 @@ public class LoginController {
     }
 
     public ModelAndView mostrarNuevoUsuario(Request request, Response response){
-        return null;
+        return new ModelAndView(null,"nuevo-usuario.hbs");
     }
 
     public Response crearNuevoUsuario(Request request, Response response){ //validar con el owasp
-        return null;
+        //chequear que no esta null nada
+        String contrasenia = request.queryParams("contrasenia");
+        TipoRecurso tipoRecurso = TipoRecurso.valueOf(request.queryParams("tipoRecurso"));
+        if(ValidadorContrasenia.esContraseniaValida(contrasenia)){
+            Integer idRecurso = 0;
+            switch (tipoRecurso){ //preguntar luego bien quien se puede registrar
+                case ORGANIZACION:
+                    break;
+                case TRABAJADOR:
+                    break;
+                case AGENTE:
+                    break;
+            }
+
+            Usuario nuevoUser = new Usuario(request.queryParams("nombreUsuario"),
+                    contrasenia,
+                    Rol.valueOf(request.queryParams("rol")),
+                    idRecurso,
+                    tipoRecurso,
+                    Permiso.VER_ORGANIZACION);
+            EntityManagerHelper.getEntityManager().persist(nuevoUser);
+        }
+        return response;
     }
 
 }
