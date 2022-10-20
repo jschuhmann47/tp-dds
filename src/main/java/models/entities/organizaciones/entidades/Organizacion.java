@@ -77,12 +77,11 @@ public class Organizacion {
         this.listaDeActividades = new ArrayList<>();
     }
 
-    public Organizacion(List<String> clasificacionOrg, List<Trabajador> miembros,
+    public Organizacion(List<String> clasificacionOrg,
                         String razonSocial, List<Sector> sectores, TipoOrganizacion tipoOrganizacion,
                         Direccion direccion){
 
         this.clasificacionOrg = clasificacionOrg;
-
         this.razonSocial = razonSocial;
         this.sectores = sectores;
         this.tipoOrganizacion= tipoOrganizacion;

@@ -89,7 +89,7 @@ public class PersistenciaTest {
         Parada paradaTest1 = new Parada(distancia1,distancia2,direccion2);
         Parada paradaTest2 = new Parada(distancia2,distancia1,direccion3);
 
-        Organizacion organizacion = new Organizacion(clasificaciones,trabajadoresA,
+        Organizacion organizacion = new Organizacion(clasificaciones,
                 "Valve Corporation S.A",sectores, TipoOrganizacion.EMPRESA,direccion1);
 
         marketing.setOrganizacion(organizacion);

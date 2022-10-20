@@ -157,11 +157,11 @@ public class GeneradorReporteTest {
 
         List<String> clasificaciones = new ArrayList<>();
         clasificaciones.add("Videojuegos");
-        organizacionA = new Organizacion(clasificaciones,trabajadoresA,
+        organizacionA = new Organizacion(clasificaciones,
                 "Valve Corporation S.A",sectoresA, TipoOrganizacion.EMPRESA,direccion1);
-        organizacionB = new Organizacion(clasificaciones,trabajadoresB,
+        organizacionB = new Organizacion(clasificaciones,
                 "Respawn Entretainment S.A",sectoresB, TipoOrganizacion.EMPRESA,direccion2);
-        organizacionC = new Organizacion(clasificaciones,trabajadoresA,
+        organizacionC = new Organizacion(clasificaciones,
                 "Renegade Corporation S.A",sectoresA, TipoOrganizacion.ONG,direccion4);
 
 

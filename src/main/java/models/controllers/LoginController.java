@@ -7,6 +7,7 @@ import models.entities.seguridad.cuentas.Rol;
 import models.entities.seguridad.cuentas.TipoRecurso;
 import models.entities.seguridad.cuentas.Usuario;
 import models.helpers.HashingHelper;
+import models.helpers.SessionHelper;
 import models.repositories.RepositorioDeUsuarios;
 import models.repositories.factories.FactoryRepositorioDeUsuarios;
 import spark.ModelAndView;
@@ -69,27 +70,28 @@ public class LoginController {
     }
 
     public Response crearNuevoUsuario(Request request, Response response){ //validar con el owasp
-        //chequear que no esta null nada
-        String contrasenia = request.queryParams("contrasenia");
-        TipoRecurso tipoRecurso = TipoRecurso.valueOf(request.queryParams("tipoRecurso"));
-        if(ValidadorContrasenia.esContraseniaValida(contrasenia)){
-            Integer idRecurso = 0;
-            switch (tipoRecurso){ //preguntar luego bien quien se puede registrar
-                case ORGANIZACION:
-                    break;
-                case TRABAJADOR:
-                    break;
-                case AGENTE:
-                    break;
-            }
+        if(SessionHelper.atributosNoSonNull(request,"contrasenia","tipoRecurso","nombreUsuario","rol")){
+            String contrasenia = request.queryParams("contrasenia");
+            TipoRecurso tipoRecurso = TipoRecurso.valueOf(request.queryParams("tipoRecurso"));
+            if(ValidadorContrasenia.esContraseniaValida(contrasenia)){
+                Integer idRecurso = 0; //trabajador, org, o municipio del agente
+                switch (tipoRecurso){ //todo preguntar luego bien quien se puede registrar
+                    case ORGANIZACION:
+                        break;
+                    case TRABAJADOR:
+                        break;
+                    case AGENTE:
+                        break;
+                }
 
-            Usuario nuevoUser = new Usuario(request.queryParams("nombreUsuario"),
-                    contrasenia,
-                    Rol.valueOf(request.queryParams("rol")),
-                    idRecurso,
-                    tipoRecurso,
-                    Permiso.VER_ORGANIZACION);
-            EntityManagerHelper.getEntityManager().persist(nuevoUser);
+                Usuario nuevoUser = new Usuario(request.queryParams("nombreUsuario"),
+                        contrasenia,
+                        Rol.valueOf(request.queryParams("rol")),
+                        idRecurso,
+                        tipoRecurso,
+                        Permiso.VER_ORGANIZACION);
+                EntityManagerHelper.getEntityManager().persist(nuevoUser);
+            }
         }
         return response;
     }

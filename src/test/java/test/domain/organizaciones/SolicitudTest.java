@@ -15,7 +15,7 @@ public class SolicitudTest {
     @Test
     @DisplayName("Se agrega una solicitud y se acepta")
     public void solicitudAceptada(){
-        Organizacion organizacion = new Organizacion(null,new ArrayList<>(),null,new ArrayList<>(),null,null);
+        Organizacion organizacion = new Organizacion(null, null,new ArrayList<>(),null,null);
         Sector s = new Sector(organizacion,"sistemas",new ArrayList<>());
         organizacion.agregarNuevoSector(s);
         Trabajador t = new Trabajador();
@@ -35,7 +35,7 @@ public class SolicitudTest {
     @Test
     @DisplayName("Se agrega una solicitud y se rechaza")
     public void solicitudRechazada(){
-        Organizacion organizacion = new Organizacion(null,new ArrayList<>(),null,new ArrayList<>(),null,null);
+        Organizacion organizacion = new Organizacion(null, null,new ArrayList<>(),null,null);
         Sector s = new Sector(organizacion,"sistemas",new ArrayList<>());
         organizacion.agregarNuevoSector(s);
         Trabajador t = new Trabajador();
