@@ -15,6 +15,7 @@ import models.entities.trayectos.Frecuencia;
 import models.entities.trayectos.Tramo;
 import models.entities.trayectos.Trayecto;
 import models.helpers.ListHelper;
+import models.helpers.PeriodoHelper;
 import models.repositories.*;
 import models.repositories.factories.*;
 import spark.ModelAndView;
@@ -73,7 +74,7 @@ public class TrabajadorController {
         if(request.queryParams("mes") == null || request.queryParams("anio") == null){
             throw new RuntimeException("No se ingreso mes o año");
         }
-        Periodo periodo = new Periodo(new Integer(request.queryParams("mes")),new Integer(request.queryParams("anio")));
+        Periodo periodo = PeriodoHelper.nuevoPeriodo(request.queryParams("mes"),request.queryParams("anio"));
         HashMap<String, Object> parametros = new HashMap<>();
         Trabajador trabajador = this.obtenerTrabajador(request, response);
         parametros.put("trabajador",trabajador);

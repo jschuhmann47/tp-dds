@@ -69,8 +69,6 @@ public class PersistenciaTest {
         marketing.agregarTrabajador(juan);
         juan.agregarSector(marketing);
 
-        List<Trabajador> trabajadoresA = new ArrayList<>();
-        trabajadoresA.add(juan);
 
         Pais pais = new Pais(1,"ARGENTINA");
         Provincia provincia = new Provincia(1,"BUENOS AIRES",pais);
@@ -131,8 +129,6 @@ public class PersistenciaTest {
 
         Trayecto trayectoTest = new Trayecto(direccion1,direccion3,listaTramos,frecuencia);
 
-        //trayectoTest.cargarTramos(tramoAuto,tramoColectivo);
-
         juan.agregarTrayectos(trayectoTest);
 
         trayectoTest.registrarViajesEnMesYAnio(7,2021,5);
@@ -166,6 +162,8 @@ public class PersistenciaTest {
         EntityManagerHelper.getEntityManager().persist(gas);
         EntityManagerHelper.getEntityManager().persist(colectivoFE);
         EntityManagerHelper.getEntityManager().persist(nafta);
+
+        EntityManagerHelper.getEntityManager().persist(trayectoTest);
 
 //        EntityManagerHelper.getEntityManager().persist(actividadTest);
 //        EntityManagerHelper.getEntityManager().persist(linea7);

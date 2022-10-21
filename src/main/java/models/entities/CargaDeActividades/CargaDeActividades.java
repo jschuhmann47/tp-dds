@@ -1,5 +1,7 @@
 package models.entities.CargaDeActividades;
 
+import lombok.Getter;
+import lombok.Setter;
 import models.entities.CargaDeActividades.adapters.CargaDeActividadesAdapter;
 import models.entities.CargaDeActividades.entidades.Actividad;
 import models.entities.calculoHC.CalculoHC;
@@ -9,7 +11,9 @@ import java.util.List;
 
 public class CargaDeActividades {
 
-    static CargaDeActividadesAdapter adapter;
+    @Setter
+    @Getter
+    private static CargaDeActividadesAdapter adapter;
 
     public static void cargarActividadesDeArchivo(List<Actividad> actividades, String path) throws IOException {
         actividades.addAll(adapter.leerArchivo(path));

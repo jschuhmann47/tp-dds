@@ -26,7 +26,7 @@ public class CargaDeActividadesApachePOIAdapter implements CargaDeActividadesAda
 
 
 
-    List<Actividad> formulariosDa = new ArrayList<>();
+    List<Actividad> listaActividades = new ArrayList<>();
 
     @Setter
     private String file;
@@ -46,11 +46,11 @@ public class CargaDeActividadesApachePOIAdapter implements CargaDeActividadesAda
             if(Objects.equals(linea.tipoDeConsumo, "CATEGORIA")){
                 rowNum+=3;
             }
-            formulariosDa.add(crearActividad(linea));
+            listaActividades.add(crearActividad(linea));
 
         }
 
-        return formulariosDa;
+        return listaActividades;
     }
 
     public Integer obtenerMes(String periodoImputacion){

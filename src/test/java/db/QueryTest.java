@@ -10,6 +10,8 @@ import models.entities.organizaciones.entidades.Trabajador;
 import models.entities.parametros.ParametroFE;
 import models.entities.seguridad.cuentas.Permiso;
 import models.entities.seguridad.cuentas.Usuario;
+import models.entities.transporte.MedioTransporte;
+import models.entities.transporte.privado.TipoVehiculo;
 import models.repositories.*;
 import models.repositories.factories.*;
 import org.junit.jupiter.api.Assertions;
@@ -28,6 +30,7 @@ public class QueryTest {
     RepositorioDeUsuarios repoUsuarios = FactoryRepositorioDeUsuarios.get();
     RepositorioDeProvincias repoProvincias = FactoryRepositorioDeProvincias.get();
     RepositorioDeLocalidades repoLocalidades = FactoryRepositorioDeLocalidades.get();
+    RepositorioDeMediosDeTransporte repoTransportes = FactoryRepositorioDeMediosDeTransporte.get();
 
     @Test
     @DisplayName("Se encuentra una organizacion dado la clasificacion")
@@ -132,5 +135,14 @@ public class QueryTest {
         Municipio municipio = this.repoMun.buscar(1);
         List<Localidad> localidades = this.repoLocalidades.buscarLocalidadesDeMunicipio(municipio);
         Assertions.assertEquals("ALMAGRO",localidades.get(0).getNombre());
+    }
+
+    @Test
+    @DisplayName("Se encuentran los medios de transporte")
+    public void medios(){
+        List<MedioTransporte> medios = this.repoTransportes.buscarTodos();
+        Assertions.assertEquals(TipoVehiculo.AUTO,medios.get(0).getTipo());
+        Assertions.assertEquals(TipoVehiculo.COLECTIVO,medios.get(1).getTipo());
+
     }
 }

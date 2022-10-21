@@ -10,6 +10,7 @@ import models.entities.organizaciones.entidades.Organizacion;
 import models.entities.parametros.ParametroFE;
 import models.entities.reportes.GeneradorReporte;
 import models.entities.reportes.Reporte;
+import models.helpers.PeriodoHelper;
 import models.helpers.SessionHelper;
 import models.repositories.*;
 import models.repositories.factories.*;
@@ -40,19 +41,19 @@ public class ReporteController {
         return new ModelAndView(parametros,"reportes-menu.hbs");
     }
 
-    public ModelAndView composicionHCPais(Request request, Response response){
+    public ModelAndView composicionHCPais(Request request, Response response){ //OK
         this.setearParametrosFE();
         HashMap<String, Object> parametros = new HashMap<>();
 
         List<Reporte> reportes = GeneradorReporte.ComposicionHCTotalPorProvincias(
                 this.repoOrg.buscarTodos(),
-                this.repoProvincia.buscarTodos()  //se asume que son todas de arg, se puede hacer mas extensible pero no es prioridad ahora
+                this.repoProvincia.buscarTodos()
         );
         parametros.put("reportes", reportes);
         return new ModelAndView(parametros,"composicion-hc-pais.hbs");
     }
 
-    public ModelAndView composicionHCOrganizacion(Request request, Response response){
+    public ModelAndView composicionHCOrganizacion(Request request, Response response){ //OK
         this.setearParametrosFE();
         HashMap<String, Object> parametros = new HashMap<>();
         Organizacion organizacion = this.repoOrg.buscar(new Integer(request.queryParams("organizacionId")));
@@ -62,13 +63,13 @@ public class ReporteController {
         return new ModelAndView(parametros,"composicion-hc-organizacion.hbs");
     }
 
-    public ModelAndView mostrarComposicionHCOrganizacion(Request request, Response response){
+    public ModelAndView mostrarComposicionHCOrganizacion(Request request, Response response){ //OK
         HashMap<String, Object> parametros = new HashMap<>();
         parametros.put("organizaciones",this.repoOrg.buscarTodos());
         return new ModelAndView(parametros,"composicion-hc-organizacion.hbs");
     }
 
-    public ModelAndView composicionHCMunicipio(Request request, Response response){ //Sector territorial
+    public ModelAndView composicionHCMunicipio(Request request, Response response){ //Sector territorial //OK
         this.setearParametrosFE();
         HashMap<String, Object> parametros = new HashMap<>();
         Municipio municipio = this.repoMunicipio.buscar(new Integer(request.queryParams("municipioId")));
@@ -78,25 +79,37 @@ public class ReporteController {
         return new ModelAndView(parametros,"composicion-hc-territorio.hbs");
     }
 
-    public ModelAndView mostrarComposicionHCMunicipio(Request request, Response response){ //Sector territorial
+    public ModelAndView mostrarComposicionHCMunicipio(Request request, Response response){ //hace get y post to_do aca //OK
         HashMap<String, Object> parametros = new HashMap<>();
-        parametros.put("provincias",this.repoProvincia.buscarTodos());
-        if(SessionHelper.atributosNoSonNull(request,"provinciaId")){
-            Provincia provincia = this.repoProvincia.buscar(new Integer(request.queryParams("provinciaId")));
-            parametros.put("municipios",this.repoMunicipio.buscarMunicipiosDeProvincia(provincia));
-            if(SessionHelper.atributosNoSonNull(request,"municipioId")){
-                return this.composicionHCMunicipio(request,response); //post cada vez a esto? queda desordenado el back
-            }
+        this.setearDesplegablesDeLocalidades(request,response,parametros);
+        if(SessionHelper.atributosNoSonNull(request,"municipioId")){
+            return this.composicionHCMunicipio(request,response);
         }
         return new ModelAndView(parametros,"composicion-hc-territorio.hbs");
     }
 
+    private void setearDesplegablesDeLocalidades(Request request, Response response, HashMap<String,Object> parametros){ //OK
+        parametros.put("provincias",this.repoProvincia.buscarTodos());
+        if(SessionHelper.atributosNoSonNull(request,"provinciaId")){
+            Provincia provincia = this.repoProvincia.buscar(new Integer(request.queryParams("provinciaId")));
+            parametros.put("municipios",this.repoMunicipio.buscarMunicipiosDeProvincia(provincia));
+        }
+    }
 
-    public ModelAndView evolucionHCMunicipio(Request request, Response response){
+    public ModelAndView mostrarEvolucionHCMunicipio(Request request, Response response) { //OK
+        HashMap<String, Object> parametros = new HashMap<>();
+        this.setearDesplegablesDeLocalidades(request,response,parametros);
+        if(SessionHelper.atributosNoSonNull(request,"municipioId","mes","anio")){
+            return this.evolucionHCMunicipio(request,response);
+        }
+        return new ModelAndView(parametros,"evolucion-hc-territorio.hbs");
+    }
+
+    public ModelAndView evolucionHCMunicipio(Request request, Response response){ //OK
         this.setearParametrosFE();
         HashMap<String, Object> parametros = new HashMap<>();
-        Municipio municipio = this.buscarMunicipio(request.queryParams("municipio"),request.queryParams("provincia"));
-        Periodo periodo = new Periodo(new Integer(request.queryParams("mes")),new Integer(request.queryParams("anio")));
+        Municipio municipio = this.repoMunicipio.buscar(new Integer(request.queryParams("municipioId")));
+        Periodo periodo = PeriodoHelper.nuevoPeriodo(request.queryParams("mes"),request.queryParams("anio"));
         if(municipio != null){
             parametros.put("reportes", GeneradorReporte.evolucionHCTotalSectorTerritorial(this.repoOrg.buscarTodosDeMunicipio(municipio),municipio,periodo));
         }
@@ -118,7 +131,7 @@ public class ReporteController {
         HashMap<String, Object> parametros = new HashMap<>();
         Organizacion organizacion = this.repoOrg.buscarPorRazonSocial(request.queryParams("razonSocial"));
         if(organizacion != null){
-            Periodo periodo = new Periodo(new Integer(request.queryParams("mes")),new Integer(request.queryParams("anio")));
+            Periodo periodo = PeriodoHelper.nuevoPeriodo(request.queryParams("mes"),request.queryParams("anio"));
             parametros.put("reportes",GeneradorReporte.evolucionHCTotalOrganizacion(organizacion,periodo));
         }
         return new ModelAndView(parametros,"evolucion-hc-organizacion.hbs");
@@ -154,9 +167,6 @@ public class ReporteController {
         return new ModelAndView(null,"evolucion-hc-organizacion.hbs");
     }
 
-    public ModelAndView mostrarEvolucionHCMunicipio(Request request, Response response) {
-        return new ModelAndView(null,"evolucion-hc-territorio.hbs");
-    }
 
     public ModelAndView mostrarHCPorClasificacionOrganizacion(Request request, Response response) {
         return new ModelAndView(null,"hc-clasificacion-organizacion.hbs");

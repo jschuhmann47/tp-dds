@@ -1,0 +1,31 @@
+package models.helpers.threads;
+
+import models.entities.CargaDeActividades.CargaDeActividades;
+import models.entities.CargaDeActividades.adapters.CargaDeActividadesAdapter;
+import models.entities.CargaDeActividades.adapters.CargaDeActividadesApachePOIAdapter;
+import models.entities.organizaciones.entidades.Organizacion;
+import models.repositories.RepositorioDeOrganizaciones;
+import models.repositories.factories.FactoryRepositorioDeOrganizaciones;
+
+import java.io.IOException;
+
+public class FileHandlerThread extends Thread{
+    private final String filePath;
+    private final Integer organizacionId;
+    RepositorioDeOrganizaciones repoOrg = FactoryRepositorioDeOrganizaciones.get();
+
+    public FileHandlerThread(String filePath, Integer organizacionId) {
+        this.filePath = filePath;
+        this.organizacionId = organizacionId;
+    }
+
+    @Override
+    public void run() {
+        Organizacion org = this.repoOrg.buscar(organizacionId);
+        try {
+            CargaDeActividades.cargarActividadesDeArchivo(org.getListaDeActividades(),this.filePath);
+        } catch (IOException e) {
+            throw new RuntimeException("Error al cargar actividades de la organizacion: " + org.getRazonSocial());
+        }
+    }
+}

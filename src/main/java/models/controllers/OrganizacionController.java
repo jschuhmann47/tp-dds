@@ -1,21 +1,24 @@
 package models.controllers;
 
 import db.EntityManagerHelper;
-import models.entities.CargaDeActividades.entidades.*;
+import models.entities.CargaDeActividades.entidades.Periodo;
 import models.entities.calculoHC.CalculoHC;
 import models.entities.calculoHC.UnidadHC;
 import models.entities.organizaciones.entidades.Organizacion;
 import models.entities.organizaciones.entidades.Sector;
 import models.entities.organizaciones.solicitudes.Solicitud;
+import models.helpers.PeriodoHelper;
+import models.helpers.threads.FileHandlerThread;
 import models.repositories.RepositorioDeOrganizaciones;
 import models.repositories.RepositorioDeParametrosFE;
+import models.repositories.RepositorioDeSolicitudes;
 import models.repositories.factories.FactoryRepositorioDeOrganizaciones;
 import models.repositories.factories.FactoryRepositorioDeParametrosFE;
+import models.repositories.factories.FactoryRepositorioDeSolicitudes;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 import spark.Spark;
-
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
@@ -23,10 +26,12 @@ public class OrganizacionController {
     //TODO provincias, municipios, orgs, sectores, medios t que llege una lista, que no escriba a mano
     private RepositorioDeOrganizaciones repoOrganizaciones;
     private RepositorioDeParametrosFE repoFE;
+    private RepositorioDeSolicitudes repoSolicitudes;
 
     public OrganizacionController() {
         this.repoOrganizaciones = FactoryRepositorioDeOrganizaciones.get();
         this.repoFE = FactoryRepositorioDeParametrosFE.get();
+        this.repoSolicitudes = FactoryRepositorioDeSolicitudes.get();
     }
 
 
@@ -78,7 +83,7 @@ public class OrganizacionController {
 //        if(request.queryParams("mes") == null || request.queryParams("anio") == null){ //todo hacer un boton para calcular total
 //            throw new RuntimeException("No se ingreso mes o año");
 //        }
-        Periodo periodo = new Periodo(new Integer(request.queryParams("mes")),new Integer(request.queryParams("anio")));
+        Periodo periodo = PeriodoHelper.nuevoPeriodo(request.queryParams("mes"),request.queryParams("anio"));
         HashMap<String, Object> parametros = new HashMap<>();
 
         Organizacion org = this.obtenerOrganizacion(request, response);
@@ -117,26 +122,13 @@ public class OrganizacionController {
     }
 
     public Response registrarNuevaMedicion(Request request, Response response) {
-//        if(!(request.queryParams("tipoDeActividad") == null || request.queryParams("tipoDeConsumo") == null ||
-//                request.queryParams("unidad") == null || request.queryParams("mes") == null ||
-//                request.queryParams("anio") == null || request.queryParams("periodicidad") == null || request.queryParams("valor") == null))
-//        {
-        //VIENE DEL EXCEL
-        Actividad actividad = new Actividad(
-                TipoActividad.valueOf(request.queryParams("tipoDeActividad")),
-                TipoDeConsumo.valueOf(request.queryParams("tipoDeConsumo")),
-                Unidad.valueOf(request.queryParams("unidad")),
-                new Periodo(new Integer(request.queryParams("mes")),new Integer(request.queryParams("anio"))),
-                Periodicidad.valueOf(request.queryParams("periodicidad")),
-                new Double(request.queryParams("valor"))
-        );
+
+        //VIENE DEL EXCEL, todo ajax/jquery
         Organizacion org = this.obtenerOrganizacion(request,response);
-        org.agregarActividad(actividad);
+        FileHandlerThread thread = new FileHandlerThread("ruta/pendiente",org.getId());
+        thread.start();
 
-        EntityManagerHelper.getEntityManager().persist(actividad);
-
-
-        response.redirect("/menu/organizacion/mediciones");
+        response.redirect("/organizacion/mediciones");
         return response;
     }
 
@@ -148,18 +140,25 @@ public class OrganizacionController {
     public Response aceptarVinculacion(Request request, Response response){
         Solicitud solicitud = this.obtenerSolicitud(request,response);
         solicitud.aceptarSolicitud();
+        EntityManagerHelper.beginTransaction();
+        EntityManagerHelper.getEntityManager().persist(solicitud);
+        EntityManagerHelper.commit();
         return response;
     }
     public Response rechazarVinculacion(Request request, Response response){
         Solicitud solicitud = this.obtenerSolicitud(request,response);
         solicitud.rechazarSolicitud();
+        EntityManagerHelper.beginTransaction();
+        EntityManagerHelper.getEntityManager().persist(solicitud);
+        EntityManagerHelper.commit();
         return response;
     }
 
     private Solicitud obtenerSolicitud(Request request, Response response){
-        Organizacion organizacion = this.obtenerOrganizacion(request,response);
-        Sector sector = organizacion.obtenerSectorPorNombre(request.queryParams("nombreSector")); //TODO que le pase la sol Id de una -> repoSolicitudes
-        return sector.getSolicitudes().stream().filter(sol -> sol.getId() == new Integer(request.queryParams("solicitudId"))).collect(Collectors.toList()).get(0);
+//        Organizacion organizacion = this.obtenerOrganizacion(request,response);
+//        Sector sector = organizacion.obtenerSectorPorNombre(request.queryParams("nombreSector")); //TODO que le pase la sol Id de una -> repoSolicitudes
+//        return sector.getSolicitudes().stream().filter(sol -> sol.getId() == new Integer(request.queryParams("solicitudId"))).collect(Collectors.toList()).get(0);
+        return this.repoSolicitudes.buscar(new Integer(request.queryParams("solicitudId")));
     }
 
 }
