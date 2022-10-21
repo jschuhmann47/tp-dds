@@ -22,7 +22,7 @@ public class Usuario {
     private String contrasenia;
     @Enumerated(value = EnumType.STRING)
     @Column(name = "rol")
-    private Rol rol; //todo que el administrador setee los valores de los .config
+    private Rol rol;
 
     @ElementCollection
     @CollectionTable(name = "permisos",joinColumns = @JoinColumn(name = "usuario_id",referencedColumnName = "id"))

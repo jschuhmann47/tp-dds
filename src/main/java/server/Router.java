@@ -56,7 +56,7 @@ public class Router {
 
 
         Spark.path("",() -> {
-
+            Spark.before("/", AuthMiddleware::verificarSesion);
             Spark.get("",menuController::inicio,Router.engine);
             Spark.path("/organizacion", () -> {
                 Spark.before("", AuthMiddleware::verificarSesion);

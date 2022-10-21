@@ -118,7 +118,7 @@ public class OrganizacionController {
     }
 
     public ModelAndView mostrarNuevaMedicion(Request request, Response response) {
-        return new ModelAndView(new HashMap<String,Object>(),"mediciones-menu.hbs");
+        return new ModelAndView(new HashMap<String,Object>(),"subir-archivo-menu.hbs");
     }
 
     public Response registrarNuevaMedicion(Request request, Response response) {

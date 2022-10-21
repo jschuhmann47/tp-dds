@@ -18,7 +18,7 @@ public class Tramo {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "medio_transporte_id",referencedColumnName = "id")
     public MedioTransporte medioTransporte;
-    @Enumerated(value = EnumType.STRING)
+
 
     @Getter
     @Embedded

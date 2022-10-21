@@ -18,7 +18,8 @@ import java.io.IOException;
 @Embeddable
 public class TransportePrivado extends MedioTransporte {
     @Getter
-    @OneToOne(mappedBy = "transportePrivado",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinColumn(name = "tramo_compartido_id",referencedColumnName = "id")
     TramoCompartido tramoCompartido;
 
     public TransportePrivado() {

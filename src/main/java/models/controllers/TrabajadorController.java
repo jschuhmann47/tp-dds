@@ -58,7 +58,7 @@ public class TrabajadorController {
     }
 
     private Trabajador obtenerTrabajador(Request request, Response response){
-        Trabajador trabajador = this.repoTrabajadores.buscar(new Integer(request.session().attribute("resource_id"))); //todo validar
+        Trabajador trabajador = this.repoTrabajadores.buscar(new Integer(request.session().attribute("resource_id").toString())); //todo validar
         if(trabajador == null){ //try catch
             response.redirect("/error");
             Spark.halt();
@@ -86,6 +86,7 @@ public class TrabajadorController {
         } else{
             parametros.put("huellaCarbono",trabajador.calcularHCTotal());
         }
+        parametros.put("factorEmision",CalculoHC.getUnidadPorDefecto());
         return new ModelAndView(parametros,"calculadora-trabajador.hbs");
     }
 
@@ -104,7 +105,7 @@ public class TrabajadorController {
         if(SessionHelper.atributosNoSonNull(request,"organizacionId")){
             parametros.put("sectores",this.repoOrgs.buscar(new Integer(request.queryParams("organizacionId"))).getSectores());
         }
-        return new ModelAndView(null,"nueva-vinculacion.hbs");
+        return new ModelAndView(parametros,"nueva-vinculacion.hbs");
     }
 
     public Response eliminarVinculacion(Request request, Response response){
@@ -159,20 +160,23 @@ public class TrabajadorController {
     }
 
     public Response registrarNuevoTrayecto(Request request, Response response) {
-        List<Tramo> tramos = this.decodearTramos(request.queryParams("tramos")); //testear
+        if(SessionHelper.atributosNoSonNull(request,"tramos","periodicidad","vecesPorMes")){
+            List<Tramo> tramos = this.decodearTramos(request.queryParams("tramos")); //testear
 
-        Frecuencia frecuencia = new Frecuencia(Periodicidad.valueOf(request.queryParams("periodicidad")),new Integer("vecesPorMes"));
-        Trayecto trayecto = new Trayecto
-                        (ListHelper.getFirstElement(tramos).getPuntoInicio(),
-                        ListHelper.getLastElement(tramos).getPuntoFinal(),
-                        tramos,
-                        frecuencia);
+            Frecuencia frecuencia = new Frecuencia(Periodicidad.valueOf(request.queryParams("periodicidad")),new Integer("vecesPorMes"));
+            Trayecto trayecto = new Trayecto
+                    (ListHelper.getFirstElement(tramos).getPuntoInicio(),
+                            ListHelper.getLastElement(tramos).getPuntoFinal(),
+                            tramos,
+                            frecuencia);
 
-        Trabajador trabajador = this.obtenerTrabajador(request,response);
-        trabajador.agregarTrayectos(trayecto);
-        EntityManagerHelper.beginTransaction();
-        EntityManagerHelper.getEntityManager().persist(trayecto);
-        EntityManagerHelper.commit();
+            Trabajador trabajador = this.obtenerTrabajador(request,response);
+            trabajador.agregarTrayectos(trayecto);
+            EntityManagerHelper.beginTransaction();
+            EntityManagerHelper.getEntityManager().persist(trayecto);
+            EntityManagerHelper.commit();
+        }
+
         return response;
     }
 

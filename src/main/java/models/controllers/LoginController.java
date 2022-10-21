@@ -41,8 +41,11 @@ public class LoginController {
                 request.session().attribute("resource_id",usuario.obtenerIdRecurso());
                 request.session().attribute("permissions",usuario.getPermisos());
 
-
-                response.redirect("/" + usuario.getTipoRecurso().toString().toLowerCase());
+                if(!usuario.tieneRol(Rol.ADMINISTRADOR)){
+                    response.redirect("/" + usuario.getTipoRecurso().toString().toLowerCase());
+                } else{
+                    response.redirect("/administrador");
+                }
             }
             else{
                 response.redirect("/login");

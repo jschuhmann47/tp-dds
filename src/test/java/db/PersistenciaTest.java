@@ -165,6 +165,7 @@ public class PersistenciaTest {
 
         EntityManagerHelper.getEntityManager().persist(trayectoTest);
 
+
 //        EntityManagerHelper.getEntityManager().persist(actividadTest);
 //        EntityManagerHelper.getEntityManager().persist(linea7);
 //        EntityManagerHelper.getEntityManager().persist(tramoAuto);
@@ -204,7 +205,7 @@ public class PersistenciaTest {
                         .createQuery("FROM AgenteSectorial WHERE municipio_id=1")
                         .getSingleResult();
 
-        Usuario user = new Usuario("juancito","123456789",Rol.BASICO,org.getId(),
+        Usuario user = new Usuario("juancito","11",Rol.BASICO,org.getId(),
                 TipoRecurso.ORGANIZACION,Permiso.VER_ORGANIZACION);
         Usuario user2 = new Usuario("tomas","123",Rol.BASICO,juan.getId(),
                 TipoRecurso.TRABAJADOR,Permiso.VER_TRABAJADOR);
