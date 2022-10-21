@@ -28,6 +28,7 @@ public class AdministradorController {
     RepositorioDeMunicipios repoMunicipios = FactoryRepositorioDeMunicipios.get();
     RepositorioDeLocalidades repoLocalidades = FactoryRepositorioDeLocalidades.get();
     RepositorioDeOrganizaciones repoOrgs = FactoryRepositorioDeOrganizaciones.get();
+    RepositorioDeMediosDeTransporte repoTransportes = FactoryRepositorioDeMediosDeTransporte.get();
 
     public ModelAndView mostrar(Request request, Response response) {
         HashMap<String,Object> parametros = new HashMap<>();
@@ -42,17 +43,9 @@ public class AdministradorController {
     }
 
     public Response editarFE(Request request,Response response){
-        ParametroFE parametroFE = this.repoFE.buscar(new Integer(request.queryParams("id"))); //TODO algo asi
+        ParametroFE parametroFE = this.repoFE.buscar(new Integer(request.queryParams("idParametro"))); //TODO algo asi
         parametroFE.setValor(new Double(request.queryParams("nuevoValor")));
         return response;
-    }
-
-    private void editarParametroFE(String nombreAtributo, Request request){
-        if(request.queryParams(nombreAtributo) != null){
-            this.repoFE
-                    .buscarNombre(StringHelper.capitalize(nombreAtributo))
-                    .setValor(new Double(request.queryParams(nombreAtributo)));
-        }
     }
 
     public ModelAndView mostrarNuevaOrganizacion(Request request, Response response){
@@ -123,8 +116,12 @@ public class AdministradorController {
     public Response crearNuevaParada(Request request, Response response){
         Distancia distAnteriorParada = new Distancia(new Double(request.queryParams("distanciaAnterior")),"KM");
         Distancia distSiguienteParada = new Distancia(new Double(request.queryParams("distanciaSiguiente")),"KM");
+        Direccion direccion = new Direccion
+                (new Integer (request.queryParams("altura")),
+                        request.queryParams("calle"),
+                        this.repoLocalidades.buscar(new Integer(request.queryParams("localidadId"))));
 
-        Parada parada = new Parada(distAnteriorParada,distSiguienteParada,null); //TODO
+        Parada parada = new Parada(distAnteriorParada,distSiguienteParada,direccion); //TODO
 
         return response;
     }

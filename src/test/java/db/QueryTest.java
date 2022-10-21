@@ -1,5 +1,6 @@
 package db;
 
+import models.entities.geoDDS.entidades.Localidad;
 import models.entities.geoDDS.entidades.Municipio;
 import models.entities.geoDDS.entidades.Pais;
 import models.entities.geoDDS.entidades.Provincia;
@@ -25,6 +26,8 @@ public class QueryTest {
     RepositorioDeAgentesSectoriales repoAgentes = FactoryRepositorioDeAgentesSectoriales.get();
     RepositorioDeParametrosFE repoParametrosFE = FactoryRepositorioDeParametrosFE.get();
     RepositorioDeUsuarios repoUsuarios = FactoryRepositorioDeUsuarios.get();
+    RepositorioDeProvincias repoProvincias = FactoryRepositorioDeProvincias.get();
+    RepositorioDeLocalidades repoLocalidades = FactoryRepositorioDeLocalidades.get();
 
     @Test
     @DisplayName("Se encuentra una organizacion dado la clasificacion")
@@ -113,5 +116,21 @@ public class QueryTest {
         Assertions.assertEquals("juancito",usuario.getNombreDeUsuario());
         Assertions.assertEquals("15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225",usuario.getContrasenia());
         Assertions.assertTrue(usuario.tienePermiso(Permiso.VER_ORGANIZACION));
+    }
+
+    @Test
+    @DisplayName("Se encuentran municipios de provincia")
+    public void mun1(){
+        Provincia provincia = this.repoProvincias.buscar(1);
+        List<Municipio> municipios = this.repoMun.buscarMunicipiosDeProvincia(provincia);
+        Assertions.assertEquals("CABA",municipios.get(0).getNombre());
+    }
+
+    @Test
+    @DisplayName("Se encuentran localidades de municipio")
+    public void loc1(){
+        Municipio municipio = this.repoMun.buscar(1);
+        List<Localidad> localidades = this.repoLocalidades.buscarLocalidadesDeMunicipio(municipio);
+        Assertions.assertEquals("ALMAGRO",localidades.get(0).getNombre());
     }
 }

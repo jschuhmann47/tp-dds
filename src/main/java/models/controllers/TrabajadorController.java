@@ -7,7 +7,6 @@ import models.entities.CargaDeActividades.entidades.Periodicidad;
 import models.entities.CargaDeActividades.entidades.Periodo;
 import models.entities.calculoHC.CalculoHC;
 import models.entities.calculoHC.UnidadHC;
-import models.entities.geoDDS.Direccion;
 import models.entities.organizaciones.entidades.Organizacion;
 import models.entities.organizaciones.entidades.Sector;
 import models.entities.organizaciones.entidades.Trabajador;
@@ -16,12 +15,8 @@ import models.entities.trayectos.Frecuencia;
 import models.entities.trayectos.Tramo;
 import models.entities.trayectos.Trayecto;
 import models.helpers.ListHelper;
-import models.repositories.RepositorioDeOrganizaciones;
-import models.repositories.RepositorioDeParametrosFE;
-import models.repositories.RepositorioDeTrabajadores;
-import models.repositories.factories.FactoryRepositorioDeOrganizaciones;
-import models.repositories.factories.FactoryRepositorioDeParametrosFE;
-import models.repositories.factories.FactoryRepositorioDeTrabajadores;
+import models.repositories.*;
+import models.repositories.factories.*;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -29,19 +24,26 @@ import spark.Spark;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 public class TrabajadorController {
+    private RepositorioDeProvincias repoProvincias;
+    private RepositorioDeMunicipios repoMunicipios;
     private RepositorioDeTrabajadores repoTrabajadores;
     private RepositorioDeOrganizaciones repoOrgs;
     private RepositorioDeParametrosFE repoFE;
+    private RepositorioDeLocalidades repoLocalidades;
+    private RepositorioDeSolicitudes repoSolicitudes;
 
     public TrabajadorController() {
         this.repoTrabajadores = FactoryRepositorioDeTrabajadores.get();
         this.repoOrgs = FactoryRepositorioDeOrganizaciones.get();
         this.repoFE = FactoryRepositorioDeParametrosFE.get();
+        this.repoLocalidades = FactoryRepositorioDeLocalidades.get();
+        this.repoMunicipios = FactoryRepositorioDeMunicipios.get();
+        this.repoProvincias = FactoryRepositorioDeProvincias.get();
+        this.repoSolicitudes = FactoryRepositorioDeSolicitudes.get();
     }
 
 
@@ -54,7 +56,7 @@ public class TrabajadorController {
     }
 
     private Trabajador obtenerTrabajador(Request request, Response response){
-        Trabajador trabajador = this.repoTrabajadores.buscar(new Integer(request.session().attribute("resource_id").toString())); //todo validar
+        Trabajador trabajador = this.repoTrabajadores.buscar(new Integer(request.session().attribute("resource_id"))); //todo validar
         if(trabajador == null){ //try catch
             response.redirect("/error");
             Spark.halt();
@@ -97,20 +99,20 @@ public class TrabajadorController {
         return new ModelAndView(parametros, "solicitudes-trabajador-menu.hbs");
     }
 
-    public ModelAndView mostrarTrayectos(Request request, Response response) { //TODO mostrar tramos y editar etc
-        HashMap<String,Object> parametros = new HashMap<>();
-        Trabajador trabajador = this.obtenerTrabajador(request,response);
-        parametros.put("trabajador",trabajador);
-        parametros.put("trayectos",trabajador.getListaTrayectos());
-
-        return new ModelAndView(parametros, "trayectos-menu.hbs");
+    public ModelAndView mostrarNuevaVinculacion(Request request, Response response) {
+        return new ModelAndView(null,"nueva-vinculacion.hbs");
     }
 
-    public ModelAndView mostrarRecomendaciones(Request request, Response response) {
-        return new ModelAndView(new HashMap<String,Object>(),"recomendaciones.hbs"); //dependen del tipo de cuenta?
+    public Response eliminarVinculacion(Request request, Response response){
+        Solicitud solicitud = this.repoSolicitudes.buscar(new Integer(request.queryParams("solicitudId"))); //con ajax
+        EntityManagerHelper.beginTransaction();
+        EntityManagerHelper.getEntityManager().remove(solicitud);
+        EntityManagerHelper.commit();
+        return response;
     }
 
-    public Response nuevaSolicitud(Request request, Response response){
+
+    public Response nuevaVinculacion(Request request, Response response){
         Trabajador trabajador = this.obtenerTrabajador(request,response);
         if(request.queryParams("nombreSector") == null || request.queryParams("razonSocial") == null){
             return response;
@@ -126,18 +128,30 @@ public class TrabajadorController {
             }
         }
 
-        response.redirect("/menu/trabajador/solicitudes");
+        response.redirect("/trabajador/solicitudes");
         return response;
 
     }
 
 
-    public ModelAndView mostrarNuevaVinculacion(Request request, Response response) {
-        return new ModelAndView(null,"nueva-vinculacion.hbs");
+    public ModelAndView mostrarTrayectos(Request request, Response response) { //TODO mostrar tramos y editar etc
+        HashMap<String,Object> parametros = new HashMap<>();
+        Trabajador trabajador = this.obtenerTrabajador(request,response);
+        parametros.put("trabajador",trabajador);
+        parametros.put("trayectos",trabajador.getListaTrayectos());
+
+        return new ModelAndView(parametros, "trayectos-menu.hbs");
     }
 
+    public ModelAndView mostrarRecomendaciones(Request request, Response response) {
+        return new ModelAndView(new HashMap<String,Object>(),"recomendaciones.hbs"); //dependen del tipo de cuenta?
+    }
+
+
     public ModelAndView mostrarNuevoTrayecto(Request request, Response response) {
-        return new ModelAndView(null,"agregar-trayecto.hbs");
+        HashMap<String,Object> parametros = new HashMap<>();
+        parametros.put("localidades",this.repoLocalidades.buscarTodos());
+        return new ModelAndView(parametros,"agregar-trayecto.hbs");
     }
 
     public Response registrarNuevoTrayecto(Request request, Response response) {
@@ -158,8 +172,16 @@ public class TrabajadorController {
         return response;
     }
 
+    public Response eliminarTrayecto(Request request, Response response){
+//        Trayecto trayecto = this.repoTrayectos.buscar(new Integer(request.queryParams("trayectoId"))); //con ajax
+    //        EntityManagerHelper.beginTransaction();
+    //        EntityManagerHelper.getEntityManager().remove(solicitud);
+    //        EntityManagerHelper.commit();
+        return response;
+    }
+
     private List<Tramo> decodearTramos(String body){
-        Type tipoTramo = new TypeToken<ArrayList<Tramo>>() {}.getType();
+        Type tipoTramo = new TypeToken<ArrayList<Tramo>>() {}.getType(); //sacar esto a otro lado
 
         Gson gson = new Gson();
         return gson.fromJson(body, tipoTramo);

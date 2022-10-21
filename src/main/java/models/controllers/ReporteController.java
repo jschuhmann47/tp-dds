@@ -3,20 +3,16 @@ package models.controllers;
 import models.entities.CargaDeActividades.entidades.Periodo;
 import models.entities.calculoHC.CalculoHC;
 import models.entities.calculoHC.UnidadHC;
+import models.entities.geoDDS.entidades.Localidad;
 import models.entities.geoDDS.entidades.Municipio;
 import models.entities.geoDDS.entidades.Provincia;
 import models.entities.organizaciones.entidades.Organizacion;
 import models.entities.parametros.ParametroFE;
 import models.entities.reportes.GeneradorReporte;
 import models.entities.reportes.Reporte;
-import models.repositories.RepositorioDeMunicipios;
-import models.repositories.RepositorioDeOrganizaciones;
-import models.repositories.RepositorioDeParametrosFE;
-import models.repositories.RepositorioDeProvincias;
-import models.repositories.factories.FactoryRepositorioDeMunicipios;
-import models.repositories.factories.FactoryRepositorioDeOrganizaciones;
-import models.repositories.factories.FactoryRepositorioDeParametrosFE;
-import models.repositories.factories.FactoryRepositorioDeProvincias;
+import models.helpers.SessionHelper;
+import models.repositories.*;
+import models.repositories.factories.*;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -29,12 +25,14 @@ public class ReporteController {
     private RepositorioDeMunicipios repoMunicipio;
     private RepositorioDeProvincias repoProvincia;
     private RepositorioDeParametrosFE repoFE;
+    private RepositorioDeLocalidades repoLocalidad;
 
     public ReporteController(){
         this.repoOrg = FactoryRepositorioDeOrganizaciones.get();
         this.repoMunicipio = FactoryRepositorioDeMunicipios.get();
         this.repoProvincia = FactoryRepositorioDeProvincias.get();
         this.repoFE = FactoryRepositorioDeParametrosFE.get();
+        this.repoLocalidad = FactoryRepositorioDeLocalidades.get();
     }
 
     public ModelAndView mostrarMenu(Request request, Response response){
@@ -57,7 +55,7 @@ public class ReporteController {
     public ModelAndView composicionHCOrganizacion(Request request, Response response){
         this.setearParametrosFE();
         HashMap<String, Object> parametros = new HashMap<>();
-        Organizacion organizacion = this.repoOrg.buscarPorRazonSocial(request.queryParams("razonSocial"));
+        Organizacion organizacion = this.repoOrg.buscar(new Integer(request.queryParams("organizacionId")));
         if(organizacion!=null){
             parametros.put("reportes",GeneradorReporte.ComposicionHCTotalDeUnaOrganizacion(organizacion));
         }
@@ -66,20 +64,30 @@ public class ReporteController {
 
     public ModelAndView mostrarComposicionHCOrganizacion(Request request, Response response){
         HashMap<String, Object> parametros = new HashMap<>();
+        parametros.put("organizaciones",this.repoOrg.buscarTodos());
         return new ModelAndView(parametros,"composicion-hc-organizacion.hbs");
     }
 
     public ModelAndView composicionHCMunicipio(Request request, Response response){ //Sector territorial
         this.setearParametrosFE();
         HashMap<String, Object> parametros = new HashMap<>();
-        Municipio municipio = this.buscarMunicipio(request.queryParams("municipio"),request.queryParams("provincia"));
+        Municipio municipio = this.repoMunicipio.buscar(new Integer(request.queryParams("municipioId")));
         if(municipio != null){
             parametros.put("reportes", GeneradorReporte.ComposicionHCTotalPorSectorTerritorial(this.repoOrg.buscarTodosDeMunicipio(municipio),municipio));
         }
         return new ModelAndView(parametros,"composicion-hc-territorio.hbs");
     }
+
     public ModelAndView mostrarComposicionHCMunicipio(Request request, Response response){ //Sector territorial
         HashMap<String, Object> parametros = new HashMap<>();
+        parametros.put("provincias",this.repoProvincia.buscarTodos());
+        if(SessionHelper.atributosNoSonNull(request,"provinciaId")){
+            Provincia provincia = this.repoProvincia.buscar(new Integer(request.queryParams("provinciaId")));
+            parametros.put("municipios",this.repoMunicipio.buscarMunicipiosDeProvincia(provincia));
+            if(SessionHelper.atributosNoSonNull(request,"municipioId")){
+                return this.composicionHCMunicipio(request,response); //post cada vez a esto? queda desordenado el back
+            }
+        }
         return new ModelAndView(parametros,"composicion-hc-territorio.hbs");
     }
 

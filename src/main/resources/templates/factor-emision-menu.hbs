@@ -51,8 +51,8 @@
               <tr>
                   <td>{{this.nombre}}</td>
                   <td>{{this.valor}}</td>
-                  <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="nuevoValor" value="{{this.id}}"></td>
-                  <td colspan="3"><button class="w-100 btn btn-lg btn-warning" type="submit">Editar</button></td>
+                  <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="nuevoValor"></td>
+                  <td colspan="3"><button class="w-100 btn btn-lg btn-warning" type="submit" name="idParametro" value="{{this.id}}">Editar</button></td>
               </tr>
           {{/each}}
           </div>
