@@ -3,13 +3,15 @@ package models.controllers;
 import db.EntityManagerHelper;
 import models.entities.geoDDS.Direccion;
 import models.entities.geoDDS.entidades.Distancia;
+import models.entities.geoDDS.entidades.Municipio;
+import models.entities.geoDDS.entidades.Provincia;
 import models.entities.organizaciones.entidades.Organizacion;
 import models.entities.organizaciones.entidades.Sector;
 import models.entities.organizaciones.entidades.TipoOrganizacion;
 import models.entities.parametros.ParametroFE;
+import models.entities.transporte.privado.TipoVehiculo;
 import models.entities.transporte.publico.Parada;
 import models.helpers.SessionHelper;
-import models.helpers.StringHelper;
 import models.repositories.*;
 import models.repositories.factories.*;
 import spark.ModelAndView;
@@ -43,14 +45,23 @@ public class AdministradorController {
     }
 
     public Response editarFE(Request request,Response response){
-        ParametroFE parametroFE = this.repoFE.buscar(new Integer(request.queryParams("idParametro"))); //TODO algo asi
-        parametroFE.setValor(new Double(request.queryParams("nuevoValor")));
+        if(SessionHelper.atributosNoSonNull(request,"nuevoValor","idParametro")){
+            ParametroFE parametroFE = this.repoFE.buscar(new Integer(request.queryParams("idParametro")));
+            parametroFE.setValor(new Double(request.queryParams("nuevoValor")));
+
+            EntityManagerHelper.beginTransaction();
+            EntityManagerHelper.getEntityManager().persist(parametroFE);
+            EntityManagerHelper.commit();
+        }
         return response;
     }
 
     public ModelAndView mostrarNuevaOrganizacion(Request request, Response response){
         HashMap<String,Object> parametros = new HashMap<>();
-        parametros.put("provincias",this.repoProvincias.buscarTodos()); //TODO ver de traer municipios y localidad de esa provincia solo
+        this.setearDesplegablesDeLocalidades(request,response,parametros);
+        if(SessionHelper.atributosNoSonNull(request,"localidadId")){
+            this.crearNuevaOrganizacion(request,response);
+        }
 
         return new ModelAndView(parametros,"nueva-organizacion.hbs");
     }
@@ -72,12 +83,14 @@ public class AdministradorController {
         }
 
 
-
         return null;
     }
 
-    public ModelAndView mostrarNuevoSector(Request request, Response response){
-        return new ModelAndView(null,"nuevo-sector.hbs");
+    public ModelAndView mostrarSectores(Request request, Response response){
+        HashMap<String,Object> parametros = new HashMap<>();
+        Organizacion organizacion = this.repoOrgs.buscar(new Integer(request.queryParams("organizacionId")));
+        parametros.put("sectores",organizacion.getSectores());
+        return new ModelAndView(parametros,"nuevo-sector.hbs");
     }
 
     public Response crearNuevoSector(Request request, Response response){
@@ -94,19 +107,32 @@ public class AdministradorController {
         return response;
     }
 
+    public ModelAndView mostrarTransportes(Request request, Response response){
+        HashMap<String,Object> parametros = new HashMap<>();
+        parametros.put("transportes",this.repoTransportes.buscarTodos());
+        return new ModelAndView(parametros,"transportes.hbs");
+    }
+
     public ModelAndView mostrarNuevoTransporte(Request request, Response response){
-        return new ModelAndView(null,"nuevo-transporte");
+        //todo traer los tipos de vehiculos de la base o de memoria?
+        return new ModelAndView(null,"nuevo-transporte.hbs");
     }
 
     public Response crearNuevoTransporte(Request request, Response response){
         if(SessionHelper.atributosNoSonNull(request,"tipoTransporte")){
-            switch ("tipoTransporte"){
+            switch (request.queryParams("tipoTransporte")){ //el tipo privado publico etc, no el del transporte
                 //TODO
             }
 
         }
 
         return null;
+    }
+
+    public ModelAndView mostrarParadas(Request request, Response response){
+        HashMap<String,Object> parametros = new HashMap<>();
+        parametros.put("paradas",this.repoTransportes.buscar(new Integer(request.queryParams("transportePublicoId"))));
+        return new ModelAndView(parametros,"paradas.hbs");
     }
 
     public ModelAndView mostrarNuevaParada(Request request, Response response){
@@ -123,7 +149,23 @@ public class AdministradorController {
 
         Parada parada = new Parada(distAnteriorParada,distSiguienteParada,direccion); //TODO
 
+        EntityManagerHelper.beginTransaction();
+        EntityManagerHelper.getEntityManager().persist(parada);
+        EntityManagerHelper.commit();
+
         return response;
+    }
+
+    private void setearDesplegablesDeLocalidades(Request request, Response response, HashMap<String,Object> parametros){
+        parametros.put("provincias",this.repoProvincias.buscarTodos());
+        if(SessionHelper.atributosNoSonNull(request,"provinciaId")){
+            Provincia provincia = this.repoProvincias.buscar(new Integer(request.queryParams("provinciaId")));
+            parametros.put("municipios",this.repoMunicipios.buscarMunicipiosDeProvincia(provincia));
+            if(SessionHelper.atributosNoSonNull(request,"municipioId")){
+                Municipio municipio = this.repoMunicipios.buscar(new Integer(request.queryParams("municipioId")));
+                parametros.put("localidades",this.repoLocalidades.buscarLocalidadesDeMunicipio(municipio));
+            }
+        }
     }
 
 }

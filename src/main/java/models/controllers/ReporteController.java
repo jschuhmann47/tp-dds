@@ -3,11 +3,9 @@ package models.controllers;
 import models.entities.CargaDeActividades.entidades.Periodo;
 import models.entities.calculoHC.CalculoHC;
 import models.entities.calculoHC.UnidadHC;
-import models.entities.geoDDS.entidades.Localidad;
 import models.entities.geoDDS.entidades.Municipio;
 import models.entities.geoDDS.entidades.Provincia;
 import models.entities.organizaciones.entidades.Organizacion;
-import models.entities.parametros.ParametroFE;
 import models.entities.reportes.GeneradorReporte;
 import models.entities.reportes.Reporte;
 import models.helpers.PeriodoHelper;
@@ -81,14 +79,14 @@ public class ReporteController {
 
     public ModelAndView mostrarComposicionHCMunicipio(Request request, Response response){ //hace get y post to_do aca //OK
         HashMap<String, Object> parametros = new HashMap<>();
-        this.setearDesplegablesDeLocalidades(request,response,parametros);
+        this.setearDesplegablesDeMunicipios(request,response,parametros);
         if(SessionHelper.atributosNoSonNull(request,"municipioId")){
             return this.composicionHCMunicipio(request,response);
         }
         return new ModelAndView(parametros,"composicion-hc-territorio.hbs");
     }
 
-    private void setearDesplegablesDeLocalidades(Request request, Response response, HashMap<String,Object> parametros){ //OK
+    private void setearDesplegablesDeMunicipios(Request request, Response response, HashMap<String,Object> parametros){ //OK
         parametros.put("provincias",this.repoProvincia.buscarTodos());
         if(SessionHelper.atributosNoSonNull(request,"provinciaId")){
             Provincia provincia = this.repoProvincia.buscar(new Integer(request.queryParams("provinciaId")));
@@ -98,7 +96,7 @@ public class ReporteController {
 
     public ModelAndView mostrarEvolucionHCMunicipio(Request request, Response response) { //OK
         HashMap<String, Object> parametros = new HashMap<>();
-        this.setearDesplegablesDeLocalidades(request,response,parametros);
+        this.setearDesplegablesDeMunicipios(request,response,parametros);
         if(SessionHelper.atributosNoSonNull(request,"municipioId","mes","anio")){
             return this.evolucionHCMunicipio(request,response);
         }

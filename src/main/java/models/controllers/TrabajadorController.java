@@ -16,6 +16,7 @@ import models.entities.trayectos.Tramo;
 import models.entities.trayectos.Trayecto;
 import models.helpers.ListHelper;
 import models.helpers.PeriodoHelper;
+import models.helpers.SessionHelper;
 import models.repositories.*;
 import models.repositories.factories.*;
 import spark.ModelAndView;
@@ -71,8 +72,9 @@ public class TrabajadorController {
 
     public ModelAndView calcularHC(Request request, Response response) {
         this.setearCalculadoraHC();
-        if(request.queryParams("mes") == null || request.queryParams("anio") == null){
-            throw new RuntimeException("No se ingreso mes o año");
+
+        if(request.queryParams("anio") == null){
+            throw new RuntimeException("No se ingreso el año");
         }
         Periodo periodo = PeriodoHelper.nuevoPeriodo(request.queryParams("mes"),request.queryParams("anio"));
         HashMap<String, Object> parametros = new HashMap<>();
@@ -87,10 +89,6 @@ public class TrabajadorController {
         return new ModelAndView(parametros,"calculadora-trabajador.hbs");
     }
 
-    public ModelAndView mostrarReportes(Request request, Response response) {
-        return new ModelAndView(new HashMap<String,Object>(),"reportes-menu.hbs");
-    }
-
     public ModelAndView mostrarVinculaciones(Request request, Response response){
         HashMap<String,Object> parametros = new HashMap<>();
         Trabajador trabajador = this.obtenerTrabajador(request,response);
@@ -101,6 +99,11 @@ public class TrabajadorController {
     }
 
     public ModelAndView mostrarNuevaVinculacion(Request request, Response response) {
+        HashMap<String,Object> parametros = new HashMap<>();
+        parametros.put("organizaciones",this.repoOrgs.buscarTodos());
+        if(SessionHelper.atributosNoSonNull(request,"organizacionId")){
+            parametros.put("sectores",this.repoOrgs.buscar(new Integer(request.queryParams("organizacionId"))).getSectores());
+        }
         return new ModelAndView(null,"nueva-vinculacion.hbs");
     }
 
@@ -115,19 +118,19 @@ public class TrabajadorController {
 
     public Response nuevaVinculacion(Request request, Response response){
         Trabajador trabajador = this.obtenerTrabajador(request,response);
-        if(request.queryParams("nombreSector") == null || request.queryParams("razonSocial") == null){
-            return response;
-        }
-        Organizacion org = this.repoOrgs.buscarPorRazonSocial(request.queryParams("razonSocial"));
-        if(org != null){
-            Sector sectorAVincularse = org.obtenerSectorPorNombre(request.queryParams("nombreSector"));
-            if(sectorAVincularse != null){
-                Solicitud sol = trabajador.solicitarVinculacion(org,sectorAVincularse);
-                EntityManagerHelper.beginTransaction();
-                EntityManagerHelper.getEntityManager().persist(sol);
-                EntityManagerHelper.commit();
+        if(SessionHelper.atributosNoSonNull(request,"nombreSector","organizacionId","sectorId")){
+            Organizacion org = this.repoOrgs.buscar(new Integer(request.queryParams("organizacionId")));
+            if(org != null){
+                Sector sectorAVincularse = org.obtenerSectorPorNombre(request.queryParams("nombreSector")); //obtener x id, no x nombre
+                if(sectorAVincularse != null){
+                    Solicitud sol = trabajador.solicitarVinculacion(org,sectorAVincularse);
+                    EntityManagerHelper.beginTransaction();
+                    EntityManagerHelper.getEntityManager().persist(sol);
+                    EntityManagerHelper.commit();
+                }
             }
         }
+
 
         response.redirect("/trabajador/solicitudes");
         return response;
