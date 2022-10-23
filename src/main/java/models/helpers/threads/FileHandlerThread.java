@@ -4,6 +4,7 @@ import models.entities.CargaDeActividades.CargaDeActividades;
 import models.entities.CargaDeActividades.adapters.CargaDeActividadesAdapter;
 import models.entities.CargaDeActividades.adapters.CargaDeActividadesApachePOIAdapter;
 import models.entities.organizaciones.entidades.Organizacion;
+import models.helpers.PersistenciaHelper;
 import models.repositories.RepositorioDeOrganizaciones;
 import models.repositories.factories.FactoryRepositorioDeOrganizaciones;
 
@@ -20,12 +21,14 @@ public class FileHandlerThread extends Thread{
     }
 
     @Override
-    public void run() {
+    public void start() {
         Organizacion org = this.repoOrg.buscar(organizacionId);
         try {
             CargaDeActividades.cargarActividadesDeArchivo(org.getListaDeActividades(),this.filePath);
+            PersistenciaHelper.persistir(org);
         } catch (IOException e) {
-            throw new RuntimeException("Error al cargar actividades de la organizacion: " + org.getRazonSocial());
+            throw new RuntimeException(e);
+            //throw new RuntimeException("Error al cargar actividades de la organizacion: " + org.getRazonSocial());
         }
     }
 }

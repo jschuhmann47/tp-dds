@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 
 import java.io.File;
@@ -39,11 +40,14 @@ public class CargaDeActividadesApachePOIAdapter implements CargaDeActividadesAda
 
         HSSFSheet hojaALeer = obtenerHoja(0);
 
-        int rowStart = Math.min(1, hojaALeer.getFirstRowNum());
-        int rowEnd = Math.max(30, hojaALeer.getLastRowNum());
+        int rowStart = 1;
+        int rowEnd = hojaALeer.getLastRowNum();
         for (int rowNum = rowStart; rowNum < rowEnd; rowNum++) {
             LineaLeida linea = leerEntrada(hojaALeer,rowNum);
-            if(Objects.equals(linea.tipoDeConsumo, "CATEGORIA")){
+            if(linea==null){
+                break;
+            }
+            if(Objects.equals(linea.tipoDeConsumo, "PRODUCTO_TRANSPORTADO")){
                 rowNum+=3;
             }
             listaActividades.add(crearActividad(linea));
@@ -85,6 +89,9 @@ public class CargaDeActividadesApachePOIAdapter implements CargaDeActividadesAda
 
     public LineaLeida leerEntrada(HSSFSheet hojaALeer, int rowNum){
         LineaLeida linea = leerFila(hojaALeer,rowNum);
+        if(linea==null){
+            return null;
+        }
         if(Objects.equals(linea.tipoDeConsumo, "CATEGORIA")){
             LineaLeida medio = leerFila(hojaALeer,rowNum+1);
             LineaLeida distancia = leerFila(hojaALeer,rowNum+2);
@@ -106,7 +113,7 @@ public class CargaDeActividadesApachePOIAdapter implements CargaDeActividadesAda
 
         LineaLeida lineaLeida = new LineaLeida();
         Row r = hoja.getRow(rowNum);
-        if (r == null) {
+        if (r.getCell(0, Row.MissingCellPolicy.RETURN_BLANK_AS_NULL) == null) {
             return null;
         }
 
@@ -126,9 +133,17 @@ public class CargaDeActividadesApachePOIAdapter implements CargaDeActividadesAda
         c = r.getCell(4, Row.MissingCellPolicy.RETURN_BLANK_AS_NULL);
         lineaLeida.periodicidad = c.getStringCellValue();
         c = r.getCell(5, Row.MissingCellPolicy.RETURN_BLANK_AS_NULL);
-        lineaLeida.periodoImputacion = c.getStringCellValue();
+        lineaLeida.periodoImputacion = this.getCeldaEnString(c);
 
         return lineaLeida;
+    }
+
+    private String getCeldaEnString(Cell c){
+        if(c.getCellType() == CellType.STRING)
+            return c.getStringCellValue();
+        else if(c.getCellType()==CellType.NUMERIC)
+           return String.valueOf((int) c.getNumericCellValue());
+        return null;
     }
 
 }

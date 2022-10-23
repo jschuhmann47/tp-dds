@@ -5,5 +5,6 @@ public enum Unidad {
     L,
     M3,
     KWH,
+    KM,
     U
 }
