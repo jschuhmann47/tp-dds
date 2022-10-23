@@ -73,6 +73,15 @@ public class Usuario {
         return null;
     }
 
+    public String getTipoCuenta(){
+        if(this.tieneRol(Rol.ADMINISTRADOR)){
+            return "administrador";
+        }
+        else{
+            return this.getTipoRecurso().toString().toLowerCase();
+        }
+    }
+
     public void agregarPermiso(Permiso permiso){
         this.getPermisos().add(permiso);
     }

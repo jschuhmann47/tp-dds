@@ -26,7 +26,7 @@
             </ul>
         </div>
 
-        <a class="nav-link" style="margin-right: 40px;" href="//logout" >Logout</a>
+        <a class="nav-link" style="margin-right: 40px;" href="/logout" >Logout</a>
 
     </header>
 
@@ -43,20 +43,21 @@
                     <th scope="col">Sector Solicitado</th>
                     <th scope="col">Estado</th>
                     <th scope="col">Ultima modificacion</th>
-                    <th scope="col">-</th>
-                    <th scope="col">-</th>
+                    <th scope="col">Aceptar solicitud</th>
+                    <th scope="col">Rechazar solicitud</th>
                 </tr>
             </thead>
             <tbody>
                 <div hidden>{{#each solicitudes}}</div>
                 <tr>
                     <td>{{this.trabajador.apellido}}</td>
+                    <td>{{this.sectorAIngresar.nombreSector}}</td>
                     <td>{{this.estadoSolicitud.posibleEstadoSolicitud}}</td>
                     <td>{{this.estadoSolicitud.fechaUltimaModificacion}}</td>
-                    <form action="/aceptar" method="post">
+                    <form action="/organizacion/vinculaciones/aceptar" method="post">
                         <td><button class="btn btn-success" type="submit" name="solicitudId" value="{{this.id}}">Aceptar</button></td>
                     </form>
-                    <form action="/rechazar" method="post">
+                    <form action="/organizacion/vinculaciones/rechazar" method="post">
                         <td><button class="btn btn-danger" type="submit" name="solicitudId" value="{{this.id}}">Rechazar</button></td>
                     </form>
                 </tr>

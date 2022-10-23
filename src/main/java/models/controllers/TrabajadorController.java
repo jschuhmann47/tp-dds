@@ -16,6 +16,7 @@ import models.entities.trayectos.Tramo;
 import models.entities.trayectos.Trayecto;
 import models.helpers.ListHelper;
 import models.helpers.PeriodoHelper;
+import models.helpers.PersistenciaHelper;
 import models.helpers.SessionHelper;
 import models.repositories.*;
 import models.repositories.factories.*;
@@ -110,9 +111,7 @@ public class TrabajadorController {
 
     public Response eliminarVinculacion(Request request, Response response){
         Solicitud solicitud = this.repoSolicitudes.buscar(new Integer(request.queryParams("solicitudId"))); //con ajax
-        EntityManagerHelper.beginTransaction();
-        EntityManagerHelper.getEntityManager().remove(solicitud);
-        EntityManagerHelper.commit();
+        PersistenciaHelper.persistir(solicitud);
         return response;
     }
 
@@ -125,9 +124,7 @@ public class TrabajadorController {
                 Sector sectorAVincularse = org.obtenerSectorPorNombre(request.queryParams("nombreSector")); //obtener x id, no x nombre
                 if(sectorAVincularse != null){
                     Solicitud sol = trabajador.solicitarVinculacion(org,sectorAVincularse);
-                    EntityManagerHelper.beginTransaction();
-                    EntityManagerHelper.getEntityManager().persist(sol);
-                    EntityManagerHelper.commit();
+                    PersistenciaHelper.persistir(sol);
                 }
             }
         }
@@ -172,9 +169,7 @@ public class TrabajadorController {
 
             Trabajador trabajador = this.obtenerTrabajador(request,response);
             trabajador.agregarTrayectos(trayecto);
-            EntityManagerHelper.beginTransaction();
-            EntityManagerHelper.getEntityManager().persist(trayecto);
-            EntityManagerHelper.commit();
+            PersistenciaHelper.persistir(trayecto);
         }
 
         return response;

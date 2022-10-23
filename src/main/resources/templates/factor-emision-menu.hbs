@@ -26,7 +26,7 @@
             </ul>
         </div>
 
-        <a class="nav-link" style="margin-right: 40px;" href="/menu/logout" >Logout</a>
+        <a class="nav-link" style="margin-right: 40px;" href="/logout" >Logout</a>
 
     </header>
     
@@ -46,7 +46,7 @@
       </thead>
       <tbody>
         <form action="/administrador/config" method="post">
-          {{#each factores}}
+          {{#each parametros}}
           <div class="form-floating">
               <tr>
                   <td>{{this.nombre}}</td>

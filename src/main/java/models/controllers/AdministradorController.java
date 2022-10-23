@@ -11,6 +11,7 @@ import models.entities.organizaciones.entidades.TipoOrganizacion;
 import models.entities.parametros.ParametroFE;
 import models.entities.transporte.privado.TipoVehiculo;
 import models.entities.transporte.publico.Parada;
+import models.helpers.PersistenciaHelper;
 import models.helpers.SessionHelper;
 import models.repositories.*;
 import models.repositories.factories.*;
@@ -48,11 +49,9 @@ public class AdministradorController {
         if(SessionHelper.atributosNoSonNull(request,"nuevoValor","idParametro")){
             ParametroFE parametroFE = this.repoFE.buscar(new Integer(request.queryParams("idParametro")));
             parametroFE.setValor(new Double(request.queryParams("nuevoValor")));
-
-            EntityManagerHelper.beginTransaction();
-            EntityManagerHelper.getEntityManager().persist(parametroFE);
-            EntityManagerHelper.commit();
+            PersistenciaHelper.persistir(parametroFE);
         }
+        response.redirect("/administrador/config");
         return response;
     }
 
@@ -77,9 +76,7 @@ public class AdministradorController {
             Organizacion nuevaOrg =
                     new Organizacion(clasificaciones,razonSocial,new ArrayList<>(), TipoOrganizacion.valueOf(request.queryParams("tipoOrganizacion")),direccion);
 
-            EntityManagerHelper.beginTransaction();
-            EntityManagerHelper.getEntityManager().persist(nuevaOrg);
-            EntityManagerHelper.commit();
+            PersistenciaHelper.persistir(nuevaOrg);
         }
 
 
@@ -95,13 +92,11 @@ public class AdministradorController {
 
     public Response crearNuevoSector(Request request, Response response){
         if(SessionHelper.atributosNoSonNull(request,"organizacionId","nombreSector")){
-            Sector sector = new Sector(this.repoOrgs.buscar(new Integer(request.queryParams("organizacionId"))),
+            Sector nuevoSector = new Sector(this.repoOrgs.buscar(new Integer(request.queryParams("organizacionId"))),
                     request.queryParams("nombreSector"),
                     new ArrayList<>());
 
-            EntityManagerHelper.beginTransaction();
-            EntityManagerHelper.getEntityManager().persist(sector);
-            EntityManagerHelper.commit();
+            PersistenciaHelper.persistir(nuevoSector);
         }
 
         return response;
@@ -149,9 +144,7 @@ public class AdministradorController {
 
         Parada parada = new Parada(distAnteriorParada,distSiguienteParada,direccion); //TODO
 
-        EntityManagerHelper.beginTransaction();
-        EntityManagerHelper.getEntityManager().persist(parada);
-        EntityManagerHelper.commit();
+        PersistenciaHelper.persistir(parada);
 
         return response;
     }

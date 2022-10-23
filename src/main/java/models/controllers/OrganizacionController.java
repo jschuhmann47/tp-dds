@@ -1,13 +1,12 @@
 package models.controllers;
 
-import db.EntityManagerHelper;
 import models.entities.CargaDeActividades.entidades.Periodo;
 import models.entities.calculoHC.CalculoHC;
 import models.entities.calculoHC.UnidadHC;
 import models.entities.organizaciones.entidades.Organizacion;
-import models.entities.organizaciones.entidades.Sector;
 import models.entities.organizaciones.solicitudes.Solicitud;
 import models.helpers.PeriodoHelper;
+import models.helpers.PersistenciaHelper;
 import models.helpers.threads.FileHandlerThread;
 import models.repositories.RepositorioDeOrganizaciones;
 import models.repositories.RepositorioDeParametrosFE;
@@ -19,8 +18,8 @@ import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 import spark.Spark;
+
 import java.util.HashMap;
-import java.util.stream.Collectors;
 
 public class OrganizacionController {
     //TODO provincias, municipios, orgs, sectores, medios t que llege una lista, que no escriba a mano
@@ -140,17 +139,15 @@ public class OrganizacionController {
     public Response aceptarVinculacion(Request request, Response response){
         Solicitud solicitud = this.obtenerSolicitud(request,response);
         solicitud.aceptarSolicitud();
-        EntityManagerHelper.beginTransaction();
-        EntityManagerHelper.getEntityManager().persist(solicitud);
-        EntityManagerHelper.commit();
+        PersistenciaHelper.persistir(solicitud);
+        response.redirect("/organizacion/vinculaciones");
         return response;
     }
     public Response rechazarVinculacion(Request request, Response response){
         Solicitud solicitud = this.obtenerSolicitud(request,response);
         solicitud.rechazarSolicitud();
-        EntityManagerHelper.beginTransaction();
-        EntityManagerHelper.getEntityManager().persist(solicitud);
-        EntityManagerHelper.commit();
+        PersistenciaHelper.persistir(solicitud);
+        response.redirect("/organizacion/vinculaciones");
         return response;
     }
 

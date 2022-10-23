@@ -1,8 +1,12 @@
 package models.controllers;
 
+import models.entities.seguridad.cuentas.Usuario;
+import models.helpers.SessionHelper;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
+
+import java.util.HashMap;
 
 public class ErrorHandlerController {
 
@@ -11,6 +15,13 @@ public class ErrorHandlerController {
     }
 
     public ModelAndView error(Request request, Response response){
-        return new ModelAndView(null,"error.hbs");
+        HashMap<String,Object> parametros = new HashMap<>();
+        Usuario user = SessionHelper.usuarioLogueado(request);
+        if(user == null){
+            parametros.put("rutaInicio", "login");
+        }else{
+            parametros.put("rutaInicio", user.getTipoCuenta());
+        }
+        return new ModelAndView(parametros,"error.hbs");
     }
 }

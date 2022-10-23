@@ -1,5 +1,6 @@
 package models.entities.trayectos;
 
+import lombok.Getter;
 import models.entities.CargaDeActividades.entidades.Periodicidad;
 import models.entities.CargaDeActividades.entidades.Periodo;
 
@@ -18,10 +19,12 @@ public class Frecuencia {
         this.vecesQueRealizaTrayectoPorMes = vecesQueRealizaTrayectoPorMes;
     }
 
+    @Getter
     @Enumerated(value = EnumType.STRING)
     @Column(name = "frecuencia_de_uso",nullable = false)
     Periodicidad frecuenciaDeUso;
 
+    @Getter
     @Column(name = "veces_por_mes",nullable = false)
     Integer vecesQueRealizaTrayectoPorMes;
 

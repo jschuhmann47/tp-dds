@@ -47,6 +47,7 @@
                     <th scope="col">Calle fin</th>
                     <th scope="col">Localidad fin</th>
                     <th scope="col">Frecuencia</th>
+                    <th scope="col">Veces por mes</th>
 
                 </tr>
             </thead>
@@ -60,7 +61,8 @@
                     <td>{{this.puntoDeLlegada.altura}}</td>
                     <td>{{this.puntoDeLlegada.calle}}</td>
                     <td>{{this.puntoDeLlegada.localidad.nombre}}</td>
-                    <td>{{this.frecuencia}}</td>
+                    <td>{{this.frecuencia.frecuenciaDeUso}}</td>
+                    <td>{{this.frecuencia.vecesQueRealizaTrayectoPorMes}}</td>
                 </tr>
                 <div hidden>{{/each}}</div>
             </tbody>

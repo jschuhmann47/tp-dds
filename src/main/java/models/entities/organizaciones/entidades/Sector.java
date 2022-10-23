@@ -15,6 +15,8 @@ public class Sector {
     @Id
     @GeneratedValue
     private int id;
+
+
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "organizacion_id",referencedColumnName = "id")
     public Organizacion organizacion;
