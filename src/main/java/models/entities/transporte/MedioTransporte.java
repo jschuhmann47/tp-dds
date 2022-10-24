@@ -19,6 +19,10 @@ public abstract class MedioTransporte {
     private int id;
 
     @Getter
+    @Column(name = "nombre")
+    protected String nombre;
+
+    @Getter
     @Column(name = "tipo_vehiculo",nullable = false)
     protected TipoVehiculo tipo;
 

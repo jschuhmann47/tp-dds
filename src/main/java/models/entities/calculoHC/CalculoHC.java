@@ -10,9 +10,23 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class CalculoHC {
+
     @Getter
     @Setter
     static UnidadHC unidadPorDefecto;
+
+    public static String getUnidadPorDefectoString(){
+        switch (CalculoHC.getUnidadPorDefecto()){
+            case GRAMO_EQ:
+                return "g CO2eq";
+            case KILOGRAMO_EQ:
+                return "kg CO2eq";
+            case TONELADA_EQ:
+                return "tn CO2eq";
+            default:
+                return null;
+        }
+    }
 
 //    @Getter
 //    @Setter

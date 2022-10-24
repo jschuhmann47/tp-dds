@@ -2,8 +2,10 @@ package models.entities.trayectos;
 
 import lombok.Getter;
 import models.entities.organizaciones.entidades.Organizacion;
+import models.entities.organizaciones.entidades.Sector;
 import models.entities.organizaciones.entidades.Trabajador;
 import models.entities.transporte.privado.TransportePrivado;
+import models.helpers.StringHelper;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -56,19 +58,28 @@ public class TramoCompartido {
     }
 
     List<Organizacion> organizacionesDeUnaPersona(Trabajador trabajador){
-        return trabajador.sectores.stream().map(s->s.organizacion).collect(Collectors.toList());
+        return trabajador.getSectores().stream().map(Sector::getOrganizacion).collect(Collectors.toList());
     }
 
     private void agregarABordo(Trabajador trabajador){
-        this.personasABordo.add(trabajador);
-        this.orgPosibles.addAll(this.organizacionesDeUnaPersona(trabajador));
+        this.getPersonasABordo().add(trabajador);
+        this.getOrgPosibles().addAll(this.organizacionesDeUnaPersona(trabajador));
     }
 
     public int cantidadDeTrabajadores(){
-        return personasABordo.size();
+        return this.getPersonasABordo().size();
     }
 
     public TramoCompartido(){
+
+    }
+
+    public String getDetalle(){
+        if(this.getPersonasABordo().isEmpty()){
+            return "Tramo compartido sin empleados";
+        }else{
+            return "Tramo compartido entre: " + StringHelper.formatearListaEmpleados(this.getPersonasABordo());
+        }
 
     }
 

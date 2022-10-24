@@ -88,7 +88,7 @@ public class OrganizacionController {
         Organizacion org = this.obtenerOrganizacion(request, response);
         parametros.put("consumoActividad",org.calcularHCActividadesEnPeriodo(periodo));
         parametros.put("consumoTrabajador",org.calcularHCEmpleados(periodo));
-        parametros.put("factorEmision",CalculoHC.getUnidadPorDefecto());
+        parametros.put("factorEmision",CalculoHC.getUnidadPorDefectoString());
         parametros.put("huellaCarbono",org.calcularHCEnPeriodo(periodo));
 
         return new ModelAndView(parametros,"calculadora-organizacion.hbs");
@@ -101,7 +101,7 @@ public class OrganizacionController {
 
         parametros.put("consumoActividad",org.calcularHCTotalActividades());
         parametros.put("consumoTrabajador",org.calcularHCTotalTrabajadores());
-        parametros.put("factorEmision",CalculoHC.getUnidadPorDefecto());
+        parametros.put("factorEmision",CalculoHC.getUnidadPorDefectoString());
         parametros.put("huellaCarbono",org.calcularHCTotal());
 
         return new ModelAndView(parametros,"calculadora-organizacion.hbs");

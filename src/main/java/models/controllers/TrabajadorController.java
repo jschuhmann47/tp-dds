@@ -7,6 +7,7 @@ import models.entities.CargaDeActividades.entidades.Periodicidad;
 import models.entities.CargaDeActividades.entidades.Periodo;
 import models.entities.calculoHC.CalculoHC;
 import models.entities.calculoHC.UnidadHC;
+import models.entities.geoDDS.Direccion;
 import models.entities.organizaciones.entidades.Organizacion;
 import models.entities.organizaciones.entidades.Sector;
 import models.entities.organizaciones.entidades.Trabajador;
@@ -38,6 +39,7 @@ public class TrabajadorController {
     private RepositorioDeParametrosFE repoFE;
     private RepositorioDeLocalidades repoLocalidades;
     private RepositorioDeSolicitudes repoSolicitudes;
+    private RepositorioDeMediosDeTransporte repoTransportes;
 
     public TrabajadorController() {
         this.repoTrabajadores = FactoryRepositorioDeTrabajadores.get();
@@ -47,6 +49,7 @@ public class TrabajadorController {
         this.repoMunicipios = FactoryRepositorioDeMunicipios.get();
         this.repoProvincias = FactoryRepositorioDeProvincias.get();
         this.repoSolicitudes = FactoryRepositorioDeSolicitudes.get();
+        this.repoTransportes = FactoryRepositorioDeMediosDeTransporte.get();
     }
 
 
@@ -87,7 +90,7 @@ public class TrabajadorController {
         } else{
             parametros.put("huellaCarbono",trabajador.calcularHCTotal());
         }
-        parametros.put("factorEmision",CalculoHC.getUnidadPorDefecto());
+        parametros.put("factorEmision",CalculoHC.getUnidadPorDefectoString());
         return new ModelAndView(parametros,"calculadora-trabajador.hbs");
     }
 
@@ -154,6 +157,31 @@ public class TrabajadorController {
         HashMap<String,Object> parametros = new HashMap<>();
         parametros.put("localidades",this.repoLocalidades.buscarTodos());
         return new ModelAndView(parametros,"agregar-trayecto.hbs");
+    }
+
+    public ModelAndView mostrarNuevoTramo(Request request, Response response) {
+        HashMap<String,Object> parametros = new HashMap<>();
+        parametros.put("localidades",this.repoLocalidades.buscarTodos());
+        parametros.put("transportes",this.repoTransportes.buscarTodos());
+        return new ModelAndView(parametros,"agregar-tramo.hbs");
+    }
+
+    public Response registrarNuevoTramo(Request request, Response response) throws Exception {
+        HashMap<String,Object> parametros = new HashMap<>();
+        if(SessionHelper.atributosNoSonNull(request,"medioTransporteId","alturaInicio","calleInicio","localidadInicioId","calleDestino","alturaDestino","localidadDestinoId","trayectoId")){
+            Tramo tramo = new Tramo
+                    (this.repoTransportes.buscar(new Integer(request.queryParams("medioTransporteId"))),
+                            new Direccion
+                                    (new Integer(request.queryParams("alturaInicio")),request.queryParams("calleInicio"),
+                                            this.repoLocalidades.buscar(new Integer(request.queryParams("localidadInicioId")))),
+                            new Direccion
+                                    (new Integer(request.queryParams("alturaDestino")),request.queryParams("calleDestino"),
+                                        this.repoLocalidades.buscar(new Integer(request.queryParams("localidadDestinoId"))))
+                    );
+
+            PersistenciaHelper.persistir(tramo); //todo asociarlo al trayecto
+        }
+        return response;
     }
 
     public Response registrarNuevoTrayecto(Request request, Response response) {

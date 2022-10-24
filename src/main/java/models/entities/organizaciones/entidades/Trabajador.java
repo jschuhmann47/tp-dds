@@ -37,7 +37,7 @@ public class Trabajador {
     private List<Trayecto> listaTrayectos = new ArrayList<>();
 
     @Getter
-    @ManyToMany(mappedBy = "trabajadores") //todo queda trabajador_id en la tabla
+    @ManyToMany(mappedBy = "trabajadores", cascade = {CascadeType.PERSIST}) //todo queda trabajador_id en la tabla
     public List<Sector> sectores = new ArrayList<>();
 
     @Getter

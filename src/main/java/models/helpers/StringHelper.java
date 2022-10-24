@@ -1,5 +1,9 @@
 package models.helpers;
 
+import models.entities.organizaciones.entidades.Trabajador;
+
+import java.util.List;
+
 public class StringHelper {
 
     /**
@@ -25,5 +29,13 @@ public class StringHelper {
      */
     public static String toEnumFormat(String text){
         return text.toUpperCase().replace(" ","_");
+    }
+
+    public static String formatearListaEmpleados(List<Trabajador> lista){
+        StringBuilder sb = new StringBuilder();
+        lista.forEach(t -> {
+           sb.append(t.getApellido()).append(", ").append(t.getNombre()).append(" - ");
+        });
+        return sb.substring(0,sb.toString().length()-3);
     }
 }

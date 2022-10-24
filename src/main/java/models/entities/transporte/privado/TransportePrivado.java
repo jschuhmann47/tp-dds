@@ -22,6 +22,11 @@ public class TransportePrivado extends MedioTransporte {
     @JoinColumn(name = "tramo_compartido_id",referencedColumnName = "id")
     TramoCompartido tramoCompartido;
 
+
+//    @Getter
+//    @Column(name = "nombre")
+//    private String nombre;
+
     public TransportePrivado() {
 
     }
