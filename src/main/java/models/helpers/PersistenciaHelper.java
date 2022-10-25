@@ -17,7 +17,7 @@ public class PersistenciaHelper {
     public static void eliminar(Object ... entidadesAEliminar){
         EntityManagerHelper.beginTransaction();
         for(Object o : entidadesAEliminar){
-            EntityManagerHelper.getEntityManager().remove(o); //el getEntityManager() crea uno si no existia
+            EntityManagerHelper.getEntityManager().remove(o);
         }
         EntityManagerHelper.commit();
         EntityManagerHelper.closeEntityManager();

@@ -41,6 +41,7 @@ public class TrabajadorController {
     private RepositorioDeSolicitudes repoSolicitudes;
     private RepositorioDeMediosDeTransporte repoTransportes;
     private RepositorioDeTrayectos repoTrayectos;
+    private RepositorioDeSectores repoSectores;
 
     public TrabajadorController() {
         this.repoTrabajadores = FactoryRepositorioDeTrabajadores.get();
@@ -52,6 +53,7 @@ public class TrabajadorController {
         this.repoSolicitudes = FactoryRepositorioDeSolicitudes.get();
         this.repoTransportes = FactoryRepositorioDeMediosDeTransporte.get();
         this.repoTrayectos = FactoryRepositorioDeTrayectos.get();
+        this.repoSectores = FactoryRepositorioDeSectores.get();
     }
 
 
@@ -126,7 +128,7 @@ public class TrabajadorController {
         if(SessionHelper.atributosNoSonNull(request,"nombreSector","organizacionId","sectorId")){
             Organizacion org = this.repoOrgs.buscar(new Integer(request.queryParams("organizacionId")));
             if(org != null){
-                Sector sectorAVincularse = org.obtenerSectorPorNombre(request.queryParams("nombreSector")); //obtener x id, no x nombre
+                Sector sectorAVincularse = this.repoSectores.buscar(new Integer(request.queryParams("sectorId")));
                 if(sectorAVincularse != null){
                     Solicitud sol = trabajador.solicitarVinculacion(org,sectorAVincularse);
                     PersistenciaHelper.persistir(sol);
@@ -135,13 +137,13 @@ public class TrabajadorController {
         }
 
 
-        response.redirect("/trabajador/solicitudes");
+        response.redirect("/trabajador/vinculacion");
         return response;
 
     }
 
 
-    public ModelAndView mostrarTrayectos(Request request, Response response) { //TODO mostrar tramos y editar etc
+    public ModelAndView mostrarTrayectos(Request request, Response response) {
         HashMap<String,Object> parametros = new HashMap<>();
         Trabajador trabajador = this.obtenerTrabajador(request,response);
         parametros.put("trabajador",trabajador);
@@ -151,7 +153,7 @@ public class TrabajadorController {
     }
 
     public ModelAndView mostrarRecomendaciones(Request request, Response response) {
-        return new ModelAndView(new HashMap<String,Object>(),"recomendaciones.hbs"); //dependen del tipo de cuenta?
+        return new ModelAndView(new HashMap<String,Object>(),"recomendaciones.hbs");
     }
 
 
@@ -161,7 +163,7 @@ public class TrabajadorController {
         return new ModelAndView(parametros,"agregar-trayecto.hbs");
     }
 
-    public ModelAndView mostrarNuevoTramo(Request request, Response response) {
+    public ModelAndView mostrarNuevoTramo(Request request, Response response) { //TODO editar tramos
         HashMap<String,Object> parametros = new HashMap<>();
         parametros.put("localidades",this.repoLocalidades.buscarTodos());
         parametros.put("transportes",this.repoTransportes.buscarTodos());

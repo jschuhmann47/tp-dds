@@ -37,24 +37,21 @@
     </div>
 
     <div class="d-flex justify-content-center" style="margin-top: 100px;">
-        <table class="table table-bordered bg-light" style="max-width: 800px;">
-            <thead>
-                <tr>
-                    <th scope="col">Nombre de la Organizacion</th>
-                    <th scope="col">Sector Solicitado</th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <form action="/vinculacion" method="post">
-                        <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="nombreOrganizacion"></td>
-                        <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="sectorOrganizacion"></td>
-                        <td colspan="3" style="max-width: 75px;"><button class="btn btn-warning" type="submit">Confirmar</button></td>
-                    </form>
-                </tr>
-            </tbody>
-        </table>
+        <form action="/trabajador/vinculacion/nuevo" method="post" class="p-3 mb-2 bg-light text-dark mt-5">
+            <label for="organizaciones">Escoja una organizacion:</label>
+            <select name="organizacion-nombres" id="organizacion-nombres">
+                {{#each organizaciones}}
+                    <option name="organizacionId" value="{{this.id}}">{{this.razonSocial}}</option>
+                {{/each}}
+            </select>
+            <label for="sectores">Escoja un sector:</label>
+            <select name="organizacion-nombres" id="organizacion-nombres">
+                {{#each sectores}}
+                    <option name="sectorId" value="{{this.id}}">{{this.nombreSector}}</option>
+                {{/each}}
+            </select>
+            <td colspan="3" style="max-width: 75px;"><button class="btn btn-warning" type="submit">Confirmar</button></td>
+        </form>
     </div>
 </body>
 
