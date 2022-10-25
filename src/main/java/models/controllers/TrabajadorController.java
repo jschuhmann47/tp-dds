@@ -40,6 +40,7 @@ public class TrabajadorController {
     private RepositorioDeLocalidades repoLocalidades;
     private RepositorioDeSolicitudes repoSolicitudes;
     private RepositorioDeMediosDeTransporte repoTransportes;
+    private RepositorioDeTrayectos repoTrayectos;
 
     public TrabajadorController() {
         this.repoTrabajadores = FactoryRepositorioDeTrabajadores.get();
@@ -50,6 +51,7 @@ public class TrabajadorController {
         this.repoProvincias = FactoryRepositorioDeProvincias.get();
         this.repoSolicitudes = FactoryRepositorioDeSolicitudes.get();
         this.repoTransportes = FactoryRepositorioDeMediosDeTransporte.get();
+        this.repoTrayectos = FactoryRepositorioDeTrayectos.get();
     }
 
 
@@ -166,6 +168,13 @@ public class TrabajadorController {
         return new ModelAndView(parametros,"agregar-tramo.hbs");
     }
 
+
+    public ModelAndView mostrarTramosDelTrayecto(Request request, Response response){
+        HashMap<String,Object> parametros = new HashMap<>();
+        parametros.put("tramos",this.repoTrayectos.buscar(new Integer(request.queryParams("trayectoId"))).getTramos()); //q no sea null
+        return new ModelAndView(parametros,"menu-tramos.hbs");
+    }
+
     public Response registrarNuevoTramo(Request request, Response response) throws Exception {
         HashMap<String,Object> parametros = new HashMap<>();
         if(SessionHelper.atributosNoSonNull(request,"medioTransporteId","alturaInicio","calleInicio","localidadInicioId","calleDestino","alturaDestino","localidadDestinoId","trayectoId")){
@@ -204,10 +213,14 @@ public class TrabajadorController {
     }
 
     public Response eliminarTrayecto(Request request, Response response){
-//        Trayecto trayecto = this.repoTrayectos.buscar(new Integer(request.queryParams("trayectoId"))); //con ajax
-    //        EntityManagerHelper.beginTransaction();
-    //        EntityManagerHelper.getEntityManager().remove(solicitud);
-    //        EntityManagerHelper.commit();
+        Trayecto trayecto = this.repoTrayectos.buscar(new Integer(request.queryParams("trayectoId"))); //con ajax
+        PersistenciaHelper.eliminar(trayecto);
+        return response;
+    }
+
+    public Response eliminarTramo(Request request, Response response){
+        Trayecto trayecto = this.repoTrayectos.buscar(new Integer(request.queryParams("trayectoId"))); //con ajax
+        PersistenciaHelper.eliminar(trayecto);
         return response;
     }
 
