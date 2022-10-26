@@ -32,8 +32,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class TrabajadorController {
-    private RepositorioDeProvincias repoProvincias;
-    private RepositorioDeMunicipios repoMunicipios;
     private RepositorioDeTrabajadores repoTrabajadores;
     private RepositorioDeOrganizaciones repoOrgs;
     private RepositorioDeParametrosFE repoFE;
@@ -42,18 +40,18 @@ public class TrabajadorController {
     private RepositorioDeMediosDeTransporte repoTransportes;
     private RepositorioDeTrayectos repoTrayectos;
     private RepositorioDeSectores repoSectores;
+    private RepositorioDeTramos repoTramos;
 
     public TrabajadorController() {
         this.repoTrabajadores = FactoryRepositorioDeTrabajadores.get();
         this.repoOrgs = FactoryRepositorioDeOrganizaciones.get();
         this.repoFE = FactoryRepositorioDeParametrosFE.get();
         this.repoLocalidades = FactoryRepositorioDeLocalidades.get();
-        this.repoMunicipios = FactoryRepositorioDeMunicipios.get();
-        this.repoProvincias = FactoryRepositorioDeProvincias.get();
         this.repoSolicitudes = FactoryRepositorioDeSolicitudes.get();
         this.repoTransportes = FactoryRepositorioDeMediosDeTransporte.get();
         this.repoTrayectos = FactoryRepositorioDeTrayectos.get();
         this.repoSectores = FactoryRepositorioDeSectores.get();
+        this.repoTramos = FactoryRepositorioDeTramos.get();
     }
 
 
@@ -178,7 +176,6 @@ public class TrabajadorController {
     }
 
     public Response registrarNuevoTramo(Request request, Response response) throws Exception {
-        HashMap<String,Object> parametros = new HashMap<>();
         if(SessionHelper.atributosNoSonNull(request,"medioTransporteId","alturaInicio","calleInicio","localidadInicioId","calleDestino","alturaDestino","localidadDestinoId","trayectoId")){
             Tramo tramo = new Tramo
                     (this.repoTransportes.buscar(new Integer(request.queryParams("medioTransporteId"))),
@@ -192,6 +189,16 @@ public class TrabajadorController {
 
             PersistenciaHelper.persistir(tramo); //todo asociarlo al trayecto
         }
+        return response;
+    }
+
+    public Response editarTramo(Request request, Response response){ //todo pantalla de editar que esten los datos cargados, similar a la de los FE
+        Tramo tramo = this.repoTramos.buscar(new Integer(request.queryParams("tramoId")));
+        if(SessionHelper.atributosNoSonNull(request,"alturaInicio")){
+            tramo.getPuntoInicio().setAltura(new Integer(request.queryParams("alturaInicio")));
+        }
+        //asi con todos los atributos
+        response.redirect("/trabajador/trayectos");
         return response;
     }
 

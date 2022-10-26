@@ -3,10 +3,13 @@ package models.controllers;
 import models.entities.CargaDeActividades.entidades.Periodo;
 import models.entities.calculoHC.CalculoHC;
 import models.entities.calculoHC.UnidadHC;
+import models.entities.organizaciones.contacto.Contacto;
+import models.entities.organizaciones.contacto.MedioNotificacion;
 import models.entities.organizaciones.entidades.Organizacion;
 import models.entities.organizaciones.solicitudes.Solicitud;
 import models.helpers.PeriodoHelper;
 import models.helpers.PersistenciaHelper;
+import models.helpers.SessionHelper;
 import models.helpers.threads.FileHandlerThread;
 import models.repositories.RepositorioDeOrganizaciones;
 import models.repositories.RepositorioDeParametrosFE;
@@ -156,6 +159,31 @@ public class OrganizacionController {
 //        Sector sector = organizacion.obtenerSectorPorNombre(request.queryParams("nombreSector")); //TODO que le pase la sol Id de una -> repoSolicitudes
 //        return sector.getSolicitudes().stream().filter(sol -> sol.getId() == new Integer(request.queryParams("solicitudId"))).collect(Collectors.toList()).get(0);
         return this.repoSolicitudes.buscar(new Integer(request.queryParams("solicitudId")));
+    }
+
+    public ModelAndView mostrarContactos(Request request, Response response){
+        HashMap<String, Object> parametros = new HashMap<>();
+        Organizacion organizacion = this.obtenerOrganizacion(request,response);
+        parametros.put("contactos",organizacion.getContactos());
+        return new ModelAndView(parametros,"contactos-menu.hbs");
+    }
+
+    public ModelAndView mostrarNuevoContacto(Request request, Response response){
+        return new ModelAndView(null,"contacto-nuevo-menu.hbs");
+    }
+
+    public Response registrarNuevoContacto(Request request, Response response){ //todo el tema de la lista de acciones
+        if(SessionHelper.atributosNoSonNull(request,"")){
+            Contacto nuevoContacto = new Contacto(request.queryParams("nroTelefono"),request.queryParams("email"), (MedioNotificacion) null);
+        }
+    }
+
+    public ModelAndView mostrarEditarContacto(Request request, Response response){
+        return new ModelAndView(null,"contacto-editar-menu.hbs");
+    }
+
+    public ModelAndView editarContacto(Request request, Response response){ //TODO
+        return null;
     }
 
 }
