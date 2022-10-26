@@ -42,7 +42,9 @@ public class Organizacion {
     @Getter
     private List<Sector> sectores;
 
+    @Getter
     @Enumerated(value = EnumType.STRING)
+    @Column(name = "tipo_organizacion")
     private TipoOrganizacion tipoOrganizacion;
 
     @Getter
@@ -68,13 +70,15 @@ public class Organizacion {
 //    @JoinColumn(name = "organizacion_id",referencedColumnName = "id")
 //    private List<Solicitud> listaDeSolicitudes;
 
-    public Organizacion(List<Trabajador> miembros, List<Sector> sectores) {
+    public Organizacion(List<Sector> sectores) {
         this.sectores = sectores;
         this.listaDeActividades = new ArrayList<>();
+        this.contactos = new ArrayList<>();
     }
 
     public Organizacion(){
         this.listaDeActividades = new ArrayList<>();
+        this.contactos = new ArrayList<>();
     }
 
     public Organizacion(List<String> clasificacionOrg,
@@ -87,6 +91,7 @@ public class Organizacion {
         this.tipoOrganizacion= tipoOrganizacion;
         this.direccion = direccion;
         this.listaDeActividades = new ArrayList<>();
+        this.contactos = new ArrayList<>();
     }
 
 
@@ -146,6 +151,10 @@ public class Organizacion {
     }
     public Double calcularHCTotalTrabajadores(){
         return this.sectores.stream().mapToDouble(Sector::calcularHCTotalSector).sum();
+    }
+
+    public void agregarContacto(Contacto contacto){
+        this.getContactos().add(contacto);
     }
 
     public void notificarAContactos(String contenido) {

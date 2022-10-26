@@ -1,8 +1,12 @@
 package models.entities.organizaciones.contacto;
 
+import lombok.Getter;
+
 import java.io.IOException;
 
-public interface MedioNotificacion {
+public abstract class MedioNotificacion {
 
-    void notificar(String contenido,String nroTelefono,String mail) throws IOException;
+    @Getter
+    EMedioNotificacion medio;
+    abstract void notificar(String contenido,String nroTelefono,String mail) throws IOException;
 }

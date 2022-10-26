@@ -8,7 +8,7 @@ import models.entities.organizaciones.contacto.MedioNotificacion;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
-@Converter(autoApply = true)
+@Converter(autoApply = false)
 public class MedioDeNotificacionConverter implements AttributeConverter<MedioNotificacion, EMedioNotificacion> {
 
     @Override
@@ -16,7 +16,7 @@ public class MedioDeNotificacionConverter implements AttributeConverter<MedioNot
         if(medioNotificacion instanceof MandarMail){
             return EMedioNotificacion.MAIL;
         }
-        if(medioNotificacion instanceof MandarWhatsapp){ //todo preguntar si estaba bien usarlo asi
+        if(medioNotificacion instanceof MandarWhatsapp){ //creo que no hace falta ete converter, todo probar
             return EMedioNotificacion.WHATSAPP;
         }
         return null;
@@ -31,5 +31,6 @@ public class MedioDeNotificacionConverter implements AttributeConverter<MedioNot
             case WHATSAPP:
                 return new MandarWhatsapp();
         }
+        return null;
     }
 }

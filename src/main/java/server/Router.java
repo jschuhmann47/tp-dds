@@ -54,7 +54,7 @@ public class Router {
         Spark.get("/logout",loginController::logout);
 
 
-
+        //todo botones de eliminar ej trayecto
         Spark.path("",() -> {
             Spark.before("/", AuthMiddleware::verificarSesion);
             Spark.get("",menuController::inicio,Router.engine);
@@ -97,6 +97,14 @@ public class Router {
                     Spark.post("",organizacionController::calcularHC, Router.engine);
                 });
 
+                Spark.path("/contactos", () -> {
+                    Spark.get("",organizacionController::mostrarContactos, Router.engine);
+                    Spark.get("/nuevo",organizacionController::mostrarNuevoContacto, Router.engine);
+                    Spark.post("/nuevo",organizacionController::registrarNuevoContacto);
+                    Spark.get("/editar",organizacionController::mostrarEditarContacto, Router.engine);
+                    Spark.post("/editar",organizacionController::editarContacto);
+                });
+
                 Spark.get("/recomendaciones",organizacionController::mostrarRecomendaciones, Router.engine);
             });
 
@@ -137,6 +145,15 @@ public class Router {
                     Spark.get("",trabajadorController::mostrarTrayectos, Router.engine);
                     Spark.get("/nuevo",trabajadorController::mostrarNuevoTrayecto, Router.engine);
                     Spark.post("/nuevo",trabajadorController::registrarNuevoTrayecto);
+                });
+
+                Spark.path("/trayecto", () -> { //aca entra habiendo elegido un trayecto de la lista de trayectos
+                    Spark.get("/tramos", trabajadorController::mostrarTramosDelTrayecto, Router.engine);
+                    Spark.get("/tramos/editar",trabajadorController::mostrarEditarTramo, Router.engine);
+                    Spark.post("/tramos/editar",trabajadorController::editarTramo);
+                    Spark.get("/tramos/nuevo",trabajadorController::mostrarNuevoTramo, Router.engine);
+                    Spark.post("/tramos/nuevo",trabajadorController::registrarNuevoTramo);
+                    //todo eliminar
                 });
 
                 Spark.get("/recomendaciones",trabajadorController::mostrarRecomendaciones, Router.engine);

@@ -66,8 +66,8 @@ public class CompartirTramoTest {
         rrhh.trabajadores.add(carlos);
         rrhh.trabajadores.add(luis);
 
-        organizacionA = new Organizacion(trabajadoresA, sectoresA);
-        organizacionB = new Organizacion(trabajadoresB, sectoresB);
+        organizacionA = new Organizacion(sectoresA);
+        organizacionB = new Organizacion(sectoresB);
 
         marketing.organizacion = organizacionA;
         rrhh.organizacion = organizacionB;

@@ -6,25 +6,23 @@ import lombok.Setter;
 
 import java.io.IOException;
 
-public class MandarWhatsapp implements MedioNotificacion {
+public class MandarWhatsapp extends MedioNotificacion {
 
     @Setter
     @Getter
     EnvioNotificacionWhatsappAdapter adapter;
-    EMedioNotificacion medio = EMedioNotificacion.WHATSAPP;
 
     public MandarWhatsapp(EnvioNotificacionWhatsappAdapter adapter) {
         this.adapter = adapter;
+        this.medio = EMedioNotificacion.WHATSAPP;
     }
 
     public MandarWhatsapp() {
+        this.medio = EMedioNotificacion.WHATSAPP;
     }
 
     public void notificar(String contenido, String nroTelefono, String mail) throws IOException {
         adapter.notificar(contenido,nroTelefono);
-    }
-    public EMedioNotificacion getMedio(){
-        return medio;
     }
 
 }

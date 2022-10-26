@@ -4,6 +4,8 @@ import models.entities.CargaDeActividades.entidades.Periodo;
 import models.entities.calculoHC.CalculoHC;
 import models.entities.calculoHC.UnidadHC;
 import models.entities.organizaciones.contacto.Contacto;
+import models.entities.organizaciones.contacto.MandarMail;
+import models.entities.organizaciones.contacto.MandarWhatsapp;
 import models.entities.organizaciones.contacto.MedioNotificacion;
 import models.entities.organizaciones.entidades.Organizacion;
 import models.entities.organizaciones.solicitudes.Solicitud;
@@ -11,9 +13,11 @@ import models.helpers.PeriodoHelper;
 import models.helpers.PersistenciaHelper;
 import models.helpers.SessionHelper;
 import models.helpers.threads.FileHandlerThread;
+import models.repositories.RepositorioDeContactos;
 import models.repositories.RepositorioDeOrganizaciones;
 import models.repositories.RepositorioDeParametrosFE;
 import models.repositories.RepositorioDeSolicitudes;
+import models.repositories.factories.FactoryRepositorioDeContactos;
 import models.repositories.factories.FactoryRepositorioDeOrganizaciones;
 import models.repositories.factories.FactoryRepositorioDeParametrosFE;
 import models.repositories.factories.FactoryRepositorioDeSolicitudes;
@@ -22,18 +26,22 @@ import spark.Request;
 import spark.Response;
 import spark.Spark;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class OrganizacionController {
     //TODO provincias, municipios, orgs, sectores, medios t que llege una lista, que no escriba a mano
     private RepositorioDeOrganizaciones repoOrganizaciones;
     private RepositorioDeParametrosFE repoFE;
     private RepositorioDeSolicitudes repoSolicitudes;
+    private RepositorioDeContactos repoContactos;
 
     public OrganizacionController() {
         this.repoOrganizaciones = FactoryRepositorioDeOrganizaciones.get();
         this.repoFE = FactoryRepositorioDeParametrosFE.get();
         this.repoSolicitudes = FactoryRepositorioDeSolicitudes.get();
+        this.repoContactos = FactoryRepositorioDeContactos.get();
     }
 
 
@@ -134,11 +142,6 @@ public class OrganizacionController {
         return response;
     }
 
-    public ModelAndView mostrarNuevoReporte(Request request, Response response) {
-        HashMap<String, Object> parametros = new HashMap<>();
-        return new ModelAndView(parametros,"subir-archivo-menu.hbs");
-    }
-
     public Response aceptarVinculacion(Request request, Response response){
         Solicitud solicitud = this.obtenerSolicitud(request,response);
         solicitud.aceptarSolicitud();
@@ -172,18 +175,48 @@ public class OrganizacionController {
         return new ModelAndView(null,"contacto-nuevo-menu.hbs");
     }
 
-    public Response registrarNuevoContacto(Request request, Response response){ //todo el tema de la lista de acciones
-        if(SessionHelper.atributosNoSonNull(request,"")){
-            Contacto nuevoContacto = new Contacto(request.queryParams("nroTelefono"),request.queryParams("email"), (MedioNotificacion) null);
+    public Response registrarNuevoContacto(Request request, Response response){
+        if(SessionHelper.atributosNoSonNull(request,"nroTelefono","email","medioNotificacion")){
+            Contacto nuevoContacto = new Contacto(request.queryParams("nroTelefono"),request.queryParams("email"), this.getMedioDeNotificacionDeRequest(request));
+            Organizacion org = this.obtenerOrganizacion(request,response);
+            org.agregarContacto(nuevoContacto);
+            PersistenciaHelper.persistir(org);
         }
+        return response;
     }
 
     public ModelAndView mostrarEditarContacto(Request request, Response response){
         return new ModelAndView(null,"contacto-editar-menu.hbs");
     }
 
-    public ModelAndView editarContacto(Request request, Response response){ //TODO
-        return null;
+    public Response editarContacto(Request request, Response response){
+        Contacto contactoAEditar = this.repoContactos.buscar(new Integer(request.queryParams("contactoId")));
+        if(SessionHelper.atributosNoSonNull(request,"nroTelefono")){
+            contactoAEditar.setNroTelefono(request.queryParams("nroTelefono"));
+        }
+        if(SessionHelper.atributosNoSonNull(request,"email")){
+            contactoAEditar.setEmail(request.queryParams("email"));
+        }
+        contactoAEditar.setListaDeMedios(this.getMedioDeNotificacionDeRequest(request)); //es un desplegable
+        return response;
     }
 
+    private List<MedioNotificacion> getMedioDeNotificacionDeRequest(Request request){
+        List<MedioNotificacion> medios = new ArrayList<>();
+        switch (request.queryParams("medioNotificacion")){
+            case "MAIL":
+                medios.add(new MandarMail());
+                break;
+            case "WHATSAPP":
+                medios.add(new MandarWhatsapp());
+                break;
+            case "AMBOS":
+                medios.add(new MandarWhatsapp());
+                medios.add(new MandarMail());
+                break;
+            default:
+                break;
+        }
+        return medios;
+    }
 }

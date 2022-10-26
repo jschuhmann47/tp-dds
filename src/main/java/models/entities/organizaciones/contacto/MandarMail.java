@@ -6,26 +6,23 @@ import lombok.Setter;
 
 import java.io.IOException;
 
-public class MandarMail implements MedioNotificacion {
+public class MandarMail extends MedioNotificacion {
 
     @Setter
     @Getter
     EnvioNotificacionMailAdapter adapter;
 
-    EMedioNotificacion medio = EMedioNotificacion.MAIL;
+
     public MandarMail(EnvioNotificacionMailAdapter adapter) {
         this.adapter = adapter;
+        this.medio = EMedioNotificacion.MAIL;
     }
 
     public MandarMail() {
-
+        this.medio = EMedioNotificacion.MAIL;
     }
 
     public void notificar(String contenido, String nroTelefono, String mail) throws IOException {
         adapter.notificar(contenido,nroTelefono);
-    }
-
-    public EMedioNotificacion getMedio(){
-        return medio;
     }
 }

@@ -168,6 +168,12 @@ public class TrabajadorController {
         return new ModelAndView(parametros,"agregar-tramo.hbs");
     }
 
+    public ModelAndView mostrarEditarTramo(Request request, Response response) { //TODO editar tramos
+        HashMap<String,Object> parametros = new HashMap<>();
+        parametros.put("tramo",this.repoTramos.buscar(new Integer(request.queryParams("tramoId"))));
+        return new ModelAndView(parametros,"editar-tramo.hbs");
+    }
+
 
     public ModelAndView mostrarTramosDelTrayecto(Request request, Response response){
         HashMap<String,Object> parametros = new HashMap<>();
