@@ -157,6 +157,10 @@ public class Organizacion {
         this.getContactos().add(contacto);
     }
 
+    public void eliminarContacto(Contacto contacto){
+        this.getContactos().remove(contacto); //chequear
+    }
+
     public void notificarAContactos(String contenido) {
         this.contactos.forEach(contacto -> {
             contacto.notificar(contenido);

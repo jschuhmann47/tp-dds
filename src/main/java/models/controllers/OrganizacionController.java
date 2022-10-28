@@ -219,4 +219,13 @@ public class OrganizacionController {
         }
         return medios;
     }
+
+    public Response eliminarContacto(Request request, Response response) {
+        Contacto contactoAEliminar = this.repoContactos.buscar(new Integer(request.queryParams("contactoId")));
+        Organizacion organizacion = this.obtenerOrganizacion(request,response);
+        organizacion.eliminarContacto(contactoAEliminar);
+        PersistenciaHelper.persistir(organizacion);
+        response.redirect("/contactos");
+        return response;
+    }
 }

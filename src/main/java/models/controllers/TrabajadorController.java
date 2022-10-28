@@ -223,7 +223,7 @@ public class TrabajadorController {
             trabajador.agregarTrayectos(trayecto);
             PersistenciaHelper.persistir(trayecto);
         }
-
+        response.redirect("/trabajador/trayectos");
         return response;
     }
 
@@ -236,6 +236,7 @@ public class TrabajadorController {
     public Response eliminarTramo(Request request, Response response){
         Trayecto trayecto = this.repoTrayectos.buscar(new Integer(request.queryParams("trayectoId"))); //con ajax
         PersistenciaHelper.eliminar(trayecto);
+        response.redirect("/trabajador/trayecto"); //probar si anda, no se si falta asociar el id
         return response;
     }
 

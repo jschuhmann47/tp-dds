@@ -84,7 +84,7 @@ public class Router {
                 });
 
 
-                Spark.path("/mediciones", () -> {
+                Spark.path("/mediciones", () -> { //excel
                     Spark.get("",organizacionController::mostrarMedicion, Router.engine);
                     Spark.get("/agregar",organizacionController::mostrarNuevaMedicion, Router.engine);
                     Spark.post("/agregar",organizacionController::registrarNuevaMedicion);
@@ -103,6 +103,7 @@ public class Router {
                     Spark.post("/nuevo",organizacionController::registrarNuevoContacto);
                     Spark.get("/editar",organizacionController::mostrarEditarContacto, Router.engine);
                     Spark.post("/editar",organizacionController::editarContacto);
+                    Spark.delete("",organizacionController::eliminarContacto);
                 });
 
                 Spark.get("/recomendaciones",organizacionController::mostrarRecomendaciones, Router.engine);
@@ -149,11 +150,14 @@ public class Router {
 
                 Spark.path("/trayecto", () -> { //aca entra habiendo elegido un trayecto de la lista de trayectos
                     Spark.get("/tramos", trabajadorController::mostrarTramosDelTrayecto, Router.engine);
-                    Spark.get("/tramos/editar",trabajadorController::mostrarEditarTramo, Router.engine);
-                    Spark.post("/tramos/editar",trabajadorController::editarTramo);
-                    Spark.get("/tramos/nuevo",trabajadorController::mostrarNuevoTramo, Router.engine);
-                    Spark.post("/tramos/nuevo",trabajadorController::registrarNuevoTramo);
-                    //todo eliminar
+                    Spark.path("/tramos", () -> {
+                        Spark.get("/editar",trabajadorController::mostrarEditarTramo, Router.engine);
+                        Spark.post("/editar",trabajadorController::editarTramo);
+                        Spark.get("/nuevo",trabajadorController::mostrarNuevoTramo, Router.engine);
+                        Spark.post("/nuevo",trabajadorController::registrarNuevoTramo);
+                        Spark.delete("",trabajadorController::eliminarTramo);
+                    });
+                    Spark.delete("",trabajadorController::eliminarTrayecto);
                 });
 
                 Spark.get("/recomendaciones",trabajadorController::mostrarRecomendaciones, Router.engine);
@@ -232,6 +236,12 @@ public class Router {
                     Spark.get("",administradorController::mostrarConfiguracionActualFE, Router.engine);
                     Spark.post("",administradorController::editarFE);
                 });
+                //todo menus de editar y crear
+//                Spark.get("/nuevaOrganizacion",administradorController::mostrarNuevaOrganizacion);
+//                Spark.post("nuevaOrganizacion",administradorController::crearNuevaOrganizacion);
+//
+//                Spark.get("/editarSectores",administradorController::mostrarSectores);
+
 
             });
         });
