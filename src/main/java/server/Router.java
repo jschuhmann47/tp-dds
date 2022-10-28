@@ -236,11 +236,25 @@ public class Router {
                     Spark.get("",administradorController::mostrarConfiguracionActualFE, Router.engine);
                     Spark.post("",administradorController::editarFE);
                 });
-                //todo menus de editar y crear
-//                Spark.get("/nuevaOrganizacion",administradorController::mostrarNuevaOrganizacion);
-//                Spark.post("nuevaOrganizacion",administradorController::crearNuevaOrganizacion);
-//
-//                Spark.get("/editarSectores",administradorController::mostrarSectores);
+
+                Spark.path("/organizaciones", () -> {
+                    Spark.get("",administradorController::mostrarOrganizaciones);
+                    Spark.get("/nueva",administradorController::mostrarNuevaOrganizacion);
+                    Spark.post("/nueva",administradorController::crearNuevaOrganizacion);
+                    Spark.delete("",administradorController::eliminarOrganizacion);
+
+                    Spark.get("/sectores",administradorController::mostrarSectores); //tres botones
+                    Spark.delete("/sectores",administradorController::eliminarSector);
+                    Spark.get("/nuevoSector",administradorController::mostrarNuevoSector);
+                    Spark.post("/nuevoSector",administradorController::crearNuevoSector);
+
+
+                });
+
+
+                Spark.path("/transportes", () -> {
+
+                });
 
 
             });
