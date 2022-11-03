@@ -242,7 +242,7 @@ public class Router {
                     Spark.get("/nueva",administradorController::mostrarNuevaOrganizacion);
                     Spark.post("/nueva",administradorController::crearNuevaOrganizacion);
                     Spark.delete("",administradorController::eliminarOrganizacion);
-
+                    //aca organizacion en vez de organizaciones
                     Spark.get("/sectores",administradorController::mostrarSectores); //tres botones
                     Spark.delete("/sectores",administradorController::eliminarSector);
                     Spark.get("/nuevoSector",administradorController::mostrarNuevoSector);
@@ -253,6 +253,8 @@ public class Router {
 
 
                 Spark.path("/transportes", () -> {
+                    Spark.get("",administradorController::mostrarTransportes, Router.engine);
+                    Spark.get("/nuevo",administradorController::mostrarNuevoTransporte, Router.engine);
 
                 });
 

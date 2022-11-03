@@ -32,6 +32,7 @@ public class AdministradorController {
     RepositorioDeLocalidades repoLocalidades = FactoryRepositorioDeLocalidades.get();
     RepositorioDeOrganizaciones repoOrgs = FactoryRepositorioDeOrganizaciones.get();
     RepositorioDeMediosDeTransporte repoTransportes = FactoryRepositorioDeMediosDeTransporte.get();
+    RepositorioDeSectores repoSectores = FactoryRepositorioDeSectores.get();
 
     public ModelAndView mostrar(Request request, Response response) {
         HashMap<String,Object> parametros = new HashMap<>();
@@ -87,7 +88,7 @@ public class AdministradorController {
         HashMap<String,Object> parametros = new HashMap<>();
         Organizacion organizacion = this.repoOrgs.buscar(new Integer(request.queryParams("organizacionId")));
         parametros.put("sectores",organizacion.getSectores());
-        return new ModelAndView(parametros,"nuevo-sector.hbs");
+        return new ModelAndView(parametros,"sectores.hbs");
     }
 
     public Response crearNuevoSector(Request request, Response response){
@@ -161,4 +162,28 @@ public class AdministradorController {
         }
     }
 
+    public ModelAndView mostrarOrganizaciones(Request request, Response response) {
+        HashMap<String,Object> parametros = new HashMap<>();
+        parametros.put("organizaciones",this.repoOrgs.buscarTodos());
+        return new ModelAndView(parametros,"organizaciones-menu-admin.hbs");
+    }
+
+    public Response eliminarOrganizacion(Request request, Response response) {
+        Organizacion organizacionAElminar = this.repoOrgs.buscar(new Integer(request.queryParams("organizacionId")));
+        PersistenciaHelper.eliminar(organizacionAElminar); //ver q onda con los trabajadores de la org que se elimina
+        response.redirect("/organizaciones");
+        return response;
+    }
+
+    public ModelAndView mostrarNuevoSector(Request request, Response response) {
+        return new ModelAndView(null,"nuevo-sector.hbs");
+    }
+
+
+    public Response eliminarSector(Request request, Response response) {
+        Sector sectorAEliminar = this.repoSectores.buscar(new Integer(request.queryParams("sectorId")));
+        PersistenciaHelper.eliminar(sectorAEliminar);
+        response.redirect("/organizacion/sectores"); //todo arreglar las rutas
+        return response;
+    }
 }
