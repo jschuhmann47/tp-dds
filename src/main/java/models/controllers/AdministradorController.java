@@ -1,6 +1,5 @@
 package models.controllers;
 
-import db.EntityManagerHelper;
 import models.entities.geoDDS.Direccion;
 import models.entities.geoDDS.entidades.Distancia;
 import models.entities.geoDDS.entidades.Municipio;
@@ -9,7 +8,6 @@ import models.entities.organizaciones.entidades.Organizacion;
 import models.entities.organizaciones.entidades.Sector;
 import models.entities.organizaciones.entidades.TipoOrganizacion;
 import models.entities.parametros.ParametroFE;
-import models.entities.transporte.privado.TipoVehiculo;
 import models.entities.transporte.publico.Parada;
 import models.helpers.PersistenciaHelper;
 import models.helpers.SessionHelper;
@@ -58,7 +56,7 @@ public class AdministradorController {
 
     public ModelAndView mostrarNuevaOrganizacion(Request request, Response response){
         HashMap<String,Object> parametros = new HashMap<>();
-        this.setearDesplegablesDeLocalidades(request,response,parametros);
+        this.setearDesplegablesDeLocalidades(request, parametros);
         if(SessionHelper.atributosNoSonNull(request,"localidadId")){
             this.crearNuevaOrganizacion(request,response);
         }
@@ -105,7 +103,7 @@ public class AdministradorController {
 
     public ModelAndView mostrarTransportes(Request request, Response response){
         HashMap<String,Object> parametros = new HashMap<>();
-        parametros.put("transportes",this.repoTransportes.buscarTodos());
+        parametros.put("transportes",this.repoTransportes.buscarTodos()); //si es publico poner boton de mostrar paradas
         return new ModelAndView(parametros,"transportes.hbs");
     }
 
@@ -150,7 +148,7 @@ public class AdministradorController {
         return response;
     }
 
-    private void setearDesplegablesDeLocalidades(Request request, Response response, HashMap<String,Object> parametros){
+    private void setearDesplegablesDeLocalidades(Request request, HashMap<String,Object> parametros){
         parametros.put("provincias",this.repoProvincias.buscarTodos());
         if(SessionHelper.atributosNoSonNull(request,"provinciaId")){
             Provincia provincia = this.repoProvincias.buscar(new Integer(request.queryParams("provinciaId")));
