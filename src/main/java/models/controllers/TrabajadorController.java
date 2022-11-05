@@ -60,7 +60,7 @@ public class TrabajadorController {
         HashMap<String,Object> parametros = new HashMap<>();
         Trabajador trabajador = this.obtenerTrabajador(request,response);
         parametros.put("trabajador",trabajador);
-        return new ModelAndView(parametros, "trabajador-menu.hbs");
+        return new ModelAndView(parametros, "trabajador/trabajador-menu.hbs");
     }
 
     private Trabajador obtenerTrabajador(Request request, Response response){
@@ -73,7 +73,7 @@ public class TrabajadorController {
     }
 
     public ModelAndView mostrarCalculadora(Request request, Response response) {
-        return new ModelAndView(null,"calculadora-trabajador.hbs");
+        return new ModelAndView(null,"trabajador/calculadora-trabajador.hbs");
     }
 
     public ModelAndView calcularHC(Request request, Response response) {
@@ -93,7 +93,7 @@ public class TrabajadorController {
             parametros.put("huellaCarbono",trabajador.calcularHCTotal());
         }
         parametros.put("factorEmision",CalculoHC.getUnidadPorDefectoString());
-        return new ModelAndView(parametros,"calculadora-trabajador.hbs");
+        return new ModelAndView(parametros,"trabajador/calculadora-trabajador.hbs");
     }
 
     public ModelAndView mostrarVinculaciones(Request request, Response response){
@@ -102,7 +102,7 @@ public class TrabajadorController {
         parametros.put("trabajador",trabajador);
         parametros.put("solicitudes",trabajador.getListaDeSolicitudes());
 
-        return new ModelAndView(parametros, "solicitudes-trabajador-menu.hbs");
+        return new ModelAndView(parametros, "trabajador/solicitudes-trabajador-menu.hbs");
     }
 
     public ModelAndView mostrarNuevaVinculacion(Request request, Response response) {
@@ -111,7 +111,7 @@ public class TrabajadorController {
         if(SessionHelper.atributosNoSonNull(request,"organizacionId")){
             parametros.put("sectores",this.repoOrgs.buscar(new Integer(request.queryParams("organizacionId"))).getSectores());
         }
-        return new ModelAndView(parametros,"nueva-vinculacion.hbs");
+        return new ModelAndView(parametros,"trabajador/nueva-vinculacion.hbs");
     }
 
     public Response eliminarVinculacion(Request request, Response response){
@@ -147,7 +147,7 @@ public class TrabajadorController {
         parametros.put("trabajador",trabajador);
         parametros.put("trayectos",trabajador.getListaTrayectos());
 
-        return new ModelAndView(parametros, "trayectos-menu.hbs");
+        return new ModelAndView(parametros, "trabajador/trayectos-menu.hbs");
     }
 
     public ModelAndView mostrarRecomendaciones(Request request, Response response) {
@@ -158,27 +158,27 @@ public class TrabajadorController {
     public ModelAndView mostrarNuevoTrayecto(Request request, Response response) {
         HashMap<String,Object> parametros = new HashMap<>();
         parametros.put("localidades",this.repoLocalidades.buscarTodos());
-        return new ModelAndView(parametros,"agregar-trayecto.hbs");
+        return new ModelAndView(parametros,"trabajador/agregar-trayecto.hbs");
     }
 
     public ModelAndView mostrarNuevoTramo(Request request, Response response) { //TODO editar tramos
         HashMap<String,Object> parametros = new HashMap<>();
         parametros.put("localidades",this.repoLocalidades.buscarTodos());
         parametros.put("transportes",this.repoTransportes.buscarTodos());
-        return new ModelAndView(parametros,"agregar-tramo.hbs");
+        return new ModelAndView(parametros,"trabajador/agregar-tramo.hbs");
     }
 
     public ModelAndView mostrarEditarTramo(Request request, Response response) { //TODO editar tramos
         HashMap<String,Object> parametros = new HashMap<>();
         parametros.put("tramo",this.repoTramos.buscar(new Integer(request.queryParams("tramoId"))));
-        return new ModelAndView(parametros,"editar-tramo.hbs");
+        return new ModelAndView(parametros,"trabajador/editar-tramo.hbs");
     }
 
 
     public ModelAndView mostrarTramosDelTrayecto(Request request, Response response){
         HashMap<String,Object> parametros = new HashMap<>();
         parametros.put("tramos",this.repoTrayectos.buscar(new Integer(request.queryParams("trayectoId"))).getTramos()); //q no sea null
-        return new ModelAndView(parametros,"menu-tramos.hbs");
+        return new ModelAndView(parametros,"trabajador/menu-tramos.hbs");
     }
 
     public Response registrarNuevoTramo(Request request, Response response) throws Exception {

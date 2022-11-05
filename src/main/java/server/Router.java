@@ -63,7 +63,7 @@ public class Router {
                 Spark.before("/*", AuthMiddleware::verificarSesion);
                 Spark.before("", (request, response) -> {
                     if(!PermisoHelper.usuarioTienePermisos(request, Permiso.VER_ORGANIZACION)
-                            || !PermisoHelper.usuarioTieneRecursoDeTipo(request, TipoRecurso.ORGANIZACION)){ //todo o el id de ese tipo es null??
+                            || !PermisoHelper.usuarioTieneRecursoDeTipo(request, TipoRecurso.ORGANIZACION)){
                         response.redirect("/prohibido");
                         Spark.halt("Recurso prohibido");
                     }
@@ -104,6 +104,7 @@ public class Router {
                     Spark.get("/editar",organizacionController::mostrarEditarContacto, Router.engine);
                     Spark.post("/editar",organizacionController::editarContacto);
                     Spark.delete("",organizacionController::eliminarContacto);
+                    //todo boton de notificar
                 });
 
                 Spark.get("/recomendaciones",organizacionController::mostrarRecomendaciones, Router.engine);
@@ -133,8 +134,6 @@ public class Router {
                     Spark.get("",trabajadorController::mostrarCalculadora, Router.engine);
                     Spark.post("",trabajadorController::calcularHC, Router.engine);
                 });
-
-                //quitar boton de reportes
 
                 Spark.path("/vinculacion", () -> {
                     Spark.get("",trabajadorController::mostrarVinculaciones, Router.engine);
@@ -180,7 +179,7 @@ public class Router {
                 });
                 Spark.get("",agenteController::mostrar,Router.engine);
 
-                Spark.path("/reportes", () -> {
+                Spark.path("/reportes", () -> { //todo fix en los .hbs de las rutas
                     Spark.get("",reporteController::mostrarReportes, Router.engine);
 
                     Spark.get("/composicionHCOrganizacion",reporteController::mostrarComposicionHCOrganizacion, Router.engine);
@@ -232,7 +231,7 @@ public class Router {
                     }
                 });
                 Spark.get("",administradorController::mostrar, Router.engine);
-                Spark.path("/config", () -> {
+                Spark.path("/factoresEmision", () -> {
                     Spark.get("",administradorController::mostrarConfiguracionActualFE, Router.engine);
                     Spark.post("",administradorController::editarFE);
                 });
@@ -242,14 +241,14 @@ public class Router {
                     Spark.get("/nueva",administradorController::mostrarNuevaOrganizacion);
                     Spark.post("/nueva",administradorController::crearNuevaOrganizacion);
                     Spark.delete("",administradorController::eliminarOrganizacion);
+                });
 
-                    //aca organizacion en vez de organizaciones
-                    Spark.get("/sectores",administradorController::mostrarSectores); //tres botones
+                Spark.path("/organizacion",() -> {
+                    Spark.get("",administradorController::mostrarOrganizacionYSectores); //tres botones, y la data de la org
                     Spark.delete("/sectores",administradorController::eliminarSector);
                     Spark.get("/nuevoSector",administradorController::mostrarNuevoSector);
                     Spark.post("/nuevoSector",administradorController::crearNuevoSector);
-
-
+                    //todo editar
                 });
 
 
@@ -258,10 +257,16 @@ public class Router {
                     Spark.get("/nuevo",administradorController::mostrarNuevoTransporte, Router.engine);
                     Spark.post("/nuevo",administradorController::crearNuevoTransporte);
 
-                    //en transporte solo
-                    Spark.get("/paradas",administradorController::mostrarParadas, Router.engine);
-                    Spark.get("/nueva",administradorController::mostrarNuevaParada, Router.engine);
-                    Spark.post("/nueva",administradorController::crearNuevaParada);
+                });
+
+                Spark.path("/transporte", () -> {
+                    Spark.get("",administradorController::mostrarTransporte,Router.engine);
+                    Spark.path("/paradas", () -> {
+                        Spark.get("",administradorController::mostrarParadas, Router.engine);
+                        Spark.get("/nueva",administradorController::mostrarNuevaParada, Router.engine);
+                        Spark.post("/nueva",administradorController::crearNuevaParada);
+                    });
+                    Spark.delete("",administradorController::eliminarTransporte);
 
                 });
 

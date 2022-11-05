@@ -15,7 +15,7 @@ public class AgenteSectorialController {
     public ModelAndView mostrar(Request request, Response response){
         HashMap<String,Object> parametros = new HashMap<>();
         parametros.put("agente",this.repo.buscar(request.session().attribute("resource_id")));
-        return new ModelAndView(parametros, "agente-menu.hbs");
+        return new ModelAndView(parametros, "agente/agente-menu.hbs");
     }
 
     public ModelAndView mostrarRecomendaciones(Request request, Response response) {
@@ -23,6 +23,6 @@ public class AgenteSectorialController {
     }
 
     public ModelAndView mostrarReportes(Request request, Response response) {
-        return new ModelAndView(new HashMap<String,Object>(),"reportes-menu.hbs");
+        return new ModelAndView(new HashMap<String,Object>(),"agente/reportes-menu.hbs");
     }
 }

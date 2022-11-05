@@ -36,7 +36,7 @@ public class ReporteController {
 
     public ModelAndView mostrarMenu(Request request, Response response){
         HashMap<String, Object> parametros = new HashMap<>();
-        return new ModelAndView(parametros,"reportes-menu.hbs");
+        return new ModelAndView(parametros,"agente/reportes-menu.hbs");
     }
 
     public ModelAndView composicionHCPais(Request request, Response response){ //OK
@@ -48,7 +48,7 @@ public class ReporteController {
                 this.repoProvincia.buscarTodos()
         );
         parametros.put("reportes", reportes);
-        return new ModelAndView(parametros,"composicion-hc-pais.hbs");
+        return new ModelAndView(parametros,"agente/composicion-hc-pais.hbs");
     }
 
     public ModelAndView composicionHCOrganizacion(Request request, Response response){ //OK
@@ -58,13 +58,13 @@ public class ReporteController {
         if(organizacion!=null){
             parametros.put("reportes",GeneradorReporte.ComposicionHCTotalDeUnaOrganizacion(organizacion));
         }
-        return new ModelAndView(parametros,"composicion-hc-organizacion.hbs");
+        return new ModelAndView(parametros,"agente/composicion-hc-organizacion.hbs");
     }
 
     public ModelAndView mostrarComposicionHCOrganizacion(Request request, Response response){ //OK
         HashMap<String, Object> parametros = new HashMap<>();
         parametros.put("organizaciones",this.repoOrg.buscarTodos());
-        return new ModelAndView(parametros,"composicion-hc-organizacion.hbs");
+        return new ModelAndView(parametros,"agente/composicion-hc-organizacion.hbs");
     }
 
     public ModelAndView composicionHCMunicipio(Request request, Response response){ //Sector territorial //OK
@@ -74,7 +74,7 @@ public class ReporteController {
         if(municipio != null){
             parametros.put("reportes", GeneradorReporte.ComposicionHCTotalPorSectorTerritorial(this.repoOrg.buscarTodosDeMunicipio(municipio),municipio));
         }
-        return new ModelAndView(parametros,"composicion-hc-territorio.hbs");
+        return new ModelAndView(parametros,"agente/composicion-hc-territorio.hbs");
     }
 
     public ModelAndView mostrarComposicionHCMunicipio(Request request, Response response){ //hace get y post to_do aca //OK
@@ -83,7 +83,7 @@ public class ReporteController {
         if(SessionHelper.atributosNoSonNull(request,"municipioId")){
             return this.composicionHCMunicipio(request,response);
         }
-        return new ModelAndView(parametros,"composicion-hc-territorio.hbs");
+        return new ModelAndView(parametros,"agente/composicion-hc-territorio.hbs");
     }
 
     private void setearDesplegablesDeMunicipios(Request request, Response response, HashMap<String,Object> parametros){ //OK
@@ -100,7 +100,7 @@ public class ReporteController {
         if(SessionHelper.atributosNoSonNull(request,"municipioId","mes","anio")){
             return this.evolucionHCMunicipio(request,response);
         }
-        return new ModelAndView(parametros,"evolucion-hc-territorio.hbs");
+        return new ModelAndView(parametros,"agente/evolucion-hc-territorio.hbs");
     }
 
     public ModelAndView evolucionHCMunicipio(Request request, Response response){ //OK
@@ -111,7 +111,7 @@ public class ReporteController {
         if(municipio != null){
             parametros.put("reportes", GeneradorReporte.evolucionHCTotalSectorTerritorial(this.repoOrg.buscarTodosDeMunicipio(municipio),municipio,periodo));
         }
-        return new ModelAndView(parametros,"evolucion-hc-territorio.hbs");
+        return new ModelAndView(parametros,"agente/evolucion-hc-territorio.hbs");
     }
 
     public ModelAndView HCPorClasificacionOrganizacion(Request request, Response response){
@@ -121,7 +121,7 @@ public class ReporteController {
         String clasificacion = request.queryParams("clasificacion");
         parametros.put("reportes",GeneradorReporte.HCTotalPorClasificacion(this.repoOrg.buscarTodosClasificacion(clasificacion),clasificacion));
 
-        return new ModelAndView(parametros,"hc-clasificacion-organizacion.hbs");
+        return new ModelAndView(parametros,"agente/hc-clasificacion-organizacion.hbs");
     }
 
     public ModelAndView evolucionHCOrganizacion(Request request, Response response){
@@ -132,7 +132,7 @@ public class ReporteController {
             Periodo periodo = PeriodoHelper.nuevoPeriodo(request.queryParams("mes"),request.queryParams("anio"));
             parametros.put("reportes",GeneradorReporte.evolucionHCTotalOrganizacion(organizacion,periodo));
         }
-        return new ModelAndView(parametros,"evolucion-hc-organizacion.hbs");
+        return new ModelAndView(parametros,"agente/evolucion-hc-organizacion.hbs");
     }
 
     public ModelAndView HCPorMunicipio(Request request, Response response){
@@ -142,11 +142,11 @@ public class ReporteController {
         if(municipio != null){
             parametros.put("reportes", GeneradorReporte.HCTotalPorSectorTerritorial(this.repoOrg.buscarTodosDeMunicipio(municipio),municipio));
         }
-        return new ModelAndView(parametros,"hc-total-territorio.hbs");
+        return new ModelAndView(parametros,"agente/hc-total-territorio.hbs");
     }
 
     public ModelAndView mostrarHCPorMunicipio(Request request, Response response){
-        return new ModelAndView(null,"hc-total-territorio.hbs");
+        return new ModelAndView(null,"agente/hc-total-territorio.hbs");
     }
 
     private Municipio buscarMunicipio(String nombreMunicipio, String nombreProvincia){
@@ -158,16 +158,16 @@ public class ReporteController {
     }
 
     public ModelAndView mostrarReportes(Request request, Response response) {
-        return new ModelAndView(null,"reportes-menu.hbs");
+        return new ModelAndView(null,"agente/reportes-menu.hbs");
     }
 
     public ModelAndView mostrarEvolucionHCOrganizacion(Request request, Response response) {
-        return new ModelAndView(null,"evolucion-hc-organizacion.hbs");
+        return new ModelAndView(null,"agente/evolucion-hc-organizacion.hbs");
     }
 
 
     public ModelAndView mostrarHCPorClasificacionOrganizacion(Request request, Response response) {
-        return new ModelAndView(null,"hc-clasificacion-organizacion.hbs");
+        return new ModelAndView(null,"agente/hc-clasificacion-organizacion.hbs");
     }
 
     private void setearParametrosFE(){

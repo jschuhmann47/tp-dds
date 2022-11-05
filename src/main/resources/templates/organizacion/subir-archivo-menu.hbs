@@ -7,30 +7,27 @@
     <title>Documento</title>
     <link rel="icon" type="image/x-icon" href="images/menu/utn.png">
      <link rel="stylesheet" href="/css/subir-archivo-menu.css">
-
      <!-- CSS only -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" 
-            crossorigin="anonymous">
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+                crossorigin="anonymous">
 </head>
 <body>
-
     <header class="navbar navbar-expand-lg navbar-light bg-light ps-4 opacity-75">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
-            aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand">Bienvenido</a>
+        <a class="navbar-brand">Bienvenida {{organizacion.razonSocial}}</a>
 
         <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/">Home</a>
+                    <a class="nav-link" href="/organizacion">Home</a>
                 </li>
             </ul>
         </div>
 
-        <a class="nav-link" style="margin-right: 40px;" href="logout" >Logout</a>
+        <a class="nav-link" style="margin-right: 40px;" href="logout">Logout</a>
 
     </header>
     

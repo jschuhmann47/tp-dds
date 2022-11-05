@@ -8,6 +8,7 @@ import models.entities.organizaciones.entidades.Organizacion;
 import models.entities.organizaciones.entidades.Sector;
 import models.entities.organizaciones.entidades.TipoOrganizacion;
 import models.entities.parametros.ParametroFE;
+import models.entities.transporte.MedioTransporte;
 import models.entities.transporte.publico.Parada;
 import models.helpers.PersistenciaHelper;
 import models.helpers.SessionHelper;
@@ -34,14 +35,14 @@ public class AdministradorController {
 
     public ModelAndView mostrar(Request request, Response response) {
         HashMap<String,Object> parametros = new HashMap<>();
-        return new ModelAndView(parametros, "administrador-menu.hbs");
+        return new ModelAndView(parametros, "administrador/administrador-menu.hbs");
     }
 
     public ModelAndView mostrarConfiguracionActualFE(Request request, Response response) {
         HashMap<String,Object> parametros = new HashMap<>();
         List<ParametroFE> parametrosFE = this.repoFE.buscarTodos();
         parametros.put("parametros",parametrosFE);
-        return new ModelAndView(parametros, "factor-emision-menu.hbs");
+        return new ModelAndView(parametros, "administrador/factor-emision-menu.hbs");
     }
 
     public Response editarFE(Request request,Response response){
@@ -50,7 +51,7 @@ public class AdministradorController {
             parametroFE.setValor(new Double(request.queryParams("nuevoValor")));
             PersistenciaHelper.persistir(parametroFE);
         }
-        response.redirect("/administrador/config");
+        response.redirect("/administrador/factoresEmision");
         return response;
     }
 
@@ -61,7 +62,7 @@ public class AdministradorController {
             this.crearNuevaOrganizacion(request,response);
         }
 
-        return new ModelAndView(parametros,"nueva-organizacion.hbs");
+        return new ModelAndView(parametros,"administrador/nueva-organizacion.hbs");
     }
 
     public Response crearNuevaOrganizacion(Request request, Response response){
@@ -82,11 +83,12 @@ public class AdministradorController {
         return null;
     }
 
-    public ModelAndView mostrarSectores(Request request, Response response){
+    public ModelAndView mostrarOrganizacionYSectores(Request request, Response response){
         HashMap<String,Object> parametros = new HashMap<>();
         Organizacion organizacion = this.repoOrgs.buscar(new Integer(request.queryParams("organizacionId")));
         parametros.put("sectores",organizacion.getSectores());
-        return new ModelAndView(parametros,"sectores.hbs");
+        parametros.put("organizacion",organizacion);
+        return new ModelAndView(parametros,"administrador/sectores.hbs");
     }
 
     public Response crearNuevoSector(Request request, Response response){
@@ -104,12 +106,12 @@ public class AdministradorController {
     public ModelAndView mostrarTransportes(Request request, Response response){
         HashMap<String,Object> parametros = new HashMap<>();
         parametros.put("transportes",this.repoTransportes.buscarTodos()); //si es publico poner boton de mostrar paradas
-        return new ModelAndView(parametros,"transportes.hbs");
+        return new ModelAndView(parametros,"administrador/transportes.hbs");
     }
 
     public ModelAndView mostrarNuevoTransporte(Request request, Response response){
         //todo traer los tipos de vehiculos de la base o de memoria?
-        return new ModelAndView(null,"nuevo-transporte.hbs");
+        return new ModelAndView(null,"administrador/nuevo-transporte.hbs");
     }
 
     public Response crearNuevoTransporte(Request request, Response response){
@@ -126,11 +128,11 @@ public class AdministradorController {
     public ModelAndView mostrarParadas(Request request, Response response){
         HashMap<String,Object> parametros = new HashMap<>();
         parametros.put("paradas",this.repoTransportes.buscar(new Integer(request.queryParams("transportePublicoId"))));
-        return new ModelAndView(parametros,"paradas.hbs");
+        return new ModelAndView(parametros,"administrador/paradas.hbs");
     }
 
     public ModelAndView mostrarNuevaParada(Request request, Response response){
-        return new ModelAndView(null,"nueva-parada.hbs");
+        return new ModelAndView(null,"administrador/nueva-parada.hbs");
     }
 
     public Response crearNuevaParada(Request request, Response response){
@@ -163,25 +165,38 @@ public class AdministradorController {
     public ModelAndView mostrarOrganizaciones(Request request, Response response) {
         HashMap<String,Object> parametros = new HashMap<>();
         parametros.put("organizaciones",this.repoOrgs.buscarTodos());
-        return new ModelAndView(parametros,"organizaciones-menu-admin.hbs");
+        return new ModelAndView(parametros,"administrador/organizaciones-menu-admin.hbs");
     }
 
     public Response eliminarOrganizacion(Request request, Response response) {
         Organizacion organizacionAElminar = this.repoOrgs.buscar(new Integer(request.queryParams("organizacionId")));
         PersistenciaHelper.eliminar(organizacionAElminar); //ver q onda con los trabajadores de la org que se elimina
-        response.redirect("/organizaciones");
+        response.redirect("/administrador/organizaciones");
         return response;
     }
 
     public ModelAndView mostrarNuevoSector(Request request, Response response) {
-        return new ModelAndView(null,"nuevo-sector.hbs");
+        return new ModelAndView(null,"/administrador/nuevo-sector.hbs");
     }
 
 
     public Response eliminarSector(Request request, Response response) {
         Sector sectorAEliminar = this.repoSectores.buscar(new Integer(request.queryParams("sectorId")));
         PersistenciaHelper.eliminar(sectorAEliminar);
-        response.redirect("/organizacion/sectores"); //todo arreglar las rutas
+        response.redirect("/administrador/organizacion/sectores");
+        return response;
+    }
+
+    public ModelAndView mostrarTransporte(Request request, Response response) {
+        HashMap<String,Object> parametros = new HashMap<>();
+        parametros.put("transportes",this.repoTransportes.buscar(new Integer(request.queryParams("transporteId")))); //si es publico poner boton de mostrar paradas
+        return new ModelAndView(parametros,"administrador/transporte.hbs");
+    }
+
+    public Response eliminarTransporte(Request request, Response response) {
+        MedioTransporte medioTransporteAEliminar = this.repoTransportes.buscar(new Integer(request.queryParams("transporteId")));
+        PersistenciaHelper.eliminar(medioTransporteAEliminar);
+        response.redirect("/administrador/transportes");
         return response;
     }
 }

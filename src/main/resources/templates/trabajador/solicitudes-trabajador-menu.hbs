@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Solicitudes</title>
+    <title>Vinculacion</title>
     <link rel="icon" type="image/x-icon" href="images/menu/utn.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
@@ -13,7 +13,7 @@
 <body class="bg-image" style="background-image: url('/images/menu/2258.jpg'); height: 100vh;">
     <header class="navbar navbar-expand-lg navbar-light bg-light ps-4 opacity-75">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
-            aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <a class="navbar-brand">Bienvenido {{trabajador.nombre}} {{trabajador.apellido}}</a>
@@ -21,49 +21,50 @@
         <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/">Home</a>
+                    <a class="nav-link" href="/trabajador">Home</a>
                 </li>
             </ul>
         </div>
 
-        <a class="nav-link" style="margin-right: 40px;" href="/logout" >Logout</a>
+        <a class="nav-link" style="margin-right: 40px;" href="logout" >Logout</a>
 
     </header>
 
     <div class="d-flex justify-content-center">
-        <h2 class="p-3 mb-2 bg-light text-dark mt-5" style="max-width: 245px;">Solicitudes de Vinculacion de
-            Trabajadores</h2>
+        <h2 class="p-3 mb-2 bg-light text-dark mt-5" style="max-width: 235px;">Solicitudes de Vinculacion a Organizacion
+        </h2>
     </div>
 
-    <div class="d-flex justify-content-center" style="margin-top: 40px;">
+    <div class="d-flex justify-content-center" style="margin-top: 100px;">
         <table class="table table-bordered bg-light" style="max-width: fit-content;">
             <thead>
                 <tr>
-                    <th scope="col">Nombre del Trabajador</th>
+                    <th scope="col">Nombre de la Organizacion</th>
                     <th scope="col">Sector Solicitado</th>
                     <th scope="col">Estado</th>
                     <th scope="col">Ultima modificacion</th>
-                    <th scope="col">Aceptar solicitud</th>
-                    <th scope="col">Rechazar solicitud</th>
+
                 </tr>
             </thead>
             <tbody>
                 <div hidden>{{#each solicitudes}}</div>
                 <tr>
-                    <td>{{this.trabajador.apellido}}</td>
+                    <td>{{this.sectorAIngresar.organizacion.razonSocial}}</td>
                     <td>{{this.sectorAIngresar.nombreSector}}</td>
                     <td>{{this.estadoSolicitud.posibleEstadoSolicitud}}</td>
                     <td>{{this.estadoSolicitud.fechaUltimaModificacion}}</td>
-                    <form action="/organizacion/vinculaciones/aceptar" method="post">
-                        <td><button class="btn btn-success" type="submit" name="solicitudId" value="{{this.id}}">Aceptar</button></td>
-                    </form>
-                    <form action="/organizacion/vinculaciones/rechazar" method="post">
-                        <td><button class="btn btn-danger" type="submit" name="solicitudId" value="{{this.id}}">Rechazar</button></td>
-                    </form>
                 </tr>
                 <div hidden>{{/each}}</div>
             </tbody>
         </table>
+    </div>
+
+    <div class="d-flex justify-content-center">
+        <button type="button" class="btn btn-success mb-2" style="margin-top: 100px;">
+            <a href="/trabajador/vinculacion/nuevo" style="color: inherit">
+                <h4>Nueva Vinculacion</h4>
+            </a>
+        </button>
     </div>
 </body>
 

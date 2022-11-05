@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Vinculacion</title>
+    <title>Mediciones</title>
     <link rel="icon" type="image/x-icon" href="images/menu/utn.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
@@ -16,53 +16,47 @@
             aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand">Bienvenido {{trabajador.nombre}} {{trabajador.apellido}}</a>
+        <a class="navbar-brand">Bienvenida {{organizacion.razonSocial}}</a>
 
         <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/">Home</a>
+                    <a class="nav-link" href="/organizacion">Home</a>
                 </li>
             </ul>
         </div>
 
-        <a class="nav-link" style="margin-right: 40px;" href="logout" >Logout</a>
+        <a class="nav-link" style="margin-right: 40px;" href="logout">Logout</a>
 
     </header>
 
     <div class="d-flex justify-content-center">
-        <h2 class="p-3 mb-2 bg-light text-dark mt-5" style="max-width: 235px;">Trayectos
-        </h2>
+        <h2 class="p-3 mb-2 bg-light text-dark mt-5" style="max-width: 222px;">Mediciones</h2>
     </div>
 
     <div class="d-flex justify-content-center" style="margin-top: 100px;">
         <table class="table table-bordered bg-light" style="max-width: fit-content;">
             <thead>
                 <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Altura inicio</th>
-                    <th scope="col">Calle inicio</th>
-                    <th scope="col">Localidad inicio</th>
-                    <th scope="col">Altura fin</th>
-                    <th scope="col">Calle fin</th>
-                    <th scope="col">Localidad fin</th>
-                    <th scope="col">Frecuencia</th>
-                    <th scope="col">Veces por mes</th>
-
+                    <th scope="col">Numero</th>
+                    <th scope="col">Tipo actividad</th>
+                    <th scope="col">Unidad</th>
+                    <th scope="col">Mes</th>
+                    <th scope="col">Año</th>
+                    <th scope="col">Periodicidad</th>
+                    <th scope="col">Valor</th>
                 </tr>
             </thead>
             <tbody>
-                <div hidden>{{#each trayectos}}</div>
+                <div hidden>{{#each mediciones}}</div>
                 <tr>
                     <td>{{this.id}}</td>
-                    <td>{{this.puntoDeSalida.altura}}</td>
-                    <td>{{this.puntoDeSalida.calle}}</td>
-                    <td>{{this.puntoDeSalida.localidad.nombre}}</td>
-                    <td>{{this.puntoDeLlegada.altura}}</td>
-                    <td>{{this.puntoDeLlegada.calle}}</td>
-                    <td>{{this.puntoDeLlegada.localidad.nombre}}</td>
-                    <td>{{this.frecuencia.frecuenciaDeUso}}</td>
-                    <td>{{this.frecuencia.vecesQueRealizaTrayectoPorMes}}</td>
+                    <td>{{this.tipoActividad}}</td>
+                    <td>{{this.unidad}}</td>
+                    <td>{{this.periodo.mes}}</td>
+                    <td>{{this.periodo.anio}}</td>
+                    <td>{{this.periodicidad}}</td>
+                    <td>{{this.valor}}</td>
                 </tr>
                 <div hidden>{{/each}}</div>
             </tbody>
@@ -71,8 +65,8 @@
 
     <div class="d-flex justify-content-center">
         <button type="button" class="btn btn-success mb-2" style="margin-top: 100px;">
-            <a href="/trabajador/trayectos/nuevo" style="color: inherit">
-                <h4>Nueva Vinculacion</h4>
+            <a href="/organizacion/mediciones/agregar" style="color: inherit">
+                <h4>Agregar Medicion</h4>
             </a>
         </button>
     </div>

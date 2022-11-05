@@ -13,10 +13,10 @@
 <body class="bg-image" style="background-image: url('images/menu/2258.jpg'); height: 100vh">
     <header class="navbar navbar-expand-lg navbar-light bg-light ps-4 opacity-75">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
-            aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand">Bienvenido</a>
+        <a class="navbar-brand">Bienvenido agente {{agente.nombre}} {{agente.apellido}}</a>
 
         <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
@@ -26,66 +26,9 @@
             </ul>
         </div>
 
-        <a class="nav-link" style="margin-right: 40px;" href="//logout" >Logout</a>
+        <a class="nav-link" style="margin-right: 40px;" href="/logout" >Logout</a>
 
     </header>
-    
-    
-    <div class="d-flex justify-content-center">
-        <h2 class="p-3 mb-2 bg-light text-dark mt-5">Reportes</h2>
-    </div>
-
-    <div style="margin-top: 50px; margin-left: 60px;">
-        <nav aria-label="breadcrumb" style="margin-bottom: 30px;">
-            <button type="button" class="btn btn-success mb-2">
-                <a href="//trabajador/reportes/composicionHCTerritorio" style="color: inherit">
-                    <h3>Composicion de HC de un territorio</h3>
-                </a>
-            </button>
-        </nav>
-        <nav aria-label="breadcrumb" style="margin-bottom: 30px;">
-            <button type="button" class="btn btn-success mb-2">
-                <a href="//trabajador/reportes/composicionHCPais" style="color: inherit">
-                    <h3>Composicion de HC a nivel pais</h3>
-                </a>
-            </button>
-        </nav>
-        <nav aria-label="breadcrumb" style="margin-bottom: 30px;">
-            <button type="button" class="btn btn-success mb-2">
-                <a href="//trabajador/reportes/composicionHCOrganizacion" style="color: inherit">
-                    <h3>Composicion de HC de la organizacion</h3>
-                </a>
-            </button>
-        </nav>
-        <nav aria-label="breadcrumb" style="margin-bottom: 30px;">
-            <button type="button" class="btn btn-success mb-2">
-                <a href="//trabajador/reportes/HCTotalTerritorio" style="color: inherit">
-                    <h3>HC total por sector territorial</h3>
-                </a>
-            </button>
-        </nav>
-        <nav aria-label="breadcrumb" style="margin-bottom: 30px;">
-            <button type="button" class="btn btn-success mb-2">
-                <a href="//trabajador/reportes/evolucionHCTerritorio" style="color: inherit">
-                    <h3>Evolucion de HC de un territorio</h3>
-                </a>
-            </button>
-        </nav>
-        <nav aria-label="breadcrumb" style="margin-bottom: 30px;">
-            <button type="button" class="btn btn-success mb-2">
-                <a href="//trabajador/reportes/HCTipoOrganizacion" style="color: inherit">
-                    <h3>HC total por tipo de organizacion</h3>
-                </a>
-            </button>
-        </nav>
-        <nav aria-label="breadcrumb">
-            <button type="button" class="btn btn-success mb-2">
-                <a href="//trabajador/reportes/evolucionHCOrganizacion" style="color: inherit">
-                    <h3>Evolucion de HC de una organizacion</h3>
-                </a>
-            </button>
-        </nav>
-    </div>
 
     <div style="float: left; margin-left: 600px; margin-top: 150px;">
             <table class="table table-bordered bg-light">

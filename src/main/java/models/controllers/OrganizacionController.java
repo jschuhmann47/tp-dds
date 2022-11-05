@@ -50,7 +50,7 @@ public class OrganizacionController {
         Organizacion org = this.obtenerOrganizacion(request,response);
         parametros.put("organizacion",org);
 
-        return new ModelAndView(parametros, "organizacion-menu.hbs");
+        return new ModelAndView(parametros, "organizacion/organizacion-menu.hbs");
     }
 
     public ModelAndView mostrarVinculaciones(Request request, Response response){
@@ -59,7 +59,7 @@ public class OrganizacionController {
         parametros.put("organizacion",org);
         parametros.put("solicitudes",org.getListaDeSolicitudes());
 
-        return new ModelAndView(parametros, "solicitudes-organizacion-menu.hbs"); //aceptar esa solicitud en concreto
+        return new ModelAndView(parametros, "organizacion/solicitudes-organizacion-menu.hbs"); //aceptar esa solicitud en concreto
     }
 
     public ModelAndView mostrarMedicion(Request request, Response response) {
@@ -67,7 +67,7 @@ public class OrganizacionController {
         Organizacion org = this.obtenerOrganizacion(request, response);
         parametros.put("organizacion", org); //todo cargar las mediciones
         parametros.put("mediciones",org.getListaDeActividades());
-        return new ModelAndView(parametros, "mediciones-menu.hbs");
+        return new ModelAndView(parametros, "organizacion/mediciones-menu.hbs");
     }
 
     private Organizacion obtenerOrganizacion(Request request, Response response){
@@ -81,11 +81,13 @@ public class OrganizacionController {
     }
 
     public ModelAndView mostrarReportes(Request request, Response response) { //esto es lo de cargar excel
-        return new ModelAndView(new HashMap<String,Object>(),"reportes-menu.hbs"); //mostrar los botones y al tocar dice el valor
+        return new ModelAndView(new HashMap<String,Object>(),"organizacion/reportes-menu.hbs"); //mostrar los botones y al tocar dice el valor
     }
 
     public ModelAndView mostrarHC(Request request, Response response){
-        return new ModelAndView(new HashMap<String,Object>(),"calculadora-organizacion.hbs");
+        HashMap<String, Object> parametros = new HashMap<>();
+        //agregar razon social
+        return new ModelAndView(new HashMap<String,Object>(),"organizacion/calculadora-organizacion.hbs");
     }
 
     public ModelAndView calcularHC(Request request, Response response){ //NO LLEGA ACA SI ES TOTAL
@@ -102,7 +104,7 @@ public class OrganizacionController {
         parametros.put("factorEmision",CalculoHC.getUnidadPorDefectoString());
         parametros.put("huellaCarbono",org.calcularHCEnPeriodo(periodo));
 
-        return new ModelAndView(parametros,"calculadora-organizacion.hbs");
+        return new ModelAndView(parametros,"organizacion/calculadora-organizacion.hbs");
     }
 
     public ModelAndView calcularCalculadoraHCTotal(Request request, Response response){
@@ -115,7 +117,7 @@ public class OrganizacionController {
         parametros.put("factorEmision",CalculoHC.getUnidadPorDefectoString());
         parametros.put("huellaCarbono",org.calcularHCTotal());
 
-        return new ModelAndView(parametros,"calculadora-organizacion.hbs");
+        return new ModelAndView(parametros,"organizacion/calculadora-organizacion.hbs");
     }
 
     private void setearCalculadoraHC(){
@@ -128,7 +130,7 @@ public class OrganizacionController {
     }
 
     public ModelAndView mostrarNuevaMedicion(Request request, Response response) {
-        return new ModelAndView(new HashMap<String,Object>(),"subir-archivo-menu.hbs");
+        return new ModelAndView(new HashMap<String,Object>(),"organizacion/subir-archivo-menu.hbs");
     }
 
     public Response registrarNuevaMedicion(Request request, Response response) {
@@ -168,11 +170,11 @@ public class OrganizacionController {
         HashMap<String, Object> parametros = new HashMap<>();
         Organizacion organizacion = this.obtenerOrganizacion(request,response);
         parametros.put("contactos",organizacion.getContactos());
-        return new ModelAndView(parametros,"contactos-menu.hbs");
+        return new ModelAndView(parametros,"organizacion/contactos-menu.hbs");
     }
 
     public ModelAndView mostrarNuevoContacto(Request request, Response response){
-        return new ModelAndView(null,"contacto-nuevo-menu.hbs");
+        return new ModelAndView(null,"organizacion/contacto-nuevo-menu.hbs");
     }
 
     public Response registrarNuevoContacto(Request request, Response response){
@@ -186,7 +188,7 @@ public class OrganizacionController {
     }
 
     public ModelAndView mostrarEditarContacto(Request request, Response response){
-        return new ModelAndView(null,"contacto-editar-menu.hbs");
+        return new ModelAndView(null,"organizacion/contacto-editar-menu.hbs");
     }
 
     public Response editarContacto(Request request, Response response){
