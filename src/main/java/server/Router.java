@@ -248,7 +248,7 @@ public class Router {
                 });
 
                 Spark.path("/organizacion",() -> {
-                    Spark.get("",administradorController::mostrarOrganizacionYSectores, Router.engine); //tres botones, y la data de la org
+                    Spark.post("",administradorController::mostrarOrganizacionYSectores, Router.engine); //tres botones, y la data de la org
                     Spark.delete("/sectores",administradorController::eliminarSector);
                     Spark.get("/nuevoSector",administradorController::mostrarNuevoSector, Router.engine);
                     Spark.post("/nuevoSector",administradorController::crearNuevoSector);
