@@ -28,6 +28,8 @@ public class Trayecto {
     @AttributeOverrides({@AttributeOverride(name="altura",column = @Column(name = "altura_fin")),
                         @AttributeOverride(name = "calle",column = @Column(name = "calle_fin"))})
     private Direccion puntoDeLlegada;
+
+    @Getter
     @Embedded
     public Frecuencia frecuencia;
 

@@ -41,8 +41,19 @@
             <tbody>
                 <form action="trabajador/reportes/composicionHCTerritorio" method="post">
                     <tr>
-                        <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="municipio"></td>
-                        <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="provincia"></td>
+                        <td><label for="municipios"></label>
+                            <select name="municipios-nombres" id="municipios-nombres">
+                                {{#each municipios}}
+                                    <option value="{{this.id}}">{{this.nombre}}</option>
+                                {{/each}}
+                            </select>
+                        </td>
+                        <td><label for="provincias"></label>
+                            <select name="provincias-nombres" id="provincias-nombres">
+                                {{#each provincias}}
+                                    <option value="{{this.id}}">{{this.nombre}}</option>
+                                {{/each}}
+                            </select></td>
                         
                     </tr>
                     <tr>

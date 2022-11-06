@@ -8,6 +8,8 @@ import models.entities.organizaciones.contacto.MandarMail;
 import models.entities.organizaciones.contacto.MandarWhatsapp;
 import models.entities.organizaciones.contacto.MedioNotificacion;
 import models.entities.organizaciones.entidades.Organizacion;
+import models.entities.organizaciones.solicitudes.EstadoSolicitud;
+import models.entities.organizaciones.solicitudes.PosibleEstadoSolicitud;
 import models.entities.organizaciones.solicitudes.Solicitud;
 import models.helpers.PeriodoHelper;
 import models.helpers.PersistenciaHelper;
@@ -29,6 +31,7 @@ import spark.Spark;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class OrganizacionController {
     //TODO provincias, municipios, orgs, sectores, medios t que llege una lista, que no escriba a mano
@@ -58,6 +61,9 @@ public class OrganizacionController {
         Organizacion org = this.obtenerOrganizacion(request,response);
         parametros.put("organizacion",org);
         parametros.put("solicitudes",org.getListaDeSolicitudes());
+        parametros.put("solicitudesRender",org.getListaDeSolicitudes().stream()
+                .map(s -> s.getEstadoSolicitud().getPosibleEstadoSolicitud() == PosibleEstadoSolicitud.PENDIENTE)
+                .collect(Collectors.toList()));
 
         return new ModelAndView(parametros, "organizacion/solicitudes-organizacion-menu.hbs"); //aceptar esa solicitud en concreto
     }

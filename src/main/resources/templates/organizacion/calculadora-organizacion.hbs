@@ -36,56 +36,54 @@
 
 
 
-
+    {{#if consumoActividad}}
     <div class="d-flex justify-content-center" style="margin-top: 40px;">
         <table class="table table-bordered bg-light" style="max-width: 500px;">
             <tr>
                 <td>Consumo de Actividades</td>
                 <td>
-                    {{#if consumoActividad}}
                     {{consumoActividad}}
-                    {{/if}}
                 </td>
               </tr>
         </table>
     </div>
+    {{/if}}
+    {{#if consumoTrabajador}}
     <div class="d-flex justify-content-center">
         <table class="table table-bordered bg-light" style="max-width: 500px;">
             <tr>
                 <td>Consumo de Trabajador</td>
                 <td>
-                    {{#if consumoTrabajador}}
                     {{consumoTrabajador}}
-                    {{/if}}
                 </td>
               </tr>
         </table>
     </div>
+    {{/if}}
+    {{#if factorEmision}}
     <div class="d-flex justify-content-center">
         <table class="table table-bordered bg-light" style="max-width: 500px;">
             <tr>
                 <td>Factor Emision</td>
                 <td>
-                    {{#if factorEmision}}
                     {{factorEmision}}
-                    {{/if}}
                 </td>
             </tr>
         </table>
     </div>
+    {{/if}}
+    {{#if huellaCarbono}}
     <div class="d-flex justify-content-center">
         <table class="table table-bordered bg-light" style="max-width: 500px;">
             <tr>
                 <td>Total</td>
                 <td>
-                    {{#if huellaCarbono}}
                     {{huellaCarbono}}
-                    {{/if}}
                 </td>
               </tr>
         </table>
     </div>
-
+    {{/if}}
     <div class="d-flex justify-content-center" style="margin-top: 40px;">
 
         <form action="/organizacion/calculadora" method="post">

@@ -1,9 +1,11 @@
 package server;
 
+import com.github.jknack.handlebars.Handlebars;
 import models.controllers.*;
 import models.entities.seguridad.cuentas.Permiso;
 import models.entities.seguridad.cuentas.Rol;
 import models.entities.seguridad.cuentas.TipoRecurso;
+import models.helpers.ConditionalHelpers;
 import models.helpers.PermisoHelper;
 import models.middlewares.AuthMiddleware;
 import spark.Spark;
@@ -19,6 +21,8 @@ public class Router {
                 .create()
                 .withDefaultHelpers()
                 .withHelper("isTrue", BooleanHelper.isTrue)
+                .withHelper("eq",ConditionalHelpers.eq)
+                .withHelper("and",ConditionalHelpers.and)
                 .build();
     }
 
@@ -237,16 +241,16 @@ public class Router {
                 });
 
                 Spark.path("/organizaciones", () -> {
-                    Spark.get("",administradorController::mostrarOrganizaciones);
-                    Spark.get("/nueva",administradorController::mostrarNuevaOrganizacion);
+                    Spark.get("",administradorController::mostrarOrganizaciones, Router.engine);
+                    Spark.get("/nueva",administradorController::mostrarNuevaOrganizacion, Router.engine);
                     Spark.post("/nueva",administradorController::crearNuevaOrganizacion);
                     Spark.delete("",administradorController::eliminarOrganizacion);
                 });
 
                 Spark.path("/organizacion",() -> {
-                    Spark.get("",administradorController::mostrarOrganizacionYSectores); //tres botones, y la data de la org
+                    Spark.get("",administradorController::mostrarOrganizacionYSectores, Router.engine); //tres botones, y la data de la org
                     Spark.delete("/sectores",administradorController::eliminarSector);
-                    Spark.get("/nuevoSector",administradorController::mostrarNuevoSector);
+                    Spark.get("/nuevoSector",administradorController::mostrarNuevoSector, Router.engine);
                     Spark.post("/nuevoSector",administradorController::crearNuevoSector);
                     //todo editar
                 });

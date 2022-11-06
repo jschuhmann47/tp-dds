@@ -33,24 +33,20 @@
     <div class="d-flex justify-content-center">
         <h2 class="p-3 mb-2 bg-light text-dark mt-5" style="max-width: 222px;">Calculadora</h2>
     </div>
-
-    <div class="d-flex justify-content-center" style="margin-top: 40px;">
-        <table class="table table-bordered bg-light mt-5" style="max-width: 500px;">
-            <tr>
-                <td>Factor de emision</td>
-                {{#if factorEmision}}
-                <td>{{factorEmision}}</td>
-                {{/if}}
-              </tr>
-            <tr>
-                <td>Huella de carbono</td>
-                {{#if huellaCarbono}}
-                <td>{{huellaCarbono}}</td>
-                {{/if}}
-            </tr>
-        </table>
-    </div>
-
+    {{#if factorEmision and huellaCarbono}}
+        <div class="d-flex justify-content-center" style="margin-top: 40px;">
+            <table class="table table-bordered bg-light mt-5" style="max-width: 500px;">
+                <tr>
+                    <td>Factor de emision</td>
+                    <td>{{factorEmision}}</td>
+                  </tr>
+                <tr>
+                    <td>Huella de carbono</td>
+                    <td>{{huellaCarbono}}</td>
+                </tr>
+            </table>
+        </div>
+    {{/if}}
     <div class="d-flex justify-content-center" style="margin-top: 40px;">
 
         <form action="/trabajador/calculadora" method="post">

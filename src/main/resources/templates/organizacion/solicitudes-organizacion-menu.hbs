@@ -54,12 +54,16 @@
                     <td>{{this.sectorAIngresar.nombreSector}}</td>
                     <td>{{this.estadoSolicitud.posibleEstadoSolicitud}}</td>
                     <td>{{this.estadoSolicitud.fechaUltimaModificacion}}</td>
-                    <form action="/organizacion/vinculaciones/aceptar" method="post">
-                        <td><button class="btn btn-success" type="submit" name="solicitudId" value="{{this.id}}">Aceptar</button></td>
-                    </form>
-                    <form action="/organizacion/vinculaciones/rechazar" method="post">
-                        <td><button class="btn btn-danger" type="submit" name="solicitudId" value="{{this.id}}">Rechazar</button></td>
-                    </form>
+                    {{#if (eq this.estadoSolicitud.posibleEstadoSolicitud PENDIENTE)}}
+                        <form action="/organizacion/vinculaciones/aceptar" method="post">
+                            <td><button class="btn btn-success" type="submit" name="solicitudId" value="{{this.id}}">Aceptar</button></td>
+                        </form>
+                    {{/if}}
+                    {{#if (eq this.estadoSolicitud.posibleEstadoSolicitud PENDIENTE)}}
+                        <form action="/organizacion/vinculaciones/rechazar" method="post">
+                            <td><button class="btn btn-danger" type="submit" name="solicitudId" value="{{this.id}}">Rechazar</button></td>
+                        </form>
+                    {{/if}}
                 </tr>
                 <div hidden>{{/each}}</div>
             </tbody>
