@@ -37,12 +37,12 @@
     <div class="center">
         <strong>
         <p>Subir Archivo Excel</p>
-         </strong>  
-        <input type="image" src="/images/menu/subir.png" width="200" accept=".xlsx">
-        <center>
-            <input type="file" src="/images/menu/subir.png" width="200" accept=".xlsx">
-            <input type="submit" name="Subir" width="200">
-        </center>
+         </strong>
+        <form action="/organizacion/mediciones/agregar" method="post" enctype="multipart/form-data">
+            <label for="myfile">Elegir un archivo</label>
+            <input type="file" id="myfile" name="myfile" accept=".xls"/>
+            <input type="submit" id="buttonUpload" value="Subir"/>
+        </form>
     </div>
   </div>
 </body>

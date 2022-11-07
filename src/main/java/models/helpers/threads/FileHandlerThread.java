@@ -13,17 +13,20 @@ import java.io.IOException;
 public class FileHandlerThread extends Thread{
     private final String filePath;
     private final Integer organizacionId;
+    private final CargaDeActividadesAdapter adapter;
     RepositorioDeOrganizaciones repoOrg = FactoryRepositorioDeOrganizaciones.get();
 
-    public FileHandlerThread(String filePath, Integer organizacionId) {
+    public FileHandlerThread(String filePath, Integer organizacionId, CargaDeActividadesAdapter adapter) {
         this.filePath = filePath;
         this.organizacionId = organizacionId;
+        this.adapter = adapter;
     }
 
     @Override
     public void start() {
         Organizacion org = this.repoOrg.buscar(organizacionId);
         try {
+            CargaDeActividades.setAdapter(adapter);
             CargaDeActividades.cargarActividadesDeArchivo(org.getListaDeActividades(),this.filePath);
             PersistenciaHelper.persistir(org);
         } catch (IOException e) {

@@ -6,9 +6,7 @@ import models.entities.CargaDeActividades.entidades.TipoDeConsumo;
 import models.entities.calculoHC.CalculoHC;
 import models.entities.calculoHC.UnidadHC;
 import models.entities.parametros.ParametroFE;
-import models.entities.transporte.privado.TipoVehiculo;
 import models.helpers.threads.FileHandlerThread;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -42,7 +40,7 @@ public class FileHandlerThreadTest {
     public void thread(){
         CargaDeActividades.setAdapter(new CargaDeActividadesApachePOIAdapter());
         FileHandlerThread thread =
-                new FileHandlerThread("src/test/java/test/domain/CargaDeActividades/actividad.xls",1);
+                new FileHandlerThread("src/test/java/test/domain/CargaDeActividades/actividad.xls",1, adapter);
         thread.start();
     }
 }

@@ -1,5 +1,6 @@
 package models.controllers;
 
+import models.entities.CargaDeActividades.adapters.CargaDeActividadesApachePOIAdapter;
 import models.entities.CargaDeActividades.entidades.Periodo;
 import models.entities.calculoHC.CalculoHC;
 import models.entities.calculoHC.UnidadHC;
@@ -8,7 +9,6 @@ import models.entities.organizaciones.contacto.MandarMail;
 import models.entities.organizaciones.contacto.MandarWhatsapp;
 import models.entities.organizaciones.contacto.MedioNotificacion;
 import models.entities.organizaciones.entidades.Organizacion;
-import models.entities.organizaciones.solicitudes.EstadoSolicitud;
 import models.entities.organizaciones.solicitudes.PosibleEstadoSolicitud;
 import models.entities.organizaciones.solicitudes.Solicitud;
 import models.helpers.PeriodoHelper;
@@ -23,11 +23,20 @@ import models.repositories.factories.FactoryRepositorioDeContactos;
 import models.repositories.factories.FactoryRepositorioDeOrganizaciones;
 import models.repositories.factories.FactoryRepositorioDeParametrosFE;
 import models.repositories.factories.FactoryRepositorioDeSolicitudes;
+import org.apache.commons.io.IOUtils;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 import spark.Spark;
 
+import javax.servlet.MultipartConfigElement;
+import javax.servlet.ServletException;
+import javax.servlet.http.Part;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -139,16 +148,32 @@ public class OrganizacionController {
         return new ModelAndView(new HashMap<String,Object>(),"organizacion/subir-archivo-menu.hbs");
     }
 
-    public Response registrarNuevaMedicion(Request request, Response response) {
+    public Response registrarNuevaMedicion(Request request, Response response) throws ServletException, IOException {
 
-        //VIENE DEL EXCEL, todo ajax/jquery
+        String path = this.guardarArchivo(request,response);
         Organizacion org = this.obtenerOrganizacion(request,response);
-        FileHandlerThread thread = new FileHandlerThread("ruta/pendiente",org.getId());
+        FileHandlerThread thread = new FileHandlerThread(path,org.getId(), new CargaDeActividadesApachePOIAdapter());
         thread.start();
 
         response.redirect("/organizacion/mediciones");
         return response;
     }
+
+    private String guardarArchivo(Request request, Response response) throws ServletException, IOException {
+        request.attribute("org.eclipse.jetty.multipartConfig", new
+                MultipartConfigElement("tmp/"));
+
+        Part filePart = request.raw().getPart("myfile");
+
+        try (InputStream inputStream = filePart.getInputStream()) {
+
+            OutputStream outputStream = Files.newOutputStream(Paths.get("tmp/" + filePart.getSubmittedFileName()));
+            IOUtils.copy(inputStream, outputStream);
+            outputStream.close();
+        }
+        return Paths.get("tmp/" + filePart.getSubmittedFileName()).toString();
+    }
+
 
     public Response aceptarVinculacion(Request request, Response response){
         Solicitud solicitud = this.obtenerSolicitud(request,response);
