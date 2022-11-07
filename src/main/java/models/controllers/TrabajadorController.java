@@ -161,14 +161,14 @@ public class TrabajadorController {
         return new ModelAndView(parametros,"trabajador/agregar-trayecto.hbs");
     }
 
-    public ModelAndView mostrarNuevoTramo(Request request, Response response) { //TODO editar tramos
+    public ModelAndView mostrarNuevoTramo(Request request, Response response) { //todo
         HashMap<String,Object> parametros = new HashMap<>();
         parametros.put("localidades",this.repoLocalidades.buscarTodos());
         parametros.put("transportes",this.repoTransportes.buscarTodos());
         return new ModelAndView(parametros,"trabajador/agregar-tramo.hbs");
     }
 
-    public ModelAndView mostrarEditarTramo(Request request, Response response) { //TODO editar tramos
+    public ModelAndView mostrarEditarTramo(Request request, Response response) {
         HashMap<String,Object> parametros = new HashMap<>();
         parametros.put("tramo",this.repoTramos.buscar(new Integer(request.queryParams("tramoId"))));
         return new ModelAndView(parametros,"trabajador/editar-tramo.hbs");

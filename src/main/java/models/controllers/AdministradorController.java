@@ -189,7 +189,11 @@ public class AdministradorController {
 
     public ModelAndView mostrarTransporte(Request request, Response response) {
         HashMap<String,Object> parametros = new HashMap<>();
-        parametros.put("transportes",this.repoTransportes.buscar(new Integer(request.queryParams("transporteId")))); //si es publico poner boton de mostrar paradas
+        MedioTransporte medio = this.repoTransportes.buscar(new Integer(request.queryParams("transporteId")));
+        parametros.put("transporte",medio); //si es publico poner boton de mostrar paradas
+        switch(medio.getTipo()){
+            //todo distinguir el tipo de transporte, no se si se requiere converter
+        }
         return new ModelAndView(parametros,"administrador/transporte.hbs");
     }
 

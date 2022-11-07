@@ -16,25 +16,25 @@
             aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <a class="navbar-brand">Bienvenido {{trabajador.nombre}} {{trabajador.apellido}}</a>
+    <a class="navbar-brand">Bienvenido Administrador</a>
 
     <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item active">
-                <a class="nav-link" href="/trabajador">Home</a>
+                <a class="nav-link" href="/administrador">Home</a>
             </li>
         </ul>
     </div>
 
-    <a class="nav-link" style="margin-right: 40px;" href="logout" >Logout</a>
+    <a class="nav-link" style="margin-right: 40px;" href="/logout" >Logout</a>
 
 </header>
 
 <div class="d-flex justify-content-center">
-    <h2 class="p-3 mb-2 bg-light text-dark mt-5" style="max-width: 235px;">Nuevo Trayecto</h2>
+    <h2 class="p-3 mb-2 bg-light text-dark mt-5" style="max-width: 235px;">Transporte</h2>
 </div>
 
-<div class="d-flex justify-content-center" style="margin-top: 20px;">
+<div class="d-flex justify-content-center" style="margin-top: 100px;">
     <table class="table table-bordered bg-light" style="max-width: fit-content;">
         <thead>
         <tr>
@@ -62,7 +62,7 @@
     </table>
 </div>
 
-<div class="d-flex justify-content-center" style="margin-top: 20px;">
+<div class="d-flex justify-content-center" style="margin-top: 100px;">
     <table class="table table-bordered bg-light" style="max-width: fit-content;">
         <thead>
         <tr>
@@ -86,7 +86,7 @@
     </table>
 </div>
 
-<div class="d-flex justify-content-center" style="margin-top: 20px;">
+<div class="d-flex justify-content-center" style="margin-top: 100px;">
     <table class="table table-bordered bg-light" style="max-width: fit-content;">
         <thead>
         <tr>
@@ -96,14 +96,14 @@
         </tr>
         </thead>
         <tbody>
-        <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="frecuenciaDeUso"></td>
-        <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="cantidadPorMes"></td> <!-- todo refactor para poder poner cant x año -->
+            <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="frecuenciaDeUso"></td>
+            <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="cantidadPorMes"></td> <!-- todo refactor para poder poner cant x año -->
         </tbody>
     </table>
 </div>
 
 <div class="d-flex justify-content-center">
-    <button type="button" class="btn btn-success mb-2" style="margin-top: 20px;">
+    <button type="button" class="btn btn-success mb-2" style="margin-top: 100px;">
         <a href="/trabajador/trayecto/nuevo" style="color: inherit">
             <h4>Crear Trayecto</h4>
         </a>

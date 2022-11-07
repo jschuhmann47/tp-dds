@@ -264,7 +264,7 @@ public class Router {
                 });
 
                 Spark.path("/transporte", () -> {
-                    Spark.get("",administradorController::mostrarTransporte,Router.engine);
+                    Spark.post("",administradorController::mostrarTransporte,Router.engine);
                     Spark.path("/paradas", () -> {
                         Spark.get("",administradorController::mostrarParadas, Router.engine);
                         Spark.get("/nueva",administradorController::mostrarNuevaParada, Router.engine);

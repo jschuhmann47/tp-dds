@@ -31,7 +31,7 @@
 </header>
 
 <div class="d-flex justify-content-center">
-    <h2 class="p-3 mb-2 bg-light text-dark mt-5" style="max-width: 235px;">Nuevo Trayecto</h2>
+    <h2 class="p-3 mb-2 bg-light text-dark mt-5" style="max-width: 235px;">Nuevo Tramo</h2>
 </div>
 
 <div class="d-flex justify-content-center" style="margin-top: 20px;">
@@ -90,22 +90,28 @@
     <table class="table table-bordered bg-light" style="max-width: fit-content;">
         <thead>
         <tr>
-            <th scope="col">Frecuencia de uso</th>
-            <th scope="col">Cantidad de veces por mes</th>
+            <th scope="col">Medio Transporte</th>
+            <th scope="col">Distancia en KM</th>
 
         </tr>
         </thead>
         <tbody>
-        <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="frecuenciaDeUso"></td>
-        <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="cantidadPorMes"></td> <!-- todo refactor para poder poner cant x año -->
+        <td><label for="mediosTransporte"></label>
+            <select name="mediosTransporte-nombres" id="mediosTransporte-nombres">
+                {{#each medios}}
+                    <option value="{{this.id}}">{{this.nombre}}</option>
+                {{/each}}
+            </select>
+        </td>
+        <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="distancia"></td>
         </tbody>
     </table>
 </div>
 
 <div class="d-flex justify-content-center">
     <button type="button" class="btn btn-success mb-2" style="margin-top: 20px;">
-        <a href="/trabajador/trayecto/nuevo" style="color: inherit">
-            <h4>Crear Trayecto</h4>
+        <a href="/trabajador/tramo/nuevo" style="color: inherit">
+            <h4>Crear Tramo</h4>
         </a>
     </button>
 </div>
