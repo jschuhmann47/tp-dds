@@ -13,6 +13,7 @@ import java.util.*;
 public class Trayecto {
     @Id
     @GeneratedValue
+    @Getter
     private int id;
 
     @Getter

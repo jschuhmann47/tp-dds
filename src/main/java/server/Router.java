@@ -152,7 +152,7 @@ public class Router {
                 });
 
                 Spark.path("/trayecto", () -> { //aca entra habiendo elegido un trayecto de la lista de trayectos
-                    Spark.get("/tramos", trabajadorController::mostrarTramosDelTrayecto, Router.engine);
+                    Spark.post("/tramos", trabajadorController::mostrarTramosDelTrayecto, Router.engine);
                     Spark.path("/tramos", () -> {
                         Spark.get("/editar",trabajadorController::mostrarEditarTramo, Router.engine);
                         Spark.post("/editar",trabajadorController::editarTramo);

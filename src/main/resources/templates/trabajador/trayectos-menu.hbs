@@ -48,6 +48,7 @@
                     <th scope="col">Localidad fin</th>
                     <th scope="col">Frecuencia</th>
                     <th scope="col">Veces por mes</th>
+                    <th scope="col">Tramos</th>
 
                 </tr>
             </thead>
@@ -63,6 +64,11 @@
                     <td>{{this.puntoDeLlegada.localidad.nombre}}</td>
                     <td>{{this.frecuencia.frecuenciaDeUso}}</td>
                     <td>{{this.frecuencia.vecesQueRealizaTrayectoPorMes}}</td>
+                    <td>
+                        <form action="/trabajador/trayecto/tramos" method="post">
+                            <button class="btn btn-success" type="submit" name="trayectoId" value="{{this.id}}">Ver tramos</button>
+                        </form>
+                    </td>
                 </tr>
                 <div hidden>{{/each}}</div>
             </tbody>
@@ -72,7 +78,7 @@
     <div class="d-flex justify-content-center">
         <button type="button" class="btn btn-success mb-2" style="margin-top: 100px;">
             <a href="/trabajador/trayectos/nuevo" style="color: inherit">
-                <h4>Nueva Vinculacion</h4>
+                <h4>Nuevo Trayecto</h4>
             </a>
         </button>
     </div>
