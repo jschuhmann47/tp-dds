@@ -41,9 +41,16 @@
                 </tr>
             </thead>
             <tbody>
-                <form action="//trabajador/reportes/evolucionHCOrganizacion" method="post">
+                <form action="/agente/reportes/evolucionHCOrganizacion" method="post">
                     <tr>
-                        <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="razonSocial"></td>
+                        <td>
+                            <label for="organizaciones"></label>
+                            <select name="organizaciones-nombres" id="organizaciones-nombres">
+                                {{#each organizaciones}}
+                                    <option value="{{this.id}}">{{this.razonSocial}}</option>
+                                {{/each}}
+                            </select>
+                        </td>
                         <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="mes"></td>
                         <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="anio"></td>
                     </tr>

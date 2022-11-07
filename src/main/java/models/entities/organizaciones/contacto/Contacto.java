@@ -19,6 +19,16 @@ public class Contacto {
 
     @Getter
     @Setter
+    @Column(name = "nombre")
+    private String nombre;
+
+    @Getter
+    @Setter
+    @Column(name = "apellido")
+    private String apellido;
+
+    @Getter
+    @Setter
     @Column(name = "telefono",nullable = false)
     private String nroTelefono;
 
