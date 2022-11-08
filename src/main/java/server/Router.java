@@ -57,6 +57,8 @@ public class Router {
         });
         Spark.get("/logout",loginController::logout);
 
+        Spark.get("/registro",loginController::mostrarNuevoUsuario, Router.engine);
+        Spark.post("/registro",loginController::crearNuevoUsuario);
 
         //todo botones de eliminar ej trayecto
         Spark.path("",() -> {

@@ -56,6 +56,7 @@ public class PersistenciaTest {
         ParametroFE prodTransportado = new ParametroFE(TipoDeConsumo.PRODUCTO_TRANSPORTADO.toString(),1.0);
         ParametroFE kerosene = new ParametroFE(TipoDeConsumo.KEROSENE.toString(),2.5);
         ParametroFE lenia = new ParametroFE(TipoDeConsumo.LENIA.toString(),2.0);
+        ParametroFE camion = new ParametroFE(TipoDeConsumo.CAMION_CARGA.toString(),1.0);
 
         List<ParametroFE> parametrosFE = new ArrayList<>();
         parametrosFE.add(autoFE);
@@ -66,6 +67,7 @@ public class PersistenciaTest {
         parametrosFE.add(prodTransportado);
         parametrosFE.add(kerosene);
         parametrosFE.add(lenia);
+        parametrosFE.add(camion);
 
         CalculoHC.setFactoresEmisionFE(parametrosFE);
         CalculoHC.setUnidadPorDefecto(UnidadHC.GRAMO_EQ);
@@ -239,10 +241,11 @@ public class PersistenciaTest {
     @Test
     @DisplayName("Se persisten localidades de la API")
     public void localidades() throws IOException {
-        String jsonPaises = Files.asCharSource(new File(System.getProperty("user.dir") + "/src/test/java/db/jsons/paises.json"), Charsets.UTF_8).read();
-        String jsonProvincias = Files.asCharSource(new File(System.getProperty("user.dir") + "/src/test/java/db/jsons/provincias.json"), Charsets.UTF_8).read();
-        String jsonMunicipios = Files.asCharSource(new File(System.getProperty("user.dir") + "/src/test/java/db/jsons/municipios.json"), Charsets.UTF_8).read();
-        String jsonLocalidades = Files.asCharSource(new File(System.getProperty("user.dir") + "/src/test/java/db/jsons/localidades.json"), Charsets.UTF_8).read();
+        String ruta = "/src/test/java/db/jsons/";
+        String jsonPaises = Files.asCharSource(new File(System.getProperty("user.dir") + ruta + "paises.json"), Charsets.UTF_8).read();
+        String jsonProvincias = Files.asCharSource(new File(System.getProperty("user.dir") + ruta + "provincias.json"), Charsets.UTF_8).read();
+        String jsonMunicipios = Files.asCharSource(new File(System.getProperty("user.dir") + ruta + "municipios.json"), Charsets.UTF_8).read();
+        String jsonLocalidades = Files.asCharSource(new File(System.getProperty("user.dir") + ruta + "localidades.json"), Charsets.UTF_8).read();
 
         List<Pais> paises = GsonHelper.generarPaises(jsonPaises);
         List<Provincia> provincias = GsonHelper.generarProvincias(jsonProvincias);

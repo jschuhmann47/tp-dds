@@ -1,14 +1,21 @@
 package models.controllers;
 
 import db.EntityManagerHelper;
+import models.entities.organizaciones.entidades.TipoDoc;
+import models.entities.organizaciones.entidades.Trabajador;
 import models.entities.seguridad.ValidadorContrasenia;
 import models.entities.seguridad.cuentas.Permiso;
 import models.entities.seguridad.cuentas.Rol;
 import models.entities.seguridad.cuentas.TipoRecurso;
 import models.entities.seguridad.cuentas.Usuario;
+import models.entities.transporte.publico.Parada;
 import models.helpers.HashingHelper;
+import models.helpers.PersistenciaHelper;
 import models.helpers.SessionHelper;
+import models.repositories.RepositorioDeTipoDocumento;
 import models.repositories.RepositorioDeUsuarios;
+import models.repositories.factories.FactoryRepositorioDeParametrosFE;
+import models.repositories.factories.FactoryRepositorioDeTipoDocumento;
 import models.repositories.factories.FactoryRepositorioDeUsuarios;
 import spark.ModelAndView;
 import spark.Request;
@@ -18,6 +25,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LoginController {
+
+    RepositorioDeTipoDocumento repoTipoDoc = FactoryRepositorioDeTipoDocumento.get();
 
     public ModelAndView inicio(Request request, Response response){
         Map<String, Object> parametros = new HashMap<>();
@@ -64,32 +73,33 @@ public class LoginController {
     }
 
     public ModelAndView mostrarNuevoUsuario(Request request, Response response){
-        return new ModelAndView(null,"nuevo-usuario.hbs");
+        HashMap<String,Object> parametros = new HashMap<>();
+        parametros.put("tiposDocumento",this.repoTipoDoc.buscarTodos());
+        return new ModelAndView(parametros,"nuevo-usuario.hbs");
     }
 
     public Response crearNuevoUsuario(Request request, Response response){ //validar con el owasp
-        if(SessionHelper.atributosNoSonNull(request,"contrasenia","tipoRecurso","nombreUsuario","rol")){
+        if(SessionHelper.atributosNoSonNull(request,"contrasenia","contraseniaChequeo","nombreUsuario","rol")){
             String contrasenia = request.queryParams("contrasenia");
             TipoRecurso tipoRecurso = TipoRecurso.valueOf(request.queryParams("tipoRecurso"));
             if(ValidadorContrasenia.esContraseniaValida(contrasenia)){
-                Integer idRecurso = 0; //trabajador, org, o municipio del agente
-                switch (tipoRecurso){ //todo preguntar luego bien quien se puede registrar
-                    case ORGANIZACION:
-                        break;
-                    case TRABAJADOR:
-                        break;
-                    case AGENTE:
-                        break;
-                }
+
+                Trabajador nuevoTrabajador = new Trabajador
+                        (request.queryParams("apellido").toString(),request.queryParams("nombre").toString(),
+                                TipoDoc.valueOf(request.queryParams("tipoDoc")),new Integer(request.queryParams("nroDocumento")));
+                PersistenciaHelper.persistir(nuevoTrabajador);
+                Integer idRecurso = 0; //todo traerse el id del nuevo trabajador
 
                 Usuario nuevoUser = new Usuario(request.queryParams("nombreUsuario"),
                         contrasenia,
-                        Rol.valueOf(request.queryParams("rol")),
+                        Rol.BASICO,
                         idRecurso,
-                        tipoRecurso,
-                        Permiso.VER_ORGANIZACION);
+                        TipoRecurso.TRABAJADOR,
+                        Permiso.VER_TRABAJADOR);
                 EntityManagerHelper.getEntityManager().persist(nuevoUser);
             }
+        } else{
+            //excepcion o algo
         }
         return response;
     }
