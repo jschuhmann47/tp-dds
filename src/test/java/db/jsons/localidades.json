@@ -1,0 +1,452 @@
+[
+  {
+    "id": "1",
+    "nombre": "CAA YARI ",
+    "codPostal": "3361",
+    "municipio": {
+      "id": "98",
+      "nombre": "LEANDRO N. ALEM"
+    }
+  },
+  {
+    "id": "10",
+    "nombre": "PUERTO LEONI ",
+    "codPostal": "3332",
+    "municipio": {
+      "id": "99",
+      "nombre": "LIBERTADOR GENERAL SAN MARTIN"
+    }
+  },
+  {
+    "id": "100",
+    "nombre": "ARROYITO ",
+    "codPostal": "8313",
+    "municipio": {
+      "id": "111",
+      "nombre": "CONFLUENCIA"
+    }
+  },
+  {
+    "id": "1000",
+    "nombre": "PALO SANTO ",
+    "codPostal": "5265",
+    "municipio": {
+      "id": "473",
+      "nombre": "LA PAZ"
+    }
+  },
+  {
+    "id": "1001",
+    "nombre": "PICHINGA ",
+    "codPostal": "5265",
+    "municipio": {
+      "id": "473",
+      "nombre": "LA PAZ"
+    }
+  },
+  {
+    "id": "1002",
+    "nombre": "POZO DE LA ORILLA ",
+    "codPostal": "5265",
+    "municipio": {
+      "id": "473",
+      "nombre": "LA PAZ"
+    }
+  },
+  {
+    "id": "1003",
+    "nombre": "POZO EL MISTOL ",
+    "codPostal": "5265",
+    "municipio": {
+      "id": "473",
+      "nombre": "LA PAZ"
+    }
+  },
+  {
+    "id": "1004",
+    "nombre": "POZOS CAVADOS ",
+    "codPostal": "5265",
+    "municipio": {
+      "id": "473",
+      "nombre": "LA PAZ"
+    }
+  },
+  {
+    "id": "1005",
+    "nombre": "PUESTO DE LEIVA ",
+    "codPostal": "5265",
+    "municipio": {
+      "id": "473",
+      "nombre": "LA PAZ"
+    }
+  },
+  {
+    "id": "1006",
+    "nombre": "PUESTO DE MIRANDA ",
+    "codPostal": "5265",
+    "municipio": {
+      "id": "473",
+      "nombre": "LA PAZ"
+    }
+  },
+  {
+    "id": "1007",
+    "nombre": "PUESTO DE SIMAN ",
+    "codPostal": "5265",
+    "municipio": {
+      "id": "473",
+      "nombre": "LA PAZ"
+    }
+  },
+  {
+    "id": "1008",
+    "nombre": "PUESTO DE VERA ",
+    "codPostal": "5265",
+    "municipio": {
+      "id": "473",
+      "nombre": "LA PAZ"
+    }
+  },
+  {
+    "id": "1009",
+    "nombre": "PUESTO SABATEA ",
+    "codPostal": "5265",
+    "municipio": {
+      "id": "473",
+      "nombre": "LA PAZ"
+    }
+  },
+  {
+    "id": "101",
+    "nombre": "EL CHOCON ",
+    "codPostal": "8311",
+    "municipio": {
+      "id": "111",
+      "nombre": "CONFLUENCIA"
+    }
+  },
+  {
+    "id": "1010",
+    "nombre": "PUESTO SANTA ROSA ",
+    "codPostal": "5265",
+    "municipio": {
+      "id": "473",
+      "nombre": "LA PAZ"
+    }
+  },
+  {
+    "id": "1011",
+    "nombre": "RIO CHICO,RIO DE LA PUERTA ",
+    "codPostal": "5260",
+    "municipio": {
+      "id": "473",
+      "nombre": "LA PAZ"
+    }
+  },
+  {
+    "id": "1012",
+    "nombre": "SAN AGUSTIN,SAN BERNARDO ",
+    "codPostal": "5260",
+    "municipio": {
+      "id": "473",
+      "nombre": "LA PAZ"
+    }
+  },
+  {
+    "id": "1013",
+    "nombre": "SAN CARLOS ",
+    "codPostal": "5264",
+    "municipio": {
+      "id": "473",
+      "nombre": "LA PAZ"
+    }
+  },
+  {
+    "id": "1014",
+    "nombre": "SAN JOSE ",
+    "codPostal": "5264",
+    "municipio": {
+      "id": "473",
+      "nombre": "LA PAZ"
+    }
+  },
+  {
+    "id": "1015",
+    "nombre": "SAN LORENZO ",
+    "codPostal": "5264",
+    "municipio": {
+      "id": "473",
+      "nombre": "LA PAZ"
+    }
+  },
+  {
+    "id": "1016",
+    "nombre": "SAN NICOLAS ",
+    "codPostal": "5264",
+    "municipio": {
+      "id": "473",
+      "nombre": "LA PAZ"
+    }
+  },
+  {
+    "id": "1017",
+    "nombre": "SAN SALVADOR ",
+    "codPostal": "5264",
+    "municipio": {
+      "id": "473",
+      "nombre": "LA PAZ"
+    }
+  },
+  {
+    "id": "1018",
+    "nombre": "SANTO DOMINGO ",
+    "codPostal": "5264",
+    "municipio": {
+      "id": "473",
+      "nombre": "LA PAZ"
+    }
+  },
+  {
+    "id": "1019",
+    "nombre": "SINCHA ",
+    "codPostal": "5264",
+    "municipio": {
+      "id": "473",
+      "nombre": "LA PAZ"
+    }
+  },
+  {
+    "id": "102",
+    "nombre": "MARI MENUCO ",
+    "codPostal": "8321",
+    "municipio": {
+      "id": "111",
+      "nombre": "CONFLUENCIA"
+    }
+  },
+  {
+    "id": "1020",
+    "nombre": "SOL DE MAYO. ",
+    "codPostal": "5264",
+    "municipio": {
+      "id": "473",
+      "nombre": "LA PAZ"
+    }
+  },
+  {
+    "id": "1021",
+    "nombre": "ATRAVESADA ",
+    "codPostal": "4716",
+    "municipio": {
+      "id": "474",
+      "nombre": "PACLIN"
+    }
+  },
+  {
+    "id": "1022",
+    "nombre": "BALCOZNA ",
+    "codPostal": "4719",
+    "municipio": {
+      "id": "474",
+      "nombre": "PACLIN"
+    }
+  },
+  {
+    "id": "1023",
+    "nombre": "BALCOZNA AFUERA ",
+    "codPostal": "4719",
+    "municipio": {
+      "id": "474",
+      "nombre": "PACLIN"
+    }
+  },
+  {
+    "id": "1024",
+    "nombre": "EL BASTIDOR ",
+    "codPostal": "4719",
+    "municipio": {
+      "id": "474",
+      "nombre": "PACLIN"
+    }
+  },
+  {
+    "id": "1025",
+    "nombre": "EL CEBIL ",
+    "codPostal": "4719",
+    "municipio": {
+      "id": "474",
+      "nombre": "PACLIN"
+    }
+  },
+  {
+    "id": "1026",
+    "nombre": "EL PERO ",
+    "codPostal": "4719",
+    "municipio": {
+      "id": "474",
+      "nombre": "PACLIN"
+    }
+  },
+  {
+    "id": "1027",
+    "nombre": "EL PINTADO ",
+    "codPostal": "4719",
+    "municipio": {
+      "id": "474",
+      "nombre": "PACLIN"
+    }
+  },
+  {
+    "id": "1028",
+    "nombre": "EL TAJAMAR ",
+    "codPostal": "4722",
+    "municipio": {
+      "id": "474",
+      "nombre": "PACLIN"
+    }
+  },
+  {
+    "id": "1029",
+    "nombre": "HUACRA ",
+    "codPostal": "4722",
+    "municipio": {
+      "id": "474",
+      "nombre": "PACLIN"
+    }
+  },
+  {
+    "id": "103",
+    "nombre": "AUCA - PAN ",
+    "codPostal": "8371",
+    "municipio": {
+      "id": "112",
+      "nombre": "HUILICHES"
+    }
+  },
+  {
+    "id": "1030",
+    "nombre": "LA FALDA ",
+    "codPostal": "4719",
+    "municipio": {
+      "id": "474",
+      "nombre": "PACLIN"
+    }
+  },
+  {
+    "id": "1031",
+    "nombre": "LA PASTORA ",
+    "codPostal": "4718",
+    "municipio": {
+      "id": "474",
+      "nombre": "PACLIN"
+    }
+  },
+  {
+    "id": "1032",
+    "nombre": "LA POSTA ",
+    "codPostal": "4718",
+    "municipio": {
+      "id": "474",
+      "nombre": "PACLIN"
+    }
+  },
+  {
+    "id": "1033",
+    "nombre": "LAS HUERTAS ",
+    "codPostal": "4718",
+    "municipio": {
+      "id": "474",
+      "nombre": "PACLIN"
+    }
+  },
+  {
+    "id": "1034",
+    "nombre": "PACLIN ",
+    "codPostal": "4718",
+    "municipio": {
+      "id": "474",
+      "nombre": "PACLIN"
+    }
+  },
+  {
+    "id": "1035",
+    "nombre": "PUESTO DE ACEVEDO ",
+    "codPostal": "4716",
+    "municipio": {
+      "id": "474",
+      "nombre": "PACLIN"
+    }
+  },
+  {
+    "id": "1036",
+    "nombre": "PUESTO LA VIUDA ",
+    "codPostal": "4716",
+    "municipio": {
+      "id": "474",
+      "nombre": "PACLIN"
+    }
+  },
+  {
+    "id": "1037",
+    "nombre": "PUESTO SIN NOMBRE ",
+    "codPostal": "4716",
+    "municipio": {
+      "id": "474",
+      "nombre": "PACLIN"
+    }
+  },
+  {
+    "id": "1038",
+    "nombre": "SUMAMPA ",
+    "codPostal": "4722",
+    "municipio": {
+      "id": "474",
+      "nombre": "PACLIN"
+    }
+  },
+  {
+    "id": "1039",
+    "nombre": "TALAGUADA ",
+    "codPostal": "4719",
+    "municipio": {
+      "id": "474",
+      "nombre": "PACLIN"
+    }
+  },
+  {
+    "id": "104",
+    "nombre": "ATREUCO ",
+    "codPostal": "8371",
+    "municipio": {
+      "id": "112",
+      "nombre": "HUILICHES"
+    }
+  },
+  {
+    "id": "1040",
+    "nombre": "TIERRA VERDE ",
+    "codPostal": "4719",
+    "municipio": {
+      "id": "474",
+      "nombre": "PACLIN"
+    }
+  },
+  {
+    "id": "1041",
+    "nombre": "VILLA COLLANTES ",
+    "codPostal": "4719",
+    "municipio": {
+      "id": "474",
+      "nombre": "PACLIN"
+    }
+  },
+  {
+    "id": "1042",
+    "nombre": "VILLA LOS CORDEROS ",
+    "codPostal": "4719",
+    "municipio": {
+      "id": "474",
+      "nombre": "PACLIN"
+    }
+  }
+]

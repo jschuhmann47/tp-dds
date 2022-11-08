@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Table(name = "localidad")
 @Getter
 public class Localidad {
-
+    @Getter
     @Id
     public int id;
 
@@ -17,7 +17,8 @@ public class Localidad {
     @Column(name = "codigo_postal",nullable = false)
     public int codPostal;
 
-    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @Getter
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     @JoinColumn(name = "municipio_id",referencedColumnName = "id")
     public Municipio municipio;
 
@@ -31,11 +32,4 @@ public class Localidad {
         this.municipio = municipio;
     }
 
-    public int getId() {
-        return this.id;
-    }
-
-    public Municipio getMunicipio() {
-        return this.municipio;
-    }
 }

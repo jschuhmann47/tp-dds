@@ -38,9 +38,9 @@ public class FileHandlerThreadTest {
     @Test
     @DisplayName("Se genera el hilo y las actividades")
     public void thread(){
-        CargaDeActividades.setAdapter(new CargaDeActividadesApachePOIAdapter());
+//        CargaDeActividades.setAdapter(new CargaDeActividadesApachePOIAdapter());
         FileHandlerThread thread =
-                new FileHandlerThread("src/test/java/test/domain/CargaDeActividades/actividad.xls",1, adapter);
+                new FileHandlerThread("src/test/java/test/domain/CargaDeActividades/actividad.xls",1,new CargaDeActividadesApachePOIAdapter());
         thread.start();
     }
 }

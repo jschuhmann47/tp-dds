@@ -28,32 +28,10 @@ public class CalculoHC {
         }
     }
 
-//    @Getter
-//    @Setter
-//    static HashMap<TipoDeConsumo, Double> factoresEmision = new HashMap<>();
-
     @Getter
     @Setter
     static List<ParametroFE> factoresEmisionFE;
 
-//    public static void cargarFactoresDeEmision(String nombreArchivo){
-//        Properties FEconfigs = new Properties();
-//        try{
-//            InputStream input = Files.newInputStream(new File(nombreArchivo).toPath());
-//            FEconfigs.load(input);
-//        } catch(IOException e){
-//            e.printStackTrace();
-//        }
-//        for (String key : FEconfigs.stringPropertyNames()) {
-//            Double value = Double.valueOf(FEconfigs.getProperty(key));
-//            TipoDeConsumo tc = TipoDeConsumo.valueOf(key);
-//            factoresEmision.put(tc, value);
-//        }
-//    }
-//
-//    public static Double getFactorEmision(TipoDeConsumo tc){
-//        return factoresEmision.get(tc);
-//    }
 
     public static ParametroFE getFactorEmision(String nombre){
         List<ParametroFE> posibleFactor = factoresEmisionFE.stream().filter(f -> Objects.equals(f.getNombre(), nombre)).collect(Collectors.toList());

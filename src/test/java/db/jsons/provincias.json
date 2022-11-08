@@ -1,0 +1,194 @@
+[
+  {
+    "id": "168",
+    "nombre": "BUENOS AIRES",
+    "pais": {
+      "id": "9",
+      "nombre": "ARGENTINA"
+    }
+  },
+  {
+    "id": "169",
+    "nombre": "CATAMARCA",
+    "pais": {
+      "id": "9",
+      "nombre": "ARGENTINA"
+    }
+  },
+  {
+    "id": "170",
+    "nombre": "CHACO",
+    "pais": {
+      "id": "9",
+      "nombre": "ARGENTINA"
+    }
+  },
+  {
+    "id": "171",
+    "nombre": "CHUBUT",
+    "pais": {
+      "id": "9",
+      "nombre": "ARGENTINA"
+    }
+  },
+  {
+    "id": "172",
+    "nombre": "CORDOBA",
+    "pais": {
+      "id": "9",
+      "nombre": "ARGENTINA"
+    }
+  },
+  {
+    "id": "173",
+    "nombre": "CORRIENTES",
+    "pais": {
+      "id": "9",
+      "nombre": "ARGENTINA"
+    }
+  },
+  {
+    "id": "174",
+    "nombre": "CIUDAD DE BUENOS AIRES",
+    "pais": {
+      "id": "9",
+      "nombre": "ARGENTINA"
+    }
+  },
+  {
+    "id": "175",
+    "nombre": "ENTRE RIOS",
+    "pais": {
+      "id": "9",
+      "nombre": "ARGENTINA"
+    }
+  },
+  {
+    "id": "176",
+    "nombre": "FORMOSA",
+    "pais": {
+      "id": "9",
+      "nombre": "ARGENTINA"
+    }
+  },
+  {
+    "id": "177",
+    "nombre": "JUJUY",
+    "pais": {
+      "id": "9",
+      "nombre": "ARGENTINA"
+    }
+  },
+  {
+    "id": "178",
+    "nombre": "LA PAMPA",
+    "pais": {
+      "id": "9",
+      "nombre": "ARGENTINA"
+    }
+  },
+  {
+    "id": "179",
+    "nombre": "LA RIOJA",
+    "pais": {
+      "id": "9",
+      "nombre": "ARGENTINA"
+    }
+  },
+  {
+    "id": "180",
+    "nombre": "MENDOZA",
+    "pais": {
+      "id": "9",
+      "nombre": "ARGENTINA"
+    }
+  },
+  {
+    "id": "181",
+    "nombre": "MISIONES",
+    "pais": {
+      "id": "9",
+      "nombre": "ARGENTINA"
+    }
+  },
+  {
+    "id": "182",
+    "nombre": "NEUQUEN",
+    "pais": {
+      "id": "9",
+      "nombre": "ARGENTINA"
+    }
+  },
+  {
+    "id": "183",
+    "nombre": "RIO NEGRO",
+    "pais": {
+      "id": "9",
+      "nombre": "ARGENTINA"
+    }
+  },
+  {
+    "id": "184",
+    "nombre": "SALTA",
+    "pais": {
+      "id": "9",
+      "nombre": "ARGENTINA"
+    }
+  },
+  {
+    "id": "185",
+    "nombre": "SAN JUAN",
+    "pais": {
+      "id": "9",
+      "nombre": "ARGENTINA"
+    }
+  },
+  {
+    "id": "186",
+    "nombre": "SAN LUIS",
+    "pais": {
+      "id": "9",
+      "nombre": "ARGENTINA"
+    }
+  },
+  {
+    "id": "187",
+    "nombre": "SANTA CRUZ",
+    "pais": {
+      "id": "9",
+      "nombre": "ARGENTINA"
+    }
+  },
+  {
+    "id": "188",
+    "nombre": "SANTA FE",
+    "pais": {
+      "id": "9",
+      "nombre": "ARGENTINA"
+    }
+  },
+  {
+    "id": "189",
+    "nombre": "SANTIAGO DEL ESTERO",
+    "pais": {
+      "id": "9",
+      "nombre": "ARGENTINA"
+    }
+  },
+  {
+    "id": "190",
+    "nombre": "TIERRA DEL FUEGO",
+    "pais": {
+      "id": "9",
+      "nombre": "ARGENTINA"
+    }
+  },
+  {
+    "id": "191",
+    "nombre": "TUCUMAN",
+    "pais": {
+      "id": "9",
+      "nombre": "ARGENTINA"
+    }
+  }
+]

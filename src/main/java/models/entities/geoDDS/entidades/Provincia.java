@@ -7,15 +7,16 @@ import javax.persistence.*;
 @Entity
 @Table(name = "provincia")
 public class Provincia {
-
+    @Getter
     @Id
     public int id;
 
-    @Column(name = "nombre",nullable = false)
+    @Column(name = "nombre", nullable = false)
     @Getter
     public String nombre;
 
-    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @Getter
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pais_id",referencedColumnName = "id")
     public Pais pais;
 
@@ -26,9 +27,5 @@ public class Provincia {
         this.id = idP;
         this.nombre = nombreP;
         this.pais=paisP;
-    }
-
-    public int getId() {
-        return id;
     }
 }

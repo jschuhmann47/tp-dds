@@ -152,7 +152,7 @@ public class OrganizacionController {
 
         String path = this.guardarArchivo(request,response);
         Organizacion org = this.obtenerOrganizacion(request,response);
-        FileHandlerThread thread = new FileHandlerThread(path,org.getId(), new CargaDeActividadesApachePOIAdapter());
+        FileHandlerThread thread = new FileHandlerThread(path,org.getId(),new CargaDeActividadesApachePOIAdapter());
         thread.start();
 
         response.redirect("/organizacion/mediciones");
@@ -161,17 +161,17 @@ public class OrganizacionController {
 
     private String guardarArchivo(Request request, Response response) throws ServletException, IOException {
         request.attribute("org.eclipse.jetty.multipartConfig", new
-                MultipartConfigElement(System.getProperty("user.dir") + "src/main/resources/public/uploads/"));
+                MultipartConfigElement(System.getProperty("user.dir") + "/src/main/resources/public/uploads/"));
 
         Part filePart = request.raw().getPart("myfile");
 
         try (InputStream inputStream = filePart.getInputStream()) {
 
-            OutputStream outputStream = Files.newOutputStream(Paths.get(System.getProperty("user.dir") + "src/main/resources/public/uploads/" + filePart.getSubmittedFileName()));
+            OutputStream outputStream = Files.newOutputStream(Paths.get(System.getProperty("user.dir") + "/src/main/resources/public/uploads/" + filePart.getSubmittedFileName()));
             IOUtils.copy(inputStream, outputStream);
             outputStream.close();
         }
-        return Paths.get(System.getProperty("user.dir") + "src/main/resources/public/uploads/" + filePart.getSubmittedFileName()).toString();
+        return Paths.get(System.getProperty("user.dir") + "/src/main/resources/public/uploads/" + filePart.getSubmittedFileName()).toString();
     }
 
 

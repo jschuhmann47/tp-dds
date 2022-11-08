@@ -1,5 +1,7 @@
 package db;
 
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -7,6 +9,7 @@ import models.entities.geoDDS.Direccion;
 import models.entities.geoDDS.ServicioCalcularDistancia;
 import models.entities.geoDDS.adapters.ServicioGeoDDSAdapter;
 import models.entities.geoDDS.entidades.Distancia;
+import models.entities.geoDDS.entidades.Provincia;
 import models.entities.transporte.MedioTransporte;
 import models.entities.transporte.TipoCombustible;
 import models.entities.transporte.privado.TipoVehiculo;
@@ -18,8 +21,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -66,4 +72,5 @@ public class GsonTest {
         Assertions.assertEquals(TipoVehiculo.AUTO,tramo.getMedioTransporte().getTipo());
         Assertions.assertEquals(1.0,tramo.getDistancia().valor);
     }
+
 }

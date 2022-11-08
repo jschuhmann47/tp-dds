@@ -1,0 +1,402 @@
+[
+  {
+    "id": "144",
+    "nombre": "IRUYA",
+    "provincia": {
+      "id": "184",
+      "nombre": "SALTA"
+    }
+  },
+  {
+    "id": "145",
+    "nombre": "LA CALDERA",
+    "provincia": {
+      "id": "184",
+      "nombre": "SALTA"
+    }
+  },
+  {
+    "id": "146",
+    "nombre": "LA CANDELARIA",
+    "provincia": {
+      "id": "184",
+      "nombre": "SALTA"
+    }
+  },
+  {
+    "id": "147",
+    "nombre": "LA POMA",
+    "provincia": {
+      "id": "184",
+      "nombre": "SALTA"
+    }
+  },
+  {
+    "id": "148",
+    "nombre": "LA VIÑA",
+    "provincia": {
+      "id": "184",
+      "nombre": "SALTA"
+    }
+  },
+  {
+    "id": "149",
+    "nombre": "LOS ANDES",
+    "provincia": {
+      "id": "184",
+      "nombre": "SALTA"
+    }
+  },
+  {
+    "id": "15",
+    "nombre": "LA PAZ",
+    "provincia": {
+      "id": "175",
+      "nombre": "ENTRE RIOS"
+    }
+  },
+  {
+    "id": "150",
+    "nombre": "METAN",
+    "provincia": {
+      "id": "184",
+      "nombre": "SALTA"
+    }
+  },
+  {
+    "id": "151",
+    "nombre": "MOLINOS",
+    "provincia": {
+      "id": "184",
+      "nombre": "SALTA"
+    }
+  },
+  {
+    "id": "152",
+    "nombre": "ORAN",
+    "provincia": {
+      "id": "184",
+      "nombre": "SALTA"
+    }
+  },
+  {
+    "id": "153",
+    "nombre": "RIVADAVIA",
+    "provincia": {
+      "id": "184",
+      "nombre": "SALTA"
+    }
+  },
+  {
+    "id": "154",
+    "nombre": "ROSARIO DE LA FRONTERA",
+    "provincia": {
+      "id": "184",
+      "nombre": "SALTA"
+    }
+  },
+  {
+    "id": "155",
+    "nombre": "ROSARIO DE LERMA ",
+    "provincia": {
+      "id": "184",
+      "nombre": "SALTA"
+    }
+  },
+  {
+    "id": "156",
+    "nombre": "SAN CARLOS",
+    "provincia": {
+      "id": "184",
+      "nombre": "SALTA"
+    }
+  },
+  {
+    "id": "157",
+    "nombre": "SANTA VICTORIA",
+    "provincia": {
+      "id": "184",
+      "nombre": "SALTA"
+    }
+  },
+  {
+    "id": "158",
+    "nombre": "ALBARDON",
+    "provincia": {
+      "id": "185",
+      "nombre": "SAN JUAN"
+    }
+  },
+  {
+    "id": "159",
+    "nombre": "ANGACO",
+    "provincia": {
+      "id": "185",
+      "nombre": "SAN JUAN"
+    }
+  },
+  {
+    "id": "16",
+    "nombre": "NOGOYA",
+    "provincia": {
+      "id": "175",
+      "nombre": "ENTRE RIOS"
+    }
+  },
+  {
+    "id": "160",
+    "nombre": "CALINGASTA",
+    "provincia": {
+      "id": "185",
+      "nombre": "SAN JUAN"
+    }
+  },
+  {
+    "id": "161",
+    "nombre": "SAN JUAN CAPITAL ",
+    "provincia": {
+      "id": "185",
+      "nombre": "SAN JUAN"
+    }
+  },
+  {
+    "id": "162",
+    "nombre": "CAUCETE",
+    "provincia": {
+      "id": "185",
+      "nombre": "SAN JUAN"
+    }
+  },
+  {
+    "id": "163",
+    "nombre": "CHIMBAS",
+    "provincia": {
+      "id": "185",
+      "nombre": "SAN JUAN"
+    }
+  },
+  {
+    "id": "164",
+    "nombre": "IGLESIA",
+    "provincia": {
+      "id": "185",
+      "nombre": "SAN JUAN"
+    }
+  },
+  {
+    "id": "165",
+    "nombre": "JACHAL",
+    "provincia": {
+      "id": "185",
+      "nombre": "SAN JUAN"
+    }
+  },
+  {
+    "id": "166",
+    "nombre": "NUEVE DE JULIO",
+    "provincia": {
+      "id": "185",
+      "nombre": "SAN JUAN"
+    }
+  },
+  {
+    "id": "167",
+    "nombre": "POCITO",
+    "provincia": {
+      "id": "185",
+      "nombre": "SAN JUAN"
+    }
+  },
+  {
+    "id": "168",
+    "nombre": "RAWSON",
+    "provincia": {
+      "id": "185",
+      "nombre": "SAN JUAN"
+    }
+  },
+  {
+    "id": "169",
+    "nombre": "RIVADAVIA",
+    "provincia": {
+      "id": "185",
+      "nombre": "SAN JUAN"
+    }
+  },
+  {
+    "id": "17",
+    "nombre": "PARANA",
+    "provincia": {
+      "id": "175",
+      "nombre": "ENTRE RIOS"
+    }
+  },
+  {
+    "id": "170",
+    "nombre": "SAN MARTIN",
+    "provincia": {
+      "id": "185",
+      "nombre": "SAN JUAN"
+    }
+  },
+  {
+    "id": "171",
+    "nombre": "SANTA LUCIA",
+    "provincia": {
+      "id": "185",
+      "nombre": "SAN JUAN"
+    }
+  },
+  {
+    "id": "172",
+    "nombre": "SARMIENTO",
+    "provincia": {
+      "id": "185",
+      "nombre": "SAN JUAN"
+    }
+  },
+  {
+    "id": "173",
+    "nombre": "ULLUM",
+    "provincia": {
+      "id": "185",
+      "nombre": "SAN JUAN"
+    }
+  },
+  {
+    "id": "174",
+    "nombre": "VALLE FERTIL",
+    "provincia": {
+      "id": "185",
+      "nombre": "SAN JUAN"
+    }
+  },
+  {
+    "id": "175",
+    "nombre": "VEINTICINCO DE MAYO",
+    "provincia": {
+      "id": "185",
+      "nombre": "SAN JUAN"
+    }
+  },
+  {
+    "id": "176",
+    "nombre": "ZONDA",
+    "provincia": {
+      "id": "185",
+      "nombre": "SAN JUAN"
+    }
+  },
+  {
+    "id": "177",
+    "nombre": "AYACUCHO ",
+    "provincia": {
+      "id": "186",
+      "nombre": "SAN LUIS"
+    }
+  },
+  {
+    "id": "178",
+    "nombre": "BELGRANO ",
+    "provincia": {
+      "id": "186",
+      "nombre": "SAN LUIS"
+    }
+  },
+  {
+    "id": "179",
+    "nombre": "CHACABUCO ",
+    "provincia": {
+      "id": "186",
+      "nombre": "SAN LUIS"
+    }
+  },
+  {
+    "id": "18",
+    "nombre": "SAN JOSE DE FELICIANO",
+    "provincia": {
+      "id": "175",
+      "nombre": "ENTRE RIOS"
+    }
+  },
+  {
+    "id": "180",
+    "nombre": "CORONEL PRINGLES",
+    "provincia": {
+      "id": "186",
+      "nombre": "SAN LUIS"
+    }
+  },
+  {
+    "id": "181",
+    "nombre": "GENERAL PEDERNERA ",
+    "provincia": {
+      "id": "186",
+      "nombre": "SAN LUIS"
+    }
+  },
+  {
+    "id": "182",
+    "nombre": "DUPUY",
+    "provincia": {
+      "id": "186",
+      "nombre": "SAN LUIS"
+    }
+  },
+  {
+    "id": "183",
+    "nombre": "JUNIN ",
+    "provincia": {
+      "id": "186",
+      "nombre": "SAN LUIS"
+    }
+  },
+  {
+    "id": "184",
+    "nombre": "SAN LUIS CAPITAL",
+    "provincia": {
+      "id": "186",
+      "nombre": "SAN LUIS"
+    }
+  },
+  {
+    "id": "185",
+    "nombre": "LIBERTADOR GENERAL SAN MARTIN ",
+    "provincia": {
+      "id": "186",
+      "nombre": "SAN LUIS"
+    }
+  },
+  {
+    "id": "186",
+    "nombre": "CORPEN AIKE",
+    "provincia": {
+      "id": "187",
+      "nombre": "SANTA CRUZ"
+    }
+  },
+  {
+    "id": "187",
+    "nombre": "DESEADO",
+    "provincia": {
+      "id": "187",
+      "nombre": "SANTA CRUZ"
+    }
+  },
+  {
+    "id": "188",
+    "nombre": "GüER AIKE",
+    "provincia": {
+      "id": "187",
+      "nombre": "SANTA CRUZ"
+    }
+  },
+  {
+    "id": "189",
+    "nombre": "LAGO ARGENTINO ",
+    "provincia": {
+      "id": "187",
+      "nombre": "SANTA CRUZ"
+    }
+  }
+]

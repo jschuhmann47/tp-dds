@@ -1,5 +1,8 @@
 package db;
 
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
+import com.google.gson.Gson;
 import models.entities.CargaDeActividades.entidades.*;
 import models.entities.calculoHC.CalculoHC;
 import models.entities.calculoHC.UnidadHC;
@@ -23,11 +26,15 @@ import models.entities.transporte.publico.TransportePublico;
 import models.entities.trayectos.Frecuencia;
 import models.entities.trayectos.Tramo;
 import models.entities.trayectos.Trayecto;
+import models.helpers.GsonHelper;
+import models.helpers.PersistenciaHelper;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -45,16 +52,23 @@ public class PersistenciaTest {
         ParametroFE gas = new ParametroFE(TipoDeConsumo.GAS_NATURAL.toString(),0.6);
         ParametroFE colectivoFE = new ParametroFE(TipoVehiculo.COLECTIVO.toString(),25.0);
         ParametroFE nafta = new ParametroFE(TipoDeConsumo.NAFTA.toString(),1.2);
+        ParametroFE diesel = new ParametroFE(TipoDeConsumo.DIESEL.toString(),0.8);
+        ParametroFE prodTransportado = new ParametroFE(TipoDeConsumo.PRODUCTO_TRANSPORTADO.toString(),1.0);
+        ParametroFE kerosene = new ParametroFE(TipoDeConsumo.KEROSENE.toString(),2.5);
+        ParametroFE lenia = new ParametroFE(TipoDeConsumo.LENIA.toString(),2.0);
 
         List<ParametroFE> parametrosFE = new ArrayList<>();
         parametrosFE.add(autoFE);
         parametrosFE.add(gas);
         parametrosFE.add(colectivoFE);
         parametrosFE.add(nafta);
+        parametrosFE.add(diesel);
+        parametrosFE.add(prodTransportado);
+        parametrosFE.add(kerosene);
+        parametrosFE.add(lenia);
 
         CalculoHC.setFactoresEmisionFE(parametrosFE);
         CalculoHC.setUnidadPorDefecto(UnidadHC.GRAMO_EQ);
-
 
         List<Sector> sectores = new ArrayList<>();
         Sector marketing = new Sector();
@@ -158,10 +172,10 @@ public class PersistenciaTest {
         EntityManagerHelper.getEntityManager().persist(linea7);
         EntityManagerHelper.getEntityManager().persist(juan);
         EntityManagerHelper.getEntityManager().persist(sol);
-        EntityManagerHelper.getEntityManager().persist(autoFE);
-        EntityManagerHelper.getEntityManager().persist(gas);
-        EntityManagerHelper.getEntityManager().persist(colectivoFE);
-        EntityManagerHelper.getEntityManager().persist(nafta);
+
+        for (ParametroFE p : parametrosFE){
+            EntityManagerHelper.getEntityManager().persist(p);
+        }
 
         EntityManagerHelper.getEntityManager().persist(trayectoTest);
 
@@ -186,6 +200,7 @@ public class PersistenciaTest {
                 .createQuery("FROM Organizacion WHERE razon_social = 'Valve Corporation S.A'").getSingleResult(); //HQL = Hibernate Query Language (pseudo SQL)
                 //importa el nombre de la clase y de los atributos, no me importa el nombre de la columna
         Assertions.assertEquals("Valve Corporation S.A", org.getRazonSocial());
+        Assertions.assertEquals("Rivadavia", org.getDireccion().getCalle());
     }
 
     //para listas .getResultList(). count: getMaxResult()
@@ -219,6 +234,27 @@ public class PersistenciaTest {
         EntityManagerHelper.persist(user3);
         EntityManagerHelper.persist(admin);
         EntityManagerHelper.commit();
+    }
+
+    @Test
+    @DisplayName("Se persisten localidades de la API")
+    public void localidades() throws IOException {
+        String jsonPaises = Files.asCharSource(new File(System.getProperty("user.dir") + "/src/test/java/db/jsons/paises.json"), Charsets.UTF_8).read();
+        String jsonProvincias = Files.asCharSource(new File(System.getProperty("user.dir") + "/src/test/java/db/jsons/provincias.json"), Charsets.UTF_8).read();
+        String jsonMunicipios = Files.asCharSource(new File(System.getProperty("user.dir") + "/src/test/java/db/jsons/municipios.json"), Charsets.UTF_8).read();
+        String jsonLocalidades = Files.asCharSource(new File(System.getProperty("user.dir") + "/src/test/java/db/jsons/localidades.json"), Charsets.UTF_8).read();
+
+        List<Pais> paises = GsonHelper.generarPaises(jsonPaises);
+        List<Provincia> provincias = GsonHelper.generarProvincias(jsonProvincias);
+        List<Municipio> municipios = GsonHelper.generarMunicipios(jsonMunicipios);
+        List<Localidad> localidades = GsonHelper.generarLocalidades(jsonLocalidades);
+
+        //TODO no anda (colisiones)
+        localidades.forEach(PersistenciaHelper::persistir);
+        municipios.forEach(PersistenciaHelper::persistir);
+        provincias.forEach(PersistenciaHelper::persistir);
+        paises.forEach(PersistenciaHelper::persistir);
+
     }
 
     @AfterAll

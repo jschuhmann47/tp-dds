@@ -7,6 +7,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "municipio")
 public class Municipio {
+    @Getter
     @Id
     public int id;
 
@@ -15,7 +16,7 @@ public class Municipio {
     public String nombre;
 
     @Getter
-    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "provincia_id",referencedColumnName = "id")
     public Provincia provincia;
 
@@ -27,9 +28,5 @@ public class Municipio {
         this.id = id;
         this.nombre = nombre;
         this.provincia = provincia;
-    }
-
-    public int getId() {
-        return this.id;
     }
 }
