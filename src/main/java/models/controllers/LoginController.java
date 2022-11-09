@@ -1,20 +1,18 @@
 package models.controllers;
 
 import db.EntityManagerHelper;
-import models.entities.organizaciones.entidades.TipoDoc;
+import models.entities.organizaciones.entidades.PosibleTipoDocumento;
 import models.entities.organizaciones.entidades.Trabajador;
 import models.entities.seguridad.ValidadorContrasenia;
 import models.entities.seguridad.cuentas.Permiso;
 import models.entities.seguridad.cuentas.Rol;
 import models.entities.seguridad.cuentas.TipoRecurso;
 import models.entities.seguridad.cuentas.Usuario;
-import models.entities.transporte.publico.Parada;
 import models.helpers.HashingHelper;
 import models.helpers.PersistenciaHelper;
 import models.helpers.SessionHelper;
 import models.repositories.RepositorioDeTipoDocumento;
 import models.repositories.RepositorioDeUsuarios;
-import models.repositories.factories.FactoryRepositorioDeParametrosFE;
 import models.repositories.factories.FactoryRepositorioDeTipoDocumento;
 import models.repositories.factories.FactoryRepositorioDeUsuarios;
 import spark.ModelAndView;
@@ -23,6 +21,7 @@ import spark.Response;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class LoginController {
 
@@ -79,14 +78,19 @@ public class LoginController {
     }
 
     public Response crearNuevoUsuario(Request request, Response response){ //validar con el owasp
-        if(SessionHelper.atributosNoSonNull(request,"contrasenia","contraseniaChequeo","nombreUsuario","rol")){
+        if(SessionHelper.atributosNoSonNull(request,"contrasenia","contraseniaChequeo","nombreUsuario","tipoDocumentoId")){
             String contrasenia = request.queryParams("contrasenia");
+            String contraseniaVerificacion = request.queryParams("contraseniaChequeo");
             TipoRecurso tipoRecurso = TipoRecurso.valueOf(request.queryParams("tipoRecurso"));
+            if(!Objects.equals(contrasenia, contraseniaVerificacion) || contrasenia==null){
+                //error o algo
+                return response;
+            }
             if(ValidadorContrasenia.esContraseniaValida(contrasenia)){
 
                 Trabajador nuevoTrabajador = new Trabajador
                         (request.queryParams("apellido").toString(),request.queryParams("nombre").toString(),
-                                TipoDoc.valueOf(request.queryParams("tipoDoc")),new Integer(request.queryParams("nroDocumento")));
+                                this.repoTipoDoc.buscar(new Integer(request.queryParams("tipoDocumentoId"))),new Integer(request.queryParams("nroDocumento")));
                 PersistenciaHelper.persistir(nuevoTrabajador);
                 Integer idRecurso = 0; //todo traerse el id del nuevo trabajador
 

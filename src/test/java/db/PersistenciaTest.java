@@ -2,7 +2,6 @@ package db;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
-import com.google.gson.Gson;
 import models.entities.CargaDeActividades.entidades.*;
 import models.entities.calculoHC.CalculoHC;
 import models.entities.calculoHC.UnidadHC;
@@ -80,7 +79,7 @@ public class PersistenciaTest {
         clasificaciones.add("Videojuegos");
         clasificaciones.add("Desarrollador");
 
-        Trabajador juan = new Trabajador("Fernandez","Juan", TipoDoc.DNI, 12345678);
+        Trabajador juan = new Trabajador("Fernandez","Juan", new TipoDeDocumento(PosibleTipoDocumento.DNI), 12345678);
 
         marketing.agregarTrabajador(juan);
         juan.agregarSector(marketing);
@@ -161,6 +160,11 @@ public class PersistenciaTest {
         CalculoHC.calcularHCDeActividad(actividadTest2);
         organizacion.setListaDeActividades(Arrays.asList(actividadTest,actividadTest2));
 
+//        TipoDeDocumento dni = new TipoDeDocumento(PosibleTipoDocumento.DNI);
+        TipoDeDocumento enrolamiento = new TipoDeDocumento(PosibleTipoDocumento.LIBRETA_ENROLAMIENTO);
+        TipoDeDocumento civil = new TipoDeDocumento(PosibleTipoDocumento.LIBRETA_CIVIL);
+        TipoDeDocumento cedula = new TipoDeDocumento(PosibleTipoDocumento.CEDULA);
+
 
         EntityManagerHelper.beginTransaction();
         EntityManagerHelper.getEntityManager().persist(pais);
@@ -180,6 +184,10 @@ public class PersistenciaTest {
         }
 
         EntityManagerHelper.getEntityManager().persist(trayectoTest);
+//        EntityManagerHelper.getEntityManager().persist(dni);
+        EntityManagerHelper.getEntityManager().persist(enrolamiento);
+        EntityManagerHelper.getEntityManager().persist(civil);
+        EntityManagerHelper.getEntityManager().persist(cedula);
 
 
 //        EntityManagerHelper.getEntityManager().persist(actividadTest);

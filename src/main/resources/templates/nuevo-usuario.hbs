@@ -32,9 +32,9 @@
                 <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="apellido"></td>
                 <td>
                     <label for="tipoDocumento"></label>
-                    <select name="tipoDocumento" id="tipoDocumento">
+                    <select name="tipoDocumento" id="tipoDocumentoId">
                         {{#each tiposDocumento}}
-                            <option value="{{this.id}}">{{this.tipoDocumento}}</option>
+                            <option value="{{this.id}}">{{this.posibleTipoDocumento}}</option>
                         {{/each}}
                     </select>
                 </td>

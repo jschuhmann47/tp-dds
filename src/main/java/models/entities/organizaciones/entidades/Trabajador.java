@@ -25,9 +25,12 @@ public class Trabajador {
     @Getter
     @Column(name = "nombre",nullable = false)
     private String nombre;
+
     @Getter
-    @Enumerated(value = EnumType.STRING)
-    private TipoDoc tipoDoc;
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "tipo_documento",referencedColumnName = "id")
+    private TipoDeDocumento tipoDoc;
+
     @Getter
     @Column(name = "nro_doc",nullable = false)
     private Integer nroDoc;
@@ -45,7 +48,7 @@ public class Trabajador {
     @OneToMany(mappedBy = "trabajador")
     private List<Solicitud> listaDeSolicitudes = new ArrayList<>();
 
-    public Trabajador(String apellido, String nombre, TipoDoc tipoDoc, Integer nroDoc) {
+    public Trabajador(String apellido, String nombre, TipoDeDocumento tipoDoc, Integer nroDoc) {
         this.apellido = apellido;
         this.nombre = nombre;
         this.tipoDoc = tipoDoc;
