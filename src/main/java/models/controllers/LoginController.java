@@ -4,6 +4,7 @@ import db.EntityManagerHelper;
 import models.entities.organizaciones.entidades.PosibleTipoDocumento;
 import models.entities.organizaciones.entidades.Trabajador;
 import models.entities.seguridad.ValidadorContrasenia;
+import models.entities.seguridad.chequeos.Chequeo;
 import models.entities.seguridad.cuentas.Permiso;
 import models.entities.seguridad.cuentas.Rol;
 import models.entities.seguridad.cuentas.TipoRecurso;
@@ -19,13 +20,13 @@ import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.io.IOException;
+import java.util.*;
 
 public class LoginController {
 
     RepositorioDeTipoDocumento repoTipoDoc = FactoryRepositorioDeTipoDocumento.get();
+    RepositorioDeUsuarios repoUsuarios = FactoryRepositorioDeUsuarios.get();
 
     public ModelAndView inicio(Request request, Response response){
         Map<String, Object> parametros = new HashMap<>();
@@ -77,34 +78,45 @@ public class LoginController {
         return new ModelAndView(parametros,"nuevo-usuario.hbs");
     }
 
-    public Response crearNuevoUsuario(Request request, Response response){ //validar con el owasp
-        if(SessionHelper.atributosNoSonNull(request,"contrasenia","contraseniaChequeo","nombreUsuario","tipoDocumentoId")){
+    public Response crearNuevoUsuario(Request request, Response response) throws IOException {
+        if(SessionHelper.atributosNoSonNull(request,"contrasenia","contraseniaChequeo","nombreUsuario","tipoDocumentoId","nroDocumento","nombre","apellido")){
             String contrasenia = request.queryParams("contrasenia");
             String contraseniaVerificacion = request.queryParams("contraseniaChequeo");
-            TipoRecurso tipoRecurso = TipoRecurso.valueOf(request.queryParams("tipoRecurso"));
-            if(!Objects.equals(contrasenia, contraseniaVerificacion) || contrasenia==null){
-                //error o algo
+            if(!Objects.equals(contrasenia, contraseniaVerificacion)){
+                response.redirect("/errorNoCoincidenPasswords");
                 return response;
             }
+            if(this.repoUsuarios.existeUsuario(request.queryParams("nombreUsuario"))){
+                response.redirect("/errorUsuarioExistente");
+                return response;
+            }
+            ValidadorContrasenia.inicializarChequeos();
+            ValidadorContrasenia.setearPeoresContrasenias("src/main/java/models/entities/" +
+                    "seguridad/chequeos/peoresContrasenias.txt");
             if(ValidadorContrasenia.esContraseniaValida(contrasenia)){
 
                 Trabajador nuevoTrabajador = new Trabajador
                         (request.queryParams("apellido").toString(),request.queryParams("nombre").toString(),
                                 this.repoTipoDoc.buscar(new Integer(request.queryParams("tipoDocumentoId"))),new Integer(request.queryParams("nroDocumento")));
                 PersistenciaHelper.persistir(nuevoTrabajador);
-                Integer idRecurso = 0; //todo traerse el id del nuevo trabajador
 
                 Usuario nuevoUser = new Usuario(request.queryParams("nombreUsuario"),
                         contrasenia,
                         Rol.BASICO,
-                        idRecurso,
+                        nuevoTrabajador.getId(),
                         TipoRecurso.TRABAJADOR,
                         Permiso.VER_TRABAJADOR);
-                EntityManagerHelper.getEntityManager().persist(nuevoUser);
+
+                PersistenciaHelper.persistir(nuevoUser);
+            } else{
+                response.redirect("/errorPasswordNoSegura");
+                return response;
             }
         } else{
-            //excepcion o algo
+            response.redirect("/errorNoArgumentos");
+            return response;
         }
+        response.redirect("/login");
         return response;
     }
 

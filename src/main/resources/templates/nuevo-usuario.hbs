@@ -31,17 +31,17 @@
                 <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="nombre"></td>
                 <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="apellido"></td>
                 <td>
-                    <label for="tipoDocumento"></label>
-                    <select name="tipoDocumento" id="tipoDocumentoId">
+                    <label for="tipoDocumentoId"></label>
+                    <select name="tipoDocumentoId" id="tipoDocumentoId">
                         {{#each tiposDocumento}}
-                            <option value="{{this.id}}">{{this.posibleTipoDocumento}}</option>
+                            <option value="{{this.id}}" name="tipoDocumentoId">{{this.posibleTipoDocumento}}</option>
                         {{/each}}
                     </select>
                 </td>
                 <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="nroDocumento"></td>
                 <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="nombreUsuario"></td>
-                <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="contrasenia"></td>
-                <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="contraseniaChequeo"></td>
+                <td><input type="password" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="contrasenia"></td>
+                <td><input type="password" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="contraseniaChequeo"></td>
 
             </tr>
             <tr>

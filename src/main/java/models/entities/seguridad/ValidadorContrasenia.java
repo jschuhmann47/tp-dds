@@ -37,7 +37,7 @@ public class ValidadorContrasenia {
         return true;
     }
 
-    public ValidadorContrasenia(String path) throws IOException { //constructor
+    public static void setearPeoresContrasenias (String path) throws IOException {
         topPeoresContrasenias = new ArrayList<String>();
         BufferedReader buffer = new BufferedReader(new FileReader(path));
         String lineaLeida = buffer.readLine();
@@ -46,10 +46,10 @@ public class ValidadorContrasenia {
             lineaLeida = buffer.readLine();
         }
         buffer.close();
-        this.inicializarChequeos();
+        ValidadorContrasenia.inicializarChequeos();
     }
 
-    private void inicializarChequeos() {
+    public static void inicializarChequeos() {
         Minuscula minuscula = new Minuscula();
         Mayuscula mayuscula = new Mayuscula();
         TopPeores topPeores = new TopPeores();
