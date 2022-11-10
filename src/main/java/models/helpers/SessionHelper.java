@@ -4,6 +4,8 @@ import db.EntityManagerHelper;
 import models.entities.seguridad.cuentas.Usuario;
 import spark.Request;
 
+import java.util.Objects;
+
 public class SessionHelper {
     public static Usuario usuarioLogueado(Request request) {
         return EntityManagerHelper
@@ -13,7 +15,7 @@ public class SessionHelper {
 
     public static Boolean atributosNoSonNull(Request request,String ... strings){
         for (String s : strings){
-            if (request.queryParams(s) == null){
+            if (request.queryParams(s) == null || Objects.equals(request.queryParams(s), "")){
                 return false;
             }
         }

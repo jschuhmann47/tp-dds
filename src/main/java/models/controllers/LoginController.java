@@ -19,6 +19,7 @@ import models.repositories.factories.FactoryRepositorioDeUsuarios;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
+import spark.Spark;
 
 import java.io.IOException;
 import java.util.*;
@@ -78,17 +79,18 @@ public class LoginController {
         return new ModelAndView(parametros,"nuevo-usuario.hbs");
     }
 
-    public Response crearNuevoUsuario(Request request, Response response) throws IOException {
+    public ModelAndView crearNuevoUsuario(Request request, Response response) throws IOException {
+        HashMap<String,Object> parametros = new HashMap<>();
         if(SessionHelper.atributosNoSonNull(request,"contrasenia","contraseniaChequeo","nombreUsuario","tipoDocumentoId","nroDocumento","nombre","apellido")){
             String contrasenia = request.queryParams("contrasenia");
             String contraseniaVerificacion = request.queryParams("contraseniaChequeo");
             if(!Objects.equals(contrasenia, contraseniaVerificacion)){
-                response.redirect("/errorNoCoincidenPasswords");
-                return response;
+                parametros.put("error","Las contraseñas no coinciden. Por favor intente nuevamente.");
+                return new ModelAndView(parametros,"status-nuevo-usuario.hbs");
             }
             if(this.repoUsuarios.existeUsuario(request.queryParams("nombreUsuario"))){
-                response.redirect("/errorUsuarioExistente");
-                return response;
+                parametros.put("error","Usuario ya existente. Por favor ingrese otro.");
+                return new ModelAndView(parametros,"status-nuevo-usuario.hbs");
             }
             ValidadorContrasenia.inicializarChequeos();
             ValidadorContrasenia.setearPeoresContrasenias("src/main/java/models/entities/" +
@@ -109,15 +111,16 @@ public class LoginController {
 
                 PersistenciaHelper.persistir(nuevoUser);
             } else{
-                response.redirect("/errorPasswordNoSegura");
-                return response;
+                parametros.put("error","La contraseña no cumple con los requisitos de seguridad. " +
+                        "Chequee si su contraseña cumple con: " +
+                        "Una mayuscula, una minuscula, un numero, y no esta en el top peores 1000 contraseñas.");
+                return new ModelAndView(parametros,"status-nuevo-usuario.hbs");
             }
         } else{
-            response.redirect("/errorNoArgumentos");
-            return response;
+            parametros.put("error","No se ingresaron todos los campos.");
+            return new ModelAndView(parametros,"status-nuevo-usuario.hbs");
         }
-        response.redirect("/login");
-        return response;
+        parametros.put("exito","Usuario creado con exito!");
+        return new ModelAndView(parametros,"status-nuevo-usuario.hbs");
     }
-
 }

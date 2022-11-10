@@ -40,7 +40,7 @@
             <label for="organizaciones">Escoja una organizacion:</label>
             <select name="organizacion-nombres" id="organizacion-nombres">
                 {{#each organizaciones}}
-                    <option name="organizacionId" value="{{this.id}}">{{this.razonSocial}}</option>
+                    <option name="organizacionId" value="{{this.id}}" onclick="pedirSectores({{this.id}})">{{this.razonSocial}}</option>
                 {{/each}}
             </select>
             <label for="sectores">Escoja un sector:</label>

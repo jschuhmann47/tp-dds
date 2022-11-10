@@ -7,6 +7,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.List;
 
 public class RepositorioDeUsuarios extends Repositorio<Usuario>{
     public RepositorioDeUsuarios(DAO<Usuario> dao) {
@@ -18,15 +19,15 @@ public class RepositorioDeUsuarios extends Repositorio<Usuario>{
     }
 
     public boolean existeUsuario(String nombreDeUsuario) {
-        return this.usuarioConNombreDeUsuario(nombreDeUsuario) != null;
+        return !this.usuarioConNombreDeUsuario(nombreDeUsuario).isEmpty();
     }
 
     public Usuario buscar(String nombreDeUsuario, String contrasenia){
         return this.dao.buscar(this.condicionUsuarioYContrasenia(nombreDeUsuario,contrasenia));
     }
 
-    public Usuario usuarioConNombreDeUsuario(String nombreDeUsuario){
-        return this.dao.buscar(this.condicionNombreUsuario(nombreDeUsuario));
+    public List<Usuario> usuarioConNombreDeUsuario(String nombreDeUsuario){
+        return this.dao.buscarTodos(this.condicionNombreUsuario(nombreDeUsuario));
     }
 
     private BusquedaCondicional condicionNombreUsuario(String nombreDeUsuario) {
