@@ -115,9 +115,11 @@ public class PersistenciaTest {
         AgenteSectorial agenteSectorial = new AgenteSectorial("Perez","Catalina",municipio,organizacionList);
 
         TransportePrivado auto = new TransportePrivado(TipoVehiculo.AUTO, TipoCombustible.NAFTA);
+        auto.setNombre("Auto de Juan");
 
         Linea linea7 = new Linea("Linea 7", paradaTest1,paradaTest2);
         TransportePublico colectivoTest = new TransportePublico(linea7,TipoVehiculo.COLECTIVO,TipoCombustible.NAFTA);
+        colectivoTest.setNombre("Colectivo Linea 7");
 
         ServicioGeoDDSAdapter adapterMock = mock(ServicioGeoDDSAdapter.class);
         ServicioCalcularDistancia.setAdapter(adapterMock);

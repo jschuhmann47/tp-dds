@@ -4,11 +4,9 @@ import models.entities.CargaDeActividades.adapters.CargaDeActividadesApachePOIAd
 import models.entities.CargaDeActividades.entidades.Periodo;
 import models.entities.calculoHC.CalculoHC;
 import models.entities.calculoHC.UnidadHC;
-import models.entities.organizaciones.contacto.Contacto;
-import models.entities.organizaciones.contacto.MandarMail;
-import models.entities.organizaciones.contacto.MandarWhatsapp;
-import models.entities.organizaciones.contacto.MedioNotificacion;
+import models.entities.organizaciones.contacto.*;
 import models.entities.organizaciones.entidades.Organizacion;
+import models.entities.organizaciones.solicitudes.EstadoSolicitud;
 import models.entities.organizaciones.solicitudes.PosibleEstadoSolicitud;
 import models.entities.organizaciones.solicitudes.Solicitud;
 import models.helpers.PeriodoHelper;
@@ -70,9 +68,7 @@ public class OrganizacionController {
         Organizacion org = this.obtenerOrganizacion(request,response);
         parametros.put("organizacion",org);
         parametros.put("solicitudes",org.getListaDeSolicitudes());
-        parametros.put("solicitudesRender",org.getListaDeSolicitudes().stream()
-                .map(s -> s.getEstadoSolicitud().getPosibleEstadoSolicitud() == PosibleEstadoSolicitud.PENDIENTE)
-                .collect(Collectors.toList()));
+        parametros.put("pendiente", PosibleEstadoSolicitud.PENDIENTE);
 
         return new ModelAndView(parametros, "organizacion/solicitudes-organizacion-menu.hbs"); //aceptar esa solicitud en concreto
     }
@@ -205,16 +201,20 @@ public class OrganizacionController {
     }
 
     public ModelAndView mostrarNuevoContacto(Request request, Response response){
-        return new ModelAndView(null,"organizacion/contacto-nuevo-menu.hbs");
+        HashMap<String, Object> parametros = new HashMap<>();
+//        EMedioNotificacion eMedioNotificacion = this.repoMediosNotificacion.buscarTodos();
+//        TODO
+        return new ModelAndView(parametros,"organizacion/contacto-nuevo-menu.hbs");
     }
 
     public Response registrarNuevoContacto(Request request, Response response){
-        if(SessionHelper.atributosNoSonNull(request,"nroTelefono","email","medioNotificacion")){
+        if(SessionHelper.atributosNoSonNull(request,"nroTelefono","email","medioNotificacionId")){
             Contacto nuevoContacto = new Contacto(request.queryParams("nroTelefono"),request.queryParams("email"), this.getMedioDeNotificacionDeRequest(request));
             Organizacion org = this.obtenerOrganizacion(request,response);
             org.agregarContacto(nuevoContacto);
             PersistenciaHelper.persistir(org);
         }
+        response.redirect("/contactos");
         return response;
     }
 
@@ -236,7 +236,7 @@ public class OrganizacionController {
 
     private List<MedioNotificacion> getMedioDeNotificacionDeRequest(Request request){
         List<MedioNotificacion> medios = new ArrayList<>();
-        switch (request.queryParams("medioNotificacion")){
+        switch (request.queryParams("medioNotificacionId")){
             case "MAIL":
                 medios.add(new MandarMail());
                 break;

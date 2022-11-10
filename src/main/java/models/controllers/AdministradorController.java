@@ -187,9 +187,9 @@ public class AdministradorController {
         return response;
     }
 
-    public ModelAndView mostrarTransporte(Request request, Response response) {
+    public ModelAndView mostrarTransporte(Request request, Response response) { //todo hacer un metodo para publico y uno para privado
         HashMap<String,Object> parametros = new HashMap<>();
-        MedioTransporte medio = this.repoTransportes.buscar(new Integer(request.queryParams("transporteId")));
+        MedioTransporte medio = this.repoTransportes.buscar(new Integer(request.queryParams("medioTransporteId")));
         parametros.put("transporte",medio); //si es publico poner boton de mostrar paradas
         switch(medio.getTipo()){
             //todo distinguir el tipo de transporte, no se si se requiere converter
@@ -198,7 +198,7 @@ public class AdministradorController {
     }
 
     public Response eliminarTransporte(Request request, Response response) {
-        MedioTransporte medioTransporteAEliminar = this.repoTransportes.buscar(new Integer(request.queryParams("transporteId")));
+        MedioTransporte medioTransporteAEliminar = this.repoTransportes.buscar(new Integer(request.queryParams("medioTransporteId")));
         PersistenciaHelper.eliminar(medioTransporteAEliminar);
         response.redirect("/administrador/transportes");
         return response;

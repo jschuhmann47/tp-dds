@@ -25,6 +25,7 @@ public class Solicitud {
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     @JoinColumn(name = "trabajador_id",referencedColumnName = "id")
     private Trabajador trabajador;
+
     @Embedded
     @Getter
     private EstadoSolicitud estadoSolicitud;

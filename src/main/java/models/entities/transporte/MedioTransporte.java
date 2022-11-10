@@ -1,6 +1,7 @@
 package models.entities.transporte;
 
 import lombok.Getter;
+import lombok.Setter;
 import models.entities.calculoHC.CalculoHC;
 import models.entities.geoDDS.Direccion;
 import models.entities.geoDDS.entidades.Distancia;
@@ -19,6 +20,7 @@ public abstract class MedioTransporte {
     private int id;
 
     @Getter
+    @Setter
     @Column(name = "nombre")
     protected String nombre;
 
