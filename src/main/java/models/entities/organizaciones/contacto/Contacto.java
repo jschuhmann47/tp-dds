@@ -57,6 +57,15 @@ public class Contacto {
 
     }
 
+    public Contacto(String nombre, String apellido,String nroTelefono, String mail, List<MedioNotificacion> medios) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.nroTelefono = nroTelefono;
+        this.email = mail;
+        this.setListaDeMedios(medios);
+
+    }
+
     public Contacto(String nroTelefono, String mail, List<MedioNotificacion> medios) {
         this.nroTelefono = nroTelefono;
         this.email = mail;

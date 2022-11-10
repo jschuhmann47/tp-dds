@@ -52,7 +52,7 @@
                     <label for="mediosNotificacion"></label>
                     <select name="mediosNotificacion" id="mediosNotificacion">
                         {{#each medios}}
-                            <option value="{{this.medio}}">{{this.medio}}</option> <!-- ver esto del id todo -->
+                            <option value="{{this}}" name="mediosNotificacion">{{this}}</option> <!-- ver esto del id todo -->
                         {{/each}}
                     </select>
                 </td>

@@ -204,17 +204,25 @@ public class OrganizacionController {
         HashMap<String, Object> parametros = new HashMap<>();
 //        EMedioNotificacion eMedioNotificacion = this.repoMediosNotificacion.buscarTodos();
 //        TODO
+        List<String> mediosNotif = new ArrayList<>();
+        mediosNotif.add(EMedioNotificacion.WHATSAPP.toString());
+        mediosNotif.add(EMedioNotificacion.MAIL.toString());
+        mediosNotif.add(EMedioNotificacion.TODOS.toString());
+        parametros.put("medios",mediosNotif);
         return new ModelAndView(parametros,"organizacion/contacto-nuevo-menu.hbs");
     }
 
     public Response registrarNuevoContacto(Request request, Response response){
-        if(SessionHelper.atributosNoSonNull(request,"nroTelefono","email","medioNotificacionId")){
-            Contacto nuevoContacto = new Contacto(request.queryParams("nroTelefono"),request.queryParams("email"), this.getMedioDeNotificacionDeRequest(request));
+        if(SessionHelper.atributosNoSonNull(request,"telefono","email","mediosNotificacion","nombre","apellido")){
+            Contacto nuevoContacto = new Contacto(request.queryParams("nombre"),request.queryParams("apellido"),request.queryParams("telefono"),request.queryParams("email"), this.getMedioDeNotificacionDeRequest(request));
             Organizacion org = this.obtenerOrganizacion(request,response);
             org.agregarContacto(nuevoContacto);
             PersistenciaHelper.persistir(org);
+            //exito
+        }else{
+            response.redirect("/error");
         }
-        response.redirect("/contactos");
+        response.redirect("/organizacion/contactos");
         return response;
     }
 
@@ -236,14 +244,14 @@ public class OrganizacionController {
 
     private List<MedioNotificacion> getMedioDeNotificacionDeRequest(Request request){
         List<MedioNotificacion> medios = new ArrayList<>();
-        switch (request.queryParams("medioNotificacionId")){
+        switch (request.queryParams("mediosNotificacion")){
             case "MAIL":
                 medios.add(new MandarMail());
                 break;
             case "WHATSAPP":
                 medios.add(new MandarWhatsapp());
                 break;
-            case "AMBOS":
+            case "TODOS":
                 medios.add(new MandarWhatsapp());
                 medios.add(new MandarMail());
                 break;

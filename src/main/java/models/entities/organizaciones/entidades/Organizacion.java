@@ -64,11 +64,6 @@ public class Organizacion {
     @JoinColumn(name = "organizacion_id",referencedColumnName = "id")
     private List<Contacto> contactos;
 
-//    @Getter
-//    @Setter
-//    @OneToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-//    @JoinColumn(name = "organizacion_id",referencedColumnName = "id")
-//    private List<Solicitud> listaDeSolicitudes;
 
     public Organizacion(List<Sector> sectores) {
         this.sectores = sectores;
