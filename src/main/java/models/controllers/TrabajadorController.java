@@ -101,6 +101,7 @@ public class TrabajadorController {
         Trabajador trabajador = this.obtenerTrabajador(request,response);
         parametros.put("trabajador",trabajador);
         parametros.put("solicitudes",trabajador.getListaDeSolicitudes());
+        parametros.put("pendiente","PENDIENTE");
 
         return new ModelAndView(parametros, "trabajador/solicitudes-trabajador-menu.hbs");
     }
@@ -115,8 +116,11 @@ public class TrabajadorController {
     }
 
     public Response eliminarVinculacion(Request request, Response response){
-        Solicitud solicitud = this.repoSolicitudes.buscar(new Integer(request.queryParams("solicitudId"))); //con ajax
-        PersistenciaHelper.persistir(solicitud);
+        if(SessionHelper.atributosNoSonNull(request,"solicitudId")){
+            Solicitud solicitud = this.repoSolicitudes.buscar(new Integer(request.queryParams("solicitudId")));
+            PersistenciaHelper.persistir(solicitud);
+        }
+
         return response;
     }
 
@@ -228,14 +232,21 @@ public class TrabajadorController {
     }
 
     public Response eliminarTrayecto(Request request, Response response){
-        Trayecto trayecto = this.repoTrayectos.buscar(new Integer(request.queryParams("trayectoId"))); //con ajax
-        PersistenciaHelper.eliminar(trayecto);
+        if(SessionHelper.atributosNoSonNull(request,"trayectoId")){
+            Trayecto trayecto = this.repoTrayectos.buscar(new Integer(request.queryParams("trayectoId")));
+            if(trayecto.getTramos().isEmpty()){
+                PersistenciaHelper.eliminar(trayecto);
+            } else{
+                response.redirect("/trabajador/trayecto"); //probar si anda, no se si falta asociar el id
+                //error de que no puede borrar
+            }
+        }
         return response;
     }
 
     public Response eliminarTramo(Request request, Response response){
-        Trayecto trayecto = this.repoTrayectos.buscar(new Integer(request.queryParams("trayectoId"))); //con ajax
-        PersistenciaHelper.eliminar(trayecto);
+        Tramo tramo = this.repoTramos.buscar(new Integer(request.queryParams("tramoId"))); //todo buscar tramo del
+        PersistenciaHelper.eliminar(tramo);
         response.redirect("/trabajador/trayecto"); //probar si anda, no se si falta asociar el id
         return response;
     }

@@ -17,6 +17,7 @@ import javax.persistence.*;
 public abstract class MedioTransporte {
     @Id
     @GeneratedValue
+    @Getter
     private int id;
 
     @Getter
@@ -32,10 +33,6 @@ public abstract class MedioTransporte {
     @Column(name = "tipo_combustible",nullable = false)
     @Enumerated(EnumType.STRING)
     protected TipoCombustible tipoCombustible;
-
-    public int getId() {
-        return id;
-    }
 
     public abstract String detalle();
 

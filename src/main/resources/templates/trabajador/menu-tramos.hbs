@@ -61,8 +61,8 @@
             <td>{{this.puntoFinal.localidad.nombre}}</td>
             <td>{{this.distancia.valor}} {{this.distancia.unidad}}</td>
             <td>
-                <form action="/trabajador/trayecto/" method="post">
-                    <button class="btn btn-success" type="submit" name="tramoId" value="{{this.id}}">Eliminar</button>
+                <form action="/trabajador/trayecto/tramos/eliminar" method="post">
+                    <button class="btn btn-danger" type="submit" name="tramoId" value="{{this.id}}">Eliminar</button>
                 </form>
             </td>
         </tr>

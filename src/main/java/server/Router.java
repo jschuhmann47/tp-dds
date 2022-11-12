@@ -149,6 +149,7 @@ public class Router {
                     Spark.get("",trabajadorController::mostrarVinculaciones, Router.engine);
                     Spark.get("/nuevo",trabajadorController::mostrarNuevaVinculacion, Router.engine);
                     Spark.post("/nuevo",trabajadorController::nuevaVinculacion);
+                    Spark.post("/eliminar",trabajadorController::eliminarVinculacion);
                 });
 
                 Spark.path("/trayectos", () -> {
@@ -164,9 +165,9 @@ public class Router {
                         Spark.post("/editar",trabajadorController::editarTramo);
                         Spark.get("/nuevo",trabajadorController::mostrarNuevoTramo, Router.engine);
                         Spark.post("/nuevo",trabajadorController::registrarNuevoTramo);
-                        Spark.delete("",trabajadorController::eliminarTramo);
+                        Spark.post("/eliminar",trabajadorController::eliminarTramo);
                     });
-                    Spark.delete("",trabajadorController::eliminarTrayecto);
+                    Spark.post("/eliminar",trabajadorController::eliminarTrayecto);
                 });
 
                 Spark.get("/recomendaciones",trabajadorController::mostrarRecomendaciones, Router.engine);
