@@ -16,7 +16,7 @@ public class Municipio {
     public String nombre;
 
     @Getter
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE,CascadeType.PERSIST})
     @JoinColumn(name = "provincia_id",referencedColumnName = "id")
     public Provincia provincia;
 

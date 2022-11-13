@@ -10,6 +10,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "tramo")
 public class Tramo {
+    @Getter
     @Id
     @GeneratedValue
     private int id;

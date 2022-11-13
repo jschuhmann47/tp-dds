@@ -18,7 +18,7 @@ public class Localidad {
     public int codPostal;
 
     @Getter
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE,CascadeType.PERSIST})
     @JoinColumn(name = "municipio_id",referencedColumnName = "id")
     public Municipio municipio;
 

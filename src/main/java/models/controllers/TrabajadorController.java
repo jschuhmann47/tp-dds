@@ -11,6 +11,7 @@ import models.entities.geoDDS.Direccion;
 import models.entities.organizaciones.entidades.Organizacion;
 import models.entities.organizaciones.entidades.Sector;
 import models.entities.organizaciones.entidades.Trabajador;
+import models.entities.organizaciones.solicitudes.PosibleEstadoSolicitud;
 import models.entities.organizaciones.solicitudes.Solicitud;
 import models.entities.trayectos.Frecuencia;
 import models.entities.trayectos.Tramo;
@@ -101,7 +102,7 @@ public class TrabajadorController {
         Trabajador trabajador = this.obtenerTrabajador(request,response);
         parametros.put("trabajador",trabajador);
         parametros.put("solicitudes",trabajador.getListaDeSolicitudes());
-        parametros.put("pendiente","PENDIENTE");
+        parametros.put("pendiente", PosibleEstadoSolicitud.PENDIENTE);
 
         return new ModelAndView(parametros, "trabajador/solicitudes-trabajador-menu.hbs");
     }
@@ -118,9 +119,9 @@ public class TrabajadorController {
     public Response eliminarVinculacion(Request request, Response response){
         if(SessionHelper.atributosNoSonNull(request,"solicitudId")){
             Solicitud solicitud = this.repoSolicitudes.buscar(new Integer(request.queryParams("solicitudId")));
-            PersistenciaHelper.persistir(solicitud);
+            PersistenciaHelper.eliminar(solicitud);
         }
-
+        response.redirect("/trabajador/vinculacion");
         return response;
     }
 
@@ -181,7 +182,9 @@ public class TrabajadorController {
 
     public ModelAndView mostrarTramosDelTrayecto(Request request, Response response){
         HashMap<String,Object> parametros = new HashMap<>();
-        parametros.put("tramos",this.repoTrayectos.buscar(new Integer(request.queryParams("trayectoId"))).getTramos()); //q no sea null
+        Trayecto trayecto = this.repoTrayectos.buscar(new Integer(request.queryParams("trayectoId")));
+        parametros.put("tramos",trayecto.getTramos()); //q no sea null
+//        parametros.put("trayectoId",trayecto.getId());
         return new ModelAndView(parametros,"trabajador/menu-tramos.hbs");
     }
 
@@ -208,7 +211,7 @@ public class TrabajadorController {
             tramo.getPuntoInicio().setAltura(new Integer(request.queryParams("alturaInicio")));
         }
         //asi con todos los atributos
-        response.redirect("/trabajador/trayectos");
+        response.redirect("/trabajador/trayecto");
         return response;
     }
 
@@ -236,18 +239,22 @@ public class TrabajadorController {
             Trayecto trayecto = this.repoTrayectos.buscar(new Integer(request.queryParams("trayectoId")));
             if(trayecto.getTramos().isEmpty()){
                 PersistenciaHelper.eliminar(trayecto);
-            } else{
-                response.redirect("/trabajador/trayecto"); //probar si anda, no se si falta asociar el id
-                //error de que no puede borrar
             }
+            response.redirect("/trabajador/trayectos"); //probar si anda, no se si falta asociar el id
+                //error de que no puede borrar
+
         }
         return response;
     }
 
     public Response eliminarTramo(Request request, Response response){
-        Tramo tramo = this.repoTramos.buscar(new Integer(request.queryParams("tramoId"))); //todo buscar tramo del
-        PersistenciaHelper.eliminar(tramo);
-        response.redirect("/trabajador/trayecto"); //probar si anda, no se si falta asociar el id
+        if(SessionHelper.atributosNoSonNull(request,"tramoId")){
+            Tramo tramo = this.repoTramos.buscar(new Integer(request.queryParams("tramoId"))); //todo buscar tramo del
+            PersistenciaHelper.eliminar(tramo);
+            response.redirect("/trabajador/trayecto"); //probar si anda, no se si falta asociar el id
+        } else{
+            response.redirect("/error");
+        }
         return response;
     }
 

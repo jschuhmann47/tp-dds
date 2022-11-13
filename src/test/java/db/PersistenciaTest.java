@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -263,10 +264,12 @@ public class PersistenciaTest {
         List<Localidad> localidades = GsonHelper.generarLocalidades(jsonLocalidades);
 
         //TODO no anda (colisiones)
-        localidades.forEach(PersistenciaHelper::persistir);
-        municipios.forEach(PersistenciaHelper::persistir);
-        provincias.forEach(PersistenciaHelper::persistir);
-        paises.forEach(PersistenciaHelper::persistir);
+        EntityManagerHelper.beginTransaction();
+        localidades.forEach(l -> EntityManagerHelper.getEntityManager().persist(l));
+        municipios.forEach(l -> EntityManagerHelper.getEntityManager().persist(l));
+        provincias.forEach(l -> EntityManagerHelper.getEntityManager().persist(l));
+        paises.forEach(l -> EntityManagerHelper.getEntityManager().persist(l));
+        EntityManagerHelper.commit();
 
     }
 
