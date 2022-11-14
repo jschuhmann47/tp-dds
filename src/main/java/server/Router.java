@@ -163,8 +163,8 @@ public class Router {
                     Spark.path("/tramos", () -> {
                         Spark.get("/editar",trabajadorController::mostrarEditarTramo, Router.engine);
                         Spark.post("/editar",trabajadorController::editarTramo);
-                        Spark.get("/nuevo",trabajadorController::mostrarNuevoTramo, Router.engine);
-                        Spark.post("/nuevo",trabajadorController::registrarNuevoTramo);
+                        Spark.post("/nuevo",trabajadorController::mostrarNuevoTramo, Router.engine);
+                        Spark.post("/nuevo/submit",trabajadorController::registrarNuevoTramo);
                         Spark.post("/eliminar",trabajadorController::eliminarTramo);
                     });
                     Spark.post("/eliminar",trabajadorController::eliminarTrayecto);

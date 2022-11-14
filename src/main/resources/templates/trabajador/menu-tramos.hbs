@@ -72,11 +72,15 @@
 </div>
 
 <div class="d-flex justify-content-center">
-    <button type="button" class="btn btn-success mb-2" style="margin-top: 100px;">
-        <a href="/trabajador/trayecto/tramos/nuevo" style="color: inherit">
-            <h4>Nuevo Tramo</h4>
-        </a>
-    </button>
+    <form action="/trabajador/trayecto/tramos/nuevo" method="post">
+        <div hidden>
+            <td><input hidden name="trayectoId" value="{{trayectoId}}"></td>
+        </div>
+        <button type="submit" class="btn btn-success mb-2" style="margin-top: 100px;">
+                <h4>Nuevo Tramo</h4>
+        </button>
+    </form>
+
 </div>
 </body>
 

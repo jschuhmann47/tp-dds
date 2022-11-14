@@ -34,6 +34,7 @@
     <h2 class="p-3 mb-2 bg-light text-dark mt-5" style="max-width: 235px;">Nuevo Tramo</h2>
 </div>
 
+<form action="/trabajador/trayecto/tramos/nuevo/submit" method="post">
 <div class="d-flex justify-content-center" style="margin-top: 20px;">
     <table class="table table-bordered bg-light" style="max-width: fit-content;">
         <thead>
@@ -46,10 +47,10 @@
         </thead>
         <tbody>
         <tr>
-            <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="alturaSalida"></td>
-            <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="calleSalida"></td>
-            <td><label for="localidades"></label>
-                <select name="localidades-nombres-salida" id="localidades-nombres-salida">
+            <td><input type="text" class="form-control"  aria-label="" aria-describedby="basic-addon1" name="alturaInicio"></td>
+            <td><input type="text" class="form-control"  aria-label="" aria-describedby="basic-addon1" name="calleInicio"></td>
+            <td><label for="localidadInicioId"></label>
+                <select name="localidadInicioId" id="localidadInicioId">
                     {{#each localidades}}
                         <option value="{{this.id}}">{{this.nombre}}</option>
                     {{/each}}
@@ -73,10 +74,10 @@
         </tr>
         </thead>
         <tbody>
-        <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="alturaDestino"></td>
-        <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="calleDestino"></td>
-        <td><label for="localidades"></label>
-            <select name="localidades-nombres-destino" id="localidades-nombres-destino">
+        <td><input type="text" class="form-control"  aria-label="" aria-describedby="basic-addon1" name="alturaDestino"></td>
+        <td><input type="text" class="form-control"  aria-label="" aria-describedby="basic-addon1" name="calleDestino"></td>
+        <td><label for="localidadDestinoId"></label>
+            <select name="localidadDestinoId" id="localidadDestinoId">
                 {{#each localidades}}
                     <option value="{{this.id}}">{{this.nombre}}</option>
                 {{/each}}
@@ -91,30 +92,30 @@
         <thead>
         <tr>
             <th scope="col">Medio Transporte</th>
-            <th scope="col">Distancia en KM</th>
 
         </tr>
         </thead>
         <tbody>
-        <td><label for="mediosTransporte"></label>
-            <select name="mediosTransporte-nombres" id="mediosTransporte-nombres">
-                {{#each medios}}
+        <td><label for="medioTransporteId"></label>
+            <select name="medioTransporteId" id="medioTransporteId">
+                {{#each transportes}}
                     <option value="{{this.id}}">{{this.nombre}}</option>
                 {{/each}}
             </select>
         </td>
-        <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="distancia"></td>
         </tbody>
     </table>
+    <div hidden>
+        <td><input hidden name="trayectoId" value="{{trayectoId}}"></td>
+    </div>
 </div>
 
 <div class="d-flex justify-content-center">
-    <button type="button" class="btn btn-success mb-2" style="margin-top: 20px;">
-        <a href="/trabajador/tramo/nuevo" style="color: inherit">
-            <h4>Crear Tramo</h4>
-        </a>
+    <button type="submit" class="btn btn-success mb-2" style="margin-top: 20px;">
+           <h4>Crear Tramo</h4>
     </button>
 </div>
+</form>
 </body>
 
 </html>

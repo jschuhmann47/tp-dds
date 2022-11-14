@@ -8,6 +8,8 @@ import models.entities.CargaDeActividades.entidades.Periodo;
 import models.entities.calculoHC.CalculoHC;
 import models.entities.calculoHC.UnidadHC;
 import models.entities.geoDDS.Direccion;
+import models.entities.geoDDS.ServicioCalcularDistancia;
+import models.entities.geoDDS.adapters.ServicioGeoDDSRetrofitAdapter;
 import models.entities.organizaciones.entidades.Organizacion;
 import models.entities.organizaciones.entidades.Sector;
 import models.entities.organizaciones.entidades.Trabajador;
@@ -163,13 +165,18 @@ public class TrabajadorController {
     public ModelAndView mostrarNuevoTrayecto(Request request, Response response) {
         HashMap<String,Object> parametros = new HashMap<>();
         parametros.put("localidades",this.repoLocalidades.buscarTodos());
+        List<String> frecuenciasDeUso = new ArrayList<>();
+        frecuenciasDeUso.add(Periodicidad.MENSUAL.toString());
+        frecuenciasDeUso.add(Periodicidad.ANUAL.toString());
+        parametros.put("frecuencias",frecuenciasDeUso);
         return new ModelAndView(parametros,"trabajador/agregar-trayecto.hbs");
     }
 
-    public ModelAndView mostrarNuevoTramo(Request request, Response response) { //todo
+    public ModelAndView mostrarNuevoTramo(Request request, Response response) {
         HashMap<String,Object> parametros = new HashMap<>();
         parametros.put("localidades",this.repoLocalidades.buscarTodos());
         parametros.put("transportes",this.repoTransportes.buscarTodos());
+        parametros.put("trayectoId",this.repoTrayectos.buscar(new Integer(request.queryParams("trayectoId"))).getId());
         return new ModelAndView(parametros,"trabajador/agregar-tramo.hbs");
     }
 
@@ -184,12 +191,13 @@ public class TrabajadorController {
         HashMap<String,Object> parametros = new HashMap<>();
         Trayecto trayecto = this.repoTrayectos.buscar(new Integer(request.queryParams("trayectoId")));
         parametros.put("tramos",trayecto.getTramos()); //q no sea null
-//        parametros.put("trayectoId",trayecto.getId());
+        parametros.put("trayectoId",trayecto.getId());
         return new ModelAndView(parametros,"trabajador/menu-tramos.hbs");
     }
 
     public Response registrarNuevoTramo(Request request, Response response) throws Exception {
         if(SessionHelper.atributosNoSonNull(request,"medioTransporteId","alturaInicio","calleInicio","localidadInicioId","calleDestino","alturaDestino","localidadDestinoId","trayectoId")){
+            ServicioCalcularDistancia.setAdapter(new ServicioGeoDDSRetrofitAdapter());
             Tramo tramo = new Tramo
                     (this.repoTransportes.buscar(new Integer(request.queryParams("medioTransporteId"))),
                             new Direccion
@@ -199,9 +207,14 @@ public class TrabajadorController {
                                     (new Integer(request.queryParams("alturaDestino")),request.queryParams("calleDestino"),
                                         this.repoLocalidades.buscar(new Integer(request.queryParams("localidadDestinoId"))))
                     );
-
-            PersistenciaHelper.persistir(tramo); //todo asociarlo al trayecto
+            Trayecto trayecto = this.repoTrayectos.buscar(new Integer(request.queryParams("trayectoId"))); //todo tira null en distancia del tramo
+            trayecto.cargarTramos(tramo);
+            PersistenciaHelper.persistir(trayecto);
+        } else{
+            throw new Exception("lol lmao" + request.queryParams("trayectoId"));
+//            response.redirect("/lol");
         }
+        response.redirect("/trabajador/trayectos");
         return response;
     }
 
@@ -216,14 +229,18 @@ public class TrabajadorController {
     }
 
     public Response registrarNuevoTrayecto(Request request, Response response) {
-        if(SessionHelper.atributosNoSonNull(request,"tramos","periodicidad","vecesPorMes")){
-            List<Tramo> tramos = this.decodearTramos(request.queryParams("tramos")); //testear
+        if(SessionHelper.atributosNoSonNull(request,"alturaSalida","calleSalida","localidadSalidaId","alturaDestino","calleDestino",
+                "localidadDestinoId","frecuenciaDeUso","cantidadPorMes")){
 
-            Frecuencia frecuencia = new Frecuencia(Periodicidad.valueOf(request.queryParams("periodicidad")),new Integer("vecesPorMes"));
+            Frecuencia frecuencia = new Frecuencia(Periodicidad.valueOf(request.queryParams("frecuenciaDeUso")),new Integer(request.queryParams("cantidadPorMes")));
             Trayecto trayecto = new Trayecto
-                    (ListHelper.getFirstElement(tramos).getPuntoInicio(),
-                            ListHelper.getLastElement(tramos).getPuntoFinal(),
-                            tramos,
+                    (new Direccion(new Integer(request.queryParams("alturaSalida")),
+                            request.queryParams("calleSalida"),
+                            this.repoLocalidades.buscar(new Integer(request.queryParams("localidadSalidaId")))),
+                    new Direccion(new Integer(request.queryParams("alturaDestino")),
+                                    request.queryParams("calleDestino"),
+                                    this.repoLocalidades.buscar(new Integer(request.queryParams("localidadDestinoId")))),
+                            new ArrayList<>(),
                             frecuencia);
 
             Trabajador trabajador = this.obtenerTrabajador(request,response);
@@ -251,7 +268,7 @@ public class TrabajadorController {
         if(SessionHelper.atributosNoSonNull(request,"tramoId")){
             Tramo tramo = this.repoTramos.buscar(new Integer(request.queryParams("tramoId"))); //todo buscar tramo del
             PersistenciaHelper.eliminar(tramo);
-            response.redirect("/trabajador/trayecto"); //probar si anda, no se si falta asociar el id
+            response.redirect("/trabajador/trayectos"); //probar si anda, no se si falta asociar el id
         } else{
             response.redirect("/error");
         }

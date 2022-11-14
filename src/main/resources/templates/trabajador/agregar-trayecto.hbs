@@ -33,82 +33,87 @@
 <div class="d-flex justify-content-center">
     <h2 class="p-3 mb-2 bg-light text-dark mt-5" style="max-width: 235px;">Nuevo Trayecto</h2>
 </div>
+<form action="/trabajador/trayectos/nuevo" method="post">
+    <div class="d-flex justify-content-center" style="margin-top: 20px;">
+        <table class="table table-bordered bg-light" style="max-width: fit-content;">
+            <thead>
+            <tr>
+                <th scope="col">Altura salida</th>
+                <th scope="col">Calle Salida</th>
+                <th scope="col">Localidad salida</th>
 
-<div class="d-flex justify-content-center" style="margin-top: 20px;">
-    <table class="table table-bordered bg-light" style="max-width: fit-content;">
-        <thead>
-        <tr>
-            <th scope="col">Altura salida</th>
-            <th scope="col">Calle Salida</th>
-            <th scope="col">Localidad salida</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><input type="text" class="form-control" aria-label="" aria-describedby="basic-addon1" name="alturaSalida"></td>
+                <td><input type="text" class="form-control" aria-label="" aria-describedby="basic-addon1" name="calleSalida"></td>
+                <td><label for="localidadSalidaId"></label>
+                    <select name="localidadSalidaId" id="localidadSalidaId">
+                        {{#each localidades}}
+                            <option value="{{this.id}}">{{this.nombre}}</option>
+                        {{/each}}
+                    </select>
+                </td>
 
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="alturaSalida"></td>
-            <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="calleSalida"></td>
-            <td><label for="localidades"></label>
-                <select name="localidades-nombres-salida" id="localidades-nombres-salida">
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+    <div class="d-flex justify-content-center" style="margin-top: 20px;">
+        <table class="table table-bordered bg-light" style="max-width: fit-content;">
+            <thead>
+            <tr>
+                <th scope="col">Altura destino</th>
+                <th scope="col">Calle destino</th>
+                <th scope="col">Localidad destino</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <td><input type="text" class="form-control" aria-label="" aria-describedby="basic-addon1" name="alturaDestino"></td>
+            <td><input type="text" class="form-control" aria-label="" aria-describedby="basic-addon1" name="calleDestino"></td>
+            <td><label for="localidadDestinoId"></label>
+                <select name="localidadDestinoId" id="localidadDestinoId">
                     {{#each localidades}}
                         <option value="{{this.id}}">{{this.nombre}}</option>
                     {{/each}}
                 </select>
             </td>
+            </tbody>
+        </table>
+    </div>
 
-        </tr>
+    <div class="d-flex justify-content-center" style="margin-top: 20px;">
+        <table class="table table-bordered bg-light" style="max-width: fit-content;">
+            <thead>
+            <tr>
+                <th scope="col">Frecuencia de uso</th>
+                <th scope="col">Cantidad de veces por mes</th>
 
-        </tbody>
-    </table>
-</div>
+            </tr>
+            </thead>
+            <tbody>
+            <td><label for="frecuenciaDeUso"></label>
+                <select name="frecuenciaDeUso" id="frecuenciaDeUso">
+                    {{#each frecuencias}}
+                        <option value="{{this}}">{{this}}</option>
+                    {{/each}}
+                </select>
+            </td>
+            <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="cantidadPorMes"></td>
+            </tbody>
+        </table>
+    </div>
 
-<div class="d-flex justify-content-center" style="margin-top: 20px;">
-    <table class="table table-bordered bg-light" style="max-width: fit-content;">
-        <thead>
-        <tr>
-            <th scope="col">Altura destino</th>
-            <th scope="col">Calle destino</th>
-            <th scope="col">Localidad destino</th>
-
-        </tr>
-        </thead>
-        <tbody>
-        <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="alturaDestino"></td>
-        <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="calleDestino"></td>
-        <td><label for="localidades"></label>
-            <select name="localidades-nombres-destino" id="localidades-nombres-destino">
-                {{#each localidades}}
-                    <option value="{{this.id}}">{{this.nombre}}</option>
-                {{/each}}
-            </select>
-        </td>
-        </tbody>
-    </table>
-</div>
-
-<div class="d-flex justify-content-center" style="margin-top: 20px;">
-    <table class="table table-bordered bg-light" style="max-width: fit-content;">
-        <thead>
-        <tr>
-            <th scope="col">Frecuencia de uso</th>
-            <th scope="col">Cantidad de veces por mes</th>
-
-        </tr>
-        </thead>
-        <tbody>
-        <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="frecuenciaDeUso"></td>
-        <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="cantidadPorMes"></td> <!-- todo refactor para poder poner cant x año -->
-        </tbody>
-    </table>
-</div>
-
-<div class="d-flex justify-content-center">
-    <button type="button" class="btn btn-success mb-2" style="margin-top: 20px;">
-        <a href="/trabajador/trayecto/nuevo" style="color: inherit">
-            <h4>Crear Trayecto</h4>
-        </a>
-    </button>
-</div>
+    <div class="d-flex justify-content-center">
+        <button type="submit" class="btn btn-success mb-2" style="margin-top: 20px;">
+            Crear Trayecto
+        </button>
+    </div>
+</form>
 </body>
 
 </html>
