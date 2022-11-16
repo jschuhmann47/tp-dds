@@ -166,6 +166,9 @@ public class Router {
                         Spark.post("/nuevo",trabajadorController::mostrarNuevoTramo, Router.engine);
                         Spark.post("/nuevo/submit",trabajadorController::registrarNuevoTramo);
                         Spark.post("/eliminar",trabajadorController::eliminarTramo);
+
+                        Spark.get("/compartido",trabajadorController::mostrarUnirseATramoCompartido, Router.engine);
+                        Spark.post("/compartido",trabajadorController::unirseATramoCompartido);
                     });
                     Spark.post("/eliminar",trabajadorController::eliminarTrayecto);
                 });

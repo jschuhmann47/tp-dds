@@ -22,12 +22,12 @@ public class TransportePrivado extends MedioTransporte {
     @JoinColumn(name = "tramo_compartido_id",referencedColumnName = "id")
     TramoCompartido tramoCompartido;
 
-
+//    @Transient
 //    @Getter
-//    @Column(name = "nombre")
-//    private String nombre;
+//    private final String tipoTransporte = "transporte_privado";
 
-    public TransportePrivado() {
+    public TransportePrivado(){
+        this.tipoTransporte = "transporte_privado";
 
     }
 
@@ -35,12 +35,14 @@ public class TransportePrivado extends MedioTransporte {
         this.tipo = tipo;
         this.tipoCombustible = tipoCombustible;
         this.tramoCompartido = new TramoCompartido();
+        this.tipoTransporte = "transporte_privado";
     }
 
     public TransportePrivado(TipoVehiculo tipo, TipoCombustible tipoCombustible,TramoCompartido tramoCompartido) {
         this.tipo = tipo;
         this.tipoCombustible = tipoCombustible;
         this.tramoCompartido = tramoCompartido;
+        this.tipoTransporte = "transporte_privado";
     }
 
 

@@ -1,15 +1,13 @@
 package models.entities.transporte.publico;
 
+import lombok.Getter;
 import models.entities.geoDDS.Direccion;
 import models.entities.geoDDS.entidades.Distancia;
 import models.entities.transporte.MedioTransporte;
 import models.entities.transporte.TipoCombustible;
 import models.entities.transporte.privado.TipoVehiculo;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 
 @Entity
@@ -20,14 +18,19 @@ public class TransportePublico extends MedioTransporte {
     @JoinColumn(name = "linea_id",referencedColumnName = "id")
     private Linea linea;
 
+//    @Transient
+//    @Getter
+//    private final String tipoTransporte = "transporte_publico";
 
     public TransportePublico() {
+        this.tipoTransporte = "transporte_publico";
     }
 
     public TransportePublico(Linea linea, TipoVehiculo tipo, TipoCombustible tipoCombustible) {
         this.linea = linea;
         this.tipo = tipo;
         this.tipoCombustible = tipoCombustible;
+        this.tipoTransporte = "transporte_publico";
     }
 
     public String detalle() {

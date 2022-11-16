@@ -26,7 +26,12 @@ public abstract class MedioTransporte {
     protected String nombre;
 
     @Getter
+    @Column(name = "tipo_transporte")
+    protected String tipoTransporte;
+
+    @Getter
     @Column(name = "tipo_vehiculo",nullable = false)
+    @Enumerated(value = EnumType.STRING)
     protected TipoVehiculo tipo;
 
     @Getter

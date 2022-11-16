@@ -16,7 +16,7 @@ public class Tramo {
     private int id;
 
     @Getter
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
     @JoinColumn(name = "medio_transporte_id",referencedColumnName = "id")
     public MedioTransporte medioTransporte;
 

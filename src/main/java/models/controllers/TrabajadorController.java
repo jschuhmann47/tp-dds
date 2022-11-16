@@ -15,6 +15,8 @@ import models.entities.organizaciones.entidades.Sector;
 import models.entities.organizaciones.entidades.Trabajador;
 import models.entities.organizaciones.solicitudes.PosibleEstadoSolicitud;
 import models.entities.organizaciones.solicitudes.Solicitud;
+import models.entities.transporte.MedioTransporte;
+import models.entities.transporte.privado.TransportePrivado;
 import models.entities.trayectos.Frecuencia;
 import models.entities.trayectos.Tramo;
 import models.entities.trayectos.Trayecto;
@@ -33,6 +35,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TrabajadorController {
     private RepositorioDeTrabajadores repoTrabajadores;
@@ -198,8 +201,9 @@ public class TrabajadorController {
     public Response registrarNuevoTramo(Request request, Response response) throws Exception {
         if(SessionHelper.atributosNoSonNull(request,"medioTransporteId","alturaInicio","calleInicio","localidadInicioId","calleDestino","alturaDestino","localidadDestinoId","trayectoId")){
             ServicioCalcularDistancia.setAdapter(new ServicioGeoDDSRetrofitAdapter());
+            MedioTransporte medio = this.repoTransportes.buscar(new Integer(request.queryParams("medioTransporteId")));
             Tramo tramo = new Tramo
-                    (this.repoTransportes.buscar(new Integer(request.queryParams("medioTransporteId"))),
+                            (medio,
                             new Direccion
                                     (new Integer(request.queryParams("alturaInicio")),request.queryParams("calleInicio"),
                                             this.repoLocalidades.buscar(new Integer(request.queryParams("localidadInicioId")))),
@@ -207,12 +211,30 @@ public class TrabajadorController {
                                     (new Integer(request.queryParams("alturaDestino")),request.queryParams("calleDestino"),
                                         this.repoLocalidades.buscar(new Integer(request.queryParams("localidadDestinoId"))))
                     );
+
             Trayecto trayecto = this.repoTrayectos.buscar(new Integer(request.queryParams("trayectoId"))); //todo tira null en distancia del tramo
             trayecto.cargarTramos(tramo);
             PersistenciaHelper.persistir(trayecto);
-        } else{
-            throw new Exception("lol lmao" + request.queryParams("trayectoId"));
-//            response.redirect("/lol");
+        }
+        response.redirect("/trabajador/trayectos");
+        return response;
+    }
+
+    public ModelAndView mostrarUnirseATramoCompartido(Request request,Response response){
+        HashMap<String,Object> parametros = new HashMap<>();
+        List<Tramo> tramos = this.repoTramos.buscarTodosTransportePrivado();
+        parametros.put("tramos",tramos);
+        return new ModelAndView(parametros,"trabajador/tramo-compartido-menu.hbs");
+    }
+
+    public Response unirseATramoCompartido(Request request, Response response) throws Exception {
+        if (SessionHelper.atributosNoSonNull(request,"medioId")){
+            //todo error de casteo
+            TransportePrivado tp = (TransportePrivado) this.repoTransportes.buscarTodosTransportesPrivados().stream().filter(t -> t.getId() == new Integer(request.queryParams("medioId"))).collect(Collectors.toList()).get(0);
+            tp.agregarTrabajadorATramoCompartido(this.obtenerTrabajador(request,response));
+            PersistenciaHelper.persistir(tp);
+        }else{
+            response.redirect("/dios"+request.queryParams("medioId"));
         }
         response.redirect("/trabajador/trayectos");
         return response;
@@ -286,4 +308,6 @@ public class TrabajadorController {
         CalculoHC.setFactoresEmisionFE(this.repoFE.buscarTodos());
         CalculoHC.setUnidadPorDefecto(UnidadHC.GRAMO_EQ);
     }
+
+
 }
