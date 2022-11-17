@@ -84,6 +84,9 @@
 </div>
 <div class="d-flex justify-content-center">
     <form action="/trabajador/trayecto/tramos/compartido" method="get">
+        <div hidden>
+            <td><input hidden name="trayectoId" value="{{trayectoId}}"></td>
+        </div>
         <button type="submit" class="btn btn-success mb-2" style="margin-top: 100px;">
             <h4>Unirse a Tramo Compartido</h4>
         </button>

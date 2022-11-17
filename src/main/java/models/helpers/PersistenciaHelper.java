@@ -23,4 +23,14 @@ public class PersistenciaHelper {
         EntityManagerHelper.closeEntityManager();
         EntityManagerHelper.closeEntityManagerFactory();
     }
+
+    public static void mergear(Object ... entidadesAMergear){
+        EntityManagerHelper.beginTransaction();
+        for(Object o : entidadesAMergear){
+            EntityManagerHelper.getEntityManager().merge(o);
+        }
+        EntityManagerHelper.commit();
+        EntityManagerHelper.closeEntityManager();
+        EntityManagerHelper.closeEntityManagerFactory();
+    }
 }

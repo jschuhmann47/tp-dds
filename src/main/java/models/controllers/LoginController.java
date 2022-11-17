@@ -98,7 +98,7 @@ public class LoginController {
             if(ValidadorContrasenia.esContraseniaValida(contrasenia)){
 
                 Trabajador nuevoTrabajador = new Trabajador
-                        (request.queryParams("apellido").toString(),request.queryParams("nombre").toString(),
+                        (request.queryParams("apellido"), request.queryParams("nombre"),
                                 this.repoTipoDoc.buscar(new Integer(request.queryParams("tipoDocumentoId"))),new Integer(request.queryParams("nroDocumento")));
                 PersistenciaHelper.persistir(nuevoTrabajador);
 

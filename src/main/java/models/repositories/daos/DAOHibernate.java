@@ -9,7 +9,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
 
 public class DAOHibernate<T> implements DAO<T> {
-    private Class<T> type;
+    private final Class<T> type;
 
     public DAOHibernate(Class<T> type){
         this.type = type;

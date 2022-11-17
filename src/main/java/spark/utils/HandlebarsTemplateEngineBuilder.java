@@ -11,7 +11,7 @@ import com.github.jknack.handlebars.helper.StringHelpers;
 
 public class HandlebarsTemplateEngineBuilder {
 
-    private HandlebarsTemplateEngine engine;
+    private final HandlebarsTemplateEngine engine;
 
     private HandlebarsTemplateEngineBuilder(HandlebarsTemplateEngine engine) {
         this.engine = engine;

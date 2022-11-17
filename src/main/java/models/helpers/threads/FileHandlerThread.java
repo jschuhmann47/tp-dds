@@ -17,7 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class FileHandlerThread extends Thread{
-    private RepositorioDeParametrosFE repoFE = FactoryRepositorioDeParametrosFE.get();
+    private final RepositorioDeParametrosFE repoFE = FactoryRepositorioDeParametrosFE.get();
     private final String filePath;
     private final Integer organizacionId;
     private final CargaDeActividadesAdapter adapter;

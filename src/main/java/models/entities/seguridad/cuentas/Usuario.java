@@ -27,7 +27,7 @@ public class Usuario {
     @ElementCollection
     @CollectionTable(name = "permisos",joinColumns = @JoinColumn(name = "usuario_id",referencedColumnName = "id"))
     @Enumerated(value = EnumType.STRING)
-    private List<Permiso> permisos = new ArrayList<>();
+    private final List<Permiso> permisos = new ArrayList<>();
 
     @Column(name = "organizacion_id")
     private int organizacionId;

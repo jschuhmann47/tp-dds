@@ -38,15 +38,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class TrabajadorController {
-    private RepositorioDeTrabajadores repoTrabajadores;
-    private RepositorioDeOrganizaciones repoOrgs;
-    private RepositorioDeParametrosFE repoFE;
-    private RepositorioDeLocalidades repoLocalidades;
-    private RepositorioDeSolicitudes repoSolicitudes;
-    private RepositorioDeMediosDeTransporte repoTransportes;
-    private RepositorioDeTrayectos repoTrayectos;
-    private RepositorioDeSectores repoSectores;
-    private RepositorioDeTramos repoTramos;
+    private final RepositorioDeTrabajadores repoTrabajadores;
+    private final RepositorioDeOrganizaciones repoOrgs;
+    private final RepositorioDeParametrosFE repoFE;
+    private final RepositorioDeLocalidades repoLocalidades;
+    private final RepositorioDeSolicitudes repoSolicitudes;
+    private final RepositorioDeMediosDeTransporte repoTransportes;
+    private final RepositorioDeTrayectos repoTrayectos;
+    private final RepositorioDeSectores repoSectores;
+    private final RepositorioDeTramos repoTramos;
+    private final RepositorioDeTransportesPrivados repoPrivados;
 
     public TrabajadorController() {
         this.repoTrabajadores = FactoryRepositorioDeTrabajadores.get();
@@ -58,6 +59,7 @@ public class TrabajadorController {
         this.repoTrayectos = FactoryRepositorioDeTrayectos.get();
         this.repoSectores = FactoryRepositorioDeSectores.get();
         this.repoTramos = FactoryRepositorioDeTramos.get();
+        this.repoPrivados = FactoryRepositorioDeTransportesPrivados.get();
     }
 
 
@@ -212,7 +214,7 @@ public class TrabajadorController {
                                         this.repoLocalidades.buscar(new Integer(request.queryParams("localidadDestinoId"))))
                     );
 
-            Trayecto trayecto = this.repoTrayectos.buscar(new Integer(request.queryParams("trayectoId"))); //todo tira null en distancia del tramo
+            Trayecto trayecto = this.repoTrayectos.buscar(new Integer(request.queryParams("trayectoId")));
             trayecto.cargarTramos(tramo);
             PersistenciaHelper.persistir(trayecto);
         }
@@ -224,17 +226,27 @@ public class TrabajadorController {
         HashMap<String,Object> parametros = new HashMap<>();
         List<Tramo> tramos = this.repoTramos.buscarTodosTransportePrivado();
         parametros.put("tramos",tramos);
+        parametros.put("trayectoId",request.queryParams("trayectoId"));
         return new ModelAndView(parametros,"trabajador/tramo-compartido-menu.hbs");
     }
 
     public Response unirseATramoCompartido(Request request, Response response) throws Exception {
-        if (SessionHelper.atributosNoSonNull(request,"medioId")){
-            //todo error de casteo
-            TransportePrivado tp = (TransportePrivado) this.repoTransportes.buscarTodosTransportesPrivados().stream().filter(t -> t.getId() == new Integer(request.queryParams("medioId"))).collect(Collectors.toList()).get(0);
+        if (SessionHelper.atributosNoSonNull(request,"medioId","tramoId","trayectoId")){
+            TransportePrivado tp = this.repoPrivados.buscar(new Integer(request.queryParams("medioId")));
             tp.agregarTrabajadorATramoCompartido(this.obtenerTrabajador(request,response));
-            PersistenciaHelper.persistir(tp);
+
+            Tramo tramoAAgregar = this.repoTramos.buscar(new Integer(request.queryParams("tramoId")));
+
+            Trayecto trayecto = this.repoTrayectos.buscar(new Integer(request.queryParams("trayectoId")));
+            if(!trayecto.getTramos().contains(tramoAAgregar)){
+                trayecto.cargarTramos(tramoAAgregar);
+            }
+
+
+            PersistenciaHelper.persistir(tp,trayecto);
+
         }else{
-            response.redirect("/dios"+request.queryParams("medioId"));
+            response.redirect("/error");
         }
         response.redirect("/trabajador/trayectos");
         return response;
@@ -295,13 +307,6 @@ public class TrabajadorController {
             response.redirect("/error");
         }
         return response;
-    }
-
-    private List<Tramo> decodearTramos(String body){
-        Type tipoTramo = new TypeToken<ArrayList<Tramo>>() {}.getType(); //sacar esto a otro lado
-
-        Gson gson = new Gson();
-        return gson.fromJson(body, tipoTramo);
     }
 
     private void setearCalculadoraHC(){

@@ -3,6 +3,8 @@ package models.controllers;
 import models.entities.CargaDeActividades.entidades.Periodo;
 import models.entities.calculoHC.CalculoHC;
 import models.entities.calculoHC.UnidadHC;
+import models.entities.geoDDS.ServicioCalcularDistancia;
+import models.entities.geoDDS.adapters.ServicioGeoDDSRetrofitAdapter;
 import models.entities.geoDDS.entidades.Municipio;
 import models.entities.geoDDS.entidades.Provincia;
 import models.entities.organizaciones.entidades.Organizacion;
@@ -16,15 +18,16 @@ import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
 public class ReporteController {
-    private RepositorioDeOrganizaciones repoOrg;
-    private RepositorioDeMunicipios repoMunicipio;
-    private RepositorioDeProvincias repoProvincia;
-    private RepositorioDeParametrosFE repoFE;
-    private RepositorioDeLocalidades repoLocalidad;
+    private final RepositorioDeOrganizaciones repoOrg;
+    private final RepositorioDeMunicipios repoMunicipio;
+    private final RepositorioDeProvincias repoProvincia;
+    private final RepositorioDeParametrosFE repoFE;
+    private final RepositorioDeLocalidades repoLocalidad;
 
     public ReporteController(){
         this.repoOrg = FactoryRepositorioDeOrganizaciones.get();
@@ -67,17 +70,25 @@ public class ReporteController {
         return new ModelAndView(parametros,"agente/composicion-hc-organizacion.hbs");
     }
 
-    public ModelAndView composicionHCMunicipio(Request request, Response response){ //Sector territorial //OK
+    public ModelAndView composicionHCMunicipio(Request request, Response response) throws IOException { //todo testear tema api
         this.setearParametrosFE();
+        ServicioCalcularDistancia.setAdapter(new ServicioGeoDDSRetrofitAdapter());
         HashMap<String, Object> parametros = new HashMap<>();
-        Municipio municipio = this.repoMunicipio.buscar(new Integer(request.queryParams("municipioId")));
-        if(municipio != null){
-            parametros.put("reportes", GeneradorReporte.ComposicionHCTotalPorSectorTerritorial(this.repoOrg.buscarTodosDeMunicipio(municipio),municipio));
+        if(SessionHelper.atributosNoSonNull(request,"provinciaId")){
+            if(SessionHelper.atributosNoSonNull(request,"municipioId")){
+                Municipio municipio = this.repoMunicipio.buscar(new Integer(request.queryParams("municipioId")));
+                parametros.put("reportes", GeneradorReporte.ComposicionHCTotalPorSectorTerritorial(this.repoOrg.buscarTodosDeMunicipio(municipio),municipio));
+            }else{
+                parametros.put("municipios",ServicioCalcularDistancia.municipiosDeProvincia(new Integer(request.queryParams("provinciaId"))));
+            }
+        } else{
+            parametros.put("provincias",ServicioCalcularDistancia.obtenerProvincias());
         }
+
         return new ModelAndView(parametros,"agente/composicion-hc-territorio.hbs");
     }
 
-    public ModelAndView mostrarComposicionHCMunicipio(Request request, Response response){ //hace get y post to_do aca //OK
+    public ModelAndView mostrarComposicionHCMunicipio(Request request, Response response) throws IOException { //hace get y post to_do aca //OK
         HashMap<String, Object> parametros = new HashMap<>();
         this.setearDesplegablesDeMunicipios(request,response,parametros);
         if(SessionHelper.atributosNoSonNull(request,"municipioId")){

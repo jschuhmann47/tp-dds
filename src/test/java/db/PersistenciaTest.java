@@ -27,6 +27,7 @@ import models.entities.trayectos.Tramo;
 import models.entities.trayectos.Trayecto;
 import models.helpers.GsonHelper;
 import models.helpers.PersistenciaHelper;
+import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -34,10 +35,10 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -46,7 +47,7 @@ public class PersistenciaTest {
 
     @Test
     @DisplayName("Se persisten datos del dominio")
-    public void organizacionPersistir() throws Exception {
+    public void persistirDatosDominio() throws Exception {
 
         ParametroFE autoFE = new ParametroFE(TipoVehiculo.AUTO.toString(),40.0);
         ParametroFE gas = new ParametroFE(TipoDeConsumo.GAS_NATURAL.toString(),0.6);
@@ -81,14 +82,15 @@ public class PersistenciaTest {
         clasificaciones.add("Desarrollador");
 
         Trabajador juan = new Trabajador("Fernandez","Juan", new TipoDeDocumento(PosibleTipoDocumento.DNI), 12345678);
+        Trabajador agustin = new Trabajador("Tato","Agustin", new TipoDeDocumento(PosibleTipoDocumento.DNI), 47474747);
 
         marketing.agregarTrabajador(juan);
         juan.agregarSector(marketing);
 
 
         Pais pais = new Pais(1,"ARGENTINA");
-        Provincia provincia = new Provincia(1,"BUENOS AIRES",pais);
-        Municipio municipio = new Municipio(1,"CABA",provincia);
+        Provincia provincia = new Provincia(168,"BUENOS AIRES",pais);
+        Municipio municipio = new Municipio(174,"CABA",provincia);
 
         Localidad localidad = new Localidad(1,"ALMAGRO",1,municipio);
 
@@ -99,6 +101,7 @@ public class PersistenciaTest {
 
         Distancia distancia1 = new Distancia(10.0,"KM");
         Distancia distancia2 = new Distancia(12.0,"KM");
+        Distancia distancia3 = new Distancia(18.5,"KM");
 
         Parada paradaTest1 = new Parada(distancia1,distancia2,direccion2);
         Parada paradaTest2 = new Parada(distancia2,distancia1,direccion3);
@@ -118,6 +121,9 @@ public class PersistenciaTest {
         TransportePrivado auto = new TransportePrivado(TipoVehiculo.AUTO, TipoCombustible.NAFTA);
         auto.setNombre("Auto de Juan");
 
+        TransportePrivado autoElectrico = new TransportePrivado(TipoVehiculo.AUTO, TipoCombustible.ELECTRICO);
+        autoElectrico.setNombre("Auto electrico de Tomas");
+
         Linea linea7 = new Linea("Linea 7", paradaTest1,paradaTest2);
         TransportePublico colectivoTest = new TransportePublico(linea7,TipoVehiculo.COLECTIVO,TipoCombustible.NAFTA);
         colectivoTest.setNombre("Colectivo Linea 7");
@@ -128,9 +134,14 @@ public class PersistenciaTest {
         auto.agregarTrabajadorATramoCompartido(juan);
 
         when(adapterMock.distanciaEntre(direccion1,direccion2)).thenReturn(distancia1);
+        when(adapterMock.distanciaEntre(direccion2,direccion3)).thenReturn(distancia2);
+        when(adapterMock.distanciaEntre(direccion1,direccion3)).thenReturn(distancia3);
+
         Tramo tramoAuto = new Tramo(auto,direccion1,direccion2);
 
-        when(adapterMock.distanciaEntre(direccion2,direccion3)).thenReturn(distancia2);
+        Tramo tramoElectrico = new Tramo(autoElectrico,direccion1,direccion3);
+
+
         Tramo tramoColectivo = new Tramo(colectivoTest,direccion2,direccion3);
 
         List<Tramo> listaTramos = new ArrayList<>();
@@ -148,6 +159,13 @@ public class PersistenciaTest {
         Trayecto trayectoTest = new Trayecto(direccion1,direccion3,listaTramos,frecuencia);
 
         juan.agregarTrayectos(trayectoTest);
+
+        List<Tramo> tramosAgustin = new ArrayList<>();
+        tramosAgustin.add(tramoElectrico);
+        agustin.agregarTrayectos(new Trayecto(tramoElectrico.getPuntoInicio(),tramoElectrico.getPuntoFinal(),
+                tramosAgustin,
+                new Frecuencia(Periodicidad.ANUAL,16)));
+
 
         trayectoTest.registrarViajesEnMesYAnio(7,2021,5);
 
@@ -174,12 +192,13 @@ public class PersistenciaTest {
         EntityManagerHelper.getEntityManager().persist(provincia);
         EntityManagerHelper.getEntityManager().persist(municipio);
         EntityManagerHelper.getEntityManager().persist(localidad);
-
         EntityManagerHelper.getEntityManager().persist(marketing);
         EntityManagerHelper.getEntityManager().persist(auto);
+        EntityManagerHelper.getEntityManager().persist(autoElectrico);
         EntityManagerHelper.getEntityManager().persist(colectivoTest);
         EntityManagerHelper.getEntityManager().persist(linea7);
         EntityManagerHelper.getEntityManager().persist(juan);
+        EntityManagerHelper.getEntityManager().persist(agustin);
         EntityManagerHelper.getEntityManager().persist(sol);
 
         for (ParametroFE p : parametrosFE){
@@ -221,21 +240,26 @@ public class PersistenciaTest {
 
     @Test
     @DisplayName("Se persisten usuarios")
-    public void administradorPersistir(){
+    public void persistirUsuarios(){
         Organizacion org = (Organizacion) EntityManagerHelper
                 .createQuery("FROM Organizacion WHERE razon_social = 'Valve Corporation S.A'")
                 .getSingleResult();
         Trabajador juan = (Trabajador) EntityManagerHelper
                 .createQuery("FROM Trabajador WHERE nro_doc=12345678")
                 .getSingleResult();
+        Trabajador agustin = (Trabajador) EntityManagerHelper
+                .createQuery("FROM Trabajador WHERE nro_doc=47474747")
+                .getSingleResult();
         AgenteSectorial agenteSectorial = (AgenteSectorial)
                 EntityManagerHelper
-                        .createQuery("FROM AgenteSectorial WHERE municipio_id=1")
+                        .createQuery("FROM AgenteSectorial WHERE municipio_id=174")
                         .getSingleResult();
 
-        Usuario user = new Usuario("juancito","11",Rol.BASICO,org.getId(),
+        Usuario user = new Usuario("valve","11",Rol.BASICO,org.getId(),
                 TipoRecurso.ORGANIZACION,Permiso.VER_ORGANIZACION);
-        Usuario user2 = new Usuario("tomas","123",Rol.BASICO,juan.getId(),
+        Usuario user2 = new Usuario("juanf","123",Rol.BASICO,juan.getId(),
+                TipoRecurso.TRABAJADOR,Permiso.VER_TRABAJADOR);
+        Usuario user4 = new Usuario("agus","123",Rol.BASICO,agustin.getId(),
                 TipoRecurso.TRABAJADOR,Permiso.VER_TRABAJADOR);
         Usuario user3 = new Usuario("agente","1234",Rol.BASICO,agenteSectorial.getId(),
                 TipoRecurso.AGENTE,Permiso.VER_AGENTESECTORIAL);
@@ -245,6 +269,7 @@ public class PersistenciaTest {
         EntityManagerHelper.persist(user);
         EntityManagerHelper.persist(user2);
         EntityManagerHelper.persist(user3);
+        EntityManagerHelper.persist(user4);
         EntityManagerHelper.persist(admin);
         EntityManagerHelper.commit();
     }
@@ -253,22 +278,27 @@ public class PersistenciaTest {
     @DisplayName("Se persisten localidades de la API")
     public void localidades() throws IOException {
         String ruta = "/src/test/java/db/jsons/";
-        String jsonPaises = Files.asCharSource(new File(System.getProperty("user.dir") + ruta + "paises.json"), Charsets.UTF_8).read();
-        String jsonProvincias = Files.asCharSource(new File(System.getProperty("user.dir") + ruta + "provincias.json"), Charsets.UTF_8).read();
-        String jsonMunicipios = Files.asCharSource(new File(System.getProperty("user.dir") + ruta + "municipios.json"), Charsets.UTF_8).read();
-        String jsonLocalidades = Files.asCharSource(new File(System.getProperty("user.dir") + ruta + "localidades.json"), Charsets.UTF_8).read();
+        String jsonPaises = FileUtils.readFileToString(new File(System.getProperty("user.dir") + ruta + "paises.json"), StandardCharsets.UTF_8);
+        String jsonProvincias = FileUtils.readFileToString(new File(System.getProperty("user.dir") + ruta + "provincias.json"), StandardCharsets.UTF_8);
+        String jsonMunicipios = FileUtils.readFileToString(new File(System.getProperty("user.dir") + ruta + "municipios.json"), StandardCharsets.UTF_8);
+        String jsonLocalidades = FileUtils.readFileToString(new File(System.getProperty("user.dir") + ruta + "localidades.json"), StandardCharsets.UTF_8);
+//        String jsonPaises = Files.asCharSource(new File(System.getProperty("user.dir") + ruta + "paises.json"), Charsets.UTF_8).read();
+//        String jsonProvincias = Files.asCharSource(new File(System.getProperty("user.dir") + ruta + "provincias.json"), Charsets.UTF_8).read();
+//        String jsonMunicipios = Files.asCharSource(new File(System.getProperty("user.dir") + ruta + "municipios.json"), Charsets.UTF_8).read();
+//        String jsonLocalidades = Files.asCharSource(new File(System.getProperty("user.dir") + ruta + "localidades.json"), Charsets.UTF_8).read();
 
         List<Pais> paises = GsonHelper.generarPaises(jsonPaises);
         List<Provincia> provincias = GsonHelper.generarProvincias(jsonProvincias);
         List<Municipio> municipios = GsonHelper.generarMunicipios(jsonMunicipios);
         List<Localidad> localidades = GsonHelper.generarLocalidades(jsonLocalidades);
 
-        //TODO no anda (colisiones)
         EntityManagerHelper.beginTransaction();
-        localidades.forEach(l -> EntityManagerHelper.getEntityManager().persist(l));
-        municipios.forEach(l -> EntityManagerHelper.getEntityManager().persist(l));
-        provincias.forEach(l -> EntityManagerHelper.getEntityManager().persist(l));
-        paises.forEach(l -> EntityManagerHelper.getEntityManager().persist(l));
+
+        paises.forEach(p -> EntityManagerHelper.getEntityManager().merge(p));
+        provincias.forEach(p -> EntityManagerHelper.getEntityManager().merge(p));
+        municipios.forEach(p -> EntityManagerHelper.getEntityManager().merge(p));
+        localidades.forEach(p -> EntityManagerHelper.getEntityManager().merge(p));
+
         EntityManagerHelper.commit();
 
     }

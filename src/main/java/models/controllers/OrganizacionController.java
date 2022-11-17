@@ -42,10 +42,10 @@ import java.util.stream.Collectors;
 
 public class OrganizacionController {
     //TODO provincias, municipios, orgs, sectores, medios t que llege una lista, que no escriba a mano
-    private RepositorioDeOrganizaciones repoOrganizaciones;
-    private RepositorioDeParametrosFE repoFE;
-    private RepositorioDeSolicitudes repoSolicitudes;
-    private RepositorioDeContactos repoContactos;
+    private final RepositorioDeOrganizaciones repoOrganizaciones;
+    private final RepositorioDeParametrosFE repoFE;
+    private final RepositorioDeSolicitudes repoSolicitudes;
+    private final RepositorioDeContactos repoContactos;
 
     public OrganizacionController() {
         this.repoOrganizaciones = FactoryRepositorioDeOrganizaciones.get();

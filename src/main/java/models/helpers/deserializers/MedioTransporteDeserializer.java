@@ -8,9 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MedioTransporteDeserializer implements JsonDeserializer<MedioTransporte> {
-    private String nombreAtributo;
-    private Gson gson;
-    private Map<String, Class<? extends MedioTransporte>> medioTransporteType;
+    private final String nombreAtributo;
+    private final Gson gson;
+    private final Map<String, Class<? extends MedioTransporte>> medioTransporteType;
 
     public MedioTransporteDeserializer(String nombreAtributo) {
         this.nombreAtributo = nombreAtributo;

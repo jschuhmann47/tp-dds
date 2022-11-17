@@ -2,8 +2,7 @@ package models.entities.geoDDS.adapters;
 
 import models.entities.geoDDS.Direccion;
 import models.entities.geoDDS.ServicioCalcularDistancia;
-import models.entities.geoDDS.entidades.Distancia;
-import models.entities.geoDDS.entidades.Pais;
+import models.entities.geoDDS.entidades.*;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -40,10 +39,25 @@ public class ServicioGeoDDSRetrofitAdapter implements ServicioGeoDDSAdapter {
         return responseDistancia.body();
     }
 
-    public List<Pais> obtenerPaises() throws IOException {
+
+    public List<Provincia> obtenerProvincias() throws IOException {
         ServiceGeoDDS geoDdsService = this.retrofit.create(ServiceGeoDDS.class);
-        Call<List<Pais>> requestDistancia = geoDdsService.paises();
-        Response<List<Pais>> responseDistancia = requestDistancia.execute();
+        Call<List<Provincia>> requestDistancia = geoDdsService.provincias(1);
+        Response<List<Provincia>> responseDistancia = requestDistancia.execute();
+        return responseDistancia.body();
+    }
+
+    public List<Municipio> municipiosDeProvincia(Integer provinciaId) throws IOException {
+        ServiceGeoDDS geoDdsService = this.retrofit.create(ServiceGeoDDS.class);
+        Call<List<Municipio>> requestDistancia = geoDdsService.municipios(1,provinciaId);
+        Response<List<Municipio>> responseDistancia = requestDistancia.execute();
+        return responseDistancia.body();
+    }
+
+    public List<Localidad> localidadesDeMunicipio(Integer municipioId) throws IOException {
+        ServiceGeoDDS geoDdsService = this.retrofit.create(ServiceGeoDDS.class);
+        Call<List<Localidad>> requestDistancia = geoDdsService.localidades(1,municipioId);
+        Response<List<Localidad>> responseDistancia = requestDistancia.execute();
         return responseDistancia.body();
     }
 }

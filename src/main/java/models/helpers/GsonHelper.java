@@ -15,7 +15,6 @@ import java.util.List;
 public class GsonHelper {
 
     public static List<Provincia> generarProvincias(String json){
-//        String json = Files.asCharSource(new File(System.getProperty("user.dir") + "/src/test/java/db/jsons/provincias.json"), Charsets.UTF_8).read();
         return new Gson().fromJson(json, new TypeToken<List<Provincia>>() {}.getType());
 
     }

@@ -63,6 +63,9 @@
             <td>
                 <form action="/trabajador/trayecto/tramos/compartido" method="post">
                     <div hidden>
+                        <p><input hidden name="trayectoId" value="{{trayectoId}}"></p>
+                    </div>
+                    <div hidden>
                         <input hidden type="text" name="medioId" id="medioId" value="{{this.medioTransporte.id}}"><br><br>
                     </div>
                     <button class="btn btn-success" type="submit" name="tramoId" value="{{this.id}}">Unirse</button>
