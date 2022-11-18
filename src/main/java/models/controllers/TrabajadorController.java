@@ -240,6 +240,8 @@ public class TrabajadorController {
             Trayecto trayecto = this.repoTrayectos.buscar(new Integer(request.queryParams("trayectoId")));
             if(!trayecto.getTramos().contains(tramoAAgregar)){
                 trayecto.cargarTramos(tramoAAgregar);
+            }else{
+                //error ya unido
             }
 
 

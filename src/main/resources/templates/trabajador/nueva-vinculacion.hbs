@@ -8,6 +8,7 @@
     <link rel="icon" type="image/x-icon" href="images/menu/utn.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 
 <body class="bg-image" style="background-image: url('/images/menu/2258.jpg'); height: 100vh;">
@@ -36,11 +37,12 @@
     </div>
 
     <div class="d-flex justify-content-center" style="margin-top: 100px;">
-        <form action="/trabajador/vinculacion/nuevo" method="post" class="p-3 mb-2 bg-light text-dark mt-5">
+        <form action="/trabajador/vinculacion/crear" method="post" class="p-3 mb-2 bg-light text-dark mt-5">
             <label for="organizaciones">Escoja una organizacion:</label>
-            <select name="organizacion-nombres" id="organizacion-nombres">
+            <select name="organizacion-nombres" id="organizacion-nombres" onchange="pedirSectores()">
+                <option value="" disabled selected hidden>Elegir Organizacion<option>
                 {{#each organizaciones}}
-                    <option name="organizacionId" value="{{this.id}}" onclick="pedirSectores({{this.id}})">{{this.razonSocial}}</option>
+                    <option name="organizacionId" value="{{this.id}}">{{this.razonSocial}}</option>
                 {{/each}}
             </select>
             <label for="sectores">Escoja un sector:</label>
@@ -52,6 +54,11 @@
             <td colspan="3" style="max-width: 75px;"><button class="btn btn-warning" type="submit">Confirmar</button></td>
         </form>
     </div>
+    <script>
+        function pedirSectores(id){
+            alert("hola " + (document.getElementsByName("organizacionId")[0].value));
+        }
+    </script>
 </body>
 
 </html>

@@ -148,7 +148,8 @@ public class Router {
                 Spark.path("/vinculacion", () -> {
                     Spark.get("",trabajadorController::mostrarVinculaciones, Router.engine);
                     Spark.get("/nuevo",trabajadorController::mostrarNuevaVinculacion, Router.engine);
-                    Spark.post("/nuevo",trabajadorController::nuevaVinculacion);
+                    Spark.post("/nuevo",trabajadorController::mostrarNuevaVinculacion, Router.engine);
+                    Spark.post("/crear",trabajadorController::nuevaVinculacion);
                     Spark.post("/eliminar",trabajadorController::eliminarVinculacion);
                 });
 
