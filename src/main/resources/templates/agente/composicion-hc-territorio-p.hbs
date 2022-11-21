@@ -29,23 +29,38 @@
         <a class="nav-link" style="margin-right: 40px;" href="/logout" >Logout</a>
 
     </header>
-    
-    
-    <div class="d-flex justify-content-center">
-        <h2 class="p-3 mb-2 bg-light text-dark mt-5">Reportes</h2>
-    </div>
 
     <div style="float: left; margin-left: 600px; margin-top: 150px;">
+        <table class="table table-bordered bg-light">
+            <thead>
+                <tr>
+                    <th scope="col">Municipio</th>
+                </tr>
+            </thead>
+            <tbody>
+            <form action="/agente/reportes/composicionHCTerritorio" method="post">
+                <tr>
+                    <td>
+                        provincia: {{provincia}}
+                    </td>
+                    <div>
+                        <p hidden name="municipioId" value="{{provincia.id}}"></p>
+                    </div>
+                    <td><label for="municipios"></label>
+                        <select name="municipios-nombres" id="municipios-nombres">
+                            {{#each municipios}}
+                                <option value="{{this.id}}">{{this.nombre}}</option>
+                            {{/each}}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="1"><button class="w-100 btn btn-lg btn-success" type="submit">Calcular</button></td>
+                </tr>
+            </form>
+            </tbody>
+        </table>
 
-        <form action="/agente/reportes/composicionHCOrganizacion" method="post" class="p-3 mb-2 bg-light text-dark mt-5">
-            <label for="organizaciones">Escoja una organizacion:</label>
-            <select name="organizacionId" id="organizacionId">
-                <option value="" disabled selected hidden>Elegir Organizacion<option>
-                {{#each organizaciones}}
-                    <option name="organizacionId" value="{{this.id}}">{{this.razonSocial}}</option>
-                {{/each}}
-            </select><td colspan="1" style="max-width: 75px;"><button class="btn btn-warning" type="submit">Confirmar</button></td>
-        </form>
         <table class="table table-bordered bg-light">
             {{#each reportes}}
             <tr>

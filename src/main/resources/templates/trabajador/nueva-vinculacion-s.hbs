@@ -38,14 +38,17 @@
 
     <div class="d-flex justify-content-center" style="margin-top: 100px;">
         <form action="/trabajador/vinculacion/nuevo" method="post" class="p-3 mb-2 bg-light text-dark mt-5">
-            <label for="organizaciones">Escoja una organizacion:</label>
-            <select name="organizacionId" id="organizacionId">
-                <option value="" disabled selected hidden>Elegir Organizacion<option>
-                {{#each organizaciones}}
-                    <option name="organizacionId" value="{{this.id}}">{{this.razonSocial}}</option>
+            <div hidden>
+                <p><input hidden name="organizacionId" value="{{organizacionId}}"></p>
+            </div>
+            <label for="sectores">Escoja un sector:</label>
+            <select name="sectorId" id="sectorId">
+                <option value="" disabled selected hidden>Elegir Sector<option>
+                {{#each sectores}}
+                    <option name="sectorId" value="{{this.id}}">{{this.nombreSector}}</option>
                 {{/each}}
-                </select><td colspan="3" style="max-width: 75px;"><button class="btn btn-warning" type="submit">Confirmar</button></td>
-
+            </select>
+            <td colspan="3" style="max-width: 75px;"><button class="btn btn-warning" type="submit">Confirmar</button></td>
         </form>
     </div>
 </body>

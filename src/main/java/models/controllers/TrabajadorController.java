@@ -118,9 +118,25 @@ public class TrabajadorController {
         HashMap<String,Object> parametros = new HashMap<>();
         parametros.put("organizaciones",this.repoOrgs.buscarTodos());
         if(SessionHelper.atributosNoSonNull(request,"organizacionId")){
-            parametros.put("sectores",this.repoOrgs.buscar(new Integer(request.queryParams("organizacionId"))).getSectores());
+            Organizacion org = this.repoOrgs.buscar(new Integer(request.queryParams("organizacionId")));
+            parametros.put("organizacionId",org.getId());
+            if(SessionHelper.atributosNoSonNull(request,"sectorId")){
+                Sector sectorAVincularse = this.repoSectores.buscar(new Integer(request.queryParams("sectorId")));
+                if(sectorAVincularse != null){
+                    Solicitud sol = this.obtenerTrabajador(request,response).solicitarVinculacion(org,sectorAVincularse);
+                    PersistenciaHelper.persistir(sol);
+                    response.redirect("/trabajador/vinculacion");
+                    return null;
+                }
+            }else{
+                parametros.put("sectores",this.repoOrgs.buscar(new Integer(request.queryParams("organizacionId"))).getSectores());
+                return new ModelAndView(parametros,"trabajador/nueva-vinculacion-s.hbs");
+            }
+
+        }else{
+            return new ModelAndView(parametros,"trabajador/nueva-vinculacion.hbs");
         }
-        return new ModelAndView(parametros,"trabajador/nueva-vinculacion.hbs");
+        return null;
     }
 
     public Response eliminarVinculacion(Request request, Response response){

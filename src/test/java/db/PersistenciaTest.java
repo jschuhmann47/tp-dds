@@ -76,7 +76,11 @@ public class PersistenciaTest {
         List<Sector> sectores = new ArrayList<>();
         Sector marketing = new Sector();
         marketing.setNombreSector("Marketing");
+        Sector ventas = new Sector();
+        ventas.setNombreSector("Ventas");
+
         sectores.add(marketing);
+        sectores.add(ventas);
         List<String> clasificaciones = new ArrayList<>();
         clasificaciones.add("Videojuegos");
         clasificaciones.add("Desarrollador");
@@ -110,8 +114,8 @@ public class PersistenciaTest {
                 "Valve Corporation S.A",sectores, TipoOrganizacion.EMPRESA,direccion1);
 
         marketing.setOrganizacion(organizacion);
-        Solicitud sol = new Solicitud(marketing,juan);
-        //marketing.aceptarSolicitud(sol);
+//        Solicitud sol = new Solicitud(marketing,juan);
+//        marketing.aceptarSolicitud(sol);
 
         List<Organizacion> organizacionList = new ArrayList<>();
         organizacionList.add(organizacion);
@@ -154,8 +158,6 @@ public class PersistenciaTest {
         paradaTest2.setParadaSiguiente(null);
 
 
-
-
         Trayecto trayectoTest = new Trayecto(direccion1,direccion3,listaTramos,frecuencia);
 
         juan.agregarTrayectos(trayectoTest);
@@ -169,9 +171,7 @@ public class PersistenciaTest {
 
         trayectoTest.registrarViajesEnMesYAnio(7,2021,5);
 
-        juan.calcularHC(new Periodo(7,2021));
-
-
+//        juan.calcularHC(new Periodo(7,2021));
 
         Actividad actividadTest = new Actividad(TipoActividad.COMBUSTION_FIJA, TipoDeConsumo.GAS_NATURAL, Unidad.M3,
                 new Periodo(7,2021), Periodicidad.MENSUAL,34.0);
@@ -199,7 +199,7 @@ public class PersistenciaTest {
         EntityManagerHelper.getEntityManager().persist(linea7);
         EntityManagerHelper.getEntityManager().persist(juan);
         EntityManagerHelper.getEntityManager().persist(agustin);
-        EntityManagerHelper.getEntityManager().persist(sol);
+//        EntityManagerHelper.getEntityManager().persist(sol);
 
         for (ParametroFE p : parametrosFE){
             EntityManagerHelper.getEntityManager().persist(p);

@@ -14,6 +14,7 @@ import java.util.List;
 public class Sector {
     @Id
     @GeneratedValue
+    @Getter
     private int id;
 
 

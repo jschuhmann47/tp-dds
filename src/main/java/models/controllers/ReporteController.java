@@ -75,32 +75,37 @@ public class ReporteController {
         ServicioCalcularDistancia.setAdapter(new ServicioGeoDDSRetrofitAdapter());
         HashMap<String, Object> parametros = new HashMap<>();
         if(SessionHelper.atributosNoSonNull(request,"provinciaId")){
+            Provincia provincia = this.repoProvincia.buscar(new Integer(request.queryParams("provinciaId")));
+            parametros.put("provincia",provincia);
             if(SessionHelper.atributosNoSonNull(request,"municipioId")){
                 Municipio municipio = this.repoMunicipio.buscar(new Integer(request.queryParams("municipioId")));
                 parametros.put("reportes", GeneradorReporte.ComposicionHCTotalPorSectorTerritorial(this.repoOrg.buscarTodosDeMunicipio(municipio),municipio));
             }else{
-                parametros.put("municipios",ServicioCalcularDistancia.municipiosDeProvincia(new Integer(request.queryParams("provinciaId"))));
+//                parametros.put("municipios",ServicioCalcularDistancia.municipiosDeProvincia(new Integer(request.queryParams("provinciaId"))));
+                parametros.put("municipios",this.repoMunicipio.buscarMunicipiosDeProvincia(provincia));
             }
+            return new ModelAndView(parametros,"agente/composicion-hc-territorio-p.hbs");
         } else{
-            parametros.put("provincias",ServicioCalcularDistancia.obtenerProvincias());
+            parametros.put("provincias",ServicioCalcularDistancia.obtenerProvincias()); //this.repoProvincia.buscarTodos()
+            return new ModelAndView(parametros,"agente/composicion-hc-territorio.hbs");
         }
 
-        return new ModelAndView(parametros,"agente/composicion-hc-territorio.hbs");
     }
 
     public ModelAndView mostrarComposicionHCMunicipio(Request request, Response response) throws IOException { //hace get y post to_do aca //OK
         HashMap<String, Object> parametros = new HashMap<>();
-        this.setearDesplegablesDeMunicipios(request,response,parametros);
-        if(SessionHelper.atributosNoSonNull(request,"municipioId")){
-            return this.composicionHCMunicipio(request,response);
-        }
+//        this.setearDesplegablesDeMunicipios(request,response,parametros);
+        parametros.put("provincias",this.repoProvincia.buscarTodos());
+//        if(SessionHelper.atributosNoSonNull(request,"municipioId")){
+//            return this.composicionHCMunicipio(request,response);
+//        }
         return new ModelAndView(parametros,"agente/composicion-hc-territorio.hbs");
     }
 
     private void setearDesplegablesDeMunicipios(Request request, Response response, HashMap<String,Object> parametros){ //OK
-        parametros.put("provincias",this.repoProvincia.buscarTodos());
         if(SessionHelper.atributosNoSonNull(request,"provinciaId")){
             Provincia provincia = this.repoProvincia.buscar(new Integer(request.queryParams("provinciaId")));
+            parametros.put("provincia",provincia);
             parametros.put("municipios",this.repoMunicipio.buscarMunicipiosDeProvincia(provincia));
         }
     }
