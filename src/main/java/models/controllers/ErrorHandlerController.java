@@ -22,6 +22,6 @@ public class ErrorHandlerController {
         }else{
             parametros.put("rutaInicio", user.getTipoCuenta());
         }
-        return new ModelAndView(parametros,"error.hbs");
+        return new ModelAndView(parametros,"404.hbs");
     }
 }
