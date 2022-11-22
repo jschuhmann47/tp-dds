@@ -30,24 +30,29 @@
 
     </header>
     
-    
     <div class="d-flex justify-content-center">
-        <h2 class="p-3 mb-2 bg-light text-dark mt-5">Reportes</h2>
+        <h2 class="p-3 mb-2 bg-light text-dark mt-5 rounded">Composicion HC de una Organizacion</h2>
     </div>
 
-    <div style="float: left; margin-left: 600px; margin-top: 150px;">
+    <div class="d-flex justify-content-center" style=" margin-top: 150px;">
 
-        <form action="/agente/reportes/composicionHCOrganizacion" method="post" class="p-3 mb-2 bg-light text-dark mt-5">
+        <form action="/agente/reportes/composicionHCOrganizacion" method="post"
+            class="p-3 mb-2 bg-light text-dark mt-5">
             <label for="organizaciones">Escoja una organizacion:</label>
             <select name="organizacionId" id="organizacionId">
-                <option value="" disabled selected hidden>Elegir Organizacion<option>
-                {{#each organizaciones}}
-                    <option name="organizacionId" value="{{this.id}}">{{this.razonSocial}}</option>
+                <option value="" disabled selected hidden>Elegir Organizacion
+                <option>
+                    {{#each organizaciones}}
+                <option name="organizacionId" value="{{this.id}}">{{this.razonSocial}}</option>
                 {{/each}}
-            </select><td colspan="1" style="max-width: 75px;"><button class="btn btn-warning" type="submit">Confirmar</button></td>
+            </select>
+            <td colspan="1" style="max-width: 75px;"><button class="btn btn-warning" type="submit"
+                    style="margin-left: 30px;">Confirmar</button></td>
         </form>
-        <table class="table table-bordered bg-light">
-            {{#each reportes}}
+    </div>
+    <div class="d-flex justify-content-center" style=" margin-top: 50px;">
+        <table class="table table-bordered bg-light" style="max-width: fit-content;">
+            <div hidden>{{#each reportes}}</div>
             <tr>
                 <td class="d-flex justify-content-center fw-bold">Descripcion</td>
                 <td>{{this.descripcion}}</td>
@@ -60,7 +65,7 @@
                 <td class="d-flex justify-content-center fw-bold">Fecha</td>
                 <td>{{this.fecha}}</td>
             </tr>
-            {{/each}}
+            <div hidden>{{/each}}</div>
         </table>
     </div>
 </body>
