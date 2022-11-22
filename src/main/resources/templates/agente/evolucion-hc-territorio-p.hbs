@@ -35,24 +35,48 @@
             <thead>
                 <tr>
                     <th scope="col">Provincia</th>
+                    <th scope="col">Municipio</th>
+                    <th scope="col">Mes</th>
+                    <th scope="col">Año</th>
                 </tr>
             </thead>
             <tbody>
-
-                <form action="/agente/reportes/HCTotalTerritorio" method="post">
+                <form action="/agente/reportes/evolucionHCTerritorio" method="post">
                     <tr>
-                        <td><label for="provinciaId"></label>
-                            <select name="provinciaId" id="provinciaId">
-                                {{#each provincias}}
+                        <td><input hidden name="provinciaId" value="{{provincia.id}}"></td>
+                        <td>Provincia: {{provincia.nombre}}</td>
+                        <td><label for="municipioId"></label>
+                            <select name="municipioId" id="municipioId">
+                                {{#each municipios}}
                                     <option value="{{this.id}}">{{this.nombre}}</option>
                                 {{/each}}
-                            </select></td>
+                            </select>
+                        </td>
+                        <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="mes"></td>
+                        <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="anio"></td>
                     </tr>
                     <tr>
-                        <td colspan="1"><button class="w-100 btn btn-lg btn-success" type="submit">Siguiente paso</button></td>
+                        <td colspan="4"><button class="w-100 btn btn-lg btn-success" type="submit">Calcular</button></td>
                     </tr>
                 </form>
             </tbody>
+        </table>
+
+        <table class="table table-bordered bg-light">
+            {{#each reportes}}
+                <tr>
+                    <td class="d-flex justify-content-center fw-bold">Descripcion</td>
+                    <td>{{this.descripcion}}</td>
+                </tr>
+                <tr>
+                    <td class="d-flex justify-content-center fw-bold">Valor</td>
+                    <td>{{this.valor}}</td>
+                </tr>
+                <tr>
+                    <td class="d-flex justify-content-center fw-bold">Fecha</td>
+                    <td>{{this.fecha}}</td>
+                </tr>
+            {{/each}}
         </table>
     </div>
 </body>

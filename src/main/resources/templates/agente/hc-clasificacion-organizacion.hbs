@@ -39,11 +39,11 @@
                 </tr>
             </thead>
             <tbody>
-                <form action="/trabajador/reportes/HCTipoOrganizacion" method="post">
+                <form action="/agente/reportes/HCTipoOrganizacion" method="post">
                     <tr>
                         <td>
-                            <label for="organizaciones"></label>
-                            <select name="organizaciones-nombres" id="organizaciones-nombres">
+                            <label for="organizacionId"></label>
+                            <select name="organizacionId" id="organizacionId">
                                 {{#each organizaciones}}
                                     <option value="{{this.id}}">{{this.razonSocial}}</option>
                                 {{/each}}
