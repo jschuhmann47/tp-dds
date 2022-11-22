@@ -30,40 +30,50 @@
 
 </header>
 
-<div style="float: left; margin-left: 600px; margin-top: 150px;">
-    <table class="table table-bordered bg-light">
-        <thead>
-        <tr>
-            <th scope="col">Nombre</th>
-            <th scope="col">Apellido</th>
-            <th scope="col">Email</th>
-            <th scope="col">Telefono</th>
-            <th scope="col">Medio de notificacion</th>
-        </tr>
-        </thead>
-        <tbody>
-        <form action="/organizacion/contactos/nuevo" method="post">
-            <tr>
-                <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="nombre"></td>
-                <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="apellido"></td>
-                <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="email"></td>
-                <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="telefono"></td>
-                <td>
-                    <label for="mediosNotificacion"></label>
-                    <select name="mediosNotificacion" id="mediosNotificacion">
-                        {{#each medios}}
-                            <option value="{{this}}" name="mediosNotificacion">{{this}}</option> <!-- ver esto del id todo -->
-                        {{/each}}
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="5"><button class="w-100 btn btn-lg btn-success" type="submit">Crear Contacto</button></td>
-            </tr>
-        </form>
-        </tbody>
-    </table>
-</div>
+    <div class="d-flex justify-content-center">
+        <h2 class="p-3 mb-2 bg-light text-dark mt-5 rounded" style="max-width: 245px;">Nuevo Contacto</h2>
+    </div>
+
+    <div class="d-flex justify-content-center" style="margin-top: 100px;">
+        <table class="table table-bordered bg-light" style="max-width: fit-content;">
+            <thead>
+                <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Apellido</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Telefono</th>
+                    <th scope="col">Medio de notificacion</th>
+                </tr>
+            </thead>
+            <tbody>
+                <form action="/organizacion/contactos/nuevo" method="post">
+                    <tr>
+                        <td><input type="text" class="form-control" placeholder="..." aria-label=""
+                                aria-describedby="basic-addon1" name="nombre"></td>
+                        <td><input type="text" class="form-control" placeholder="..." aria-label=""
+                                aria-describedby="basic-addon1" name="apellido"></td>
+                        <td><input type="text" class="form-control" placeholder="..." aria-label=""
+                                aria-describedby="basic-addon1" name="email"></td>
+                        <td><input type="text" class="form-control" placeholder="..." aria-label=""
+                                aria-describedby="basic-addon1" name="telefono"></td>
+                        <td>
+                            <label for="mediosNotificacion"></label>
+                            <select name="mediosNotificacion" id="mediosNotificacion">
+                                {{#each medios}}
+                                <option value="{{this}}" name="mediosNotificacion">{{this}}</option>
+                                <!-- ver esto del id todo -->
+                                {{/each}}
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5"><button class="w-100 btn btn-lg btn-success" type="submit">Crear
+                                Contacto</button></td>
+                    </tr>
+                </form>
+            </tbody>
+        </table>
+    </div>
 </body>
 
 </html>
