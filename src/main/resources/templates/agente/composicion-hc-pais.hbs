@@ -30,28 +30,26 @@
 
     </header>
     
-    
     <div class="d-flex justify-content-center">
-        <h2 class="p-3 mb-2 bg-light text-dark mt-5">Reportes</h2>
+        <h2 class="p-3 mb-2 bg-light text-dark mt-5 rounded">Composicion HC del Pais</h2>
     </div>
 
-
-    <div style="float: left; margin-left: 600px; margin-top: 150px;">
-        <table class="table table-bordered bg-light">
-            {{#each reportes}}
-                <tr>
-                    <td class="d-flex justify-content-center fw-bold">Descripcion</td>
-                    <td>{{this.descripcion}}</td>
-                </tr>
-                <tr>
-                    <td class="d-flex justify-content-center fw-bold">Valor</td>
-                    <td>{{this.valor}}</td>
-                </tr>
-                <tr>
-                    <td class="d-flex justify-content-center fw-bold">Fecha</td>
-                    <td>{{this.fecha}}</td>
-                </tr>
-            {{/each}}
+    <div class="d-flex justify-content-center" style=" margin-top: 150px;">
+        <table class="table table-bordered bg-light" style="max-width: fit-content;">
+            <div hidden>{{#each reportes}}</div>
+            <tr>
+                <td class="d-flex justify-content-center fw-bold">Descripcion</td>
+                <td>{{this.descripcion}}</td>
+            </tr>
+            <tr>
+                <td class="d-flex justify-content-center fw-bold">Valor</td>
+                <td>{{this.valor}}</td>
+            </tr>
+            <tr>
+                <td class="d-flex justify-content-center fw-bold">Fecha</td>
+                <td>{{this.fecha}}</td>
+            </tr>
+            <div hidden>{{/each}}</div>
         </table>
     </div>
 </body>
