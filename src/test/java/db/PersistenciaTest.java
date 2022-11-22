@@ -94,9 +94,9 @@ public class PersistenciaTest {
 
         Pais pais = new Pais(1,"ARGENTINA");
         Provincia provincia = new Provincia(168,"BUENOS AIRES",pais);
-        Municipio municipio = new Municipio(174,"CABA",provincia);
+        Municipio municipio = new Municipio(335,"AVELLANEDA",provincia);
 
-        Localidad localidad = new Localidad(1,"ALMAGRO",1,municipio);
+        Localidad localidad = new Localidad(3319,"DOCK SUD",1871,municipio);
 
 
         Direccion direccion1 = new Direccion(100,"Rivadavia",localidad);
@@ -114,6 +114,7 @@ public class PersistenciaTest {
                 "Valve Corporation S.A",sectores, TipoOrganizacion.EMPRESA,direccion1);
 
         marketing.setOrganizacion(organizacion);
+        ventas.setOrganizacion(organizacion);
 //        Solicitud sol = new Solicitud(marketing,juan);
 //        marketing.aceptarSolicitud(sol);
 
@@ -252,7 +253,7 @@ public class PersistenciaTest {
                 .getSingleResult();
         AgenteSectorial agenteSectorial = (AgenteSectorial)
                 EntityManagerHelper
-                        .createQuery("FROM AgenteSectorial WHERE municipio_id=174")
+                        .createQuery("FROM AgenteSectorial WHERE municipio_id=335")
                         .getSingleResult();
 
         Usuario user = new Usuario("valve","11",Rol.BASICO,org.getId(),

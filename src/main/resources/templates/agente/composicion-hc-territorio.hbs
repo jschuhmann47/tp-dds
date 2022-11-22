@@ -41,8 +41,8 @@
 
                 <form action="/agente/reportes/composicionHCTerritorio" method="post">
                     <tr>
-                        <td><label for="provincias"></label>
-                            <select name="provincias-nombres" id="provincias-nombres">
+                        <td><label for="provinciaId"></label>
+                            <select name="provinciaId" id="provinciaId">
                                 {{#each provincias}}
                                     <option value="{{this.id}}">{{this.nombre}}</option>
                                 {{/each}}

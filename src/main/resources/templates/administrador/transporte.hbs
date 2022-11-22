@@ -38,26 +38,13 @@
     <table class="table table-bordered bg-light" style="max-width: fit-content;">
         <thead>
         <tr>
-            <th scope="col">Altura salida</th>
-            <th scope="col">Calle Salida</th>
-            <th scope="col">Localidad salida</th>
-
+            <th scope="col">Detalle</th>
         </tr>
         </thead>
         <tbody>
         <tr>
-            <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="alturaSalida"></td>
-            <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="calleSalida"></td>
-            <td><label for="localidades"></label>
-                <select name="localidades-nombres-salida" id="localidades-nombres-salida">
-                    {{#each localidades}}
-                        <option value="{{this.id}}">{{this.nombre}}</option>
-                    {{/each}}
-                </select>
-            </td>
-
+            <td>{{detalle}}</td>
         </tr>
-
         </tbody>
     </table>
 </div>

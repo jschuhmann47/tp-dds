@@ -39,15 +39,17 @@
             </thead>
             <tbody>
             <form action="/agente/reportes/composicionHCTerritorio" method="post">
+
                 <tr>
                     <td>
-                        provincia: {{provincia}}
+                        Provincia seleccionada: {{provincia.nombre}}
                     </td>
-                    <div>
-                        <p hidden name="municipioId" value="{{provincia.id}}"></p>
+                    <div hidden>
+                        <p><input hidden name="provinciaId" value="{{provincia.id}}"></p>
                     </div>
-                    <td><label for="municipios"></label>
-                        <select name="municipios-nombres" id="municipios-nombres">
+
+                    <td><label for="municipioId"></label>
+                        <select name="municipioId" id="municipioId">
                             {{#each municipios}}
                                 <option value="{{this.id}}">{{this.nombre}}</option>
                             {{/each}}
@@ -55,7 +57,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="1"><button class="w-100 btn btn-lg btn-success" type="submit">Calcular</button></td>
+                    <td colspan="2"><button class="w-100 btn btn-lg btn-success" type="submit">Calcular</button></td>
                 </tr>
             </form>
             </tbody>

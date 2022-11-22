@@ -82,7 +82,7 @@ public class ReporteController {
                 parametros.put("reportes", GeneradorReporte.ComposicionHCTotalPorSectorTerritorial(this.repoOrg.buscarTodosDeMunicipio(municipio),municipio));
             }else{
 //                parametros.put("municipios",ServicioCalcularDistancia.municipiosDeProvincia(new Integer(request.queryParams("provinciaId"))));
-                parametros.put("municipios",this.repoMunicipio.buscarMunicipiosDeProvincia(provincia));
+                parametros.put("municipios",ServicioCalcularDistancia.municipiosDeProvincia(provincia.getId()));
             }
             return new ModelAndView(parametros,"agente/composicion-hc-territorio-p.hbs");
         } else{
