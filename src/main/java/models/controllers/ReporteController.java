@@ -92,7 +92,7 @@ public class ReporteController {
 
     }
 
-    public ModelAndView mostrarComposicionHCMunicipio(Request request, Response response) throws IOException { //hace get y post to_do aca //OK
+    public ModelAndView mostrarComposicionHCMunicipio(Request request, Response response) { //hace get y post to_do aca //OK
         HashMap<String, Object> parametros = new HashMap<>();
 //        this.setearDesplegablesDeMunicipios(request,response,parametros);
         parametros.put("provincias",this.repoProvincia.buscarTodos());
@@ -151,18 +151,38 @@ public class ReporteController {
         return new ModelAndView(parametros,"agente/evolucion-hc-organizacion.hbs");
     }
 
-    public ModelAndView HCPorMunicipio(Request request, Response response){
+    public ModelAndView HCPorMunicipio(Request request, Response response) throws IOException {
+//        this.setearParametrosFE();
+//        HashMap<String, Object> parametros = new HashMap<>();
+//        Municipio municipio = this.buscarMunicipio(request.queryParams("municipio"),request.queryParams("provincia"));
+//        if(municipio != null){
+//            parametros.put("reportes", GeneradorReporte.HCTotalPorSectorTerritorial(this.repoOrg.buscarTodosDeMunicipio(municipio),municipio));
+//        }
+//        return new ModelAndView(parametros,"agente/hc-total-territorio.hbs");
         this.setearParametrosFE();
+        ServicioCalcularDistancia.setAdapter(new ServicioGeoDDSRetrofitAdapter());
         HashMap<String, Object> parametros = new HashMap<>();
-        Municipio municipio = this.buscarMunicipio(request.queryParams("municipio"),request.queryParams("provincia"));
-        if(municipio != null){
-            parametros.put("reportes", GeneradorReporte.HCTotalPorSectorTerritorial(this.repoOrg.buscarTodosDeMunicipio(municipio),municipio));
+        if(SessionHelper.atributosNoSonNull(request,"provinciaId")){
+            Provincia provincia = this.repoProvincia.buscar(new Integer(request.queryParams("provinciaId")));
+            parametros.put("provincia",provincia);
+            if(SessionHelper.atributosNoSonNull(request,"municipioId")){
+                Municipio municipio = this.repoMunicipio.buscar(new Integer(request.queryParams("municipioId")));
+                parametros.put("reportes", GeneradorReporte.HCTotalPorSectorTerritorial(this.repoOrg.buscarTodosDeMunicipio(municipio),municipio));
+            }else{
+//                parametros.put("municipios",ServicioCalcularDistancia.municipiosDeProvincia(new Integer(request.queryParams("provinciaId"))));
+                parametros.put("municipios",ServicioCalcularDistancia.municipiosDeProvincia(provincia.getId()));
+            }
+            return new ModelAndView(parametros,"agente/hc-total-municipio.hbs");
+        } else{
+            parametros.put("provincias",ServicioCalcularDistancia.obtenerProvincias()); //this.repoProvincia.buscarTodos()
+            return new ModelAndView(parametros,"agente/composicion-hc-territorio.hbs");
         }
-        return new ModelAndView(parametros,"agente/hc-total-territorio.hbs");
+
     }
 
+
     public ModelAndView mostrarHCPorMunicipio(Request request, Response response){
-        return new ModelAndView(null,"agente/hc-total-territorio.hbs");
+        return this.mostrarComposicionHCMunicipio(request,response);
     }
 
     private Municipio buscarMunicipio(String nombreMunicipio, String nombreProvincia){
