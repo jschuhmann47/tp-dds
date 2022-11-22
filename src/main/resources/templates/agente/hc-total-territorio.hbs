@@ -31,8 +31,13 @@
     </header>
 
 
-    <div style="float: left; margin-left: 600px; margin-top: 150px;">
-        <table class="table table-bordered bg-light">
+    <div class="d-flex justify-content-center">
+        <h2 class="p-3 mb-2 bg-light text-dark mt-5 rounded">HC Total por Territorio</h2>
+    </div>
+
+
+    <div class="d-flex justify-content-center" style=" margin-top: 150px;">
+        <table class="table table-bordered bg-light" style="max-width: fit-content;">
             <thead>
                 <tr>
                     <th scope="col">Municipio</th>
@@ -45,40 +50,43 @@
                         <td><label for="municipios"></label>
                             <select name="municipios-nombres" id="municipios-nombres">
                                 {{#each municipios}}
-                                    <option value="{{this.id}}">{{this.nombre}}</option>
+                                <option value="{{this.id}}">{{this.nombre}}</option>
                                 {{/each}}
                             </select>
                         </td>
                         <td><label for="provincias"></label>
                             <select name="provincias-nombres" id="provincias-nombres">
                                 {{#each provincias}}
-                                    <option value="{{this.id}}">{{this.nombre}}</option>
+                                <option value="{{this.id}}">{{this.nombre}}</option>
                                 {{/each}}
-                            </select></td>
+                            </select>
+                        </td>
 
                     </tr>
                     <tr>
-                        <td colspan="2"><button class="w-100 btn btn-lg btn-success" type="submit">Calcular</button></td>
+                        <td colspan="2"><button class="w-100 btn btn-lg btn-success" type="submit">Calcular</button>
+                        </td>
                     </tr>
                 </form>
             </tbody>
         </table>
-
-        <table class="table table-bordered bg-light">
-            {{#each reportes}}
-                <tr>
-                    <td class="d-flex justify-content-center fw-bold">Descripcion</td>
-                    <td>{{this.descripcion}}</td>
-                </tr>
-                <tr>
-                    <td class="d-flex justify-content-center fw-bold">Valor</td>
-                    <td>{{this.valor}}</td>
-                </tr>
-                <tr>
-                    <td class="d-flex justify-content-center fw-bold">Fecha</td>
-                    <td>{{this.fecha}}</td>
-                </tr>
-            {{/each}}
+    </div>
+    <div class="d-flex justify-content-center" style=" margin-top: 50px;">
+        <table class="table table-bordered bg-light" style="max-width: fit-content;">
+            <div hidden>{{#each reportes}}</div>
+            <tr>
+                <td class="d-flex justify-content-center fw-bold">Descripcion</td>
+                <td>{{this.descripcion}}</td>
+            </tr>
+            <tr>
+                <td class="d-flex justify-content-center fw-bold">Valor</td>
+                <td>{{this.valor}}</td>
+            </tr>
+            <tr>
+                <td class="d-flex justify-content-center fw-bold">Fecha</td>
+                <td>{{this.fecha}}</td>
+            </tr>
+            <div hidden>{{/each}}</div>
         </table>
     </div>
 </body>
