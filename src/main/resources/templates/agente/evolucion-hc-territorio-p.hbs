@@ -42,8 +42,8 @@
             </thead>
             <tbody>
                 <form action="/agente/reportes/evolucionHCTerritorio" method="post">
+                    <input hidden name="provinciaId" value="{{provincia.id}}">
                     <tr>
-                        <td><input hidden name="provinciaId" value="{{provincia.id}}"></td>
                         <td>Provincia: {{provincia.nombre}}</td>
                         <td><label for="municipioId"></label>
                             <select name="municipioId" id="municipioId">
