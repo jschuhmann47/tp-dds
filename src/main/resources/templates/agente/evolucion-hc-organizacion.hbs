@@ -31,8 +31,13 @@
     </header>
 
 
-    <div style="float: left; margin-left: 450px; margin-top: 150px;">
-            <table class="table table-bordered bg-light">
+    <div class="d-flex justify-content-center">
+        <h2 class="p-3 mb-2 bg-light text-dark mt-5 rounded">Evolucion de HC de una Organizacion</h2>
+    </div>
+
+    <div class="d-flex justify-content-center" style=" margin-top: 150px;">
+        <table class="table table-bordered bg-light" style="max-width: fit-content;">
+
             <thead>
                 <tr>
                     <th scope="col">Nombre de la Organizacion</th>
@@ -47,34 +52,39 @@
                             <label for="organizacionId"></label>
                             <select name="organizacionId" id="organizacionId">
                                 {{#each organizaciones}}
-                                    <option value="{{this.id}}">{{this.razonSocial}}</option>
+                                <option value="{{this.id}}">{{this.razonSocial}}</option>
                                 {{/each}}
                             </select>
                         </td>
-                        <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="mes"></td>
-                        <td><input type="text" class="form-control" placeholder="..." aria-label="" aria-describedby="basic-addon1" name="anio"></td>
+                        <td><input type="text" class="form-control" placeholder="..." aria-label=""
+                                aria-describedby="basic-addon1" name="mes"></td>
+                        <td><input type="text" class="form-control" placeholder="..." aria-label=""
+                                aria-describedby="basic-addon1" name="anio"></td>
                     </tr>
                     <tr>
-                        <td colspan="3"><button class="w-100 btn btn-lg btn-success" type="submit">Calcular</button></td>
+                        <td colspan="3"><button class="w-100 btn btn-lg btn-success" type="submit">Calcular</button>
+                        </td>
                     </tr>
                 </form>
             </tbody>
         </table>
-        <table class="table table-bordered bg-light">
-            {{#each reportes}}
-                <tr>
-                    <td class="d-flex justify-content-center fw-bold">Descripcion</td>
-                    <td>{{this.descripcion}}</td>
-                </tr>
-                <tr>
-                    <td class="d-flex justify-content-center fw-bold">Valor</td>
-                    <td>{{this.valor}}</td>
-                </tr>
-                <tr>
-                    <td class="d-flex justify-content-center fw-bold">Fecha</td>
-                    <td>{{this.fecha}}</td>
-                </tr>
-            {{/each}}
+    </div>
+    <div class="d-flex justify-content-center" style=" margin-top: 150px;">
+        <table class="table table-bordered bg-light" style="max-width: fit-content;">
+            <div hidden>{{#each reportes}}</div>
+            <tr>
+                <td class="d-flex justify-content-center fw-bold">Descripcion</td>
+                <td>{{this.descripcion}}</td>
+            </tr>
+            <tr>
+                <td class="d-flex justify-content-center fw-bold">Valor</td>
+                <td>{{this.valor}}</td>
+            </tr>
+            <tr>
+                <td class="d-flex justify-content-center fw-bold">Fecha</td>
+                <td>{{this.fecha}}</td>
+            </tr>
+            <div hidden>{{/each}}</div>
         </table>
     </div>
 </body>

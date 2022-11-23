@@ -19,45 +19,53 @@
 
 <body class="bg-image" style="background-image: url('images/menu/2258.jpg'); height: 100vh">
 
-<div style="float: left; margin-left: 600px; margin-top: 150px;">
-    <table class="table table-bordered bg-light">
-        <thead>
-        <tr>
-            <th scope="col">Nombre</th>
-            <th scope="col">Apellido</th>
-            <th scope="col">Tipo de Documento</th>
-            <th scope="col">Numero de Documento</th>
-            <th scope="col">Nombre de usuario</th>
-            <th scope="col">Contraseña</th>
-            <th scope="col">Confirmar Contraseña</th>
-        </tr>
-        </thead>
-        <tbody>
-        <form action="/registro" method="post">
-            <tr>
-                <td><input type="text" class="form-control" aria-label="" aria-describedby="basic-addon1" name="nombre"></td>
-                <td><input type="text" class="form-control" aria-label="" aria-describedby="basic-addon1" name="apellido"></td>
-                <td>
-                    <label for="tipoDocumentoId"></label>
-                    <select name="tipoDocumentoId" id="tipoDocumentoId">
-                        {{#each tiposDocumento}}
-                            <option value="{{this.id}}" name="tipoDocumentoId">{{this.posibleTipoDocumento}}</option>
-                        {{/each}}
-                    </select>
-                </td>
-                <td><input type="text" class="form-control"  aria-label="" aria-describedby="basic-addon1" name="nroDocumento" id="nroDocumento"></td>
-                <td><input type="text" class="form-control"  aria-label="" aria-describedby="basic-addon1" name="nombreUsuario"></td>
-                <td><input type="password" class="form-control"  aria-label="" aria-describedby="basic-addon1" name="contrasenia"></td>
-                <td><input type="password" class="form-control"  aria-label="" aria-describedby="basic-addon1" name="contraseniaChequeo"></td>
+    <div class="d-flex justify-content-center" style="margin-top: 100px;">
+        <table class="table table-bordered bg-light" style="max-width: fit-content;">
+            <thead>
+                <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Apellido</th>
+                    <th scope="col">Tipo de Documento</th>
+                    <th scope="col">Numero de Documento</th>
+                    <th scope="col">Nombre de usuario</th>
+                    <th scope="col">Contraseña</th>
+                    <th scope="col">Confirmar Contraseña</th>
+                </tr>
+            </thead>
+            <tbody>
+                <form action="/registro" method="post">
+                    <tr>
+                        <td><input type="text" class="form-control" aria-label="" aria-describedby="basic-addon1"
+                                name="nombre"></td>
+                        <td><input type="text" class="form-control" aria-label="" aria-describedby="basic-addon1"
+                                name="apellido"></td>
+                        <td>
+                            <label for="tipoDocumentoId"></label>
+                            <select name="tipoDocumentoId" id="tipoDocumentoId">
+                                {{#each tiposDocumento}}
+                                <option value="{{this.id}}" name="tipoDocumentoId">{{this.posibleTipoDocumento}}
+                                </option>
+                                {{/each}}
+                            </select>
+                        </td>
+                        <td><input type="text" class="form-control" aria-label="" aria-describedby="basic-addon1"
+                                name="nroDocumento" id="nroDocumento"></td>
+                        <td><input type="text" class="form-control" aria-label="" aria-describedby="basic-addon1"
+                                name="nombreUsuario"></td>
+                        <td><input type="password" class="form-control" aria-label="" aria-describedby="basic-addon1"
+                                name="contrasenia"></td>
+                        <td><input type="password" class="form-control" aria-label="" aria-describedby="basic-addon1"
+                                name="contraseniaChequeo"></td>
 
-            </tr>
-            <tr>
-                <td colspan="5"><button class="w-100 btn btn-lg btn-success" type="submit" id="crear">Crear Usuario</button></td>
-            </tr>
-        </form>
-        </tbody>
-    </table>
-</div>
+                    </tr>
+                    <tr>
+                        <td colspan="7"><button class="w-100 btn btn-lg btn-success" type="submit" id="crear">Crear
+                                Usuario</button></td>
+                    </tr>
+                </form>
+            </tbody>
+        </table>
+    </div>
 
 
 </body>

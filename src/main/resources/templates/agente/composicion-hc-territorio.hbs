@@ -30,8 +30,12 @@
 
     </header>
 
-    <div style="float: left; margin-left: 600px; margin-top: 150px;">
-        <table class="table table-bordered bg-light">
+    <div class="d-flex justify-content-center">
+        <h2 class="p-3 mb-2 bg-light text-dark mt-5 rounded">Composicion HC de un territorio</h2>
+    </div>
+
+    <div class="d-flex justify-content-center" style=" margin-top: 150px;">
+        <table class="table table-bordered bg-light" style="max-width: fit-content;">
             <thead>
                 <tr>
                     <th scope="col">Provincia</th>
@@ -44,12 +48,14 @@
                         <td><label for="provinciaId"></label>
                             <select name="provinciaId" id="provinciaId">
                                 {{#each provincias}}
-                                    <option value="{{this.id}}">{{this.nombre}}</option>
+                                <option value="{{this.id}}">{{this.nombre}}</option>
                                 {{/each}}
-                            </select></td>
+                            </select>
+                        </td>
                     </tr>
                     <tr>
-                        <td colspan="1"><button class="w-100 btn btn-lg btn-success" type="submit">Siguiente paso</button></td>
+                        <td colspan="1"><button class="w-100 btn btn-lg btn-success" type="submit">Siguiente
+                                paso</button></td>
                     </tr>
                 </form>
             </tbody>

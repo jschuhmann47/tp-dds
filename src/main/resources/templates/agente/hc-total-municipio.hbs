@@ -30,14 +30,19 @@
 
     </header>
 
-    <div style="float: left; margin-left: 600px; margin-top: 150px;">
-        <table class="table table-bordered bg-light">
+    <div class="d-flex justify-content-center">
+        <h2 class="p-3 mb-2 bg-light text-dark mt-5 rounded">HC Total por Municipio</h2>
+    </div>
+
+    <div class="d-flex justify-content-center" style=" margin-top: 150px;">
+        <table class="table table-bordered bg-light" style="max-width: fit-content;">
             <thead>
                 <tr>
                     <th scope="col">Provincia</th>
                 </tr>
             </thead>
             <tbody>
+
 
                 <form action="/agente/reportes/HCTotalTerritorio" method="post">
                     <tr>
@@ -50,6 +55,7 @@
                     </tr>
                     <tr>
                         <td colspan="1"><button class="w-100 btn btn-lg btn-success" type="submit">Siguiente paso</button></td>
+
                     </tr>
                 </form>
             </tbody>

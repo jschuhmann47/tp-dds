@@ -32,12 +32,12 @@
     </header>
 
     <div class="d-flex justify-content-center">
-        <h2 class="p-3 mb-2 bg-light text-dark mt-5" style="max-width: 330px;">Nueva Vinculacion
+        <h2 class="p-3 mb-2 bg-light text-dark mt-5 rounded" style="max-width: 330px;">Nueva Vinculacion
         </h2>
     </div>
 
     <div class="d-flex justify-content-center" style="margin-top: 100px;">
-        <form action="/trabajador/vinculacion/nuevo" method="post" class="p-3 mb-2 bg-light text-dark mt-5">
+        <form action="/trabajador/vinculacion/nuevo" method="post" class="p-3 mb-2 bg-light text-dark mt-5 rounded">
             <div hidden>
                 <p><input hidden name="organizacionId" value="{{organizacionId}}"></p>
             </div>
@@ -48,7 +48,7 @@
                     <option name="sectorId" value="{{this.id}}">{{this.nombreSector}}</option>
                 {{/each}}
             </select>
-            <td colspan="3" style="max-width: 75px;"><button class="btn btn-warning" type="submit">Confirmar</button></td>
+            <td colspan="3" style="max-width: 75px;"><button class="btn btn-warning" type="submit" style="margin-left: 30px;">Confirmar</button></td>
         </form>
     </div>
 </body>
