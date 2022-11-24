@@ -103,7 +103,7 @@ public class OrganizacionController {
     public ModelAndView calcularHC(Request request, Response response){
         this.setearCalculadoraHC();
         if(!SessionHelper.atributosNoSonNull(request,"mes","anio")){
-            return this.calcularCalculadoraHCTotal(request,response); //todo testear
+            return this.calcularCalculadoraHCTotal(request,response);
         }
         Periodo periodo = PeriodoHelper.nuevoPeriodo(request.queryParams("mes"),request.queryParams("anio"));
         HashMap<String, Object> parametros = new HashMap<>();

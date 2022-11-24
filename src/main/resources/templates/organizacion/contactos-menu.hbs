@@ -42,7 +42,6 @@
             <th scope="col">Apellido</th>
             <th scope="col">Telefono</th>
             <th scope="col">Mail</th>
-            <th scope="col">Medio de notificacion elegido</th>
             <th scope="col">Enviar recomendaciones</th>
         </tr>
         </thead>
@@ -53,11 +52,6 @@
             <td>{{this.apellido}}</td>
             <td>{{this.nroTelefono}}</td>
             <td>{{this.email}}</td>
-            <td>
-                {{#each this.mediosDeNotificacion}}
-                    {{this}}
-                {{/each}}
-            </td>
 
             <form action="/organizacion/contactos/notificar" method="post">
                 <td><button class="btn btn-success" type="submit" name="contactoId" value="{{this.id}}">Enviar</button></td>

@@ -86,20 +86,23 @@ public class TrabajadorController {
 
     public ModelAndView calcularHC(Request request, Response response) {
         this.setearCalculadoraHC();
-
-        if(request.queryParams("anio") == null){
-            throw new RuntimeException("No se ingreso el año");
+        if(!SessionHelper.atributosNoSonNull(request,"mes","anio")){
+            return this.calcularHCTotal(request,response);
         }
         Periodo periodo = PeriodoHelper.nuevoPeriodo(request.queryParams("mes"),request.queryParams("anio"));
         HashMap<String, Object> parametros = new HashMap<>();
         Trabajador trabajador = this.obtenerTrabajador(request, response);
         parametros.put("trabajador",trabajador);
-        //parametros.put("factorEmision", CalculoHC.getUnidadPorDefecto()).toString();
-        if(periodo.getAnio() != null){
-            parametros.put("huellaCarbono",trabajador.calcularHC(periodo));
-        } else{
-            parametros.put("huellaCarbono",trabajador.calcularHCTotal());
-        }
+        parametros.put("huellaCarbono",trabajador.calcularHC(periodo));
+        parametros.put("factorEmision",CalculoHC.getUnidadPorDefectoString());
+        return new ModelAndView(parametros,"trabajador/calculadora-trabajador.hbs");
+    }
+
+    public ModelAndView calcularHCTotal(Request request,Response response){ //todo revisar q da menos que el de un periodo (forma de calcular)
+        HashMap<String, Object> parametros = new HashMap<>();
+        Trabajador trabajador = this.obtenerTrabajador(request, response);
+        parametros.put("trabajador",trabajador);
+        parametros.put("huellaCarbono",trabajador.calcularHCTotal());
         parametros.put("factorEmision",CalculoHC.getUnidadPorDefectoString());
         return new ModelAndView(parametros,"trabajador/calculadora-trabajador.hbs");
     }
