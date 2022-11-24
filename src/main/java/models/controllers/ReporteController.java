@@ -44,7 +44,7 @@ public class ReporteController {
         return new ModelAndView(parametros,"agente/reportes-menu.hbs");
     }
 
-    public ModelAndView composicionHCPais(Request request, Response response){ //OK
+    public ModelAndView composicionHCPais(Request request, Response response){ 
         this.setearParametrosFE();
         HashMap<String, Object> parametros = new HashMap<>();
 
@@ -56,7 +56,7 @@ public class ReporteController {
         return new ModelAndView(parametros,"agente/composicion-hc-pais.hbs");
     }
 
-    public ModelAndView composicionHCOrganizacion(Request request, Response response){ //OK
+    public ModelAndView composicionHCOrganizacion(Request request, Response response){ 
         this.setearParametrosFE();
         HashMap<String, Object> parametros = new HashMap<>();
         Organizacion organizacion = this.repoOrg.buscar(new Integer(request.queryParams("organizacionId")));
@@ -66,13 +66,13 @@ public class ReporteController {
         return new ModelAndView(parametros,"agente/composicion-hc-organizacion.hbs");
     }
 
-    public ModelAndView mostrarComposicionHCOrganizacion(Request request, Response response){ //OK
+    public ModelAndView mostrarComposicionHCOrganizacion(Request request, Response response){ 
         HashMap<String, Object> parametros = new HashMap<>();
         parametros.put("organizaciones",this.repoOrg.buscarTodos());
         return new ModelAndView(parametros,"agente/composicion-hc-organizacion.hbs");
     }
 
-    public ModelAndView composicionHCMunicipio(Request request, Response response) throws IOException { //todo testear tema api
+    public ModelAndView composicionHCMunicipio(Request request, Response response) throws IOException {
         this.setearParametrosFE();
         ServicioCalcularDistancia.setAdapter(new ServicioGeoDDSRetrofitAdapter());
         HashMap<String, Object> parametros = new HashMap<>();
@@ -94,35 +94,19 @@ public class ReporteController {
 
     }
 
-    public ModelAndView mostrarComposicionHCMunicipio(Request request, Response response) { //hace get y post to_do aca //OK
+    public ModelAndView mostrarComposicionHCMunicipio(Request request, Response response) {
         HashMap<String, Object> parametros = new HashMap<>();
-//        this.setearDesplegablesDeMunicipios(request,response,parametros);
         parametros.put("provincias",this.repoProvincia.buscarTodos());
-//        if(SessionHelper.atributosNoSonNull(request,"municipioId")){
-//            return this.composicionHCMunicipio(request,response);
-//        }
         return new ModelAndView(parametros,"agente/composicion-hc-territorio.hbs");
     }
 
-    private void setearDesplegablesDeMunicipios(Request request, Response response, HashMap<String,Object> parametros){ //OK
-        if(SessionHelper.atributosNoSonNull(request,"provinciaId")){
-            Provincia provincia = this.repoProvincia.buscar(new Integer(request.queryParams("provinciaId")));
-            parametros.put("provincia",provincia);
-            parametros.put("municipios",this.repoMunicipio.buscarMunicipiosDeProvincia(provincia));
-        }
-    }
-
-    public ModelAndView mostrarEvolucionHCMunicipio(Request request, Response response) { //OK
+    public ModelAndView mostrarEvolucionHCMunicipio(Request request, Response response) {
         HashMap<String, Object> parametros = new HashMap<>();
-//        this.setearDesplegablesDeMunicipios(request,response,parametros);
-//        if(SessionHelper.atributosNoSonNull(request,"municipioId","mes","anio")){
-//            return this.evolucionHCMunicipio(request,response);
-//        }
         parametros.put("provincias",this.repoProvincia.buscarTodos());
         return new ModelAndView(parametros,"agente/evolucion-hc-territorio.hbs");
     }
 
-    public ModelAndView evolucionHCMunicipio(Request request, Response response) throws IOException { //OK
+    public ModelAndView evolucionHCMunicipio(Request request, Response response) throws IOException { 
         this.setearParametrosFE();
         ServicioCalcularDistancia.setAdapter(new ServicioGeoDDSRetrofitAdapter());
         HashMap<String, Object> parametros = new HashMap<>();
@@ -165,14 +149,7 @@ public class ReporteController {
         return new ModelAndView(parametros,"agente/evolucion-hc-organizacion.hbs");
     }
 
-    public ModelAndView HCPorMunicipio(Request request, Response response) throws IOException {
-//        this.setearParametrosFE();
-//        HashMap<String, Object> parametros = new HashMap<>();
-//        Municipio municipio = this.buscarMunicipio(request.queryParams("municipio"),request.queryParams("provincia"));
-//        if(municipio != null){
-//            parametros.put("reportes", GeneradorReporte.HCTotalPorSectorTerritorial(this.repoOrg.buscarTodosDeMunicipio(municipio),municipio));
-//        }
-//        return new ModelAndView(parametros,"agente/hc-total-territorio.hbs");
+    public ModelAndView HCPorMunicipio(Request request, Response response) throws IOException { //repite logica dps refactorear
         this.setearParametrosFE();
         ServicioCalcularDistancia.setAdapter(new ServicioGeoDDSRetrofitAdapter());
         HashMap<String, Object> parametros = new HashMap<>();
@@ -199,14 +176,6 @@ public class ReporteController {
         HashMap<String, Object> parametros = new HashMap<>();
         parametros.put("provincias",this.repoProvincia.buscarTodos());
         return new ModelAndView(parametros,"agente/hc-total-municipio.hbs");
-    }
-
-    private Municipio buscarMunicipio(String nombreMunicipio, String nombreProvincia){
-        return this.repoMunicipio.buscarNombre(nombreMunicipio,nombreProvincia);
-    }
-
-    private Provincia buscarProvincia(String nombreProvincia){
-        return this.repoProvincia.buscarNombre(nombreProvincia);
     }
 
     public ModelAndView mostrarReportes(Request request, Response response) {

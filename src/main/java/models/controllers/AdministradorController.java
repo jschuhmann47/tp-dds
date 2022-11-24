@@ -80,7 +80,7 @@ public class AdministradorController {
         }
 
 
-        return null;
+        return response;
     }
 
     public ModelAndView mostrarOrganizacionYSectores(Request request, Response response){
@@ -116,7 +116,7 @@ public class AdministradorController {
 
     public Response crearNuevoTransporte(Request request, Response response){
         if(SessionHelper.atributosNoSonNull(request,"tipoTransporte")){
-            switch (request.queryParams("tipoTransporte")){ //el tipo privado publico etc, no el del transporte
+            switch (request.queryParams("tipoTransporte")){
                 //TODO
             }
 
@@ -143,7 +143,7 @@ public class AdministradorController {
                         request.queryParams("calle"),
                         this.repoLocalidades.buscar(new Integer(request.queryParams("localidadId"))));
 
-        Parada parada = new Parada(distAnteriorParada,distSiguienteParada,direccion); //TODO
+        Parada parada = new Parada(distAnteriorParada,distSiguienteParada,direccion);
 
         PersistenciaHelper.persistir(parada);
 
@@ -187,7 +187,7 @@ public class AdministradorController {
         return response;
     }
 
-    public ModelAndView mostrarTransporte(Request request, Response response) { //todo hacer un metodo para publico y uno para privado
+    public ModelAndView mostrarTransporte(Request request, Response response) {
         HashMap<String,Object> parametros = new HashMap<>();
         MedioTransporte medio = this.repoTransportes.buscar(new Integer(request.queryParams("medioTransporteId")));
         parametros.put("detalle",medio.detalle());

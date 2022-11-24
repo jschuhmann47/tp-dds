@@ -73,7 +73,7 @@ public class TrabajadorController {
 
     private Trabajador obtenerTrabajador(Request request, Response response){
         Trabajador trabajador = this.repoTrabajadores.buscar(new Integer(request.session().attribute("resource_id").toString())); //todo validar
-        if(trabajador == null){ //try catch
+        if(trabajador == null){
             response.redirect("/error");
             Spark.halt();
         }
@@ -149,26 +149,6 @@ public class TrabajadorController {
     }
 
 
-    public Response nuevaVinculacion(Request request, Response response){
-        Trabajador trabajador = this.obtenerTrabajador(request,response);
-        if(SessionHelper.atributosNoSonNull(request,"nombreSector","organizacionId","sectorId")){
-            Organizacion org = this.repoOrgs.buscar(new Integer(request.queryParams("organizacionId")));
-            if(org != null){
-                Sector sectorAVincularse = this.repoSectores.buscar(new Integer(request.queryParams("sectorId")));
-                if(sectorAVincularse != null){
-                    Solicitud sol = trabajador.solicitarVinculacion(org,sectorAVincularse);
-                    PersistenciaHelper.persistir(sol);
-                }
-            }
-        }
-
-
-        response.redirect("/trabajador/vinculacion");
-        return response;
-
-    }
-
-
     public ModelAndView mostrarTrayectos(Request request, Response response) {
         HashMap<String,Object> parametros = new HashMap<>();
         Trabajador trabajador = this.obtenerTrabajador(request,response);
@@ -217,7 +197,8 @@ public class TrabajadorController {
     }
 
     public Response registrarNuevoTramo(Request request, Response response) throws Exception {
-        if(SessionHelper.atributosNoSonNull(request,"medioTransporteId","alturaInicio","calleInicio","localidadInicioId","calleDestino","alturaDestino","localidadDestinoId","trayectoId")){
+        if(SessionHelper.atributosNoSonNull(request,"medioTransporteId","alturaInicio","calleInicio",
+                "localidadInicioId","calleDestino","alturaDestino","localidadDestinoId","trayectoId")){
             ServicioCalcularDistancia.setAdapter(new ServicioGeoDDSRetrofitAdapter());
             MedioTransporte medio = this.repoTransportes.buscar(new Integer(request.queryParams("medioTransporteId")));
             Tramo tramo = new Tramo
@@ -270,7 +251,7 @@ public class TrabajadorController {
         return response;
     }
 
-    public Response editarTramo(Request request, Response response){ //todo pantalla de editar que esten los datos cargados, similar a la de los FE
+    public Response editarTramo(Request request, Response response){ //todo
         Tramo tramo = this.repoTramos.buscar(new Integer(request.queryParams("tramoId")));
         if(SessionHelper.atributosNoSonNull(request,"alturaInicio")){
             tramo.getPuntoInicio().setAltura(new Integer(request.queryParams("alturaInicio")));
@@ -309,8 +290,7 @@ public class TrabajadorController {
             if(trayecto.getTramos().isEmpty()){
                 PersistenciaHelper.eliminar(trayecto);
             }
-            response.redirect("/trabajador/trayectos"); //probar si anda, no se si falta asociar el id
-                //error de que no puede borrar
+            response.redirect("/trabajador/trayectos");
 
         }
         return response;
@@ -318,9 +298,9 @@ public class TrabajadorController {
 
     public Response eliminarTramo(Request request, Response response){
         if(SessionHelper.atributosNoSonNull(request,"tramoId")){
-            Tramo tramo = this.repoTramos.buscar(new Integer(request.queryParams("tramoId"))); //todo buscar tramo del
+            Tramo tramo = this.repoTramos.buscar(new Integer(request.queryParams("tramoId")));
             PersistenciaHelper.eliminar(tramo);
-            response.redirect("/trabajador/trayectos"); //probar si anda, no se si falta asociar el id
+            response.redirect("/trabajador/trayectos");
         } else{
             response.redirect("/error");
         }

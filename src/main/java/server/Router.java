@@ -1,6 +1,5 @@
 package server;
 
-import com.github.jknack.handlebars.Handlebars;
 import models.controllers.*;
 import models.entities.seguridad.cuentas.Permiso;
 import models.entities.seguridad.cuentas.Rol;
@@ -39,7 +38,7 @@ public class Router {
         MenuController menuController = new MenuController();
         TrabajadorController trabajadorController = new TrabajadorController();
         AdministradorController administradorController = new AdministradorController();
-        ErrorHandlerController errorController = new ErrorHandlerController();
+        ErrorController errorController = new ErrorController();
         AgenteSectorialController agenteController = new AgenteSectorialController();
         ReporteController reporteController = new ReporteController();
 

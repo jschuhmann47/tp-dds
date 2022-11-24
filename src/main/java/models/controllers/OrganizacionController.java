@@ -41,7 +41,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class OrganizacionController {
-    //TODO provincias, municipios, orgs, sectores, medios t que llege una lista, que no escriba a mano
     private final RepositorioDeOrganizaciones repoOrganizaciones;
     private final RepositorioDeParametrosFE repoFE;
     private final RepositorioDeSolicitudes repoSolicitudes;
@@ -91,21 +90,21 @@ public class OrganizacionController {
         return null;
     }
 
-    public ModelAndView mostrarReportes(Request request, Response response) { //esto es lo de cargar excel
-        return new ModelAndView(new HashMap<String,Object>(),"organizacion/reportes-menu.hbs"); //mostrar los botones y al tocar dice el valor
+    public ModelAndView mostrarReportes(Request request, Response response) {
+        return new ModelAndView(new HashMap<String,Object>(),"organizacion/reportes-menu.hbs");
     }
 
     public ModelAndView mostrarHC(Request request, Response response){
         HashMap<String, Object> parametros = new HashMap<>();
-        //agregar razon social
+       parametros.put("organizacion",this.obtenerOrganizacion(request,response));
         return new ModelAndView(new HashMap<String,Object>(),"organizacion/calculadora-organizacion.hbs");
     }
 
-    public ModelAndView calcularHC(Request request, Response response){ //NO LLEGA ACA SI ES TOTAL
+    public ModelAndView calcularHC(Request request, Response response){
         this.setearCalculadoraHC();
-//        if(request.queryParams("mes") == null || request.queryParams("anio") == null){ //todo hacer un boton para calcular total
-//            throw new RuntimeException("No se ingreso mes o año");
-//        }
+        if(!SessionHelper.atributosNoSonNull(request,"mes","anio")){
+            return this.calcularCalculadoraHCTotal(request,response); //todo testear
+        }
         Periodo periodo = PeriodoHelper.nuevoPeriodo(request.queryParams("mes"),request.queryParams("anio"));
         HashMap<String, Object> parametros = new HashMap<>();
 
@@ -137,7 +136,7 @@ public class OrganizacionController {
     }
 
     public ModelAndView mostrarRecomendaciones(Request request, Response response) {
-        return new ModelAndView(new HashMap<String,Object>(),"recomendaciones.hbs"); //dependen del tipo de cuenta?
+        return new ModelAndView(new HashMap<String,Object>(),"recomendaciones.hbs");
     }
 
     public ModelAndView mostrarNuevaMedicion(Request request, Response response) {
@@ -187,9 +186,6 @@ public class OrganizacionController {
     }
 
     private Solicitud obtenerSolicitud(Request request, Response response){
-//        Organizacion organizacion = this.obtenerOrganizacion(request,response);
-//        Sector sector = organizacion.obtenerSectorPorNombre(request.queryParams("nombreSector")); //TODO que le pase la sol Id de una -> repoSolicitudes
-//        return sector.getSolicitudes().stream().filter(sol -> sol.getId() == new Integer(request.queryParams("solicitudId"))).collect(Collectors.toList()).get(0);
         return this.repoSolicitudes.buscar(new Integer(request.queryParams("solicitudId")));
     }
 
@@ -202,11 +198,10 @@ public class OrganizacionController {
 
     public ModelAndView mostrarNuevoContacto(Request request, Response response){
         HashMap<String, Object> parametros = new HashMap<>();
-//        EMedioNotificacion eMedioNotificacion = this.repoMediosNotificacion.buscarTodos();
-//        TODO
         List<String> mediosNotif = new ArrayList<>();
-        mediosNotif.add(EMedioNotificacion.WHATSAPP.toString());
-        mediosNotif.add(EMedioNotificacion.MAIL.toString());
+        for(EMedioNotificacion m : EMedioNotificacion.values()){
+            mediosNotif.add(m.toString());
+        }
         mediosNotif.add(EMedioNotificacion.TODOS.toString());
         parametros.put("medios",mediosNotif);
         return new ModelAndView(parametros,"organizacion/contacto-nuevo-menu.hbs");

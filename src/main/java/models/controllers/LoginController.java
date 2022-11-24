@@ -1,10 +1,7 @@
 package models.controllers;
 
-import db.EntityManagerHelper;
-import models.entities.organizaciones.entidades.PosibleTipoDocumento;
 import models.entities.organizaciones.entidades.Trabajador;
 import models.entities.seguridad.ValidadorContrasenia;
-import models.entities.seguridad.chequeos.Chequeo;
 import models.entities.seguridad.cuentas.Permiso;
 import models.entities.seguridad.cuentas.Rol;
 import models.entities.seguridad.cuentas.TipoRecurso;
@@ -19,7 +16,6 @@ import models.repositories.factories.FactoryRepositorioDeUsuarios;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
-import spark.Spark;
 
 import java.io.IOException;
 import java.util.*;
@@ -85,14 +81,10 @@ public class LoginController {
             String contrasenia = request.queryParams("contrasenia");
             String contraseniaVerificacion = request.queryParams("contraseniaChequeo");
             if(!Objects.equals(contrasenia, contraseniaVerificacion)){
-                return ErrorController.tirarError(request,response,"Las contraseñas no coinciden. Por favor intente nuevamente.");
-//                parametros.put("error","Las contraseñas no coinciden. Por favor intente nuevamente.");
-//                return new ModelAndView(parametros,"tirar-error.hbs");
+                return AlertasController.tirarError(request,response,"Las contraseñas no coinciden. Por favor intente nuevamente.");
             }
             if(this.repoUsuarios.existeUsuario(request.queryParams("nombreUsuario"))){
-                return ErrorController.tirarError(request,response,"Usuario ya existente. Por favor ingrese otro.");
-//                parametros.put("error","Usuario ya existente. Por favor ingrese otro.");
-//                return new ModelAndView(parametros,"tirar-error.hbs");
+                return AlertasController.tirarError(request,response,"Usuario ya existente. Por favor ingrese otro.");
             }
             ValidadorContrasenia.inicializarChequeos();
             ValidadorContrasenia.setearPeoresContrasenias("src/main/java/models/entities/" +
@@ -113,16 +105,13 @@ public class LoginController {
 
                 PersistenciaHelper.persistir(nuevoUser);
             } else{
-                parametros.put("error","La contraseña no cumple con los requisitos de seguridad. " +
+                return AlertasController.tirarError(request,response,"La contraseña no cumple con los requisitos de seguridad. " +
                         "Chequee si su contraseña cumple con: " +
                         "Una mayuscula, una minuscula, un numero, y no esta en el top peores 1000 contraseñas.");
-                return new ModelAndView(parametros,"tirar-error.hbs");
             }
         } else{
-            parametros.put("error","No se ingresaron todos los campos.");
-            return new ModelAndView(parametros,"tirar-error.hbs");
+            return AlertasController.tirarError(request,response,"No se ingresaron todos los campos.");
         }
-        parametros.put("exito","Usuario creado con exito!");
-        return new ModelAndView(parametros,"tirar-error.hbs");
+        return AlertasController.tirarExito(request,response,"Usuario creado con exito!");
     }
 }
