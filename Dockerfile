@@ -16,4 +16,4 @@ ADD src /code/src
 RUN ["mvn", "package"]
 
 EXPOSE 4567
-CMD ["java", "-jar", "target/prueba-1.0.0-SNAPSHOT-jar-with-dependencies.jar"]
+CMD ["java", "-jar", "target/tpdds-jar-with-dependencies.jar"]
