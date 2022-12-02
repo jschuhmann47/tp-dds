@@ -1,4 +1,4 @@
-FROM ibmjava:8
+FROM ibmjava:8-sdk
 
 # Install maven
 RUN apt-get update
