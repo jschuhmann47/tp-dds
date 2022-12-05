@@ -57,7 +57,7 @@ public class PersistenciaTest {
         ParametroFE prodTransportado = new ParametroFE(TipoDeConsumo.PRODUCTO_TRANSPORTADO.toString(),1.0);
         ParametroFE kerosene = new ParametroFE(TipoDeConsumo.KEROSENE.toString(),2.5);
         ParametroFE lenia = new ParametroFE(TipoDeConsumo.LENIA.toString(),2.0);
-        ParametroFE camion = new ParametroFE(TipoDeConsumo.CAMION_CARGA.toString(),1.0);
+        ParametroFE camion = new ParametroFE(TipoDeConsumo.CAMION_CARGA.toString(),2.0);
 
         List<ParametroFE> parametrosFE = new ArrayList<>();
         parametrosFE.add(autoFE);
@@ -113,6 +113,20 @@ public class PersistenciaTest {
         Organizacion organizacion = new Organizacion(clasificaciones,
                 "Valve Corporation S.A",sectores, TipoOrganizacion.EMPRESA,direccion1);
 
+
+        List<String> clasif2 = new ArrayList<>();
+        clasif2.add("Gaseosas");
+
+        List<Sector> sectores2 = new ArrayList<>();
+        Sector gustos = new Sector();
+        gustos.setNombreSector("Gustos");
+        sectores2.add(gustos);
+        gustos.agregarTrabajador(agustin);
+        agustin.agregarSector(gustos);
+
+        Organizacion org2 = new Organizacion(clasif2,"Nuka Cola S.A",sectores2,TipoOrganizacion.EMPRESA,direccion2);
+        gustos.setOrganizacion(org2);
+
         marketing.setOrganizacion(organizacion);
         ventas.setOrganizacion(organizacion);
 //        Solicitud sol = new Solicitud(marketing,juan);
@@ -120,6 +134,7 @@ public class PersistenciaTest {
 
         List<Organizacion> organizacionList = new ArrayList<>();
         organizacionList.add(organizacion);
+        organizacionList.add(org2);
 
         AgenteSectorial agenteSectorial = new AgenteSectorial("Perez","Catalina",municipio,organizacionList);
 
@@ -181,6 +196,10 @@ public class PersistenciaTest {
         CalculoHC.calcularHCDeActividad(actividadTest);
         CalculoHC.calcularHCDeActividad(actividadTest2);
         organizacion.setListaDeActividades(Arrays.asList(actividadTest,actividadTest2));
+        Actividad actividadOrg2 = new Actividad(TipoActividad.COMBUSTION_MOVIL,TipoDeConsumo.DIESEL,Unidad.M3,
+                new Periodo(7,2021),Periodicidad.MENSUAL,14.0);
+        CalculoHC.calcularHCDeActividad(actividadOrg2);
+        org2.agregarActividad(actividadOrg2);
 
 //        TipoDeDocumento dni = new TipoDeDocumento(PosibleTipoDocumento.DNI);
         TipoDeDocumento enrolamiento = new TipoDeDocumento(PosibleTipoDocumento.LIBRETA_ENROLAMIENTO);
@@ -194,6 +213,7 @@ public class PersistenciaTest {
         EntityManagerHelper.getEntityManager().persist(municipio);
         EntityManagerHelper.getEntityManager().persist(localidad);
         EntityManagerHelper.getEntityManager().persist(marketing);
+        EntityManagerHelper.getEntityManager().persist(gustos);
         EntityManagerHelper.getEntityManager().persist(auto);
         EntityManagerHelper.getEntityManager().persist(autoElectrico);
         EntityManagerHelper.getEntityManager().persist(colectivoTest);
@@ -223,6 +243,8 @@ public class PersistenciaTest {
 
         EntityManagerHelper.getEntityManager().persist(agenteSectorial);
         EntityManagerHelper.getEntityManager().persist(organizacion);
+        EntityManagerHelper.getEntityManager().persist(org2); //no la persiste ???
+
         EntityManagerHelper.commit();
     }
 
@@ -231,13 +253,14 @@ public class PersistenciaTest {
     public void organizacionRecuperar(){
         Organizacion org = (Organizacion) EntityManagerHelper
                 .createQuery("FROM Organizacion WHERE razon_social = 'Valve Corporation S.A'").getSingleResult(); //HQL = Hibernate Query Language (pseudo SQL)
-                //importa el nombre de la clase y de los atributos, no me importa el nombre de la columna
+
+        Organizacion org2 = (Organizacion) EntityManagerHelper
+                .createQuery("FROM Organizacion WHERE razon_social = 'Nuka Cola S.A'").getSingleResult(); //HQL = Hibernate Query Language (pseudo SQL)
         Assertions.assertEquals("Valve Corporation S.A", org.getRazonSocial());
         Assertions.assertEquals("Rivadavia", org.getDireccion().getCalle());
+        Assertions.assertEquals("Nuka Cola S.A",org2.getRazonSocial());
+        Assertions.assertEquals("Gustos",org2.getSectores().get(0).getNombreSector());
     }
-
-    //para listas .getResultList(). count: getMaxResult()
-    //find(Servicio.class, 1) -> el id
 
     @Test
     @DisplayName("Se persisten usuarios")
@@ -245,6 +268,8 @@ public class PersistenciaTest {
         Organizacion org = (Organizacion) EntityManagerHelper
                 .createQuery("FROM Organizacion WHERE razon_social = 'Valve Corporation S.A'")
                 .getSingleResult();
+        Organizacion org2 = (Organizacion) EntityManagerHelper
+                .createQuery("FROM Organizacion WHERE razon_social = 'Nuka Cola S.A'").getSingleResult();
         Trabajador juan = (Trabajador) EntityManagerHelper
                 .createQuery("FROM Trabajador WHERE nro_doc=12345678")
                 .getSingleResult();
@@ -258,6 +283,8 @@ public class PersistenciaTest {
 
         Usuario user = new Usuario("valve","11",Rol.BASICO,org.getId(),
                 TipoRecurso.ORGANIZACION,Permiso.VER_ORGANIZACION);
+        Usuario user22 = new Usuario("nuka","11",Rol.BASICO,org2.getId(),
+                TipoRecurso.ORGANIZACION,Permiso.VER_ORGANIZACION);
         Usuario user2 = new Usuario("juanf","123",Rol.BASICO,juan.getId(),
                 TipoRecurso.TRABAJADOR,Permiso.VER_TRABAJADOR);
         Usuario user4 = new Usuario("agus","123",Rol.BASICO,agustin.getId(),
@@ -269,6 +296,7 @@ public class PersistenciaTest {
         EntityManagerHelper.beginTransaction();
         EntityManagerHelper.persist(user);
         EntityManagerHelper.persist(user2);
+        EntityManagerHelper.persist(user22);
         EntityManagerHelper.persist(user3);
         EntityManagerHelper.persist(user4);
         EntityManagerHelper.persist(admin);
@@ -276,7 +304,7 @@ public class PersistenciaTest {
     }
 
     @Test
-    @DisplayName("Se persisten localidades de la API")
+    @DisplayName("Se persisten localidades de la API") //no correr este
     public void localidades() throws IOException {
         String ruta = "/src/test/java/db/jsons/";
         String jsonPaises = FileUtils.readFileToString(new File(System.getProperty("user.dir") + ruta + "paises.json"), StandardCharsets.UTF_8);
