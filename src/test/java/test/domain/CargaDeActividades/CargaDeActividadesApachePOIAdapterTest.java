@@ -48,7 +48,7 @@ public class CargaDeActividadesApachePOIAdapterTest {
         actividadTestCompuesta =
                 //new ActividadDA(Actividad.LOGISTICA_PRODUCTOS_RESIDUOS, TipoDeConsumo.PRODUCTO_TRANSPORTADO, Unidad.U, Periodicidad.MENSUAL,2.0,5,2021);
                 new Actividad(TipoActividad.LOGISTICA_PRODUCTOS_RESIDUOS,TipoDeConsumo.PRODUCTO_TRANSPORTADO,Unidad.U,
-                        periodoTestCompuesto,Periodicidad.MENSUAL,2.0);
+                        periodoTestCompuesto,Periodicidad.MENSUAL,20.0);
         hojaLeida = adapterTest.obtenerHoja(0);
     }
 
@@ -116,7 +116,7 @@ public class CargaDeActividadesApachePOIAdapterTest {
         Assertions.assertEquals(actividadTestCompuesta.tipoActividad,actividadLeida.tipoActividad);
         Assertions.assertEquals(actividadTestCompuesta.periodo.getAnio(),actividadLeida.periodo.getAnio());
         Assertions.assertEquals(actividadTestCompuesta.periodo.getMes(),actividadLeida.periodo.getMes());
-        Assertions.assertEquals(actividadTestCompuesta.valor,actividadLeida.valor);
+        Assertions.assertEquals(actividadTestCompuesta.getValor(),actividadLeida.getValor());
         Assertions.assertEquals(actividadTestCompuesta.tipoDeConsumo,actividadLeida.tipoDeConsumo);
         Assertions.assertEquals(actividadTestCompuesta.periodicidad,actividadLeida.periodicidad);
         Assertions.assertEquals(actividadTestCompuesta.unidad,actividadLeida.unidad);
