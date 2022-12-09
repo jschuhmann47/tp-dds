@@ -12,7 +12,7 @@
        <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
        <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/prueba_1" />
        <property name="hibernate.connection.username" value="root" />
-       <property name="hibernate.connection.password" value="diseniodesistemas" />
+       <property name="hibernate.connection.password" value="*****" />
 
 
 
@@ -69,7 +69,7 @@
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver" />
             <property name="hibernate.connection.url" value="jdbc:postgresql://ec2-35-168-122-84.compute-1.amazonaws.com:5432/dcmp8kvn04fgrr" />
             <property name="hibernate.connection.username" value="dublpkwgokteij" />
-            <property name="hibernate.connection.password" value="f3b05aba0dc6c029ac35c84bd0adce894f406ac24b8e1ab44749760bf1deb701" />
+            <property name="hibernate.connection.password" value="*****" />
             <property name="sslmode" value="require"/>
 
             <!--            <property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver"/>-->
